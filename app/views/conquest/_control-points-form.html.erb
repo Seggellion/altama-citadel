@@ -1,0 +1,15 @@
+<%= form_with(model: control_point) do |form| %>
+
+  
+    <div class="input-row">
+      <%= form.label :title, style: "display: block" %>
+      <%= form.text_field :title %>
+    </div>
+
+    <%= form.hidden_field :event_id, :value => event.id %>
+  
+    <div class="submit-row">
+      <%= form.submit class: 'btn' %>
+    </div>
+  <% end %>
+  

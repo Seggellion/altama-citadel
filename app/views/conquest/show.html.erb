@@ -1,0 +1,102 @@
+<%= render '/desktop/window-frame', app1: 'ConQuest' %>
+
+<div class="conquest-window">
+    <div class="conquest-header">
+    <div class="logo">    
+    <h1>ConQuest</h1>
+    </div>
+    <div class="overlay-buttons">
+        <button class="btn">Overlay #1</button>
+    </div>
+    </div>
+    <div class="conquest-body">
+        <div class="conquest-team column">
+            <h2>Teams</h2>
+            <div class="create-control-point">
+            <%= render "conquest-team-form", team: @team, event: @event %>
+        </div>
+        
+    <div class="control-point-list">
+        <% @teams.each do | team | %>
+<%= turbo_frame_tag dom_id(team) do %>
+            <div class="event-team">
+            <div class="team-name">
+            <%= team.team_name %>
+            DUR:<%= team.conquest_duration(@event)%>
+            <%= button_to "DEL", team, class:'btn', method: :delete  %>
+            </div>
+           
+
+
+            </div>
+<% end %>
+        <% end %>
+    </div>
+
+        </div>
+
+        <div class="conquest-controlpoints column">
+                <h2>ControlPoints</h2>
+                <div class="create-control-point">
+                    <%= render "control-points-form", control_point: @control_point, event: @event %>
+                </div>
+                
+            <div class="control-point-list">
+                <% @control_points.each do | control_point | %>
+
+                    <div class="control-point <%= control_point.iscaptured? %>" data-controller="conquesttimer">
+                    <h4><%= control_point.title %></h4>
+                    <% if control_point.last_record_time %>
+
+                    <div class="timer" data-starttime="<%= control_point.last_record_time %>"  data-conquesttimer-target="timer" ></div>
+                    <% end %>
+                    <div class="team-container">
+                    <ul>
+                    <% @teams.each do | team | %>
+                        <%= form_with(model: control_point, data:{ 'conquesttimer-target' => 'form'}) do |form| %>
+                            <%= form.hidden_field :capture_team_id, :value => team.id %>
+                            <% end %>
+                        <li class="<%= team.active_control_point(control_point) %> ">
+                        <%= form_with(model: @event_record) do |form| %>
+                            
+                            <%= form.submit team.team_name, data:{ 'action' => 'click->conquest_timer#start'}, class: 'btn' %> 
+                            <%= form.hidden_field :team_id, :value => team.id %> <%= form.hidden_field :event_id, :value => @event.id %> <%= form.hidden_field :control_point_id, :value => control_point.id %> <% end %></li>
+                       
+                    <% end %>
+                    </ul>
+                </div>
+                <div class="control-point-timer">
+                    <a href="">Stop</a>
+                    <%= link_to 'Clear', clear_conquest_records_path(id: control_point) %>
+                    
+                    </div>
+                    </div>
+
+                <% end %>
+            </div>
+        </div>
+
+        <div class="conquest-records column">
+            <h2>Records</h2>
+            <div class="control-point-list">
+                <% @event_records.each do | event_record | %>
+                <div class="event-record-card">
+                Team: <%= event_record.team.team_name %> 
+                Start_Time: <%= event_record.start_time.utc.strftime('%H:%M:%S') %>
+                <% if event_record.end_time %>
+                End_Time: <%= event_record.start_time.utc.strftime('%H:%M:%S') %>
+                <% end %>
+                <% if event_record.duration %>
+                Duration: <%= event_record.duration %>
+                <% end %>
+                CTRL_PT: <%= event_record.control_point %> 
+                </div>
+                <% end %>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+<%= render '/desktop/taskbar', app1: 'ConQuest' %>

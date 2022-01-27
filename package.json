@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "private": "true",
+    "type": "module",
+  "dependencies": {
+    "esbuild": "^0.14.13"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
+  }
+}

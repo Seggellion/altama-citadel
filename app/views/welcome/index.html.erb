@@ -1,0 +1,30 @@
+
+<div class="login-container">
+    <div class="header-container">
+    <div class="header">
+    <%= image_tag("header_logo.png") %> 
+    </div>
+    </div>
+    <div class="body">
+        <div class="castle">
+        <%= image_tag("castle.jpg") %> 
+        </div>
+        <div class="login-options">
+        <% if !current_user %>
+        <%= button_to user_discord_omniauth_authorize_path, class: 'btn discord', method: :post, data: { turbo: false } do %>
+            
+            <h2>Login with Discord:</h2>
+            <% end %>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+Return to <a href="https://altama.energy">altama.energy</a> | Visit Roadside Assistance at <a href="https://sos.altama.energy">sos.altama.energy</a> | &copy; 2952 Altama Energy
+</div>
+    <% end %>
+    <%#= button_to "Delete", url, method: :delete, class: 'button med-button', "data-turbo": false %>
+
+
+

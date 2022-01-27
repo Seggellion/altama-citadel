@@ -1,0 +1,15 @@
+<div class="live-desktop">
+
+<%= link_to roadside_assistance_path, class: 'desktop-icon', method: :post do %>
+    <%= image_tag("telephone_icon.png") %>
+    Roadside Assistance
+<% end %>
+
+<%= link_to conquest_path, class: 'desktop-icon', method: :post do %>
+    <%= image_tag("conquest_icon.png") %>
+    ConQuest
+<% end %>
+    
+</div>
+
+<%= render '/desktop/taskbar'%>

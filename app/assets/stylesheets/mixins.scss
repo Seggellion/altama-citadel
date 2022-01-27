@@ -1,0 +1,22 @@
+$light_grey: #c0c0c0;
+$light_grey_highlight: #f1f1f1;
+$light_grey_shadow: #7d7f80;
+$button_shadow: #363636;
+$default_background: #008080;
+
+$highlight_border: 2px solid $light_grey_highlight;
+$shadow_border: 2px solid $light_grey_shadow;
+
+
+@font-face {
+    font-family: 'dos';
+    font-style: normal;
+    font-weight: 400;
+    src: font-url('dos.ttf') format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'dos-win';
+    src: font-url('dos-win.ttf') format('truetype');
+  }
+  

@@ -1,0 +1,169 @@
+@import 'mixins';
+#conquest{    
+    width:100vw;
+    height:100vh;
+    margin:0px;
+    padding:0px;
+    background-color:black;
+    overflow: hidden;
+    
+    .btn{
+        text-transform: uppercase;
+        border: none;
+        background-color: white;
+        font-family: 'dos';
+        font-size: 1.3rem;
+        cursor: pointer;
+        &:hover{
+            background: repeating-conic-gradient($light_grey_shadow 0% 25%, transparent 0% 50%) 50% / 3px 3px;
+            padding:0px 5px;
+
+            color:white;
+        }
+    }
+    a, a:visited{
+        color:white;
+        text-decoration:none;
+    }
+    .conquest-window{
+    color:white;
+    font-family: 'dos';
+    height:100%;
+    padding-top:33px;
+    h1{
+        font-family:'Times New Roman', Times, serif;
+    }
+    h2{
+        margin:0px;
+        text-align:center;
+    }
+    }
+    .popup  {
+        width: 330px;
+        margin: 0px auto;
+        border: 10px solid white;
+        border-style: double;
+        padding: 10px;
+        font-size: 1.4rem;
+        .hr{
+        width:100%;
+        display:block;
+        text-align:center;
+        }
+        .event-list{
+            padding-top:20px;
+            max-height:400px;
+        }
+        .event-row{
+            width:100%;
+            padding:10px;
+            margin-left:10px;
+            cursor:pointer;
+            color:white;
+
+            &:hover{
+                background-color:white;
+                color:black;
+            }
+        }
+        input{
+            background-color:black;
+            border:1px solid white;
+            padding:2px;
+            color:white;
+            font-family: 'dos';
+            font-size: 1.4rem;
+        }
+        input[type=submit]{
+            cursor:pointer;
+            padding:10px;
+            &:hover{
+                cursor:pointer;
+                background-color:white;
+                color:black;
+            }
+        }
+        .input-row{
+            margin:10px 0px;
+        }
+        .submit-row{
+            text-align:center;
+            width:100%;
+        }
+    }
+    .conquest-header{
+        display: flex;
+        padding: 10px;
+        flex-direction: row;
+        align-items: center;
+        h1{
+            margin:0px;
+        }
+        .overlay-buttons{
+            text-align: center;
+            width:100%;
+        }
+    }
+    .conquest-team{
+        flex-direction: column;
+    }
+    .conquest-body{
+        display:flex;
+        width:100%;
+        height:100%;
+        .column{
+            h2{
+                margin-bottom:10px;
+            }
+            width:40%;
+            &:first-child{width:20%}
+            padding:15px;
+            height:100%;
+            border-right:1px solid white;
+            display:flex;
+            .create-control-point{
+                form{
+                    display:flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+            }
+        }
+        .conquest-controlpoints,.conquest-records{
+            flex-direction: column;
+         .control-point{
+            align-items: center;
+            display: flex;
+            justify-content: space-around;
+            &.captured{
+                background-color:blue;
+            }
+         }   
+        }
+        .conquest-records{
+            .event-record-card{
+                padding:10px;
+                display:flex;
+                flex-direction: column;
+                border:3px solid white;
+            }
+        }
+        .team-container{
+            ul,li{
+                padding:0px;
+                margin:0px;
+                list-style-type: none;
+            }
+            ul{
+                width: 200px;
+                display: flex;
+                flex-direction: row;
+                flex-wrap:wrap;
+            }
+            .active .btn{
+                background: repeating-conic-gradient(green 0% 25%, transparent 0% 50%) 50% / 3px 3px;
+                padding:0px 5px;
+            }
+        }
+    }
+}

@@ -1,0 +1,72 @@
+<%= form_with(model: ship) do |form| %>
+  <% if ship.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(ship.errors.count, "error") %> prohibited this ship from being saved:</h2>
+
+      <ul>
+        <% ship.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :model, style: "display: block" %>
+    <%= form.text_field :model %>
+  </div>
+
+  <div>
+    <%= form.label :make_id, style: "display: block" %>
+    <%= form.number_field :make_id %>
+  </div>
+
+  <div>
+    <%= form.label :scu, style: "display: block" %>
+    <%= form.number_field :scu %>
+  </div>
+
+  <div>
+    <%= form.label :crew, style: "display: block" %>
+    <%= form.number_field :crew %>
+  </div>
+
+  <div>
+    <%= form.label :fuel, style: "display: block" %>
+    <%= form.number_field :fuel %>
+  </div>
+
+  <div>
+    <%= form.label :quantum, style: "display: block" %>
+    <%= form.number_field :quantum %>
+  </div>
+
+  <div>
+    <%= form.label :length, style: "display: block" %>
+    <%= form.number_field :length %>
+  </div>
+
+  <div>
+    <%= form.label :beam, style: "display: block" %>
+    <%= form.number_field :beam %>
+  </div>
+
+  <div>
+    <%= form.label :height, style: "display: block" %>
+    <%= form.number_field :height %>
+  </div>
+
+  <div>
+    <%= form.label :weight, style: "display: block" %>
+    <%= form.number_field :weight %>
+  </div>
+
+  <div>
+    <%= form.label :msrp, style: "display: block" %>
+    <%= form.number_field :msrp %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

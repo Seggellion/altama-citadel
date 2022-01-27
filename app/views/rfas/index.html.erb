@@ -1,0 +1,48 @@
+<section id="rfa_index">
+  <div class="topbar">
+  <p style="color: green"><%= notice %></p>
+    <%= link_to "New rfa", new_rfa_path %>
+  </div>
+  <div class="rfa-main">
+    <div id="sidebar" class="views-panel">
+    <h2>Views</h2>
+    <hr>
+      <ul>
+        <li>Altama Energy Queue</li>
+        <li>Unassigned Queue</li>
+        <li>Urgent issues</li>
+        <li>Triage</li>
+        <li>Suspended issues</li>
+        <li>Deleted issues</li>
+      </ul>
+    </div>
+    <div class="rfa-list">
+    <div class="rfa-summary">
+    21 RFAs
+    </div>
+      <div id="rfa-index">
+      <div class="index-header">
+        <div class="column-header">
+        ID
+        </div>
+        <div class="column-header">
+        Subject
+        </div>
+        <div class="column-header">
+        Requested
+        </div>
+        <div class="column-header">
+        Assigned
+        </div>
+      </div>
+        <%= render @rfas %>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+

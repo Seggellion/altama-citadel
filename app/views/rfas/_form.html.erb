@@ -1,0 +1,31 @@
+<%= form_with(model: rfa) do |form| %>
+  <% if rfa.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(rfa.errors.count, "error") %> prohibited this rfa from being saved:</h2>
+
+      <ul>
+        <% rfa.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+<div class="field">Title: <%= form.text_field :title %></div>
+<div class="field">Description: <%= form.text_field :description %></div>
+<div class="field">RSI: <%= form.text_field :rsi_username %></div>
+<div class="field">Status: <%= form.select :status_id, ["Open","In Progress","Closed"] %></div>
+<div class="field">Location: <%= form.select :location_id, ["Cellin","Daymar","Crusader"] %></div>
+<div class="field">Ship: <%= form.select :ship_id, ["Mustang","85x","Hornet"] %></div>
+<div class="field">Priority: <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
+<div class="field">Fuel: <%= form.number_field :total_fuel %></div>
+<div class="field">price: <%= form.number_field :total_price %></div>
+<div class="field">cost: <%= form.number_field :total_cost %></div>
+<div class="field">aec: <%= form.number_field :aec_rewards %></div>
+<div class="field">Ship: <%= form.select :user_assigned_id, ["Seggellion","Hermitmech","WhenyouCant"] %></div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
