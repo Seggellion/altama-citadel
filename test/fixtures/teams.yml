@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team_name: MyString
+  team_owner: 1
+  description: MyString
+  karma: 1
+  fame: 1
+  website: MyString
+
+two:
+  team_name: MyString
+  team_owner: 1
+  description: MyString
+  karma: 1
+  fame: 1
+  website: MyString

@@ -1,0 +1,95 @@
+#rfa_index{
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    .index-header{
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+    }
+    .rfa-row{
+        display:flex;
+        justify-content: space-around;
+        color:black;
+        text-decoration: none;
+        padding:3px 0px;
+        &:hover{
+            background-color:blue;
+            color:white;
+        }
+    }
+}
+
+#rfa_open{
+    background-color:black;
+    .information-row{
+        height:89px;
+    }
+    .rfa-open-container{
+        display:flex;
+        height:100vh;
+        color: #c3bab2;
+        .rfa-module{
+            border: 1px solid #141111;
+            padding:10px;
+        }
+        .column{
+            display:inline-block;
+            height:100vh;
+        }
+        .rfa-params{
+            background-color: #070606;
+            border-right:1px solid #141111;
+            width:21%;
+            padding:27px;
+            input{
+                border: 1px solid #141111;
+                background-color:black;
+            }
+            label{
+                width:100%;
+                display:block;
+                font-size:0.8rem;
+            }
+        }
+        .rfa-info{
+            width:30%;
+        }
+        .rfa-comms{
+            width:45%;
+        }
+    }
+}
+
+#sidebar{
+    width:26vw;
+    padding-left:8vw;
+    background-color: #e5e5e5;
+    border-right: 1px solid grey;
+    ul,li{
+        list-style-type:none;
+        margin:0px;
+        padding:0px;
+    }
+    li{
+        margin: 8px 0px;
+    }
+}
+.rfa-list{
+    width:66%;
+}
+#rfas{
+    margin:0px;
+    padding:0px;
+    height:100vh;
+    width:100vw;
+    .rfa-main{
+        display:flex;
+        height:100%;
+    }
+    .rfa-summary{
+        height:100px;
+        width:100%;
+        padding:10px;
+    }
+}

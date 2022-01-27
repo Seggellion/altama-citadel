@@ -1,0 +1,62 @@
+<%= form_with(model: event_record) do |form| %>
+  <% if event_record.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(event_record.errors.count, "error") %> prohibited this event_record from being saved:</h2>
+
+      <ul>
+        <% event_record.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :event_type, style: "display: block" %>
+    <%= form.number_field :event_type %>
+  </div>
+
+  <div>
+    <%= form.label :event_id, style: "display: block" %>
+    <%= form.number_field :event_id %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, style: "display: block" %>
+    <%= form.datetime_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, style: "display: block" %>
+    <%= form.datetime_field :end_time %>
+  </div>
+
+  <div>
+    <%= form.label :duration, style: "display: block" %>
+    <%= form.number_field :duration %>
+  </div>
+
+  <div>
+    <%= form.label :team_id, style: "display: block" %>
+    <%= form.number_field :team_id %>
+  </div>
+
+  <div>
+    <%= form.label :control_point, style: "display: block" %>
+    <%= form.number_field :control_point %>
+  </div>
+
+  <div>
+    <%= form.label :points, style: "display: block" %>
+    <%= form.number_field :points %>
+  </div>
+
+  <div>
+    <%= form.label :rank_placement, style: "display: block" %>
+    <%= form.number_field :rank_placement %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

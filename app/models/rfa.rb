@@ -1,0 +1,2 @@
+class Rfa < ApplicationRecord
+end

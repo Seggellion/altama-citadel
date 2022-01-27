@@ -1,0 +1,31 @@
+<div class="conquest-window">
+<h1>ConQuest</h1>
+
+<% if !@events %>
+
+
+<div class="popup" id="new_event_form">
+<h2>Create new event</h2>
+<span class="hr">*******************</span>
+<%= render "/events/form", event: @event, event_type: 1 %>
+</div>
+
+<% else %>
+
+<div  class="popup" id="select_event">
+    <h2>List of events</h2>
+    <span class="hr">*******************</span>
+    <div class="event-list">
+        <% @events.each do |event| %>
+            <%= link_to conquest_event_path(:id => event.id), class: 'event-row' do %>
+            * <%= event.title %> 
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+<% end %>
+
+</div>
+
+<%= render '/desktop/taskbar', app1: 'ConQuest' %>

@@ -1,0 +1,35 @@
+<div id="<%= dom_id event %>">
+  <p>
+    <strong>Title:</strong>
+    <%= event.title %>
+  </p>
+
+  <p>
+    <strong>Owner:</strong>
+    <%= event.owner_id %>
+  </p>
+
+  <p>
+    <strong>Start date:</strong>
+    <%= event.start_date %>
+  </p>
+
+  <p>
+    <strong>Tournament:</strong>
+    <%= event.tournament_id %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= event.description %>
+  </p>
+
+  <p>
+    <strong>Event type:</strong>
+    <%= event.event_type %>
+  </p>
+
+  <p>
+    <%= link_to "Show this event", event %>
+  </p>
+</div>

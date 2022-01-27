@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  model: MyString
+  make_id: 1
+  scu: 1
+  crew: 1
+  fuel: 1
+  quantum: 1
+  length: 1
+  beam: 1
+  height: 1
+  weight: 1
+  msrp: 1
+
+two:
+  model: MyString
+  make_id: 1
+  scu: 1
+  crew: 1
+  fuel: 1
+  quantum: 1
+  length: 1
+  beam: 1
+  height: 1
+  weight: 1
+  msrp: 1
