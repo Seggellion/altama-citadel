@@ -34,6 +34,15 @@ class ControlPointsController < ApplicationController
     end
   end
 
+  def stop_conquest
+    control_point = ControlPoint.find_by_id(params[:id])
+    event = Event.find_by_id(control_point.event_id)
+    control_point.update(capture_team_id: nil) 
+    respond_to do |format|
+      format.html { redirect_to conquest_event_path(id: event), notice: "ControlPoint was successfully created." }
+    end
+  end
+
   # PATCH/PUT /events/1 or /events/1.json
   def update
     event = Event.find_by_id(@control_point.event_id)

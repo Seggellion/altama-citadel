@@ -6,7 +6,7 @@
     <h1>ConQuest</h1>
     </div>
     <div class="overlay-buttons">
-        <button class="btn">Overlay #1</button>
+    <%= link_to 'Overlay #1', conquest_overlay_path(id: @event.id), class:'btn',  target: '_blank' %>
     </div>
     </div>
     <div class="conquest-body">
@@ -25,8 +25,6 @@
             DUR:<%= team.conquest_duration(@event)%>
             <%= button_to "DEL", team, class:'btn', method: :delete  %>
             </div>
-           
-
 
             </div>
 <% end %>
@@ -66,7 +64,7 @@
                     </ul>
                 </div>
                 <div class="control-point-timer">
-                    <a href="">Stop</a>
+                    <%= link_to 'Stop', stop_conquest_path(id: control_point) %>
                     <%= link_to 'Clear', clear_conquest_records_path(id: control_point) %>
                     
                     </div>
@@ -84,7 +82,7 @@
                 Team: <%= event_record.team.team_name %> 
                 Start_Time: <%= event_record.start_time.utc.strftime('%H:%M:%S') %>
                 <% if event_record.end_time %>
-                End_Time: <%= event_record.start_time.utc.strftime('%H:%M:%S') %>
+                End_Time: <%= event_record.end_time.utc.strftime('%H:%M:%S') %>
                 <% end %>
                 <% if event_record.duration %>
                 Duration: <%= event_record.duration %>

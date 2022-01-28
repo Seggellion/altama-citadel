@@ -17,5 +17,7 @@ Rails.application.routes.draw do
   get 'conquest', to: 'conquest#index'
   get 'conquest_event', to: 'conquest#show'
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
+  get 'stop_conquest', to: 'control_points#stop_conquest'
+  get 'conquest_overlay', to: 'conquest#overlay'
 
 end

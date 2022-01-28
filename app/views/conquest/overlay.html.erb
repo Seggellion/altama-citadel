@@ -1,0 +1,32 @@
+<style>
+#conquest{
+    background-color:transparent;
+}
+
+
+
+</style>
+
+<div class="conquest-overlay">
+
+<% @control_points.each do | control_point | %>
+<div class="overlay-chart <%= control_point.iscaptured? %>">
+Control Point: <%= control_point.title %>
+
+
+    <figure class="chart-two animate">
+	<svg role="img" xmlns="http://www.w3.org/2000/svg">
+		<title>[title here]</title>
+		<desc>[long description here]</desc>
+		<circle class="circle-background"/>
+		<circle class="circle-foreground"/>
+	</svg>
+
+</figure>
+<% if  control_point.iscaptured? %>
+Captured by: <%= control_point.capture_team %>
+<% end %>
+</div>
+    <% end %>
+
+</div>
