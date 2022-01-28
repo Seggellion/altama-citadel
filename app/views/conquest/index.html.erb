@@ -3,7 +3,7 @@
 <div class="conquest-window">
 <h1>ConQuest</h1>
 
-<% if !@events %>
+<% unless @events.present? %>
 
 
 <div class="popup" id="new_event_form">
