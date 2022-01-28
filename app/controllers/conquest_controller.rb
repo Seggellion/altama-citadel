@@ -18,6 +18,11 @@ class ConquestController < ApplicationController
     @event_record = EventRecord.new
   end
 
+  def overlay
+    @event = Event.find_by_id(params[:id]) 
+    @control_points = ControlPoint.where(event_id: @event.id)
+  end
+
   # GET /rfas/new
   def new
     @event = Event.new

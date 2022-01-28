@@ -39,14 +39,17 @@ end
     last_record = EventRecord.where(event_id: event.id, control_point_id: event_record_params[:control_point_id]).last
     if last_record
       duration = Time.current - last_record.start_time
+      
       last_record.update(end_time: Time.current, duration: duration)
+      
     end
     
 @event_record.update(event_type: event.event_type, start_time: Time.current)
- 
+control_point = ControlPoint.find_by_id(event_record_params[:control_point_id])
+control_point.update(capture_team_id: nil) 
     respond_to do |format|
       if @event_record.save
-        format.html { redirect_to conquest_event_path(id: event), notice: "Even Record was successfully created." }
+        format.html { redirect_to conquest_event_path(id: event), notice: "Event Record was successfully created." }
         format.json { render :show, status: :created, location: @event_record }
       else
         format.html { render :new, status: :unprocessable_entity }

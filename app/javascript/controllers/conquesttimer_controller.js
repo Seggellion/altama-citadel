@@ -78,12 +78,15 @@ export default class extends Controller {
     console.log('current_moment: ', current_moment);
     console.log('duration: ', duration);
     const timer = new Timer();
+
     timer.start();
     setInterval(() => {
       const timeInSeconds = Math.round(timer.getTime() / 1000);
+      
       this.timerTarget.innerText = timeInSeconds + duration;
-      if ((timeInSeconds + duration) > 300){
-        // this.formTarget.submit();
+      if ((timeInSeconds + duration) == 10 ){
+        this.formTarget.submit();
+     
       }
     }, 100)
   }

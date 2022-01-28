@@ -8,8 +8,13 @@ control_point = ControlPoint.find_by_id(self.id)
     end
 end
 
+def capture_team
+    capture_team = Team.find_by_id(self.capture_team_id)
+    capture_team.team_name
+end
+
     def last_record_time
-        last_record_time = EventRecord.find_by(control_point_id:self.id)
+        last_record_time = EventRecord.where(control_point_id:self.id).last
         if last_record_time
             last_record_time.start_time
         else
