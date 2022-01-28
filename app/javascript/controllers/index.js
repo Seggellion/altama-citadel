@@ -22,8 +22,6 @@ function clearMenu() {
     main_menu_element.classList.remove("open");
     button_element.classList.remove("clicked");
     }
-
-  
   }
 }
 
