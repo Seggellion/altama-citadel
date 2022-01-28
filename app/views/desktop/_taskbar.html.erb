@@ -8,12 +8,31 @@
             </span>
         </div>
         <div class="menu-items">    
+
         <div class="menu-item">
-        <div class="icon"></div>
-        <span><a class="pull-out" href="">Admin settings</a></span>
+        <div class="icon"><%= image_tag("programs_icon.png") %></div>
+        <span><a class="pull-out" href="">Programs</a></span>
+        </div>
+
+        <div class="menu-item">
+        <div class="icon"><%= image_tag("programs_icon.png") %></div>
+        <span><a class="pull-out" href="">Help</a></span>
+        </div>
+
+        <div class="menu-item">
+        <div class="icon"><%= image_tag("programs_icon.png") %></div>
+        <span><a class="pull-out" href="">Search</a></span>
+        </div>
+
+
+
+        <div class="menu-item pull-out">
+        <div class="icon"><%= image_tag("settings_icon.png") %></div>
+        <span><a class="" href="">Admin settings</a></span>
         
             <div class="child-menu">
-                <div class="menu-item"><div class="icon"></div><span><%= link_to "Spaceship manager", ships_path %></span></div>
+                <div class="menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "Spaceship manager", ships_path %></span></div>
+                <div class="menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "User manager", users_path %></span></div>
             </div>
         </div>
         <hr>

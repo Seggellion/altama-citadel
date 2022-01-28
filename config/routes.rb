@@ -19,5 +19,9 @@ Rails.application.routes.draw do
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
   get 'stop_conquest', to: 'control_points#stop_conquest'
   get 'conquest_overlay', to: 'conquest#overlay'
+  get 'cargo_manifest', to: 'cargo_manifest#welcome'
+  get 'website_manager', to: 'website_manager#welcome'
+  get 'my_hangar', to: 'my_hangar#welcome'
+  get 'users', to: 'user#index'
 
 end

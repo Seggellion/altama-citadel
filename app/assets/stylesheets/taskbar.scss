@@ -82,10 +82,25 @@
     &.open{
         display:flex;
     }
+    .pull-out:hover .child-menu{
+        display:block;
+    }
     .child-menu{
         position: absolute;
         right: -220px;
         display:none;
+     
+        background-color: $light_grey;
+        border-top:$highlight_border;
+        border-left:$highlight_border;
+        border-right:$shadow_border;
+        border-bottom:$shadow_border;
+        a{
+            color:black;
+        }
+     &:hover{
+         display:block;
+     }   
     }
     .menu-branding{
         width:35px;
@@ -126,15 +141,20 @@
             width:45px;
             height:45px;
             margin-left:10px;
-            border:1px solid red;
-            display:inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+                img{
+                    width:75%;
+                }
+            
         }
         span{
             font-size: 1.1rem;
             margin-left:10px;
         }
         width:100%;
-        border:1px solid green;
+
         display:flex;
         align-items: center;
     }
