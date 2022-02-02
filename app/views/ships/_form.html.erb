@@ -17,8 +17,9 @@
   </div>
 
   <div>
-    <%= form.label :make_id, style: "display: block" %>
-    <%= form.number_field :make_id %>
+    <%= form.label :manufacturer_id, style: "display: block" %>
+    
+    <%= form.select :manufacturer_id, options_for_select(@manufacturers.collect{ |u| [u.name, u.id] } , {:class => 'teamTag'} ), :include_blank => 'Select...' %>
   </div>
 
   <div>

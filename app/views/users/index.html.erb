@@ -1,0 +1,30 @@
+<div class="live-desktop">
+
+<%= link_to my_hangar_path, class: 'desktop-icon', method: :post do %>
+    <%= image_tag("my_hangar_icon.png") %>
+    My Hangar
+<% end %>
+
+<%= link_to website_manager_path, class: 'desktop-icon', method: :post do %>
+    <%= image_tag("website_manager_icon.png") %>
+    Website Manager
+<% end %>
+
+<%= link_to cargo_manifest_path, class: 'desktop-icon', method: :post do %>
+    <%= image_tag("cargo_manifest_icon.png") %>
+    Cargo Manifest
+<% end %>
+
+<%= link_to roadside_assistance_path, class: 'desktop-icon', method: :post do %>
+    <%= image_tag("telephone_icon.png") %>
+    Roadside Assistance
+<% end %>
+
+<%= link_to conquest_path, class: 'desktop-icon', method: :post do %>
+    <%= image_tag("conquest_icon.png") %>
+    ConQuest
+<% end %>
+    
+</div>
+
+<%= render '/desktop/taskbar' %>

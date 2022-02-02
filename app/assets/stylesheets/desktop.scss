@@ -32,4 +32,65 @@
             width:100%;
         }
     }
+    .bootup{
+        width: 100vw;
+        height: 100vh;
+        background-color: black;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction:column;
+        h2{
+            font-family:'Times New Roman', Times, serif;
+            color: white;
+            margin: 0px;
+            font-size: 6rem;
+            font-weight: 100;
+            transform: translateY(-200px);
+            animation: fadein 5s;
+        
+        }
+        img{
+            width:80%;
+            animation: fadein 5s;
+        }
+    }
+    .window{
+        position: absolute;
+        right: 30%;
+        top: 10%;
+        width: 710px;
+        height: 363px;
+        background-color: $light_grey;
+ 
+        border-right:$shadow_border;
+        border-bottom:$shadow_border;
+        .window-menu{
+            height:54px;
+            display:flex;
+            flex-direction: row;
+            text-align:left;
+            align-items:end;
+            padding:3px;
+            a, a:visited{
+                text-decoration:none;
+                color:black;
+                margin-right:10px;
+                display:block;
+            }
+        }
+        .content-body{
+            height:77%;
+            margin: 0px 4px;
+
+        }
+        #window_frame{
+            position:absolute;
+        }
+    }
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

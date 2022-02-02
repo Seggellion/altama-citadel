@@ -13,10 +13,12 @@ class ShipsController < ApplicationController
   # GET /ships/new
   def new
     @ship = Ship.new
+    @manufacturers = Manufacturer.all
   end
 
   # GET /ships/1/edit
   def edit
+    @manufacturers = Manufacturer.all
   end
 
   # POST /ships or /ships.json
@@ -64,6 +66,6 @@ class ShipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ship_params
-      params.require(:ship).permit(:model, :make_id, :scu, :crew, :fuel, :quantum, :length, :beam, :height, :weight, :msrp)
+      params.require(:ship).permit(:model, :manufacturer_id, :scu, :crew, :fuel, :quantum, :length, :beam, :height, :weight, :msrp)
     end
 end

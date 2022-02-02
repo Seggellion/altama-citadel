@@ -1,0 +1,45 @@
+@import 'mixins';
+#user_manager{
+    .content-body{
+        display:flex;
+    }
+    .left-pane{
+        width:40%;
+        background-color:white;
+        border-bottom:$highlight_border;
+        border-right:$highlight_border;
+        border-top:$shadow_border;
+        border-left:$shadow_border;
+    }
+    .right-pane{
+        background-color:white;
+        width:60%;
+        overflow-y: scroll;
+        border-bottom:$highlight_border;
+        border-right:$highlight_border;
+        border-top:$shadow_border;
+        border-left:$shadow_border;
+        .user-list{
+            display:flex;
+            flex-direction:row;
+            align-items: center;
+            justify-content:space-between;
+        }
+        .right-pane-header{
+            background-color: $light_grey;
+            height:20px;
+            font-size:0.9rem;
+            border-top: $shadow_border;
+            border-left: $highlight_border;
+            border-right: $highlight_border;
+            border-bottom: $shadow_border;
+            background-color: $light_grey;
+span{
+    border-left: $highlight_border;
+    border-right: $shadow_border;
+    padding:3px;
+}
+
+        }
+    }
+}

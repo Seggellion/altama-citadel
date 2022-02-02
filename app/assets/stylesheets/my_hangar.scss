@@ -1,0 +1,150 @@
+@import 'mixins';
+
+
+$hangar_light_grey_highlight: #ababab;
+$hangar_light_grey_shadow: $dark_grey;
+
+$hangar_highlight_border: 2px solid $hangar_light_grey_highlight;
+$hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
+
+
+#my_hangar{
+  margin:0px;
+  height:100vh;
+  width:100vw;
+.ship-image{
+    background-color:black;
+    display:block;
+    height:50vh;
+    width:100%;
+    text-align: center;
+    img{
+        height:100%;
+        margin:0px auto;
+    }
+}
+    .hangar{
+        height:50vh;
+        width:100%;
+        background-color: $dark_grey;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        .hangar-actions{
+            display: flex;
+            justify-content: space-around;
+            flex-direction: column;
+            height: 100%;
+            margin-left: 70px;
+            
+            button{
+                background-color:black;
+                padding:40px 60px;
+                display: flex;
+                flex-wrap:wrap;
+                width:220px;
+                font-family:'m42';
+                height:115px;
+                justify-content: center;
+                align-items: center;
+                color:white;
+                font-size:1.1rem;
+                border-top:$hangar_highlight_border;
+                border-left:$hangar_highlight_border;
+                border-right:$hangar_shadow_border;
+                border-bottom:$hangar_shadow_border;
+                cursor:pointer;
+                &:hover{
+                    background-color:white;
+                    color:black;
+                }
+                &:last-child{
+                    transform: translateY(-17px);
+                }
+            }
+        }
+        .ship-list{
+            width:48%;
+            height:230px;
+            border:3px solid black;
+            background-color: #ababab;
+            margin-left:2%;
+            overflow:scroll;
+            .ship-row{
+                background-color:black;
+                color:white;
+                font-family:'m42';
+                font-size:1.1rem;
+                display:flex;
+                padding:10px;
+                justify-content: center;
+                align-items: center;
+                border-top:$hangar_highlight_border;
+                border-left:$hangar_highlight_border;
+                border-right:$hangar_shadow_border;
+                border-bottom:$hangar_shadow_border;
+                .ship-count{
+                    margin-right:auto;
+                    background-color:blue;
+                    padding:2px;
+                    display:flex;
+                    justify-content: center;
+                    align-items: center;
+                    width:30px;
+                    height:30px;
+                    .count{
+                        text-align:center;
+                        height:23px;
+                        margin-top:5px;
+                    }
+                }
+                &.selected{
+                    background-color:#cb7000;
+                }
+                h4{
+                    margin:5px 0px 0px 0px;
+                    pointer-events: none;
+                    &.owned{
+                        margin:5px auto 0px 0px;
+                    }
+                }
+                &:hover{
+                    border:1px solid #828282;
+                    background-color: $dark_grey;
+                    cursor:pointer;
+                }
+            }
+        }
+
+    }
+
+
+    .my-hangar-window{
+        background-image: image-url('hangar.png');
+        margin-top:50px;
+        font-family:'m42';
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-y: top;
+        margin-top: 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left:100px;
+
+        a, a:visited{
+            color:black;
+            display:block;
+            width:100%;
+            text-decoration: none;
+            &:hover{
+                color:white;
+            }
+            &.members{
+                color:purple;
+            }
+        }
+    }
+
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_051333) do
+ActiveRecord::Schema.define(version: 2022_02_02_033906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,15 @@ ActiveRecord::Schema.define(version: 2022_01_26_051333) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "manufacturers", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "origin_location"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "logo"
+  end
+
   create_table "rfas", force: :cascade do |t|
     t.string "title"
     t.string "rsi_username"
@@ -78,7 +87,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_051333) do
 
   create_table "ships", force: :cascade do |t|
     t.string "model"
-    t.integer "make_id"
+    t.integer "manufacturer_id"
     t.integer "scu"
     t.integer "crew"
     t.integer "fuel"
@@ -88,6 +97,25 @@ ActiveRecord::Schema.define(version: 2022_01_26_051333) do
     t.integer "height"
     t.integer "weight"
     t.integer "msrp"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "year_introduced"
+    t.string "ship_image_primary"
+    t.string "ship_image_secondary"
+  end
+
+  create_table "task_managers", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "task_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name"
+    t.string "author"
+    t.string "icon"
+    t.integer "task_manager_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -105,7 +133,6 @@ ActiveRecord::Schema.define(version: 2022_01_26_051333) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at", precision: 6
@@ -117,8 +144,22 @@ ActiveRecord::Schema.define(version: 2022_01_26_051333) do
     t.string "profile_image"
     t.string "provider"
     t.string "uid"
-    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "userships", force: :cascade do |t|
+    t.string "ship_name"
+    t.string "ship_image"
+    t.integer "year_purchased"
+    t.string "description"
+    t.integer "ship_id"
+    t.integer "user_id"
+    t.boolean "show_information"
+    t.boolean "primary"
+    t.boolean "fleetship"
+    t.string "paint"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end

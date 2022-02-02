@@ -31,8 +31,8 @@
         <span><a class="" href="">Admin settings</a></span>
         
             <div class="child-menu">
-                <div class="menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "Spaceship manager", ships_path %></span></div>
-                <div class="menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "User manager", users_path %></span></div>
+                <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "Spaceship manager", ships_path, class:'child-link' %></span></div>
+                <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "User manager", users_path, class:'child-link' %></span></div>
             </div>
         </div>
         <hr>
@@ -42,7 +42,7 @@
 
     <% if defined?(app1) %>
     <div class="app-bar">
-    <%= image_tag("conquest_icon.png") %> <%= app1 %>
+    <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png") %> <%= app1 %>
      </div>
     <% end %>
 

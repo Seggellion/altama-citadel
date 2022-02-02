@@ -5,8 +5,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   # Pineapple
   def after_sign_in_path_for(resource)
+   # if resource.is_a?(User)  && !resource.isGuest?
+  #   desktop_path
+  #  end
     if resource.is_a?(User)  && !resource.isGuest?
-     desktop_path
+  
+      TaskManager.create(user_id: current_user.id)
+      bootup_path
     end
   end
 
@@ -21,8 +26,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = User.from_omniauth(request.env["omniauth.auth"])
-# oct 24 this code is broken.
-p @user.username
+
     if @user.persisted?
       p "not an error!"
       sign_in_and_redirect @user, event: :authentication # this will throw if @user is not activated

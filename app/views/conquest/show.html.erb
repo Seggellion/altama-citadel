@@ -51,10 +51,11 @@
                     <div class="team-container">
                     <ul>
                     <% @teams.each do | team | %>
+                        <li class="<%= team.active_control_point(control_point) %> ">
                         <%= form_with(model: control_point, data:{ 'conquesttimer-target' => 'form'}) do |form| %>
                             <%= form.hidden_field :capture_team_id, :value => team.id %>
                             <% end %>
-                        <li class="<%= team.active_control_point(control_point) %> ">
+                            
                         <%= form_with(model: @event_record) do |form| %>
                             
                             <%= form.submit team.team_name, data:{ 'action' => 'click->conquest_timer#start'}, class: 'btn' %> 
@@ -64,8 +65,12 @@
                     </ul>
                 </div>
                 <div class="control-point-timer">
-                    <%= link_to 'Stop', stop_conquest_path(id: control_point) %>
-                    <%= link_to 'Clear', clear_conquest_records_path(id: control_point) %>
+                <% if control_point.iscaptured? %>
+                    <%= link_to 'REMOVE', stop_conquest_path(id: control_point) %>
+                    <% else %>
+                    <%= link_to 'CAPTURE', capture_conquest_path(id: control_point) %>
+                    <% end %>
+                    <%= link_to 'CLEAR', clear_conquest_records_path(id: control_point) %>
                     
                     </div>
                     </div>
