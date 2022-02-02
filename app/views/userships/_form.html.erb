@@ -1,0 +1,47 @@
+<%= form_with(model: usership) do |form| %>
+  <% if usership.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(usership.errors.count, "error") %> prohibited this usership from being saved:</h2>
+
+      <ul>
+        <% usership.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :ship_name, style: "display: block" %>
+    <%= form.text_field :ship_name %>
+  </div>
+
+  <div>
+    <%= form.label :year_purchased, style: "display: block" %>
+    <%= form.number_field :year_purchased %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <%= form.label :ship_id, style: "display: block" %>
+    <%= form.number_field :ship_id %>
+  </div>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.number_field :user_id %>
+  </div>
+
+  <div>
+    <%= form.label :paint, style: "display: block" %>
+    <%= form.text_field :paint %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

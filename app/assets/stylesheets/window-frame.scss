@@ -4,7 +4,7 @@
     width: 100%;
     position: fixed;
     top: 0px;
-    height: 33px;
+    height: 30px;
     overflow: hidden;
     display:flex;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -21,8 +21,23 @@
         height:20px;
         font-weight:900;
         height:100%;
+        font-size:1.2rem;
+        .icon{
+          width: 26px;
+          margin-left: 2px;
+          margin-right: 5px;
+          overflow:hidden;
+          img.invalid{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-294px) translateY(3px);
+            height: 663px;
+            width: auto;
+          }
+        }
         img{
-            height:100%;
+          width:26px;
+         margin-left:2px;
             margin-right:5px;
         }
     }
@@ -32,28 +47,35 @@
         margin:3px;
     }
     .close-btn{
-      
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            width: 22px;
-            height: 22px;
-            opacity: 1;
+      cursor: pointer;
+      padding: 0px;
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      width: 19px;
+      height: 17px;
+      opacity: 1;
           background-color: $light_grey;
           border-top: $highlight_border;
           border-left: $highlight_border;
           border-right: $shadow_border;
           border-bottom: $shadow_border;
           background-color: $light_grey;
+          &.windowed{
+            &:before, &:after {
+              top:0px;
+              left:7px;
+            }
+          }
           &:hover {
             opacity: 1;
           }
           &:before, &:after {
             position: absolute;
-            left: 10px;
+            left: 6px;
             content: ' ';
-            height: 20px;
-            width: 3px;
+            height: 14px;
+            width: 2px;
             background-color: black;
           }
           &:before {

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @usership %>
+
+<div>
+  <%= link_to "Edit this usership", edit_usership_path(@usership) %> |
+  <%= link_to "Back to userships", userships_path %>
+
+  <%= button_to "Destroy this usership", usership_path(@usership), method: :delete %>
+</div>

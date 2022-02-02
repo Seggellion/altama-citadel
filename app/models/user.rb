@@ -4,11 +4,19 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable,
   :omniauthable, omniauth_providers: %i[discord]
-
+  has_many :userships
+  has_one :task_manager
 
   def email_required? 
     false 
   end 
+
+  def app_present?
+    task_manager = TaskManager.find_by(user_id: self.id)
+    if task_manager.tasks
+        return true
+    end
+end
 
   def will_save_change_to_email?
     false
@@ -24,6 +32,12 @@ class User < ApplicationRecord
       return true
     end
   end
+
+def ship_count(ship)
+  all_ships = Usership.where(user_id: self.id, ship_id: ship.id)
+  all_ships.count
+end
+
 
     def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

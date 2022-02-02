@@ -1,0 +1,17 @@
+<%= render '/desktop/window-frame', app1: 'My Hangar' %>
+<div class="my-hangar-window">
+<h4>Primary: CNOU Mustang</h4>
+<%= link_to "Add ship", my_hangar_add_path %>
+<a href="#">View fleet</a>
+<a href="#">Manage Ships</a>
+<hr>
+<a class="members" href="#">View Altama Fleet</a>
+
+<div id="userships">
+  <%#= render @userships %>
+</div>
+
+
+</div>
+
+<%= render '/desktop/taskbar', app1: 'My Hangar' %>

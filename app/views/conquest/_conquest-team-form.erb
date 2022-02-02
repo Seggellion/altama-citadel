@@ -2,8 +2,8 @@
 
   
     <div class="input-row">
-      <%= form.label :team_name, style: "display: block" %>
-      <%= form.text_field :team_name %>
+
+      <%= form.text_field :team_name, placeholder: 'Team name' %>
     </div>
 
     <%= form.hidden_field :event_id, :value => event.id %>

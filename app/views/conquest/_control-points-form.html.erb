@@ -2,8 +2,8 @@
 
   
     <div class="input-row">
-      <%= form.label :title, style: "display: block" %>
-      <%= form.text_field :title %>
+      
+      <%= form.text_field :title, placeholder: 'Title' %>
     </div>
 
     <%= form.hidden_field :event_id, :value => event.id %>

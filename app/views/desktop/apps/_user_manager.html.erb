@@ -1,0 +1,44 @@
+<div id="user_manager" class="window">
+<%= render '/desktop/window-frame', app1: 'User Manager', task: task, windowed: windowed %>
+<div class="window-menu">
+    <a href="#">File</a>
+    <a href="#">Edit</a>
+    <a href="#">View</a>
+    <a href="#">Help</a>
+</div>
+<div  class="content-body">
+    <div class="left-pane">
+    <div class="root-level">Citadel</div>
+    <div class="level-1"> <i class="folder"></i> HKEY_ROOT_USERS</div>
+    <div class="level-1"> <i class="folder"></i> HKEY_CURRENT_USER</div>
+    <div class="level-1"> <i class="folder"></i> HKEY_LOCAL_SERVER</div>
+
+    </div>
+
+        <div class="right-pane">
+        <div class="right-pane-header">
+        <span>
+        Name
+        </span>
+        <span>
+        UserType
+        </span>
+        <span>
+        Created At
+        </span>
+        </div>
+        
+        <% root_users.each do | user | %>
+            <div class="user-list">
+            <i class="page-object"></i>
+            <span class="username"><%= user.username %></span>
+            <span class="user-type">{ <%= user.user_type || 'nil' %> }</span>
+            <span class="user-created"> <%= user.created_at.utc  %> </span>
+            </div>
+            <% end %>
+        </div>
+
+</div>
+<div class="window-footer">
+</div>
+</div>

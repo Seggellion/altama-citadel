@@ -1,0 +1,31 @@
+
+<%= render '/desktop/window-frame', app1: 'My Hangar' %>
+
+
+<div class="add-ship-window">
+<div class="ship-image">
+<img src="https://3.bp.blogspot.com/-LwzROO83_XU/V9_E-D1-57I/AAAAAAAACJk/dfGiM0CcN9wk72TeuR2rbVepUOG46HW_gCLcB/s1600/MISC%2BStarfarer.jpg">
+</div>
+<div class="hangar" data-controller="usership">
+  <div id="ship_list" class="ship-list" >
+    <% @allships.each do | ship | %>
+      <div class="ship-row" data-selected="false"  data-action="click->usership#select" >
+    <% if current_user.ship_count(ship) > 0 %>
+      <div class="ship-count"><div class="count"><%= current_user.ship_count(ship) %></div></div>
+      <% end %>
+        <%= render "form", usership: @usership, ship: ship %>
+        <h4 <% if current_user.ship_count(ship) > 0 %>class="owned"<% end %> ><%= ship.model %></h4>
+      
+      </div>
+    <% end %>
+  </div>
+    <div class="hangar-actions">
+    <%= link_to "My Hangar", my_hangar_path %>
+      <button>Import <small>Fleetview</small></button>
+      <button id="usership_button"  data-action="click->usership#submit" >Select</button>
+    </div>
+  </div>
+</div>
+
+
+<%= render '/desktop/taskbar', app1: 'My Hangar' %>

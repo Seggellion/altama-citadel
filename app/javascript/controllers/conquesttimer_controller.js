@@ -3,7 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 
 class Timer {
   constructor () {
-    console.log('started!', this.isRunning);
     this.isRunning = false;
     this.startTime = 0;
     this.overallTime = 0;
@@ -72,11 +71,7 @@ export default class extends Controller {
  let current_moment = new Date().getTime();
  current_moment = Math.round(current_moment / 1000);
     const duration= current_moment - start_time;
-    //const duration = Math.round(time_difference/ 1000);
-    console.log('date now: ', Date.now);
-    console.log('start time: ', start_time);
-    console.log('current_moment: ', current_moment);
-    console.log('duration: ', duration);
+
     const timer = new Timer();
 
     timer.start();
@@ -84,13 +79,13 @@ export default class extends Controller {
       const timeInSeconds = Math.round(timer.getTime() / 1000);
       
       this.timerTarget.innerText = timeInSeconds + duration;
-      if ((timeInSeconds + duration) == 10 ){
+      if ((timeInSeconds + duration) == 300 ){
         this.formTarget.submit();
      
       }
     }, 100)
   }
-  //  this.formTarget.submit();
+
 
 
   }

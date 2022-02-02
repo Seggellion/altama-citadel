@@ -115,21 +115,41 @@
         display:flex;
         width:100%;
         height:100%;
+        .conquest-controlpoints{
+            width:60%;
+        }
+        .conquest-records{
+            width:30%;
+        }
         .column{
             h2{
                 margin-bottom:10px;
             }
-            width:40%;
+           
             &:first-child{width:20%}
             padding:15px;
             height:100%;
             border-right:1px solid white;
             display:flex;
             .create-control-point{
+                margin: 30px 0px 50px 0px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 form{
                     display:flex;
                     flex-direction: row;
                     align-items: center;
+                    #control_point_title, #team_team_name{
+                        font-family:'dos';
+                        background-color:black;
+                        padding:10px;
+                        border:1px solid white;
+                        color:white;
+                        &:focus{
+                            outline:none;
+                        }
+                    }
                 }
             }
         }
@@ -139,6 +159,13 @@
             align-items: center;
             display: flex;
             justify-content: space-around;
+                h4{
+                    width: 100px;
+                }
+                .timer{
+                    width:40px;
+                }
+
             &.captured{
                 background-color:blue;
             }
@@ -159,7 +186,7 @@
                 list-style-type: none;
             }
             ul{
-                width: 200px;
+                width: 300px;
                 display: flex;
                 flex-direction: row;
                 flex-wrap:wrap;
@@ -177,40 +204,26 @@
     height:500px;
     display:flex;
     flex-direction:row;
+    align-items: center;
+    justify-content: center;
     .overlay-chart{
-display:inline-block;
+    display:inline-block;
+    width:200px;
+    .progress-ring{
+display:flex; 
+align-items: center;
+justify-content: center;
+    }
     }
 
-    /* Don't be afraid of this, it's just an array with keys values to keep configuration easier ;) */
+
 $configs: (
-	chart-one: (
-		svgSize: 200px,
-		percentage: 25,
-		strokeWidth: 1px,
-		backgroundColor: #305556,
-		foregroundColor: #79be9b,
-		labelColor: #c6e8d7,
-		labelFontSize: 2.5rem,
-		duration: 3s,
-		animationDelay: 1s
-	),
 	chart-two: (
 		svgSize: 200px,
 		percentage: 50,
 		strokeWidth: 15px,
 		backgroundColor: #305556,
 		foregroundColor: #d0f09e,
-		labelColor: #c6e8d7,
-		labelFontSize: 2.5rem,
-		duration: 3s,
-		animationDelay: 1s
-	),
-	chart-three: (
-		svgSize: 200px,
-		percentage: 75,
-		strokeWidth: 25px,
-		backgroundColor: #305556,
-		foregroundColor: #389967,
 		labelColor: #c6e8d7,
 		labelFontSize: 2.5rem,
 		duration: 3s,
@@ -305,6 +318,5 @@ $labelData: '';
 background-color: red;
 stroke:red;
 }
-
 
 }

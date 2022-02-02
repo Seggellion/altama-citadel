@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ship_name: MyString
+  year_purchased: 1
+  description: MyString
+  ship_id: 1
+  user_id: 1
+  paint: MyString
+
+two:
+  ship_name: MyString
+  year_purchased: 1
+  description: MyString
+  ship_id: 1
+  user_id: 1
+  paint: MyString

@@ -3,30 +3,38 @@
     background-color:transparent;
 }
 
-
-
 </style>
 
-<div class="conquest-overlay">
+<script>
+  setTimeout("location.reload();",10000);
+</script>
+
+<div class="conquest-overlay" >
 
 <% @control_points.each do | control_point | %>
-<div class="overlay-chart <%= control_point.iscaptured? %>">
-Control Point: <%= control_point.title %>
+<div data-controller="conquestoverlay" data-id="<%=control_point.id %>" data-initialprogress="<%= control_point.percent_captured(300) %>" class="overlay-chart <%= control_point.iscaptured? %>">
+	Control Point: <%= control_point.title %>
 
-
-    <figure class="chart-two animate">
-	<svg role="img" xmlns="http://www.w3.org/2000/svg">
-		<title>[title here]</title>
-		<desc>[long description here]</desc>
-		<circle class="circle-background"/>
-		<circle class="circle-foreground"/>
+<% if control_point.conquesting %>
+	<div  class="progress-ring">
+	<progress-ring data-conquestoverlay-target="progressring" stroke="8" radius="60" progress="<%= control_point.percent_captured(300) %>" ></progress-ring>
+	</div>
+	<% else %>
+	<div class="waiting-ring">
+	<svg height="120" width="120">
+	<circle stroke="grey" stroke-dasharray="276.46015351590177 276.46015351590177" style="stroke-dashoffset: 0;" stroke-width="8" fill="transparent" r="44" cx="60" cy="60"></circle>
 	</svg>
-
-</figure>
-<% if  control_point.iscaptured? %>
-Captured by: <%= control_point.capture_team %>
-<% end %>
+	</div>
+	<% end %>
+	<div style="text-align:center;" class="overlay-timers">00:90</div>
+	<% if  control_point.iscaptured? %>
+	<div style="text-align:center;" class="captured-by">Captured by:<br/> <%= control_point.capture_team %></div>
+	<% end %>
 </div>
-    <% end %>
+
+
+
+<% end %>
+
 
 </div>

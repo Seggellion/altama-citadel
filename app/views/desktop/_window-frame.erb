@@ -4,14 +4,26 @@
 
     <% if defined?(app1) %>
     <div class="app-bar">
-    <%= image_tag("conquest_icon.png") %> <%= app1 %>
+    <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
+    <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> 
+    <% else %>
+    <div class="icon">
+    <%= image_tag( "all_icons.png", class: "invalid")  %> 
+    </div>
+    <% end %>
+    <%= app1 %>
      </div>
     <% end %>
 
 <div class="control-buttons">
 
+<% if defined?(windowed) %>
+<%= form_with(model: task) do |form| %>
+    <%= button_to "", task, class:'close-btn windowed', method: :delete  %>
+<% end %>
+<% else %>
 <%=link_to "", root_url, class: 'close-btn' %>
-
+<% end%>
 </div>
 </div>
 </div>

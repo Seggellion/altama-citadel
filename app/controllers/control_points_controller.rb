@@ -34,6 +34,10 @@ class ControlPointsController < ApplicationController
     end
   end
 
+  def capture_conquest
+
+  end
+
   def stop_conquest
     control_point = ControlPoint.find_by_id(params[:id])
     event = Event.find_by_id(control_point.event_id)
