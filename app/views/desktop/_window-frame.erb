@@ -7,7 +7,9 @@ class="highlight">
     <% if defined?(app1) %>
     <div class="app-bar">
     <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
+    <div class="icon">
     <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> 
+    </div>
     <% else %>
     <div class="icon">
     <%= image_tag( "all_icons.png", class: "invalid")  %> 

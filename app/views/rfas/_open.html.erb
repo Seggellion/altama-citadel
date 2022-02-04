@@ -44,13 +44,10 @@
   </ul>
   </div>
   
-  
-  
-
-  <div>
+  <div style="display:none">
   <%= form.submit %>
-  <div class="field">Status: <%= form.select :status_id, ["Open","In Progress","Closed"] %></div>
   </div>
+  <div id="status_field" class="field"><%= form.select :status_id, ["Submit as Open","Submit as In Progress","Submit as  Closed"] %></div>
   </div>
 
 
