@@ -2,7 +2,7 @@
 
 one:
   team_name: MyString
-  team_owner: 1
+  owner_id: 1
   description: MyString
   karma: 1
   fame: 1
@@ -10,7 +10,7 @@ one:
 
 two:
   team_name: MyString
-  team_owner: 1
+  owner_id: 1
   description: MyString
   karma: 1
   fame: 1

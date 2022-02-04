@@ -66,25 +66,43 @@ export default class extends Controller {
 
   connect() {
     if (this.timerTargets){
-  let start_time = new Date(this.timerTarget.getAttribute('data-starttime')).getTime();
-  start_time = Math.round(start_time / 1000);
- let current_moment = new Date().getTime();
- current_moment = Math.round(current_moment / 1000);
-    const duration= current_moment - start_time;
+  //let start_time = new Date(this.timerTarget.getAttribute('data-starttime')).getTime();
+ // let old_start_time = new Date(this.timerTarget.getAttribute('data-starttime')).getTime();
 
+const dt = this.timerTarget.getAttribute('data-starttime');
+  const dateParts = dt.split(' ');           // ['2018-06-14', '11:59', 'AM']
+  const timeParts = dateParts[1].split(':'); // ['11', '59']
+  const day = dateParts[0];                 // '2018-06-14'
+  const hours = parseInt(timeParts[0]);    // 11
+  const minutes = parseInt(timeParts[1])  ;
+  const seconds = parseInt(timeParts[2]) ;
+  var countDownDate = new Date(day);
+  countDownDate.setHours(hours);
+  countDownDate.setMinutes(minutes);
+  countDownDate.setSeconds(seconds);
+
+let start_time = countDownDate.getTime();
+  start_time = Math.round(start_time / 1000);
+  let limit = this.timerTarget.getAttribute('data-capture-limit');
+ let current_moment = new Date(((new Date(Date.now())).toUTCString())).getTime();
+current_moment = Math.round(current_moment / 1000);
+    const duration= ((current_moment - start_time) - 57600);
     const timer = new Timer();
 
     timer.start();
     setInterval(() => {
       const timeInSeconds = Math.round(timer.getTime() / 1000);
-      
+
       this.timerTarget.innerText = timeInSeconds + duration;
-      if ((timeInSeconds + duration) == 300 ){
-        this.formTarget.submit();
+      if ((timeInSeconds + duration) == limit ){
+        let new_form = this.element.getElementsByClassName('active')[0].querySelectorAll('[data-conquesttimer-target]')[0];
+        new_form.submit();
      
       }
     }, 100)
-  }
+  };
+
+
 
 
 

@@ -12,13 +12,22 @@
 <div class="conquest-overlay" >
 
 <% @control_points.each do | control_point | %>
-<div data-controller="conquestoverlay" data-id="<%=control_point.id %>" data-initialprogress="<%= control_point.percent_captured(300) %>" class="overlay-chart <%= control_point.iscaptured? %>">
-	Control Point: <%= control_point.title %>
+<div data-controller="conquestoverlay" data-id="<%=control_point.id %>" data-initialprogress="<%= control_point.percent_captured(@event.capture_limit_seconds) %>" class="overlay-chart <%= control_point.iscaptured? %>">
+
+Control Point: <%= control_point.title %>
 
 <% if control_point.conquesting %>
-	<div  class="progress-ring">
-	<progress-ring data-conquestoverlay-target="progressring" stroke="8" radius="60" progress="<%= control_point.percent_captured(300) %>" ></progress-ring>
+
+	<div class="progress-ring">
+	<progress-ring data-conquestoverlay-target="progressring" team-color="<%= control_point.team_color || control_point.team_record_color %>" stroke="8" radius="60" progress="<%= control_point.percent_captured(@event.capture_limit_seconds) %>" ></progress-ring>
 	</div>
+	<% elsif control_point.iscaptured? %>
+	<div class="completed-ring">
+	<svg height="120" width="120">
+	<circle fill="<%= control_point.team_color || control_point.team_record_color %>" stroke-dasharray="276.46015351590177 276.46015351590177" style="stroke-dashoffset: 0;" stroke-width="8" r="44" cx="60" cy="60"></circle>
+	</svg>
+	</div>
+	
 	<% else %>
 	<div class="waiting-ring">
 	<svg height="120" width="120">
@@ -26,9 +35,11 @@
 	</svg>
 	</div>
 	<% end %>
-	<div style="text-align:center;" class="overlay-timers">00:90</div>
+	
 	<% if  control_point.iscaptured? %>
 	<div style="text-align:center;" class="captured-by">Captured by:<br/> <%= control_point.capture_team %></div>
+	<% else %>
+	<div style="text-align:center;" data-conquestoverlay-target="countdown"  data-starttime="<%= control_point.last_record_time %>" data-capture-limit="<%= @event.capture_limit_seconds || 0 %>"  class="overlay-timers">00:00</div>
 	<% end %>
 </div>
 

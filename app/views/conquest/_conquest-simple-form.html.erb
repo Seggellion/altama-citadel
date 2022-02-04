@@ -1,0 +1,23 @@
+<%= form_with(model: event) do |form| %>
+  
+    <div class="input-row">
+      <%= form.text_field :title, placeholder: 'Title'  %>
+    </div>
+  
+    <div class="input-row">
+      <%= form.number_field :capture_limit, placeholder: 'Capture limit (mins)' %>
+    </div>
+  
+    <div class="input-row">
+      <%= form.label :start_date, style: "display: block" %>
+      <%= form.datetime_field :start_date %>
+    </div>
+  
+  
+    <%= form.hidden_field :event_type, :value => event_type %>
+  
+    <div class="submit-row">
+      <%= form.submit %>
+    </div>
+  <% end %>
+  

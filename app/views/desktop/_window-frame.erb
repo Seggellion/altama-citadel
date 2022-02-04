@@ -1,6 +1,8 @@
 
 <div id="window_frame">
-<div class="highlight">
+<div 
+data-action="dragstart->desktop#dragstart dragover->desktop#dragover dragenter->desktop#dragenter drop->desktop#drop dragend->desktop#dragend"
+class="highlight">
 
     <% if defined?(app1) %>
     <div class="app-bar">
@@ -14,7 +16,7 @@
     <%= app1 %>
      </div>
     <% end %>
-
+    data-action="mousedown->desktop#task_drag"
 <div class="control-buttons">
 
 <% if defined?(windowed) %>
