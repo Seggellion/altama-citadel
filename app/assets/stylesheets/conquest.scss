@@ -258,7 +258,11 @@ align-items: center;
 justify-content: center;
     }
     }
-
+.captured-by, .overlay-timers, h4{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight:900;
+    text-align: center;
+}
 
 $configs: (
 	chart-two: (

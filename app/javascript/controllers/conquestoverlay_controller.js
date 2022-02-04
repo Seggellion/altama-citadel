@@ -6,7 +6,6 @@ class ProgressRing extends HTMLElement {
       const stroke = this.getAttribute('stroke');
       const radius = this.getAttribute('radius');
       const color = this.getAttribute('team-color');
-      console.log('color: ', color);
       const normalizedRadius = radius - stroke * 2;
       this._circumference = normalizedRadius * 2 * Math.PI;
   
@@ -117,11 +116,11 @@ export default class extends Controller {
    const d = new Date();
  let current_moment = d.getTime();
  current_moment = Math.round(current_moment / 1000);
- console.log('current_moment: ', current_moment > start_time);
-    const elapsed = (current_moment - start_time);
 
-console.log('elapsed: ', elapsed);
-        display = this.countdownTarget;
+    const elapsed = (current_moment - start_time);
+   const display = this.countdownTarget;
+
+      
     startTimer(limit, display, elapsed);
   };
 

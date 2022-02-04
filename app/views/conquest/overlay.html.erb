@@ -13,9 +13,9 @@
 
 <% @control_points.each do | control_point | %>
 <div data-controller="conquestoverlay" data-id="<%=control_point.id %>" data-initialprogress="<%= control_point.percent_captured(@event.capture_limit_seconds) %>" class="overlay-chart <%= control_point.iscaptured? %>">
-
-Control Point: <%= control_point.title %>
-
+<h4>
+Control Point:<br/> <%= control_point.title %>
+</h4>
 <% if control_point.conquesting %>
 
 	<div class="progress-ring">
