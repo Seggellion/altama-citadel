@@ -90,6 +90,17 @@
             text-align:center;
             width:100%;
         }
+        .new-event{
+            margin-top:20px;
+            display:block;
+        }
+        .new-event-row{
+            width:100%;
+            display:none;
+            flex-direction:row;
+            justify-content: center;
+            align-items: center;
+        }
     }
     .conquest-header{
         display: flex;
@@ -110,6 +121,12 @@
     }
     .conquest-team{
         flex-direction: column;
+        .event-team{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom:20px;
+        }
     }
     .conquest-body{
         display:flex;
@@ -122,8 +139,17 @@
             width:30%;
         }
         .column{
+            border: 2px solid white;
+            padding:5px;
             h2{
-                margin-bottom:10px;
+                background-color: black;
+                width: auto;
+                padding: 0px 5px;
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 1.2rem;
+                letter-spacing: 1.1px;
+                margin: -25px auto 0px auto;
             }
            
             &:first-child{width:20%}
@@ -140,6 +166,17 @@
                     display:flex;
                     flex-direction: row;
                     align-items: center;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    .submit-row{
+                        flex-basis: 100%;
+                    }
+                    .input-row{
+                      width:70%;
+                      input{
+                          width:100%;
+                      }
+                    }
                     #control_point_title, #team_team_name{
                         font-family:'dos';
                         background-color:black;
@@ -159,6 +196,9 @@
             align-items: center;
             display: flex;
             justify-content: space-around;
+            border: 4px double white;
+            margin: 5px 0px;
+            padding:5px;
                 h4{
                     width: 100px;
                 }
@@ -167,7 +207,7 @@
                 }
 
             &.captured{
-                background-color:blue;
+                
             }
          }   
         }
@@ -207,8 +247,11 @@
     align-items: center;
     justify-content: center;
     .overlay-chart{
-    display:inline-block;
-    width:200px;
+    display: flex;
+    width: 200px;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 20px;
     .progress-ring{
 display:flex; 
 align-items: center;

@@ -22,6 +22,7 @@
         font-weight:900;
         height:100%;
         font-size:1.2rem;
+        pointer-events: none;
         .icon{
           width: 26px;
           margin-left: 2px;
@@ -72,7 +73,8 @@
           }
           &:before, &:after {
             position: absolute;
-            left: 6px;
+            left: 8px;
+            top:2px;
             content: ' ';
             height: 14px;
             width: 2px;

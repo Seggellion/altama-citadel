@@ -18,16 +18,22 @@
         
     <div class="control-point-list">
         <% @teams.each do | team | %>
-<%= turbo_frame_tag dom_id(team) do %>
+        <%= turbo_frame_tag dom_id(team) do %>
             <div class="event-team">
-            <div class="team-name">
-            <%= team.team_name %>
-            DUR:<%= team.conquest_duration(@event)%>
-            <%= button_to "DEL", team, class:'btn', method: :delete  %>
-            </div>
 
+                <div class="team-column">
+                    <div style="color:<%= team.team_color%>" class="team-name">
+                    <%= team.team_name %>
+                    </div>
+                    <div class="team-score">
+                    SCORE:<%= team.conquest_duration(@event)%>
+                    </div>
+                </div>
+                <div class="team-column">
+                    <%= button_to "DEL", team, class:'btn', style:"color: #{team.team_color}", method: :delete  %>
+                </div>
             </div>
-<% end %>
+        <% end %>
         <% end %>
     </div>
 
@@ -42,16 +48,16 @@
             <div class="control-point-list">
                 <% @control_points.each do | control_point | %>
 
-                    <div class="control-point <%= control_point.iscaptured? %>" data-controller="conquesttimer">
+                    <div style="background-color: <%= control_point.team_color %>" class="control-point <%= control_point.iscaptured? %>" data-controller="conquesttimer">
                     <h4><%= control_point.title %></h4>
                     <% if control_point.last_record_time %>
 
-                    <div class="timer" data-starttime="<%= control_point.last_record_time %>"  data-conquesttimer-target="timer" ></div>
+                    <div class="timer" data-starttime="<%= control_point.last_record_time %>" data-capture-limit="<%= @event.capture_limit_seconds || 0 %>"  data-conquesttimer-target="timer" ></div>
                     <% end %>
                     <div class="team-container">
                     <ul>
                     <% @teams.each do | team | %>
-                        <li class="<%= team.active_control_point(control_point) %> ">
+                        <li data-controller="conquest" class="<%= team.active_control_point(control_point) %> ">
                         <%= form_with(model: control_point, data:{ 'conquesttimer-target' => 'form'}) do |form| %>
                             <%= form.hidden_field :capture_team_id, :value => team.id %>
                             <% end %>
@@ -83,7 +89,7 @@
             <h2>Records</h2>
             <div class="control-point-list">
                 <% @event_records.each do | event_record | %>
-                <div class="event-record-card">
+                <div style="border: 2px solid <%= event_record.team.team_color %>" class="event-record-card">
                 Team: <%= event_record.team.team_name %> 
                 Start_Time: <%= event_record.start_time.utc.strftime('%H:%M:%S') %>
                 <% if event_record.end_time %>

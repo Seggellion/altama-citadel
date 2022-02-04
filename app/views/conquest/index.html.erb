@@ -14,7 +14,7 @@
 
 <% else %>
 
-<div  class="popup" id="select_event">
+<div data-controller="conquest"  class="popup" id="select_event">
     <h2>List of events</h2>
     <span class="hr">*******************</span>
     <div class="event-list">
@@ -23,6 +23,10 @@
             * <%= event.title %> 
             <% end %>
         <% end %>
+    </div>
+    <span data-action="click->conquest#expand" class="new-event">Create New Event</span>
+    <div data-conquest-target="newevent" class="new-event-row">
+    <%= render "conquest-simple-form", event: @event, event_type: 1 %>
     </div>
 </div>
 

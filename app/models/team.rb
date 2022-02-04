@@ -1,5 +1,5 @@
 class Team < ApplicationRecord
-
+has_many :event_records, :dependent => :destroy
     after_destroy_commit {broadcast_remove_to "teams"}
 
 def conquest_duration(event)

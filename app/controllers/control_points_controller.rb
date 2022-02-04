@@ -35,12 +35,32 @@ class ControlPointsController < ApplicationController
   end
 
   def capture_conquest
+    control_point = ControlPoint.find_by_id(params[:id])
+    last_record = EventRecord.where(control_point_id: control_point.id).last
 
+    event = Event.find_by_id(control_point.event_id)
+    team = Team.find_by_id(last_record.team_id)
+
+    control_point.update(capture_team_id: team.id)
+    respond_to do |format|
+      format.html { redirect_to conquest_event_path(id: event), notice: "ControlPoint was successfully created." }
+    end
   end
 
-  def stop_conquest
+  def stop_conquest    
     control_point = ControlPoint.find_by_id(params[:id])
     event = Event.find_by_id(control_point.event_id)
+    last_record = EventRecord.where(control_point_id: control_point.id).last
+    if last_record
+      
+      duration = Time.current - last_record.start_time
+    last_record.update(end_time: Time.current,duration: duration, action:'stop')
+
+
+    end
+
+      
+
     control_point.update(capture_team_id: nil) 
     respond_to do |format|
       format.html { redirect_to conquest_event_path(id: event), notice: "ControlPoint was successfully created." }

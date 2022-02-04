@@ -18,7 +18,7 @@ class TeamsTest < ApplicationSystemTestCase
     fill_in "Fame", with: @team.fame
     fill_in "Karma", with: @team.karma
     fill_in "Team name", with: @team.team_name
-    fill_in "Team owner", with: @team.team_owner
+    fill_in "Team owner", with: @team.owner_id
     fill_in "Website", with: @team.website
     click_on "Create Team"
 
@@ -34,7 +34,7 @@ class TeamsTest < ApplicationSystemTestCase
     fill_in "Fame", with: @team.fame
     fill_in "Karma", with: @team.karma
     fill_in "Team name", with: @team.team_name
-    fill_in "Team owner", with: @team.team_owner
+    fill_in "Team owner", with: @team.owner_id
     fill_in "Website", with: @team.website
     click_on "Update Team"
 
