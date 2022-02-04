@@ -42,8 +42,14 @@
 
     <% if defined?(app1) %>
     <div class="app-bar">
-    <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png") %> <%= app1 %>
-     </div>
+    <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
+    <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> <%= app1 %>
+    <% else %>
+    <div class="icon">
+    <%= image_tag( "all_icons.png", class: "invalid")  %> <%= app1 %>
+    </div>
+    <% end %>
+    </div>
     <% end %>
 
     <div id="clock">

@@ -22,6 +22,7 @@
 
 #rfa_open{
     background-color:black;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     .information-row{
         height:89px;
     }
@@ -29,6 +30,27 @@
         display:flex;
         height:100vh;
         color: #c3bab2;
+
+        input, select, button{
+            border: 1px solid #272321;
+            background-color:black;
+            color: #c3bab2;
+            margin:20px 0px;
+            font-size: 1rem;
+            border-radius: 5px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            width:100%;
+            padding:5px;
+        }
+        button{
+            cursor:pointer;
+        }
+        label{
+            width:100%;
+            display:block;
+            font-size:0.8rem;
+        }
+
         .rfa-module{
             border: 1px solid #141111;
             padding:10px;
@@ -39,24 +61,18 @@
         }
         .rfa-params{
             background-color: #070606;
-            border-right:1px solid #141111;
+            border-right:1px solid #272321;
             width:21%;
             padding:27px;
-            input{
-                border: 1px solid #141111;
-                background-color:black;
-            }
-            label{
-                width:100%;
-                display:block;
-                font-size:0.8rem;
-            }
         }
         .rfa-info{
-            width:30%;
+            width:29%;
+            padding:15px;
+            position:relative;
         }
         .rfa-comms{
-            width:45%;
+            width:36%;
+            padding: 10px 22px 10px 70px;
         }
     }
 }
@@ -83,6 +99,7 @@
     padding:0px;
     height:100vh;
     width:100vw;
+    background-color:black;
     .rfa-main{
         display:flex;
         height:100%;
@@ -92,4 +109,32 @@
         width:100%;
         padding:10px;
     }
+    .rfa-action-buttons{
+        display:flex;
+        width:100%;
+        flex-direction:row;
+        justify-content: space-between;
+        button{
+        width:30%;
+        }
+    }
 }
+
+#rfa_open  #rfa_status_id{
+    padding: 9px;
+    display: flex;
+    width: 180px;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    background-color:white;
+    color:black;
+}    
+#status_field{
+    position: absolute;
+    bottom: 0px;
+    right: 4.6vw;
+}
+

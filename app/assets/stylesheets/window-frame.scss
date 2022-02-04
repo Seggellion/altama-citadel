@@ -23,24 +23,8 @@
         height:100%;
         font-size:1.2rem;
         pointer-events: none;
-        .icon{
-          width: 26px;
-          margin-left: 2px;
-          margin-right: 5px;
-          overflow:hidden;
-          img.invalid{
-            background-position: top;
-            object-fit: contain;
-            transform: translateX(-294px) translateY(3px);
-            height: 663px;
-            width: auto;
-          }
-        }
-        img{
-          width:26px;
-         margin-left:2px;
-            margin-right:5px;
-        }
+
+
     }
     .highlight{
         background-color:blue;
@@ -88,4 +72,23 @@
           }
           
     }
+}
+
+.icon{
+  width: 26px;
+  margin-left: 2px;
+  margin-right: 5px;
+  overflow:hidden;
+  img.invalid{
+    background-position: top;
+    object-fit: contain;
+    transform: translateX(-294px) translateY(3px);
+    height: 663px;
+    width: auto;
+  }
+  img{
+    width:26px;
+    margin-left:2px;
+    margin-right:5px;
+  }
 }
