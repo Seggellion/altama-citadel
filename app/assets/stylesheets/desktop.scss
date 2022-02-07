@@ -6,6 +6,7 @@
     width:100vw;
     margin:0px;
     position:relative;
+    cursor: image-url('arrow.cur');
     .live-desktop{
         height:100%;
         padding:20px;
@@ -62,7 +63,6 @@
         width: 710px;
         height: 363px;
         background-color: $light_grey;
- 
         border-right:$shadow_border;
         border-bottom:$shadow_border;
         .window-menu{
@@ -86,6 +86,7 @@
         }
         #window_frame{
             position:absolute;
+            border-bottom:none;
         }
     }
 }

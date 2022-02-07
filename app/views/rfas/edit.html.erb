@@ -1,17 +1,27 @@
 <%= render '/desktop/window-frame', app1: 'Roadside Assistance' %>
 
 <section id="rfa_open">
+<div class="topbar">
+<a href="<%= rfas_path %>" class="tab">
+<div class="column">
+  <i class="special"></i>
+</div>
+<div class="column">
+<strong>Altama Support Index</strong>
+ #<%= current_user.id%>@<%=current_user.username%>
+ </div>
+ </a>
+
+
+ </div>
 <div class="information-row">
-<button>No Organization</button>
-<button>Chelsea Vecchiarelli</button>
-<button>RFA #121231230</button>
+<button class="profile-button">No Organization</button>
+<button class="profile-button">Chelsea Vecchiarelli</button>
+<button class="profile-button">RFA #121231230</button>
 </div>
   <%= render "open", rfa: @rfa %>
 
-  <div>
-    <%= link_to "Show this rfa", @rfa %> |
-    <%= link_to "Back to rfas", rfas_path %>
-  </div>
+
 </section>
 
 <%= render '/desktop/taskbar', app1: 'Roadside Assistance' %>

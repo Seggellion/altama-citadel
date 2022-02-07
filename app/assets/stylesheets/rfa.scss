@@ -1,38 +1,73 @@
-#rfa_index{
-    display: flex;
-    flex-direction: column;
-    height:100%;
-    .index-header{
-        display: flex;
-        width: 100%;
-        justify-content: space-around;
-    }
-    .rfa-row{
-        display:flex;
-        justify-content: space-around;
-        color:black;
-        text-decoration: none;
-        padding:3px 0px;
-        &:hover{
-            background-color:blue;
-            color:white;
-        }
-    }
-}
+@import 'mixins';
+
+$rfa_border: #272321;
 
 #rfa_open{
     background-color:black;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    .topbar{
+        height: 56px;
+        margin-top: 38px;
+        font-size:0.8rem;
+        color: $rfa_white;
+        width:100%;
+        border-bottom: 1px solid $rfa_border;
+        a, a:visited{color: $rfa_white; text-decoration:none;}
+        i.special{
+            background:none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:after{
+                font-family: 'dos';
+                content: "\0002";
+                font-size: 1.8rem;
+            }
+        }
+        .tab{
+            width: 220px;
+            border-left: 1px solid $rfa_border;
+            border-right: 1px solid $rfa_border;
+            height: 100%;
+            display:flex;
+            
+            align-items: center;
+        }
+        .column{
+            &:first-child{width:20%;}
+            display: flex;
+            margin-right:10px;
+            flex-direction: column;
+            align-items: left;
+        }
+    }
     .information-row{
-        height:89px;
+        height:44px;
+        display:flex;
+        align-items: center;
+        margin-left:20px;
+        .profile-button{
+            &:first-child{
+                border-top-left-radius: 10px;
+            }
+            &:last-child{
+                border-top-right-radius: 10px;
+            }
+            height:30px;
+            background-color:black;
+            padding:6px;
+            border:1px solid $rfa_border;
+            color: $rfa_white;
+        }
     }
     .rfa-open-container{
         display:flex;
         height:100vh;
         color: #c3bab2;
-
+        border-top: 1px solid $rfa_border;
+        
         input, select, button{
-            border: 1px solid #272321;
+            border: 1px solid $rfa_border;
             background-color:black;
             color: #c3bab2;
             margin:20px 0px;
@@ -61,7 +96,7 @@
         }
         .rfa-params{
             background-color: #070606;
-            border-right:1px solid #272321;
+            border-right:1px solid $rfa_border;
             width:21%;
             padding:27px;
         }
@@ -78,21 +113,73 @@
 }
 
 #sidebar{
-    width:26vw;
-    padding-left:8vw;
-    background-color: #e5e5e5;
-    border-right: 1px solid grey;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width:22vw;
+    border-right: 2px solid #131110;
+    color: $rfa_white;
     ul,li{
         list-style-type:none;
         margin:0px;
         padding:0px;
     }
+    ul{
+        margin-top: 24px;
+        font-size: 0.8rem;
+    }
     li{
         margin: 8px 0px;
+        padding: 4.5px 0px;
+        display: flex;
+        justify-content: space-between;
+        .count{
+            padding-right:26px;
+        }
+        &:hover{
+            font-weight:900;
+            background-color: #2f1d0c;
+        }
+    }
+    h2{
+        font-size: 1rem;
+        color: $rfa_white;
+        margin-top: 54px;
+        font-weight:900;
+        padding-bottom:6px;
+        border-bottom: 1px solid #131110;
     }
 }
 .rfa-list{
-    width:66%;
+    width:77%;
+    color: $rfa_white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    a, a:visited{
+        color: $rfa_white;
+    }
+    #rfa_index{
+        display: flex;
+        flex-direction: column;
+        height:100%;
+        .index-header{
+            display: flex;
+            width: 100%;
+            font-weight:900;
+            justify-content: space-between;
+            border-bottom: 1px solid #131110;
+        }
+        .rfa-row{
+            display:flex;
+            justify-content: space-between;
+            color: $rfa_white;
+            text-decoration: none;
+            padding:3px 0px;
+            font-weight:100;
+            &:hover{
+                font-weight:900;
+                background-color: #2f1d0c;
+                color: $rfa_white;
+            }
+        }
+    }
 }
 #rfas{
     margin:0px;
@@ -103,11 +190,16 @@
     .rfa-main{
         display:flex;
         height:100%;
+        padding:28px;
     }
     .rfa-summary{
-        height:100px;
-        width:100%;
-        padding:10px;
+        height: 100px;
+        width: 100%;
+        padding: 10px;
+        font-size: 2rem;
+        display: flex;
+        padding-left: 20%;
+        align-items: center;
     }
     .rfa-action-buttons{
         display:flex;

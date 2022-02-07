@@ -22,7 +22,6 @@ class RfasController < ApplicationController
   # POST /rfas or /rfas.json
   def create
     @rfa = Rfa.new(rfa_params)
-binding.break
     respond_to do |format|
       if @rfa.save
         format.html { redirect_to @rfa, notice: "Rfa was successfully created." }

@@ -1,0 +1,87 @@
+@import 'mixins';
+
+#desktop #ship_manager{
+        height: 490px;
+        width: 479px;
+        right:initial;
+        left:12%;
+        padding:40px 4px 4px 4px;
+        #window_frame{
+            left:0px;
+        }
+        .tabs{
+            user-select: none;
+            margin-left:8px;
+            margin-top:-3px;
+            display:flex;
+            span{
+                cursor:pointer;
+                padding:1px 5px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                display:inline-block;
+                width:auto;
+                font-size:0.9rem;
+                border-top:$highlight_border;
+                border-left:$highlight_border;
+                border-right:$shadow_border;
+                position:relative;
+               &.active{
+                 
+                    display:block;
+                    
+                
+                    position:relative;
+
+                    &:after{
+                        width:100%;
+                        height:10px;
+                        position:absolute;
+                        z-index:99001;
+                        background-color: $light_grey;
+                        display:block;
+                        content:' ';
+                        bottom:-8px;
+                        left:0px;
+                    }
+                }
+            }
+        }
+
+    .content-body{
+        display:flex;
+        flex-direction: column;
+        padding:19px 24px;
+        border-top:$highlight_border;
+        border-left:$highlight_border;
+        border-right:$shadow_border;
+        border-bottom:$shadow_border;
+        input[type="radio"]{
+            margin-left:0px;
+            &#option_2{
+                margin-left:30px;
+            }
+        }
+        label{
+            transform:translate(-2px, -2px);
+            font-size:0.9rem;
+            display:inline-block;
+            color: #2e2e2e;
+        }
+    }
+    .single-pane{
+        width:100%;
+        background-color:white;
+        border-bottom:$highlight_border;
+        border-right:$highlight_border;
+        border-top:$shadow_border;
+        border-left:$shadow_border;
+        overflow-y: scroll;
+        margin-top: 7px;
+        height: 312px;
+        &.manufacturers{
+            height: 152px;
+        }
+        
+    }
+}

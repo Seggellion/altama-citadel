@@ -1,19 +1,17 @@
 
 <a href="<%= edit_rfa_path(rfa) %>" class="rfa-row" id="<%= dom_id rfa %>">
+
 <div class="rfa-column">
-# <%= rfa.id %>
+  <%= rfa.rsi_username %>
 </div>
 <div class="rfa-column">
-  <%= rfa.title %>
-</div>
-<div class="rfa-column">
-Random Person
+<%= rfa.location_id %>
 </div>
 
 <div class="rfa-column">
-  <%= rfa.created_at %>
+  <%= rfa.ship_id %>
 </div>
 <div class="rfa-column">
-  Seggellion
+<%= rfa.created_at %>
 </div>
 </a>

@@ -1,0 +1,56 @@
+<div data-controller="desktop" id="ship_manager" class="window">
+    <%= render '/desktop/window-frame', app1: 'Ship Manager', task: task, windowed: windowed %>
+    <div data-controller="ship-manager" >
+    <div class="tabs">
+        <span>Info</span>
+        <span data-action="click->ship-manager#ship_manager" class="active">Ship Manager</span>
+        <span data-action="click->ship-manager#manufacturers">Manufacturers</span>
+        <span>Components</span>
+    </div>
+    <div  data-ship-manager-target="ship_manager"  class="content-body ship-manager">
+    <div class="radio-selectors">
+    <%= form_tag ship_view_path, method: :get do %>
+          <%= radio_button_tag :option, "1" %>
+          <%= label_tag 'View ships by manufacturer' %>
+          <%= radio_button_tag :option, "2" %>
+          <%= label_tag 'View ships by type' %>
+      <% end %>
+    </div>
+        <div class="single-pane">
+            <% @ships.each do | ship | %>
+                <div class="user-list">
+                <i class=""></i>
+                <span class="user-type">{ <%= ship.manufacturer.name %> }</span>
+                <span class="username"><%= ship.model %></span>
+                </div>
+            <% end %>
+        </div>
+<div class="control-buttons">
+        <button>Create</button>
+        <button>Modify</button>
+        <button>Remove</button>
+</div>
+    </div>
+
+    <div style="display:none" data-ship-manager-target="manufacturer"  class="content-body manufacturer">
+ 
+    <div class="label">
+        Available manufacturers:
+    </div>
+        <div class="single-pane manufacturers">
+            <% @manufacturers.each do | manufacturer | %>
+                <div class="user-list">
+                <i class=""></i>
+                <span class="user-type">{ <%= manufacturer.name  %> }</span>
+                <span class="username"><%= manufacturer.origin_location %></span>
+                </div>
+            <% end %>
+        </div>
+        <div class="control-buttons" style="padding-top:100px;">
+            <button>Create</button>
+            <button>Modify</button>
+            <button>Remove</button>
+        </div>
+    </div>
+</div>
+</div>
