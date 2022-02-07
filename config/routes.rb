@@ -14,11 +14,11 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", sessions: 'users/sessions' }
   # Defines the root path route ("/")
-  # root "articles#index"  
+   
   root 'welcome#index'
   get 'desktop', to: 'desktop#index'
   get 'bootup', to: 'desktop#bootup'
-  get 'roadside_assistance', to: 'rfas#index'
+  # get 'rfas', to: 'rfas#index'
   get 'conquest', to: 'conquest#index'
   get 'conquest_event', to: 'conquest#show'
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
@@ -30,5 +30,8 @@ Rails.application.routes.draw do
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'users', to: 'desktop#users'
-
+  get 'roadside_assistance', to: 'web#roadside_assistance'
+  get 'rfa_location', to: 'web#show'
+  get 'ship_view', to: 'desktop#ship_view_switch'
+  
 end

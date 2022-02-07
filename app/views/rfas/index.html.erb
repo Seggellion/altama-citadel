@@ -3,15 +3,15 @@
 <section id="rfa_index">
 
   <div class="topbar">
-  <p style="color: green"><%= notice %></p>
+
     <%= link_to "New rfa", new_rfa_path %>
   </div>
   <div class="rfa-main">
     <div id="sidebar" class="views-panel">
     <h2>Views</h2>
-    <hr>
+    
       <ul>
-        <li>Altama Energy Queue</li>
+        <li>Altama Energy Queue <span class="count"><%= Rfa.all_tickets %></span></li>
         <li>Unassigned Queue</li>
         <li>Urgent issues</li>
         <li>Triage</li>
@@ -21,21 +21,21 @@
     </div>
     <div class="rfa-list">
     <div class="rfa-summary">
-    21 RFAs
+    Altama Energy Queue
     </div>
-      <div id="rfa-index">
+      <div id="rfa_index">
       <div class="index-header">
         <div class="column-header">
-        ID
+        Requester
         </div>
         <div class="column-header">
-        Subject
+        Location
         </div>
         <div class="column-header">
-        Requested
+        Ship Type
         </div>
         <div class="column-header">
-        Assigned
+        Escalated
         </div>
       </div>
         <%= render @rfas %>

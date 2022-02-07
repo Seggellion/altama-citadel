@@ -7,7 +7,13 @@ def index
 task_manager = TaskManager.find_by(user_id: current_user)
 @all_tasks = Task.where(task_manager_id: task_manager.id)
 @root_users = User.all
+@ships = Ship.all
+@manufacturers = Manufacturer.all
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
+end
+
+def ship_view_switch
+binding.break
 end
 
 def bootup

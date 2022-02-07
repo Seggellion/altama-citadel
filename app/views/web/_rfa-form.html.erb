@@ -1,0 +1,28 @@
+<%= form_with(model: rfa) do |form| %>
+    <% if rfa.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(rfa.errors.count, "error") %> prohibited this rfa from being saved:</h2>
+  
+        <ul>
+          <% rfa.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+  
+  
+  <%= form.hidden_field :title, :value => 'Web roadside request' %>
+  <%= form.hidden_field :status_id, :value => 1 %>
+  <%= form.hidden_field :location_id, :value => 1 %>
+  <div class="field">Character name: <%= form.text_field :rsi_username %></div>
+  <div class="field">Ship: <%= form.select :ship_id, ["Mustang","85x","Hornet"] %></div>
+  <div class="field">Priority: <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
+
+  
+    <div>
+      <%= form.submit %>
+    </div>
+  <% end %>
+  

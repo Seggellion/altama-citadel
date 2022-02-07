@@ -1,0 +1,238 @@
+@import 'mixins';
+#web{
+    margin:0px;
+    width:100vw;
+    height: auto;
+}
+#roadside_assistance{
+
+    max-width:54rem;
+    margin: 0 auto;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    h3{
+        font-size: 1.5rem;
+        margin:0px;
+        line-height: 3.2rem;
+    }
+    p:not(.disclaimer){
+        margin: 0px 0px 15px;
+        line-height: 13px;
+        font-size: 1rem;
+    }
+    .disclaimer{
+        color: $altama_green;
+        font-weight: 700;
+        font-style: italic;
+        font-size: 0.8rem;
+        line-height: 1.6rem;
+        margin: 0px;
+    }
+    header{
+        padding-bottom: 1rem;
+        margin-bottom: 1.7rem;
+        border-bottom: 1px solid #a2b2d7;
+    }
+.modal-body{
+    padding: 5px 40px;
+}
+.modal-content{
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: .3rem;
+    outline: 0; 
+    font-family: acumin-pro,sans-serif;
+    font-size: 1.4rem;
+    line-height: 2.2rem;
+    font-weight: 400;
+    color: #151839;
+    
+    background-color: #f5f5f5;
+}
+    .btn-location{
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border: 1px solid $altama_blue;
+        overflow: hidden;
+        border-radius: 1.6rem;
+        font-family: usual,sans-serif;
+        font-weight: 600;
+        color: $altama_blue;
+        text-align: center;
+        background-color: #fff;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        text-transform: none;
+        line-height:normal;
+        text-rendering:auto;
+        font-size: 0.85rem;
+        text-decoration:none;
+        cursor:pointer;
+        &:hover{
+            text-decoration: none;
+            -webkit-box-shadow: inset 0 0 0 0.2rem $altama_blue;
+            box-shadow: inset 0 0 0 0.2rem  $altama_blue;
+            -webkit-transition: all .2s ease-in-out;
+            -o-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+        }
+    }
+
+    .btn-arrow{
+        font-size:1rem;
+        position: relative;
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 0;
+        font-family: usual,sans-serif;
+        line-height: 2.2rem;
+        font-weight: 400;
+        color: inherit;
+        background-color: transparent;
+        cursor: pointer;
+        color: $altama_green;
+        text-decoration:none;
+        &:before, &:after{
+            color: $altama_green;
+            background: -o-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) calc(50% - 1px), $altama_green calc(50% - 1px), $altama_green calc(50% + 1px), rgba(255,255,255,0) calc(50% + 1px), rgba(255,255,255,0) 100%);
+            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) calc(50% - 1px), $altama_green calc(50% - 1px), $altama_green calc(50% + 1px), rgba(255,255,255,0) calc(50% + 1px), rgba(255,255,255,0) 100%);
+            background-position: left center;
+            background-repeat: no-repeat;
+
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: reverse;
+            -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+            content: "\279E";
+            transform: rotateY(180deg);
+            background-position: right center !important;
+        }
+    }
+    .location-group{
+        list-style: none;
+        padding: 0;
+        margin-left: -.8rem;
+        margin-right: -.8rem;
+        border-bottom: 0;
+        display:flex;
+        flex-wrap:wrap;
+        margin-bottom:13px;
+    }
+    .location-list-item{
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 21.8%;
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+        margin-bottom:1.2rem;
+        height:4.5rem;
+    }
+    .logo-container{
+        width: 365px;
+        margin: 0px auto;
+        display: block;
+        height: auto;
+        padding:75px;
+        img{
+            width:100%;
+        }
+    }
+}
+
+#rfa_hurston{
+    margin:0px;
+    background-image: image-url('hurston.png');
+    height:100vh;
+    width:100vw;
+    background-size:cover;
+    font-family: acumin-pro,sans-serif;
+    header{
+        height:70px;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        background-image: image-url('rfa-header-background.jpg');
+        background-size:cover;
+        .title{
+            font-size:1.5rem;
+            color:white;
+            text-align:center;
+        }
+         .logo img{
+          height:50%;
+        }
+        a, a:visited, .back{
+            color:white;
+        }
+        .logo{
+            height:100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0px 0.8rem;
+        }
+    }
+    .left-drawer{
+        width:300px;
+        height:80%;
+        border: solid 0px #000;
+        border-radius: 5px;
+        margin: 10px 10px 10px 10px;
+        background-color: #f2f2f2;
+        opacity: 1;
+        box-shadow: 0 1px 10px rgba(0,0,0,0.12), 0 1px 10px rgba(0,0,0,0.24);
+        padding-bottom: 10px;
+        overflow: hidden;
+        h2{
+            margin: 0px;
+            padding: 13px;
+            font-size: 1.2rem;
+        }
+        p{
+            padding-left: 13px;
+            padding-right: 13px;
+            padding-bottom: 15px;
+            font-size: 0.9rem;
+            line-height:19px;
+        }
+        small{
+            display:block;
+            font-size:0.6rem;
+            padding-left: 13px;
+            padding-right: 13px;
+        }
+
+        .drawer-header{
+            img{
+                width:100%;
+            }
+        }
+    }
+}
