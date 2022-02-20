@@ -1,20 +1,59 @@
-<div id="rfa_hurston">
-<header><div class="logo"> <%= image_tag("altama_logo_white.png") %> </div><div class="title">Roadside Request</div> <div class="back">Back to Altama Energy website</div></header>
+<style>
+#rfa_container{
+background-image: url('<%= rails_blob_url(@location.image) %>');
+}
+.popup{
+    background-image: url('https://www.bcaa.com/-/media/bcaa/images/home-page-carousel/desktop/bcaa_bc_home_landscape_1_d.ashx');
+    background-size: cover;
+    background-position: bottom;
+    flex-direction:column;
+}
+
+</style>
+<% if !current_user %>  
+<div id="popup_login">
+<div class="popup">
+<h2>Your safety is everything to us.</h2>
+<h3>Sign up to our AltamaPlus program to receive Roadside Assistance</h3>
+
+<%= button_to user_discord_omniauth_authorize_path(plus: true), method: :post, data: { turbo: false } do %>
+Discord
+    <% end %>
+
+</div>
+</div>
+<% end %>
+
+<div id="rfa_container">
+<header><div class="logo"> <%= image_tag("altama_logo_white.png") %> </div><div class="title">Roadside Request <%=@location.name %></div> <div class="back"><%= link_to roadside_assistance_path do %> < Back to location selection<% end %></div></header>
+<div class="rfa-body">
 <div class="left-drawer">
     <div class="drawer-header">
-        <img src="https://media.robertsspaceindustries.com/5ukbyxyx8t6ek/source.jpg">
+    <%= image_tag @location.starfarer_image if @location.starfarer_image.attached? %>
+    
     </div>
     <div class="drawer-body">
+    <div class="drawer-headline">
     <h2>Altama Roadside Assistance</h2>
     <p>
     Altama accepts online requests for  spaceship service 24-hours a day so you can be confident your service request will be handled promptly. 
     </p>
-
-    <%= render "rfa-form", rfa: @rfa %>
-
+    </div>
+    <p  style="margin-bottom:0px; padding-bottom:0px; text-align:center;">
     <a href="">Member Owner</a>
     <small>Learn more about our Member Owner program</small>
+    </p>
+    <%= render "rfa-form", rfa: @rfa, location: @location%>
+<% if current_user && current_user.has_open_ticket? %>
+ <p>Thanks! An agent will be contacting you soon! Please keep an eye for in-game friend requests.</p>
+
+<% end %>
+
     </div>
 </div>
 
+<div class="system-map">
+<%= show_svg('locations/planet_hurston') %>
+</div>
+</div>
 </div>

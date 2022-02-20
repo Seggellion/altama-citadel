@@ -164,15 +164,17 @@
             width:100%;
         }
     }
+    
+  
 }
 
-#rfa_hurston{
+#rfa_container{
     margin:0px;
-    background-image: image-url('hurston.png');
     height:100vh;
     width:100vw;
     background-size:cover;
     font-family: acumin-pro,sans-serif;
+    overflow:hidden;
     header{
         height:70px;
         display:flex;
@@ -180,6 +182,12 @@
         align-items: center;
         background-image: image-url('rfa-header-background.jpg');
         background-size:cover;
+        a{
+            text-decoration:none;
+        }
+        .back{
+            margin-right:35px;
+        }
         .title{
             font-size:1.5rem;
             color:white;
@@ -234,5 +242,113 @@
                 width:100%;
             }
         }
+        .drawer-body{
+            .field{
+                display: flex;
+                flex-direction: column;
+                padding: 10px;
+                font-size:0.8rem;
+                font-weight:900;
+                .submit-row{
+                    display:flex;
+                    flex-direction: row;
+                }
+                input[type="submit"]{
+                    @include roadside_button;
+                    margin:0px;
+                    height:auto;
+                }
+                &:first-child{
+                    padding-top:0px;
+                }
+                input, select{
+                    width:80%;
+                    margin-top:6px;
+                    height: 27px;
+                    border-radius: 3px;
+                    border: solid 1px #e1e1e1;
+                    text-align: left;
+                    padding: 5px;
+                    color: #333;
+                    margin-right: 10px;
+                }
+                select{
+                    height: 39px;
+                }
+            }
+            .drawer-headline{
+                background-color:white;
+            }
+        }
+    }
+.rfa-body{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+}
+#Layer_2{
+    transform: translateY(-170px);
+}
+.system-map{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    .st1{
+        stroke:transparent;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    &:hover{
+        stroke: orange;
+        stroke-width: 4px;
+        cursor:pointer;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+    }
+}
+}
+
+
+#popup_login{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000082;
+    .popup{
+        width: 500px;
+        margin: 0px auto;
+        background-color: white;
+        height: 500px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        border-radius: 5px;
+
+         h2{
+             margin:0px;
+            font-size:2.5rem;
+            color:white;
+            font-weight:bold;
+            padding: 0px 40px;
+        }
+         h3{
+            color:white;
+            font-weight:100;
+            padding: 0px 80px;
+            font-family: acumin-pro,sans-serif;
+            text-shadow: 2px 1px 5px black;
+        }
+         button{
+            @include roadside_button;
+        }
+
     }
 }

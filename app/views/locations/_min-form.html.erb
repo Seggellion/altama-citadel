@@ -1,0 +1,52 @@
+<%= form_with(model: location, data:{ 'desktop-target' => 'location_form'}) do |form| %>
+  <% if location.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
+
+      <ul>
+        <% location.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label 'Type a name for the location you are adding:', style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :trade_port, style: "display: inline-block" %>
+    <%= form.check_box :trade_port %>
+  </div>
+
+<div>
+<%= form.select :location_type, [['Star',1],['Planet',2], ['Space Station',3],['Surface outpost',4], ['Point of interest',5]] %>
+</div>
+
+  <div>
+  <%= form.label :habitable, style: "display: inline-block" %>
+  <%= form.check_box :habitable %>
+</div>
+
+<div>
+<%= form.label :image, style: "display: block" %>
+<%= form.file_field :image %>
+
+</div>
+<div>
+<%= form.label :starfarer_image, style: "display: block" %>
+<%= form.file_field :starfarer_image %>
+
+</div>
+
+  <div>
+    <%= form.label 'Select a parent:', style: "display: block" %>
+    <%= form.select :parent, options_for_select(@locations.collect{ |u| [u.name, u.id] } , {:class => 'teamTag'} ) %>
+  </div>
+
+  <div style="display:none;">
+    <%= form.submit %>
+  </div>
+<% end %>

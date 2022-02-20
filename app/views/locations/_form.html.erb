@@ -1,0 +1,62 @@
+<%= form_with(model: location) do |form| %>
+  <% if location.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
+
+      <ul>
+        <% location.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :type, style: "display: block" %>
+    <%= form.number_field :type %>
+  </div>
+
+  <div>
+    <%= form.label :parent, style: "display: block" %>
+    <%= form.number_field :parent %>
+  </div>
+
+  <div>
+    <%= form.label :trade_port, style: "display: block" %>
+    <%= form.check_box :trade_port %>
+  </div>
+
+  <div>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.text_field :image %>
+  </div>
+
+  <div>
+    <%= form.label :classification, style: "display: block" %>
+    <%= form.text_field :classification %>
+  </div>
+
+  <div>
+    <%= form.label :system, style: "display: block" %>
+    <%= form.number_field :system %>
+  </div>
+
+  <div>
+    <%= form.label :habitable, style: "display: block" %>
+    <%= form.check_box :habitable %>
+  </div>
+
+  <div>
+    <%= form.label :affiliation, style: "display: block" %>
+    <%= form.text_field :affiliation %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

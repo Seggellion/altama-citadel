@@ -6,6 +6,11 @@ class MyHangarController < ApplicationController
     @userships = Usership.all
   end
 
+def view
+
+    @myships = Usership.where(user_id: current_user.id)
+end
+
   # GET /userships/1 or /userships/1.json
   def show
   end

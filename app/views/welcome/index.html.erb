@@ -12,8 +12,8 @@
         <div class="login-options">
         <% if !current_user %>
         <%= button_to user_discord_omniauth_authorize_path, class: 'btn discord', method: :post, data: { turbo: false } do %>
-            
             <h2>Login with Discord:</h2>
+            <% end %>
             <% end %>
         </div>
     </div>
@@ -23,7 +23,7 @@
 <div class="footer">
 Return to <a href="https://altama.energy">altama.energy</a> | Visit Roadside Assistance at <a href="https://sos.altama.energy">sos.altama.energy</a> | &copy; 2952 Altama Energy
 </div>
-    <% end %>
+
     <%#= button_to "Delete", url, method: :delete, class: 'button med-button', "data-turbo": false %>
 
 

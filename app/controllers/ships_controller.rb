@@ -39,11 +39,10 @@ class ShipsController < ApplicationController
 
   # POST /ships or /ships.json
   def create
-    @ship = Ship.new(ship_params)
-
+   @ship = Ship.new(ship_params)
     respond_to do |format|
       if @ship.save
-        format.html { redirect_to @ship, notice: "Ship was successfully created." }
+        format.html { redirect_to desktop_path, notice: "Ship was successfully created." }
         format.json { render :show, status: :created, location: @ship }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -56,7 +55,7 @@ class ShipsController < ApplicationController
   def update
     respond_to do |format|
       if @ship.update(ship_params)
-        format.html { redirect_to @ship, notice: "Ship was successfully updated." }
+        format.html { redirect_to desktop_path, notice: "Ship updated." }
         format.json { render :show, status: :ok, location: @ship }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -82,6 +81,6 @@ class ShipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ship_params
-      params.require(:ship).permit(:model, :manufacturer_id, :scu, :crew, :fuel, :quantum, :length, :beam, :height, :weight, :msrp)
+      params.require(:ship).permit(:model, :manufacturer_id, :scu, :crew, :fuel, :quantum, :length, :beam, :height, :weight, :msrp, :image_topdown)
     end
 end

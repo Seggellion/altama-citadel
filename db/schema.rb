@@ -10,10 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_225026) do
+ActiveRecord::Schema.define(version: 2022_02_15_044250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: 6, null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "control_points", force: :cascade do |t|
     t.string "title"
@@ -60,6 +88,21 @@ ActiveRecord::Schema.define(version: 2022_02_02_225026) do
     t.float "capture_limit"
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.integer "location_type"
+    t.integer "parent"
+    t.boolean "trade_port"
+    t.string "image"
+    t.string "classification"
+    t.integer "system"
+    t.boolean "habitable"
+    t.string "affiliation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "starfarer_image"
+  end
+
   create_table "manufacturers", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -104,6 +147,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_225026) do
     t.integer "year_introduced"
     t.string "ship_image_primary"
     t.string "ship_image_secondary"
+    t.string "image_topdown"
   end
 
   create_table "task_managers", force: :cascade do |t|
@@ -146,7 +190,9 @@ ActiveRecord::Schema.define(version: 2022_02_02_225026) do
     t.string "profile_image"
     t.string "provider"
     t.string "uid"
+    t.string "rsi_username"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
   end
 
   create_table "userships", force: :cascade do |t|
@@ -164,4 +210,6 @@ ActiveRecord::Schema.define(version: 2022_02_02_225026) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

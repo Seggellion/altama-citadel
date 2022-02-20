@@ -1,32 +1,23 @@
 <%= form_with(model: manufacturer) do |form| %>
-  <% if manufacturer.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(manufacturer.errors.count, "error") %> prohibited this manufacturer from being saved:</h2>
-
-      <ul>
-        <% manufacturer.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+  
+<div class="field-container">
   <div>
-    <%= form.label :name, style: "display: block" %>
+    <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
 
   <div>
-    <%= form.label :description, style: "display: block" %>
+    <%= form.label :description %>
     <%= form.text_field :description %>
   </div>
 
   <div>
-    <%= form.label :origin_location, style: "display: block" %>
+    <%= form.label :origin_location  %>
     <%= form.text_field :origin_location %>
   </div>
-
-  <div>
-    <%= form.submit %>
+</div>
+  <div class="button-container">
+    <%= form.submit 'Create' %>
+    <a class="btn" href="#">Cancel</a>
   </div>
 <% end %>

@@ -3,7 +3,7 @@ class RfasController < ApplicationController
 
   # GET /rfas or /rfas.json
   def index
-    @rfas = Rfa.all
+    @rfas = Rfa.where(status_id:1)
   end
 
   # GET /rfas/1 or /rfas/1.json
@@ -17,14 +17,16 @@ class RfasController < ApplicationController
 
   # GET /rfas/1/edit
   def edit
+    @users = User.all
   end
 
   # POST /rfas or /rfas.json
   def create
     @rfa = Rfa.new(rfa_params)
+    @location = Location.find_by_id(@rfa.location_id)
     respond_to do |format|
       if @rfa.save
-        format.html { redirect_to @rfa, notice: "Rfa was successfully created." }
+        format.html { redirect_to rfa_location_path(location: @location), notice: "Rfa was successfully created." }
         format.json { render :show, status: :created, location: @rfa }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -35,9 +37,10 @@ class RfasController < ApplicationController
 
   # PATCH/PUT /rfas/1 or /rfas/1.json
   def update
+    
     respond_to do |format|
       if @rfa.update(rfa_params)
-        format.html { redirect_to @rfa, notice: "Rfa was successfully updated." }
+        format.html { redirect_to edit_rfa_path(@rfa), notice: "Rfa was successfully updated." }
         format.json { render :show, status: :ok, location: @rfa }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +68,6 @@ class RfasController < ApplicationController
     def rfa_params
       params.require(:rfa).permit(:title, :description, :rsi_username, :status_id, 
       :location_id, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
-      :aec_rewards, :user_assigned_id)      
+      :aec_rewards, :user_assigned_id, :user_id)      
     end
 end

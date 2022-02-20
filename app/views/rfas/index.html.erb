@@ -11,12 +11,12 @@
     <h2>Views</h2>
     
       <ul>
-        <li>Altama Energy Queue <span class="count"><%= Rfa.all_tickets %></span></li>
+        <li>Altama Energy Queue <span class="count"><%= Rfa.open_tickets %></span></li>
         <li>Unassigned Queue</li>
         <li>Urgent issues</li>
         <li>Triage</li>
         <li>Suspended issues</li>
-        <li>Deleted issues</li>
+        <li>Solved issues <span class="count"><%= Rfa.solved_tickets %></span></li>
       </ul>
     </div>
     <div class="rfa-list">
