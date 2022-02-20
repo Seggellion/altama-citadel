@@ -25,7 +25,7 @@ class ManufacturersController < ApplicationController
 
     respond_to do |format|
       if @manufacturer.save
-        format.html { redirect_to @manufacturer, notice: "Manufacturer was successfully created." }
+        format.html { redirect_to desktop_path, notice: "Manufacturer Created." }
         format.json { render :show, status: :created, location: @manufacturer }
       else
         format.html { render :new, status: :unprocessable_entity }

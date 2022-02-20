@@ -1,5 +1,5 @@
-<%= form_with(model: rfa) do |form| %>
-  <div class="rfa-open-container">
+<%= form_with(model: rfa, data:{ 'rfa-target' => 'form'},) do |form| %>
+  <div  class="rfa-open-container">
     <% if rfa.errors.any? %>
       <div style="color: red">
         <h2><%= pluralize(rfa.errors.count, "error") %> prohibited this rfa from being saved:</h2>
@@ -13,8 +13,11 @@
     <% end %>
 
   <div class="rfa-params column">
-  <div class="field"><label>Assigned to:</label><%= form.select :user_assigned_id, ["Seggellion","Hermitmech","WhenyouCant"] %></div>
-
+  <div class="field"><label>Assigned to:<a href="#" data-action="click->rfa#takeit"   class="take">take it</a></label>
+  <%#= form.select :user_assigned_id, ["Seggellion","Hermitmech","WhenyouCant"] %>
+  <%= form.select :user_assigned_id, options_for_select(@users.collect{ |u| [u.username, u.id] } , {:class => 'teamTag', selected: @rfa.user_assigned_id || nil, data:{ 'rfa-target' => 'assigned_to'}  }   ), :include_blank => 'Altama Support Queue'%>
+  </div>
+<hr />
   <div class="field"><label>Priority:</label> <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
   <div class="field"><label>Fuel Amt:</label> <%= form.number_field :total_fuel %></div>
   <div class="field"><label>Price:</label> <%= form.number_field :total_price %></div>
@@ -23,15 +26,46 @@
   </div>
 
   <div class="rfa-comms column">
-  <div class="field">Title: <%= form.text_field :title %></div>
-  <div class="field">Description: <%= form.text_field :description %></div>
+
+  <i class="special"></i>
+  <div class="comms-header">
+  <h1 class="field"><%= @rfa.title %></h1>
+  <%= time_ago_in_words(@rfa.created_at) %> ago  	&#8226; <%= rfa.user.username %>
+  </div>
+  <hr />
+  <div class="field">Comment: <%= form.text_field :description %></div>
+  <hr />
+  <div class="comm-entry">
+    <div class="comm-entry-header">
+      <div class="avatar-image"><%= image_tag @rfa.user.profile_image if @rfa.user.profile_image.present? %></div>
+      <strong><%= @rfa.user.username %> </strong>
+      <small>
+      <% if @rfa.created_at === Date.today %>
+      <%= @rfa.created_at.strftime("Today %b %d") %>
+<% else %>
+<%= @rfa.created_at.strftime("%A %b %d") %>
+<% end %>
+</small>
+    </div>
+    <div class="comm-entry-body">
+      <strong>Your name or alias used with the customer:</strong>
+      <div class="point">&#8226; Alistair</div>
+
+      <strong>Are they authenticated? (If no, please authenticate) </strong>
+      
+      <div class="point">&#8226; No</div>
+    </div>
+  </div>
+
+
   </div>
 
   <div class="rfa-info column">
   <div class="rfa-module">
 <h2>Altama Member Search</h2>
-  <div class="field">RSI: <%= form.text_field :rsi_username %></div>
-  <div class="field">Location: <%= form.select :location_id, ["Cellin","Daymar","Crusader"] %></div>
+<hr />
+  <div class="field">RSI: <%= form.text_field :rsi_username %> <small><a href="#">Authenticate?</a></small></div>
+  <div class="field">Home Location: <%= form.select :location_id, ["Cellin","Daymar","Crusader"] %></div>
   <div class="field">Ship: <%= form.select :ship_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
   <button>Storefront</button><button>Admin</button><button>Internal</button>
@@ -39,17 +73,71 @@
   <ul>
     <li>United States</li>
     <li>(GMT-05:00)America/New York</li>
-    <li>Altama Affiliate</h1>
-    <li>Wed Mar 29 2017</li>
+    <li><%=  @rfa.user.user_type_text if @rfa.user.present? %></li>
+    <li><%= @rfa.user.created_at.strftime("%a %b %e %Y") %></li>
   </ul>
   </div>
   
+  <%= form.hidden_field :status_id, data:{ 'rfa-target' => 'status_field'}, :value => 1 %>
   <div style="display:none">
   <%= form.submit %>
   </div>
-  <div id="status_field" class="field"><%= form.select :status_id, ["Submit as Open","Submit as In Progress","Submit as  Closed"] %></div>
+  
+ 
   </div>
+<div class="bottom-frame">
 
 
+<div data-garden-id="buttons.button_group_view" data-garden-version="8.44.0" class="StyledButtonGroup-sc-1fbpzef-0 bTccO">
+  <a  class="GreyButton-sc-1hg3so9-1 gjqhFm StyledButton-sc-qe3ace-0 ikdLgh">
+    <div class="Label-sc-1hg3so9-0 XFMoU">
+      <span>Submit as <strong>Open</strong></span>
+    </div>
+  </a>
+  
+<button data-rfa-target="status_button" data-action="click->rfa#statusbutton" class="StyledButton-sc-qe3ace-0 GreyChevronButton-sc-1x4w0kg-0 eJhfjx StyledIconButton-sc-1t0ughp-0 hPVFAz"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" focusable="false" role="presentation" data-garden-id="buttons.icon" data-garden-version="8.44.0" class="StyledIcon-sc-19meqgg-0 cqORhS"><path fill="currentColor" d="M12.688 5.61a.5.5 0 01.69.718l-.066.062-5 4a.5.5 0 01-.542.054l-.082-.054-5-4a.5.5 0 01.55-.83l.074.05L8 9.359l4.688-3.75z"></path></svg></button><input data-garden-id="dropdowns.input" data-garden-version="8.48.0" aria-invalid="false" aria-autocomplete="list" aria-labelledby="downshift-8-label" autocomplete="off" id="downshift-8-input" readonly="" tabindex="-1" class="StyledInput-sc-hzhvmp-0 etSNgg StyledTextInput-sc-k12n8x-0 dpIHJq" value="">
+
+<div data-garden-id="dropdowns.menu_wrapper" data-garden-version="8.48.0" class="StyledMenuWrapper-sc-tiwdxz-0 hPndRc" style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;">
+<ul data-garden-id="dropdowns.menu" data-garden-version="8.48.0" class="StyledMenu-sc-1x4w0kg-1 jmiUVD StyledMenu-sc-1vpttfd-0 dfwXOG" role="menu" aria-labelledby="downshift-8-label" id="downshift-8-menu" data-simplified-get-started-tour-id="submitMenu"></ul></div></div>
+
+
+
+
+<div  data-rfa-target="status_menu"  class="status-menu-wrapper is-animated bvNpkX" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-27px, -158px, 0px);">
+
+<ul data-garden-id="dropdowns.menu" data-garden-version="8.48.0" class="StyledMenu-sc-1x4w0kg-1 jmiUVD StyledMenu-sc-1vpttfd-0 is-animated dfwXOG" role="menu" aria-labelledby="downshift-20-label" id="downshift-20-menu" data-simplified-get-started-tour-id="submitMenu">
+
+<li data-action="click->rfa#open" >
+
+<div size="12" data-test-id="status-badge-open" data-cy-test-id="status-badge-state" class="StyledStatusBadge-sc-15mtwvo-0 bCrsVU"></div>
+
+<span>Submit as <strong>Open</strong></span>
+
+</li>
+
+<li data-action="click->rfa#pending" >
+
+<span>Submit as <strong>Pending</strong></span>
+
+</li>
+
+<li data-action="click->rfa#hold" >
+
+<span>Submit as <strong>On-hold</strong></span>
+
+</li>
+
+<li data-action="click->rfa#solved" >
+
+<span>Submit as <strong>Solved</strong></span>
+
+</li>
+</ul></div>
+
+
+  <div id="status_field" class="field">
+  
+  </div>
+</div>
 </div>
 <% end %>

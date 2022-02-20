@@ -45,3 +45,47 @@ $rfa_white: #beb5ae;
       background-size: 4310%;
     }
   }
+  i.special{
+    background:none;
+    display: inline-flex;
+    align-items: center;
+    &:after{
+        font-family: 'dos';
+        content: "\0002";
+        font-size: 1.8rem;
+    }
+}
+
+
+  @mixin roadside_button {
+    cursor:pointer;
+    font-family: acumin-pro,sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    user-select: all;
+    font-weight: 900;
+    display: inline-block;
+    padding: .8125rem 2.4375rem;
+    border: 0;
+    outline: 0;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 200ms cubic-bezier(.39,.575,.565,1),color 200ms cubic-bezier(.39,.575,.565,1),box-shadow 200ms cubic-bezier(.39,.575,.565,1),border-color 200ms cubic-bezier(.39,.575,.565,1),transform 200ms cubic-bezier(.39,.575,.565,1),box-shadow 200ms cubic-bezier(.39,.575,.565,1),-webkit-transform 200ms cubic-bezier(.39,.575,.565,1);
+    background-color: #0277d1;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    box-shadow: 0 2px 7px rgba(0,0,0,.4);
+    margin-top: 2.375rem;
+    visibility: visible;
+    opacity: 1;
+
+    &:hover{
+        -webkit-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 40px 0 rgba(0,0,0,.2);
+    }
+  }

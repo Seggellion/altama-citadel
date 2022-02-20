@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :locations
   resources :tasks
   resources :userships
   resources :manufacturers
@@ -29,9 +30,11 @@ Rails.application.routes.draw do
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
+  get 'my_hangar_view', to: 'my_hangar#view'
   get 'users', to: 'desktop#users'
   get 'roadside_assistance', to: 'web#roadside_assistance'
   get 'rfa_location', to: 'web#show'
   get 'ship_view', to: 'desktop#ship_view_switch'
+  get 'select_ship', to: 'desktop#index'
   
 end

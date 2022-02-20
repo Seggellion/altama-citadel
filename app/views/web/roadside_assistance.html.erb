@@ -10,52 +10,19 @@
             <div id="location-select">
 
             <header>
-            <h3>Roadside Assistance - Refuelling the 'verse </h3>
+            <h3>Roadside Assistance - Refilling the 'verse </h3>
             <p>Please select your nearest stellar body</p>
             <p class="disclaimer">*Services may vary based on astro location.</p>
             </header>
 
     <ul class="location-group">
+    <% @leveltwos.each do | level_two | %>
     <li class="location-list-item">
-            <a href="<%= rfa_location_path %>" class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-            Hurston
+            <a href="<%= rfa_location_path(location: level_two.id) %>" class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
+            <%= level_two.name %>
             </a>
         </li>
-        <li class="location-list-item">
-        <button class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-            Arc Corp
-        </button>
-    </li>
-    <li class="location-list-item">
-    <button class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-            Crusader
-        </button>
-    </li>
-    <li class="location-list-item">
-    <button class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-            Microtech
-        </button>
-    </li>
-    <li class="location-list-item">
-        <button class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-        Lagrange
-        </button>
-    </li>
-    <li class="location-list-item">
-        <button class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-        Pyro
-        </button>
-    </li>
-    <li class="location-list-item">
-        <button class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-        Nyx
-        </button>
-    </li>
-    <li class="location-list-item">
-        <button class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
-            Territories
-        </button>
-    </li>
+       <% end %>
 
 </ul>
 

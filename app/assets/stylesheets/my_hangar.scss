@@ -148,3 +148,38 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
     }
 
 }
+
+#view_ships{
+
+    .container {
+        overflow: hidden;
+      }
+      
+      
+      
+      .sliding-background {
+        background: url("..path/to/image") repeat-x;
+        
+       // height: 500px;
+      //  width: 5076px; /* The image width times 3 */
+      }
+      
+      @keyframes slide {
+        0% {
+          transform: translate3d(0, 0, 0);
+        }
+        100% {
+          transform: translate3d(-1692px, 0, 0); /* The image width */
+        }
+      }
+      canvas {
+        background: #111;
+        width:100vw;
+        height:100vh;
+    }
+    .fleet-prototyp{
+        position:absolute;
+        width:100%;
+    
+    }
+}

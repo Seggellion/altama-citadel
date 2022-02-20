@@ -15,6 +15,7 @@
     border-bottom: $shadow_border;
     background-color: $light_grey;
     user-select: none;
+    z-index:9001;
     .app-bar{
         display: flex;
         align-items: center;

@@ -3,12 +3,17 @@ class DesktopController < ApplicationController
 before_action :require_login
 
 def index
-@current_user = current_user
-task_manager = TaskManager.find_by(user_id: current_user)
-@all_tasks = Task.where(task_manager_id: task_manager.id)
-@root_users = User.all
-@ships = Ship.all
-@manufacturers = Manufacturer.all
+  @current_user = current_user
+  task_manager = TaskManager.find_by(user_id: current_user)
+  @all_tasks = Task.where(task_manager_id: task_manager.id)
+  @root_users = User.all
+  @ships = Ship.all
+  @ship = Ship.new
+  @selected_ship = Ship.find_by_id(params[:ship_id])
+  @manufacturers = Manufacturer.all
+  @manufacturer = Manufacturer.new
+  @locations = Location.all
+  @location = Location.new
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 

@@ -19,7 +19,7 @@
   <div>
     <%= form.label :manufacturer_id, style: "display: block" %>
     
-    <%= form.select :manufacturer_id, options_for_select(@manufacturers.collect{ |u| [u.name, u.id] } , {:class => 'teamTag'} ), :include_blank => 'Select...' %>
+    <%= form.select :manufacturer_id, options_for_select(@manufacturers.collect{ |u| [u.name, u.id] } , {:class => 'teamTag', selected: ship.manufacturer_id || nil} ), :include_blank => 'Select...' %>
   </div>
 
   <div>
@@ -66,6 +66,11 @@
     <%= form.label :msrp, style: "display: block" %>
     <%= form.number_field :msrp %>
   </div>
+
+  <div>
+  <%= form.label :image_topdown, style: "display: block" %>
+  <%= form.file_field :image_topdown %>
+</div>
 
   <div>
     <%= form.submit %>

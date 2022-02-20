@@ -4,7 +4,7 @@ export default class extends Controller {
   //connect() {
   // this.element.textContent = "Hello World!"
  // }
-
+ static targets = ["location_form"]
 
  dragstart(event) {
    console.log('dragstart');
@@ -63,8 +63,6 @@ dragend(event) {
 
   task_drag(event) {
 
-    console.log('this.element: ', this.element);
-    console.log('event target: ', event.target);
       // (1) prepare to moving: make absolute and on top by z-index
       this.element.style.position = 'absolute';
       this.element.style.zIndex = 1000;
@@ -108,4 +106,10 @@ dragend(event) {
 
   }
   
+new_location(event){
+
+this.location_formTarget.submit();
+}
+
+
 }

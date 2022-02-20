@@ -8,7 +8,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
    # if resource.is_a?(User)  && !resource.isGuest?
   #   desktop_path
   #  end
-    if resource.is_a?(User)  && !resource.isGuest?
+  
+  if resource.is_a?(User)  && resource.isPlus?
+    roadside_assistance_path
+
+  elsif resource.is_a?(User)  && !resource.isGuest?
   
       TaskManager.create(user_id: current_user.id)
       bootup_path
@@ -17,7 +21,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def discord
     # user = User.find_by_email(request.env["omniauth.auth"].info.email)
-    # if user.isTeamOwner?
+    # if user.isTeamOwner?request.env["omniauth.params"]
     #   redirect_to tournaments_path
     # else
     #   redirect_to new_team_path
@@ -25,7 +29,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 
     # You need to implement the method below in your model (e.g. app/models/user.rb)
-    @user = User.from_omniauth(request.env["omniauth.auth"])
+    @user = User.from_omniauth(request.env["omniauth.auth"], request.env["omniauth.params"])
 
     if @user.persisted?
       p "not an error!"

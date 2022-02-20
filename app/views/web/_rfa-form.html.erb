@@ -11,18 +11,37 @@
       </div>
     <% end %>
   
-  
-  
+
+  <% if current_user && !current_user.has_open_ticket? %> 
   <%= form.hidden_field :title, :value => 'Web roadside request' %>
   <%= form.hidden_field :status_id, :value => 1 %>
-  <%= form.hidden_field :location_id, :value => 1 %>
-  <div class="field">Character name: <%= form.text_field :rsi_username %></div>
-  <div class="field">Ship: <%= form.select :ship_id, ["Mustang","85x","Hornet"] %></div>
-  <div class="field">Priority: <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
+  <%= form.hidden_field :user_id, :value => current_user.id %>
+  <%= form.hidden_field :location_id, :value => location.id %>
+  <div class="field">RSI Character name:
+  <% if current_user.rsi_username %>
+<br /><%= current_user.rsi_username %>
+<%= form.hidden_field :rsi_username, :value => current_user.rsi_username %>
+    <% else %>
+ <%= form.text_field :rsi_username %>
+  <% end %>
+  </div>
+  <div class="field">Ship: 
+  <div class="submit-row">
+  <%= form.select :ship_id, options_for_select(@ships.collect{ |u| [u.model, u.id] } ), :include_blank => 'Select...' %>
+  <%= form.submit 'Request' %>
+  </div>
+  <div>
 
+</div>
+  </div>
+  <div style="display:none;" class="field">Priority: <%#= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
+  <% elsif !current_user %>
+  <p>
+  Login with your AltamaPlus account 
+  Don't have one? Sign up with Discord!
+  </p>
+  <% end %>
   
-    <div>
-      <%= form.submit %>
-    </div>
+
   <% end %>
   

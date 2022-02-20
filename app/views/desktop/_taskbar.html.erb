@@ -1,6 +1,6 @@
 
 <div id="taskbar" data-controller="hello">
-<button id="citadel_button" data-action="click->hello#greet" href="#"><%= image_tag("citadel_logo.png") %> Citadel</button>
+<button id="citadel_button" data-action="click->hello#greet" href="#"><%= image_tag("start_logo.png") %> Citadel</button>
     <div data-hello-target="mainmenu" id="main_menu">
         <div class="menu-branding">
             <span class="branding">
@@ -31,6 +31,7 @@
         <span><a class="" href="">Admin settings</a></span>
         
             <div class="child-menu">
+                <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "Location manager", locations_path, class:'child-link' %></span></div>
                 <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "Spaceship manager", ships_path, class:'child-link' %></span></div>
                 <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "User manager", users_path, class:'child-link' %></span></div>
             </div>
