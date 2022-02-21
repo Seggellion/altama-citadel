@@ -39,8 +39,8 @@
       position: absolute;
       right: 6px;
       top: 6px;
-      width: 19px;
-      height: 17px;
+      width: 17px;
+      height: 15px;
       opacity: 1;
           background-color: $light_grey;
           border-top: $highlight_border;
@@ -49,6 +49,8 @@
           border-bottom: $shadow_border;
           background-color: $light_grey;
           &.windowed{
+            width: 19px;
+            height: 17px;
             right: -3px;
             &:before, &:after {
               top:0px;
@@ -61,7 +63,7 @@
           &:before, &:after {
             position: absolute;
             left: 8px;
-            top:2px;
+            top:1px;
             content: ' ';
             height: 14px;
             width: 2px;
