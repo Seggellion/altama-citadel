@@ -51,8 +51,11 @@
         text-align:center;
         }
         .event-list{
-            padding-top:20px;
-            max-height:400px;
+
+            padding-top: 20px;
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
         }
         .event-row{
             width:100%;
