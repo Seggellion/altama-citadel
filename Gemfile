@@ -47,7 +47,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 
 # Use Sass to process CSS
  gem "sassc-rails", "~> 2.1"
-
+ gem 'dotenv-rails'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
  gem "image_processing", "~> 1.2"
 
@@ -58,7 +58,7 @@ gem 'omniauth-rails_csrf_protection'
 
 gem 'google-cloud-storage'
 gem 'discord-notifier'
-gem 'dotenv-rails'
+
 
 group :development, :test do
   # See https://edgeguides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
