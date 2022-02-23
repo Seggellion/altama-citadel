@@ -2,6 +2,7 @@
     <%= render '/desktop/window-frame', app1: 'Location Manager', task: task, windowed: windowed %>
 <div class="location-container">
 <div class="location-image">
+<%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
 <%= image_tag("location_sidebar.png") %>
 </div>
 <div class="location-form">
