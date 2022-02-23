@@ -18,7 +18,7 @@ local:
 google:
    service: GCS
    project: altama-citadel
-   credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'].to_json %>
+   credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
    # credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
    bucket: altama-citadel
 
