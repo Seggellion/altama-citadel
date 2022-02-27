@@ -9,14 +9,9 @@
 <div class="hangar" data-controller="usership">
   <div id="ship_list" class="ship-list" >
     <% @allships.each do | ship | %>
-      <div class="ship-row" data-selected="false"  data-action="click->usership#select" >
-    <% if current_user.ship_count(ship) > 0 %>
-      <div class="ship-count"><div class="count"><%= current_user.ship_count(ship) %></div></div>
-      <% end %>
-        <%= render "form", usership: @usership, ship: ship %>
-        <h4 <% if current_user.ship_count(ship) > 0 %>class="owned"<% end %> ><%= ship.model %></h4>
-      
-      </div>
+
+      <%= render "hangar_ships", usership: @usership, ship: ship %>
+
     <% end %>
   </div>
     <div class="hangar-actions">
