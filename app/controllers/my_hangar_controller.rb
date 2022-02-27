@@ -18,6 +18,7 @@ end
   # GET /userships/new
   def add
     @usership = Usership.new
+    @alluserships = Usership.where(user_id: current_user.id)
     @allships = Ship.all
   end
 

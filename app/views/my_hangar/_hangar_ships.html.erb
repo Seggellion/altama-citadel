@@ -1,0 +1,19 @@
+<div class="ship-row" data-selected="false"  data-action="click->usership#select" >
+
+  <% if current_user.ship_count(ship) > 0 %>
+    <div class="ship-count"><div class="count"><%= current_user.ship_count(ship) %></div></div>
+  <% end %>
+
+  <%= render "form", usership: usership, ship: ship %>
+  <div class="<% if current_user.ship_count(ship) > 0 %>owned<% end %>  ship-info">
+    <h4><%= ship.model %></h4>
+
+    <div data-usership-target="ownedships"  class="owned-ships">
+    <% @alluserships.each do | ship | %>
+      <h5>Ship name: <%= ship.ship_name || 'unnamed' %></h5>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>

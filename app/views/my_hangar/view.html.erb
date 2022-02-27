@@ -1,21 +1,23 @@
 <div id="view_ships">
-    <div id="container">
-      <div class="sliding-background"></div>
-
-      
-
-    </div>
-    <div class="fleet-prototype">
-    <div class="ship_layer">
-    <% @myships.each do | usership | %>
-        <h2><%= usership.ship.model %></h2>
+        <div id="container">
+        <div class="sliding-background"></div>
+        </div>
         
-        <%= image_tag usership.ship.image_topdown if usership.ship.image_topdown.present? %>
+        <div class="fleet-prototype">
+            <div class="ship-layer">
+                <% @myships.each do | usership | %>
+                    <div class="usership-block">
+                    <div class="info-box"><%= usership.ship.model %></div>
 
-        <% end %>
-    </div>
-    <canvas id="starfield" width=750 height=500 ></canvas>
-    </div>
+                    <%= image_tag(usership.ship.image_topdown) if usership.ship.image_topdown.present? %>
+                    </div>
+                <% end %> 
+            </div>
+            <canvas id="starfield" width=750 height=500 ></canvas>
+        </div>
+
+    
+
 
 </div>
 

@@ -24,6 +24,11 @@
     <%= image_tag("conquest_icon.png") %>
     ConQuest
 <% end %>
+
+<%= link_to "https://anime-kingdom.herokuapp.com/", class: 'desktop-icon', method: :post do %>
+    <%= image_tag("anime_kingdom_icon.png") %>
+    Anime Kingdom
+<% end %>
     
 </div>
 <% if current_user && current_user.app_present? %>

@@ -70,6 +70,9 @@
   <div>
   <%= form.label :image_topdown, style: "display: block" %>
   <%= form.file_field :image_topdown %>
+
+  <%= @selected_ship.image_topdown if @selected_ship.present? %>
+
 </div>
 
   <div>
