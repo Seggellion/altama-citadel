@@ -1,0 +1,39 @@
+<%= form_with(model: org_role) do |form| %>
+  <% if org_role.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(org_role.errors.count, "error") %> prohibited this org_role from being saved:</h2>
+
+      <ul>
+        <% org_role.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+<div>
+  <%= form.label :title, style: "display: block" %>
+  <%= form.text_field :title %>
+</div>
+
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_field :description %>
+  </div>
+  <div>
+  <%= form.label :role_level, style: "display: block" %>
+  
+  <%= form.select(:role_level, options_for_select(1..5)) %>
+
+  </div>
+
+    <%= form.hidden_field :guildstone_id, :value => @guildstone.id %>
+
+
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

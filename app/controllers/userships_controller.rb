@@ -38,8 +38,14 @@ class UsershipsController < ApplicationController
   def update
     respond_to do |format|
       if @usership.update(usership_params)
-        format.html { redirect_to @usership, notice: "Usership was successfully updated." }
-        format.json { render :show, status: :ok, location: @usership }
+      #  format.turbo_stream { render turbo_stream: turbo_stream.update(@usership) }
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.append(:userships, partial: "userships/usership_details",
+          locals: { usership: @usership })
+      end
+      #  format.html { redirect_to @usership, notice: "Usership was successfully updated." }
+      #  format.json { render :show, status: :ok, location: @usership }
+     # render partial: 'usership'
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @usership.errors, status: :unprocessable_entity }

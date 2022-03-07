@@ -1,8 +1,13 @@
 @import 'mixins';
+
 #user_manager{
     .content-body{
         display:flex;
     }
+    .level-1{
+        cursor:pointer;
+    }
+
     .left-pane{
         width:40%;
         background-color:white;
@@ -19,7 +24,7 @@
         border-right:$highlight_border;
         border-top:$shadow_border;
         border-left:$shadow_border;
-        .user-list{
+        .user-row{
             display:flex;
             flex-direction:row;
             align-items: center;

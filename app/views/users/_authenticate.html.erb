@@ -1,0 +1,21 @@
+
+<div id="rsi_verification">
+<%= form_with url: auth_path do |f| %>
+    <p>
+        To verify you RSI handle please copy the folowing code in your RSI profile bio
+    </p>
+    <pre><code class="bash">I use https://star.racing.sc <span style="color:red"><b><%= @hash %></b></span></code></pre>
+    <br />
+
+  <%= f.hidden_field :hash, id: "hash", value: @hash %>
+    <%= label_tag(:handle, "RSI Account username:") %>
+    <%= text_field_tag(:handle) %>
+    <br />
+    <p>
+    Once your RSI profile is updated so you can see the string click Verify
+    </p>
+
+<%= f.submit("Verify") %>
+
+<% end %>
+</div>

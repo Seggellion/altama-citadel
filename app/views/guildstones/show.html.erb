@@ -1,0 +1,55 @@
+<%= render '/desktop/window-frame', app1: 'Guildstone' %>
+
+
+<%= render @guildstone %>
+
+<%= render "/org_roles/form", org_role: @org_role %>
+<div class="role-container">
+<div class="lvl-container">
+  <% @lvl1_roles.each do | role |  %>
+    <div class="role-box lvl1">
+      <%= role.title %>
+      <%= link_to "Apply", apply_role_path(role: role), class: 'btn'  %>
+      
+      <% if role.nominations.present? %>
+        <div class="nomination-box">
+          <% role.nominations.each do | nomination |  %>
+            <%= nomination.id %> 
+            <%= link_to "Vote", vote_path(nomination: nomination), class: 'btn' %> 
+            ( <%= nomination.total_votes %> )
+          <% end %>
+        </div>
+      <% end %>
+
+    </div>
+  <% end %>
+  </div>
+<hr />
+
+<div class="lvl-container">
+<% @lvl2_roles.each do | role |  %>
+  <div class="role-box lvl2">
+    <%= role.title %>
+    <button>Apply</button>
+  </div>
+<% end %>
+</div>
+
+
+  <% if @lvl3_roles.present? %>
+  <hr />
+    <div class="lvl-container">
+      <% @lvl3_roles.each do | role |  %>
+        <div class="role-box lvl2">
+          <%= role.title %>
+          <button>Apply</button>
+        </div>
+      <% end %>
+    </div>
+  <% end%>
+</div>
+<div>
+  <%= link_to "Edit this guildstone", edit_guildstone_path(@guildstone) %>
+
+</div>
+<%= render '/desktop/taskbar', app1: 'Guildstone' %>

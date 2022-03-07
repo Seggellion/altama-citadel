@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  guildstone_id: 1
+  org_role_owner: 1
+
+two:
+  description: MyString
+  guildstone_id: 1
+  org_role_owner: 1

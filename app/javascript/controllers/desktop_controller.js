@@ -2,9 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   //connect() {
-  // this.element.textContent = "Hello World!"
- // }
- static targets = ["location_form"]
+  //  this.rsi_usersTarget.hidden = true;
+  //  this.all_usersTarget.hidden = true;
+//
+//  }
+ static targets = ["location_form", "all_users", "rsi_users"]
 
  dragstart(event) {
    console.log('dragstart');
@@ -59,6 +61,20 @@ drop(event) {
 dragend(event) {
   event.target.style.cursor = "default";
 }
+
+user_row(event){
+
+}
+rsi_users(event){
+  this.rsi_usersTarget.hidden = false;
+  this.all_usersTarget.hidden = true;
+}
+all_users(event){
+  this.rsi_usersTarget.hidden = true;
+  this.all_usersTarget.hidden = false;
+}
+
+
 
 
   task_drag(event) {

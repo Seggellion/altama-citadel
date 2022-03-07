@@ -18,6 +18,7 @@ class RfasController < ApplicationController
   # GET /rfas/1/edit
   def edit
     @users = User.all
+    @hash =  ('0'..'z').to_a.shuffle.first(8).join
   end
 
   # POST /rfas or /rfas.json

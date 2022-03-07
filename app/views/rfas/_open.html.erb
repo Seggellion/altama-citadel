@@ -64,7 +64,8 @@
   <div class="rfa-module">
 <h2>Altama Member Search</h2>
 <hr />
-  <div class="field">RSI: <%= form.text_field :rsi_username %> <small><a href="#">Authenticate?</a></small></div>
+<%= render 'users/authenticate' %>
+  <div class="field">RSI: <%= form.text_field :rsi_username %> <small><a href="#">Authenticate</a></small></div>
   <div class="field">Home Location: <%= form.select :location_id, ["Cellin","Daymar","Crusader"] %></div>
   <div class="field">Ship: <%= form.select :ship_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
@@ -141,3 +142,4 @@
 </div>
 </div>
 <% end %>
+

@@ -8,12 +8,34 @@
   <div class="<% if current_user.ship_count(ship) > 0 %>owned<% end %>  ship-info">
     <h4><%= ship.model %></h4>
 
-    <div data-usership-target="ownedships"  class="owned-ships">
-    <% @alluserships.each do | ship | %>
-      <h5>Ship name: <%= ship.ship_name || 'unnamed' %></h5>
-      <% end %>
-    </div>
-
   </div>
 
+</div>
+
+<div data-usership-target="ownedships"  class="owned-ships">
+
+<% ship.expandedships(current_user).each do | usership | %>
+  <%#= turbo_frame_tag dom_id(usership) do %>
+    <%# end %>
+
+    <a class="btn" data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >Edit</a>
+
+    <turbo-stream action="append" target="userships">
+    <template>
+      <div id="message_1">
+        This div will be appended to the element with the DOM ID "messages".
+      </div>
+    </template>
+  </turbo-stream>
+
+    <%= turbo_frame_tag usership do %>
+      
+    
+      <%#= link_to 'Edit this usership', edit_usership_path(usership) %>
+    <% end %>
+
+    <%= render "userships/usership_details", usership: usership %>
+
+
+  <% end %>
 </div>
