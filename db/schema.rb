@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_15_044250) do
+ActiveRecord::Schema.define(version: 2022_03_02_024342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,13 @@ ActiveRecord::Schema.define(version: 2022_02_15_044250) do
     t.float "capture_limit"
   end
 
+  create_table "guildstones", force: :cascade do |t|
+    t.string "charter"
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.integer "location_type"
@@ -112,6 +119,34 @@ ActiveRecord::Schema.define(version: 2022_02_15_044250) do
     t.string "logo"
   end
 
+  create_table "org_role_nominations", force: :cascade do |t|
+    t.string "description"
+    t.integer "guildstone_id"
+    t.integer "user_id"
+    t.integer "org_role_id"
+    t.datetime "expiry_date", precision: 6
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "org_role_votes", force: :cascade do |t|
+    t.integer "guildstone_id"
+    t.integer "user_id"
+    t.integer "org_role_nomination_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "org_roles", force: :cascade do |t|
+    t.string "description"
+    t.string "title"
+    t.integer "guildstone_id"
+    t.integer "role_level"
+    t.integer "org_role_owner"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "rfas", force: :cascade do |t|
     t.string "title"
     t.string "rsi_username"
@@ -128,6 +163,12 @@ ActiveRecord::Schema.define(version: 2022_02_15_044250) do
     t.integer "user_assigned_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rsi_users", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "title"
+    t.string "link"
   end
 
   create_table "ships", force: :cascade do |t|

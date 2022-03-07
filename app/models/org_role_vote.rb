@@ -1,0 +1,2 @@
+class OrgRoleVote < ApplicationRecord
+end

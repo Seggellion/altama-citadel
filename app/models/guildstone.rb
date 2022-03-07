@@ -1,0 +1,2 @@
+class Guildstone < ApplicationRecord
+end

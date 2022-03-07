@@ -4,6 +4,22 @@
 
 <div class="add-ship-window">
 <div class="ship-image">
+
+  <div class="edit-pane">
+  <% @allships.each do | ship | %>
+    <% ship.expandedships(current_user).each do | usership | %>
+      <div id="container-<%= dom_id(usership) %>" class="edit-ship ">
+      <div class="edit-image">
+      <%= image_tag ship.image_topdown if ship.image_topdown.attached? %>
+      </div>
+      <div class="form">
+        <%= render "userships/edit_ships", usership: usership %>
+        </div>
+        </div>
+      <% end %>
+  <% end %>
+  </div>
+
 <img src="https://3.bp.blogspot.com/-LwzROO83_XU/V9_E-D1-57I/AAAAAAAACJk/dfGiM0CcN9wk72TeuR2rbVepUOG46HW_gCLcB/s1600/MISC%2BStarfarer.jpg">
 </div>
 <div class="hangar" data-controller="usership">

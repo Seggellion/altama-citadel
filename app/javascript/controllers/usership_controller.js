@@ -15,6 +15,19 @@ export default class extends Controller {
 
   };
   
+edit(event){
+  var ship_id =  event.currentTarget.dataset.ship;
+  var edit_container = document.getElementById('container-' + ship_id);
+  
+    if (edit_container.classList.contains('show')){
+      edit_container.classList.remove('show');
+    }else{
+      edit_container.classList.add('show');
+    }
+
+
+}
+
   select(event) {
     
     var is_selected =  event.currentTarget.dataset.selected;    

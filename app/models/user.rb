@@ -53,6 +53,8 @@ end
     end
   end
 
+ 
+
   def isPlus?
     if self.user_type == 1202
       return true
@@ -89,6 +91,5 @@ end
         user.username = data["username"] if user.email.blank?
       end
     end
-  end
-        
+  end        
 end

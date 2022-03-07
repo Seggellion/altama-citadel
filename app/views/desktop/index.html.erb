@@ -29,6 +29,11 @@
     <%= image_tag("anime_kingdom_icon.png") %>
     Anime Kingdom
 <% end %>
+
+<%= link_to guildstone_path(0), class: 'desktop-icon', method: :post do %>
+    <%= image_tag("guildstone_icon.png") %>
+    Guildstone
+<% end %>
     
 </div>
 <% if current_user && current_user.app_present? %>

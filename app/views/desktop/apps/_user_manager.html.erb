@@ -9,11 +9,11 @@
 <div  class="content-body">
     <div class="left-pane">
     <div class="root-level">Citadel</div>
-    <div class="level-1"> <i class="folder"></i> HKEY_ROOT_USERS</div>
+    <div class="level-1" data-action="click->desktop#all_users" > <i class="folder"></i> HKEY_ROOT_USERS</div>
     <div class="level-1"> <i class="folder"></i> HKEY_WORKER_USER</div>
     <div class="level-1"> <i class="folder"></i> HKEY_MEMBER_USER</div>
     <div class="level-1"> <i class="folder"></i> HKEY_DISCORD_USER</div>
-    <div class="level-1"> <i class="folder"></i> HKEY_RSI_USER</div>
+    <div class="level-1" data-action="click->desktop#rsi_users" > <i class="folder"></i> [+]<%= link_to "HKEY_RSI_USER", rsi_user_list_path  %> (<%=RsiUser.all.count %>)</div>
     <div class="level-1"> <i class="folder"></i> HKEY_AUTH_USER</div>
     <div class="level-1"> <i class="folder"></i> HKEY_LOCAL_SERVER</div>
 
@@ -31,16 +31,38 @@
         Created At
         </span>
         </div>
-        
-        <% root_users.each do | user | %>
-            <div class="user-list">
-            <i class="page-object"></i>
-            <span class="username"><%= user.username %></span>
-            <span class="user-type">{ <%= user.user_type || 'nil' %> }</span>
-            <span class="user-created"> <%= user.created_at.utc  %> </span>
-            </div>
+
+        <div class="user-list list" data-desktop-target="all_users" >
+
+            <% root_users.each do | user | %>
+                <div class="user-row" data-desktop-target="user_row" data-action="click->desktop#user_row"  >
+                    <i class="page-object"></i>
+                    <span class="username"><%= user.username %></span>
+                    <span class="user-type">{ <%= user.user_type || 'nil' %> }</span>
+                    <span class="user-created"> <%= user.created_at.utc  %> </span>
+                </div>
             <% end %>
+
+            </div>
+
+            <div class="rsi-user-list list" data-desktop-target="rsi_users" >
+
+            <% @rsi_users.each do | user | %>
+                <div class="user-row" data-desktop-target="rsi_user_row" data-action="click->desktop#user_row"  >
+                    <i class="page-object"></i>
+                    <span class="username"><%= user.name %></span>
+                    <span class="user-type">{ <%= user.title || 'nil' %> }</span>
+                    <span class="user-created"> <%= user.link  %> </span>
+                </div>
+            <% end %>
+    
+            </div>
+
         </div>
+
+
+
+    </div>
 
 </div>
 <div class="window-footer">

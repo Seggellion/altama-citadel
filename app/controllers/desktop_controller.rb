@@ -7,6 +7,7 @@ def index
   task_manager = TaskManager.find_by(user_id: current_user)
   @all_tasks = Task.where(task_manager_id: task_manager.id)
   @root_users = User.all
+  @rsi_users = RsiUser.all.order(title: :desc)
   @ships = Ship.all
   @ship = Ship.new
   @selected_ship = Ship.find_by_id(params[:ship_id])
@@ -19,6 +20,12 @@ end
 
 def ship_view_switch
 binding.break
+end
+
+def rsi_user_list
+  users = RsiUser.write
+redirect_to desktop_path
+
 end
 
 def bootup

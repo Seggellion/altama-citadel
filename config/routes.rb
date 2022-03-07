@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :org_roles
+  resources :guildstones
   resources :locations
   resources :tasks
   resources :userships
@@ -36,5 +38,9 @@ Rails.application.routes.draw do
   get 'rfa_location', to: 'web#show'
   get 'ship_view', to: 'desktop#ship_view_switch'
   get 'select_ship', to: 'desktop#index'
+  get 'apply_role', to: 'guildstones#apply_role'
+  get 'vote', to: 'guildstones#vote'
+  get 'rsi_user_list', to: 'desktop#rsi_user_list'
+  post 'authenticate', to: 'users#auth', as: :auth
   
 end
