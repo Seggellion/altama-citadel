@@ -8,6 +8,7 @@
 <div class="lvl-container">
   <% @lvl1_roles.each do | role |  %>
     <div class="role-box lvl1">
+    <%= button_to "Remove this role", org_role_path(role), method: :delete %>
       <%= role.title %>
       <%= link_to "Apply", apply_role_path(role: role), class: 'btn'  %>
       
@@ -29,6 +30,7 @@
 <div class="lvl-container">
 <% @lvl2_roles.each do | role |  %>
   <div class="role-box lvl2">
+  <%= button_to "Remove this role", org_role_path(role), method: :delete %>
     <%= role.title %>
     <button>Apply</button>
   </div>
@@ -40,13 +42,40 @@
   <hr />
     <div class="lvl-container">
       <% @lvl3_roles.each do | role |  %>
-        <div class="role-box lvl2">
+        <div class="role-box lvl3">
+        <%= button_to "Remove this role", org_role_path(role), method: :delete %>
           <%= role.title %>
           <button>Apply</button>
         </div>
       <% end %>
     </div>
   <% end%>
+  <% if @lvl4_roles.present? %>
+  <hr />
+    <div class="lvl-container">
+      <% @lvl4_roles.each do | role |  %>
+        <div class="role-box lvl4">
+        <%= button_to "Remove this role", org_role_path(role), method: :delete %>
+          <%= role.title %>
+          <button>Apply</button>
+        </div>
+      <% end %>
+    </div>
+  <% end%>
+
+  <% if @lvl5_roles.present? %>
+  <hr />
+    <div class="lvl-container">
+      <% @lvl3_roles.each do | role |  %>
+        <div class="role-box lvl5">
+        <%= button_to "Remove this role", org_role_path(role), method: :delete %>
+          <%= role.title %>
+          <button>Apply</button>
+        </div>
+      <% end %>
+    </div>
+  <% end%>
+
 </div>
 <div>
   <%= link_to "Edit this guildstone", edit_guildstone_path(@guildstone) %>

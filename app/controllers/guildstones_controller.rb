@@ -13,6 +13,8 @@ class GuildstonesController < ApplicationController
     @lvl1_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:1)
     @lvl2_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:2)
     @lvl3_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:3)
+    @lvl4_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:4)
+    @lvl5_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:5)
   end
 
   def apply_role
