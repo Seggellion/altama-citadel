@@ -140,6 +140,11 @@ $rfa_border: #272321;
                 flex-direction:row;
                 align-items: center;
                 padding: 0px 10px;
+                
+                    .verify{
+                        cursor:pointer;
+                    }
+                
                 select{
                     margin-left:5px;
                 }
@@ -950,6 +955,7 @@ $rfa_border: #272321;
     text-align: center;
     background-color:white;
     color:black;
+    position:relative;
 }    
 #status_field{
     position: absolute;
@@ -957,3 +963,19 @@ $rfa_border: #272321;
     right: 4.6vw;
 }
 
+#rsi_verification{
+    display:none;
+
+    &.open{
+
+        position: absolute;
+        left: 50%;
+        background-color: #fff5c5;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 400px;
+        display: block;
+        padding: 20px;
+    }
+}

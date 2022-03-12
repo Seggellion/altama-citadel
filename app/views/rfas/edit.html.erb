@@ -23,8 +23,9 @@
 <button class="profile-button">RFA #121231230</button>
 </div>
   <%= render "open", rfa: @rfa %>
-
-
+<% unless @rfa.user.verified? %>
+  <%= render 'users/authenticate' %>
+  <% end %>
 </section>
 
 <%= render '/desktop/taskbar', app1: 'Roadside Assistance' %>

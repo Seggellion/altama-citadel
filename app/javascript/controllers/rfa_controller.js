@@ -48,5 +48,9 @@ clear(event){
     this.status_menuTarget.classList.add("open");
   }
 
+  verify(event){
+    console.log('test');
+    document.getElementById('rsi_verification').classList.add('open');
+  }
   
 }

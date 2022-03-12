@@ -2,8 +2,8 @@
 class RsiUser < ApplicationRecord
   class << self
 
-def authenticate(rsi_name)
-rsi_auth(rsi_name)
+def authenticate(hash, user, rsi_name)
+rsi_auth(hash, user, rsi_name)
 end
 
     def write  
@@ -20,18 +20,19 @@ end
     end
 
 
-    def rsi_auth(rsi_name)
-      url = "https://robertsspaceindustries.com/citizens/`#{rsi_name}`"
-      doc =  Nokogiri::HTML(URI.open(URL).read)
-      doc.css('a.membercard').each do |row|
-        name = row.css('span.name').text
-        title = row.css('span.rank').text
-        link = row.css('td.tod').text
-  
-  
-        RsiUser.create(name: name, title: title, link: link)
-       # RsiUser.new(name, title, link)
-     
+    def rsi_auth(hash, user, rsi_name)
+      profile_url = "https://robertsspaceindustries.com/citizens/#{rsi_name}"
+      doc =  Nokogiri::HTML(URI.open(profile_url).read)
+      user = User.find_by_id(user)    
+      hash_match = doc.search(".bio .value:contains('#{hash}')").first
+
+      handle_name = doc.css('strong.value')[2].text
+      if handle_name == rsi_name && hash_match
+        user.update(rsi_verify: true, rsi_username: rsi_name)
+        
+      else
+        return false
+
       end
   
     end
