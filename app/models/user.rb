@@ -19,6 +19,11 @@ class User < ApplicationRecord
     end
 end
 
+def verified?
+  
+return true if self.rsi_verify == true
+end
+
   def will_save_change_to_email?
     false
    end

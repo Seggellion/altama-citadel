@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   resources :rfas
   resources :control_points
   
+  constraints subdomain: "sos" do
+    get "/" => "web#roadside_assistance"
+   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", sessions: 'users/sessions' }
@@ -42,5 +45,6 @@ Rails.application.routes.draw do
   get 'vote', to: 'guildstones#vote'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   post 'authenticate', to: 'users#auth', as: :auth
+  post 'verify', to: 'users#verify', as: :verify
   
 end
