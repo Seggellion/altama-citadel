@@ -1,6 +1,4 @@
 <%= render '/desktop/window-frame', app1: 'Guildstone' %>
-
-
 <%= render @guildstone %>
 
 <%= render "/org_roles/form", org_role: @org_role %>
@@ -11,13 +9,16 @@
     <%= button_to "Remove this role", org_role_path(role), method: :delete %>
       <%= role.title %>
       <%= link_to "Apply", apply_role_path(role: role), class: 'btn'  %>
-      
+
       <% if role.nominations.present? %>
         <div class="nomination-box">
           <% role.nominations.each do | nomination |  %>
+  
             <%= nomination.id %> 
-            <%= link_to "Vote", vote_path(nomination: nomination), class: 'btn' %> 
-            ( <%= nomination.total_votes %> )
+            <% unless current_user.voted?(role) %>
+              <%= link_to "Vote", vote_path(nomination: nomination), class: 'btn' %> 
+              ( <%= nomination.total_votes %> )
+            <% end %>
           <% end %>
         </div>
       <% end %>

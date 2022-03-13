@@ -36,12 +36,11 @@ class GuildstonesController < ApplicationController
   end
 
   def vote
-
-
     nomination = OrgRoleNomination.find_by_id(params[:nomination])
-    role = OrgRole.find_by_id(nomination.id)
+    role = OrgRole.find_by_id(nomination.org_role_id)
+
     guildstone = Guildstone.find_by_id(role.guildstone_id)
-    @vote = OrgRoleVote.new(org_role_nomination_id: nomination.id, user_id: current_user)
+    @vote = OrgRoleVote.new(org_role_nomination_id: nomination.id, user_id: current_user.id, org_role_id: nomination.org_role_id )
 
     respond_to do |format|
       if @vote.save

@@ -32,6 +32,15 @@ end
     false
    end
 
+  def voted?(role)
+    if OrgRoleVote.where(user_id: self.id, org_role_id: role.id).present?
+      return true
+    else
+      return false
+    end
+  end
+
+
    def user_type_text
     if self.user_type == 42
       p 'Administrator'
