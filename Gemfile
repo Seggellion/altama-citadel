@@ -12,7 +12,7 @@ gem 'open-uri'
 gem 'nokogiri'
 gem 'nokogiri-styles'
 gem "watir-rails"
-
+gem 'discordrb'
 
 
 # Use postgresql as the database for Active Record
