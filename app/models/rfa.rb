@@ -10,6 +10,36 @@ def location_name
     end
 end
 
+def status
+    case self.status_id
+    when 0
+      "Unassigned"
+    when 1
+      "In Progress"
+    when 2
+      "Pending"
+    when 3
+      "On Hold"
+    when 4
+      "Solved"
+    end
+end
+
+def self.get_status(status_id)
+    case status_id
+    when 0
+      "Unassigned"
+    when 1
+      "In Progress"
+    when 2
+      "Pending"
+    when 3
+      "On Hold"
+    when 4
+      "Solved"
+    end
+end
+
 def ship_name
     ship_name = Ship.find_by_id(self.ship_id)
     if ship_name.present?
