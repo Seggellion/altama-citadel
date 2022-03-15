@@ -1,0 +1,26 @@
+<div data-controller="desktop" id="system_properties" class="window">
+    <%= render '/desktop/window-frame', app1: 'System Properties', task: task, windowed: windowed %>
+    <div data-controller="system-properties" >
+    
+
+    <div class="location-container">
+<div class="location-image">
+<%= image_tag("location_sidebar.png") %>
+</div>
+
+<div class="location-form">
+Global setting: <br/>
+Worker Commission:<input type="text"><br/>
+AEC rewards: <input type="text"><br/>
+<%= link_to "Start Bot", start_bot_path, class:'bot-start btn' %><br/>
+<%= link_to "Stop Bot", stop_bot_path, class:'bot-start btn' %><br/>
+
+</div>
+
+</div>
+
+<hr />
+
+
+    </div>
+</div>

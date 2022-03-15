@@ -6,7 +6,6 @@ class ShipsController < ApplicationController
 
   def index
     task_manager = TaskManager.find_by(user_id: current_user)
-    
    @task =  Task.new(name: 'Ship Manager',task_manager_id: task_manager.id)
     
     respond_to do |format|
