@@ -20,7 +20,7 @@
 <div class="information-row">
 <button class="profile-button">No Organization</button>
 <button class="profile-button">Chelsea Vecchiarelli</button>
-<button class="profile-button">RFA #121231230</button>
+<button class="profile-button"><small class="top-status-<%= @rfa.status %>"><%= @rfa.status %></small>RFA #121231230</button>
 </div>
   <%= render "open", rfa: @rfa %>
 <% unless @rfa.user.verified? %>

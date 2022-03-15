@@ -25,6 +25,9 @@ class RfasController < ApplicationController
   def create
     @rfa = Rfa.new(rfa_params)
     @location = Location.find_by_id(@rfa.location_id)
+    Discord::Notifier.message('Discord Notifier Webhook Notification')
+
+
     respond_to do |format|
       if @rfa.save
         format.html { redirect_to rfa_location_path(location: @location), notice: "Rfa was successfully created." }
@@ -38,6 +41,10 @@ class RfasController < ApplicationController
 
   # PATCH/PUT /rfas/1 or /rfas/1.json
   def update
+    user = User.find_by_id(@rfa.user_id)
+    # Discord::Notifier.message('!update user: <@'+ user.uid + '>' )
+    status = Rfa.get_status(params[:rfa][:status_id].to_i) 
+    Discord::Notifier.message('!update ,'+ user.uid + ',' + status)
     
     respond_to do |format|
       if @rfa.update(rfa_params)
