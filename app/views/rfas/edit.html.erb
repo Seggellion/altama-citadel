@@ -24,7 +24,7 @@
 </div>
   <%= render "open", rfa: @rfa %>
 <% unless @rfa.user.verified? %>
-  <%= render 'users/authenticate' %>
+  <%= render 'users/authenticate', user: @rfa.user %>
   <% end %>
 </section>
 

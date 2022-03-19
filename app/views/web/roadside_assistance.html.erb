@@ -16,7 +16,7 @@
             </header>
 
     <ul class="location-group">
-    <% @leveltwos.each do | level_two | %>
+    <% @all_planets.each do | level_two | %>
     <li class="location-list-item">
             <a href="<%= rfa_location_path(location: level_two.id) %>" class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
             <%= level_two.name %>

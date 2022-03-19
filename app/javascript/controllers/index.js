@@ -16,12 +16,12 @@ document.addEventListener("click", clearMenu);
 function clearMenu() {
   let main_menu_element = document.getElementById('main_menu');
   let button_element = document.getElementById('citadel_button');
-  if (main_menu_element.classList.contains("open")){
+  //if (main_menu_element.classList.contains("open")){
 
-    if(event.target.id != 'main_menu' && event.target.id != 'citadel_button' ){
-    main_menu_element.classList.remove("open");
+  /*  if(event.target.id != 'main_menu' && event.target.id != 'citadel_button' ){
+   // main_menu_element.classList.remove("open");
     button_element.classList.remove("clicked");
-    }
-  }
+    }*/
+  //}
 }
 

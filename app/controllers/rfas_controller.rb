@@ -18,13 +18,14 @@ class RfasController < ApplicationController
   # GET /rfas/1/edit
   def edit
     @users = User.all
-    @hash =  ('0'..'z').to_a.shuffle.first(8).join
+    @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   end
 
   # POST /rfas or /rfas.json
   def create
     @rfa = Rfa.new(rfa_params)
     @location = Location.find_by_id(@rfa.location_id)
+  
     Discord::Notifier.message('Discord Notifier Webhook Notification')
 
 

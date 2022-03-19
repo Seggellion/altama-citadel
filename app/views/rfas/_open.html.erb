@@ -14,7 +14,6 @@
 
   <div class="rfa-params column">
   <div class="field"><label>Assigned to:<a href="#" data-action="click->rfa#takeit"   class="take">take it</a></label>
-  <%#= form.select :user_assigned_id, ["Seggellion","Hermitmech","WhenyouCant"] %>
   <%= form.select :user_assigned_id, options_for_select(@users.collect{ |u| [u.username, u.id] } , {:class => 'teamTag', selected: @rfa.user_assigned_id || nil, data:{ 'rfa-target' => 'assigned_to'}  }   ), :include_blank => 'Altama Support Queue'%>
   </div>
 <hr />
@@ -49,11 +48,15 @@
     </div>
     <div class="comm-entry-body">
       <strong>Your name or alias used with the customer:</strong>
-      <div class="point">&#8226; Alistair</div>
+      <div class="point"><%= current_user.username %></div>
 
       <strong>Are they authenticated? (If no, please authenticate) </strong>
       
-      <div class="point">&#8226; No</div>
+      <div class="point"><%= rfa.user.verified? %></div>
+
+      <strong>Closest location:</strong>
+      
+      <div class="point"><%= @rfa.location_name %></div>
     </div>
   </div>
 
@@ -68,7 +71,7 @@
   <div class="field">
   <% unless @rfa.user.verified? %>
   RSI: <%= form.text_field :rsi_username %>
-   <small><a class="verify" data-action="click->rfa#verify"  >Authenticate</a></small>
+   <small><a class="verify" data-action="click->rfa#verify">Authenticate</a></small>
    <% else %>
    RSI: <%= @rfa.user.rsi_username %>
    <% end %>
