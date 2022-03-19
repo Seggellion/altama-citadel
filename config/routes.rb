@@ -45,8 +45,7 @@ Rails.application.routes.draw do
   get 'vote', to: 'guildstones#vote'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'properties', to: 'tasks#properties'
-  get 'start_bot', to: 'tasks#start_bot'
-  get 'stop_bot', to: 'tasks#stop_bot'
+
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
   

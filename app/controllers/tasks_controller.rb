@@ -24,39 +24,7 @@ class TasksController < ApplicationController
   end
   end
 
-  def start_bot
-    
-      token = ENV['GOOGLE_APPLICATION_CREDENTIALS'] 
-      bot_cmd = Discordrb::Commands::CommandBot.new token: token, prefix: '!'
-      bot_cmd.command(:update) do |event, *args|
-
-        data = event.message.content.split(',')
-        uid = data[1]
-        status = data[2].to_s
-        #uid = uid.chomp('>')
-        puts uid
-        #user = await client.get_user_info(uid)
-        user = bot_cmd.user(uid)
-        message = %W{#{user.username}}
-        user.pm('Hey ' + user.username + ' It looks like your status is now set to: ' + status )
-
-      end
-    
-      bot_cmd.command(:exit, help_available: false) do |event|
-
-        bot.send_message(event.channel.id, 'Bot is shutting down')
-        exit
-      end
-    
-    bot_cmd.run
-    redirect_to desktop_path
-
-  end
-
-  def stop_bot
-   # AltamaBot.stop
-   binding.break
-  end
+  
 
   # GET /tasks/new
   def new

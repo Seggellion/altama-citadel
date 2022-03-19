@@ -49,7 +49,6 @@ clear(event){
   }
 
   verify(event){
-    console.log('test');
     document.getElementById('rsi_verification').classList.add('open');
   }
   

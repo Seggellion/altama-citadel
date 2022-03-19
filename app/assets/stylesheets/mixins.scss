@@ -12,6 +12,8 @@ $altama_green: #6eb288;
 $altama_blue: #05aac7;
 $rfa_white: #beb5ae;
 
+$mobile: 480px;
+
 @font-face {
     font-family: 'dos';
     font-style: normal;
@@ -81,11 +83,46 @@ $rfa_white: #beb5ae;
     margin-top: 2.375rem;
     visibility: visible;
     opacity: 1;
-
+    //pointer-events:none;
     &:hover{
         -webkit-transform: translateY(-5px);
         -ms-transform: translateY(-5px);
         transform: translateY(-5px);
         box-shadow: 0 10px 40px 0 rgba(0,0,0,.2);
     }
+  }
+
+  @mixin cross($size: 20px, $color: currentColor, $thickness: 1px) {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    position: relative;
+    width: $size;
+    height: $size;
+  
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: ($size - $thickness) / 2;
+      left: 0;
+      right: 0;
+      height: $thickness;
+      background: $color;
+      border-radius: $thickness;
+    }
+  
+    &:before {
+      transform: rotate(45deg);
+    }
+  
+    &:after {
+      transform: rotate(-45deg);
+    }
+  
+    span {
+      display: block;
+    }
+  
   }

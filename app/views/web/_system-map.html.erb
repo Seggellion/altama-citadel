@@ -1,0 +1,32 @@
+<div class="system-map">
+
+<div class="planet-container">
+<%= show_svg('locations/planet') %>
+<div class="planet-menu">
+
+<h2><%= location.name %></h2>
+    <ul>
+    <% location.sublocations.each do | sublocation | %>
+        <li class="sublocation-link" data-location=<%= sublocation.id %> data-action="click->web#selectSubLocation"><%=sublocation.name %></li>
+    <% end %>
+    </ul>
+</div>
+</div>
+
+<div class="moons">
+<% location.moons.each do |moon| %>
+    <div class="moon-container">
+    <div class="moon-menu">
+    <h2><%= moon.name %></h2>
+    <ul>
+        <% moon.moonchildren.each do | moonchild | %>
+            <li class="sublocation-link" data-location=<%= moonchild.id %> data-action="click->web#selectSubLocation"><%=moonchild.name %></li>
+        <% end %>
+        </ul>
+    </div>
+    <%= show_svg('locations/moon') %>
+    </div>
+    <% end %>
+</div>
+
+</div>

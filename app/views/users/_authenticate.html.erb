@@ -1,22 +1,27 @@
+<div id="rsi_verification" data-controller="web">
 
-<div id="rsi_verification">
+<div class="bordered-container">
+<div class="column">
+<a class="verify close" data-action="click->web#closeVerify"> </a>
+<h2>Verify your RSI account to get 10%-off all refillings!</h2>
 <%= form_with url: verify_path do |f| %>
     <p>
-        To verify you RSI handle please copy the folowing code in your RSI profile bio
+        To verify you RSI handle please copy the following code in your RSI profile bio
     </p>
-    <pre><code class="bash">Powered by Altama Energy <span style="color:red"><b><%= @hash %></b></span></code></pre>
-    <br />
+    <a class="btn user-hash" target="_blank" data-action="click->web#copyToClipboard"><%= @hash %></a>
 
   <%= f.hidden_field :hash, id: "hash", value: @hash %>
-  <%= f.hidden_field :user, id: "user", value: @rfa.user.id %>
-    <%= label_tag(:handle, "RSI Account username:") %>
-    <%= text_field_tag(:handle) %>
-    <br />
-    <p>
-    Once your RSI profile is updated so you can see the string click Verify
-    </p>
+  <%= f.hidden_field :user, id: "user", value: user.id %>
+  <%= f.hidden_field :rsi_username, id: "handle", value: user.rsi_username %>
 
-<%= f.submit("Verify") %>
+
+
+<%= f.submit "Verify", :class => 'btn' %>
 
 <% end %>
+</div>
+<div class="column"></div>
+
+</div>
+
 </div>
