@@ -9,6 +9,11 @@
     flex-direction:column;
 }
 </style>
+<% if current_user && current_user.has_open_ticket? %>
+    <script>
+        document.getElementById('web').classList.add('modal');
+    </script>
+<% end %>
 
 <% if !current_user %>  
 <div id="popup_login">
@@ -23,9 +28,11 @@ Discord
 </div>
 </div>
 <% end %>
-<% if current_user %>
+<% if current_user && !current_user.verified? %>
     <%= render 'users/authenticate', user: current_user %>
 <% end %>
+
+<%= render 'rfa-status', user: current_user %>
 
 
 <div id="rfa_container" data-controller="web">

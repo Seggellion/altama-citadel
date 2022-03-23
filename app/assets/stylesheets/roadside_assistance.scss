@@ -555,3 +555,37 @@
     text-align:center;
     padding:2px;
 }
+
+#rfa_status_modal{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width: 400px;
+    height:300px;
+    background-color:white;
+    transform: translate(-50%, -50%);
+    z-index:90001;
+    padding:10px;
+    font-family: acumin-pro,sans-serif;
+    border-radius:10px;
+    overflow:hidden;
+
+}
+.status-loading{
+    position: absolute;
+    width: 200px;
+    margin: 0px auto;
+    display: block;
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: -1;
+    bottom: 0px;
+}
+.status-banner{
+    margin-top:-10px;
+    margin-left:-10px;
+    width:105%;
+}
+#active_rfa{
+    height:100%;
+}

@@ -1,6 +1,7 @@
-<%= form_with(model: rfa, data:{ 'rfa-target' => 'form'},) do |form| %>
+<%= form_with(model: rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
   <div  class="rfa-open-container">
     <% if rfa.errors.any? %>
+    
       <div style="color: red">
         <h2><%= pluralize(rfa.errors.count, "error") %> prohibited this rfa from being saved:</h2>
 
