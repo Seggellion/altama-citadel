@@ -32,10 +32,28 @@ class RfasController < ApplicationController
     @rfa = Rfa.new(rfa_params)
     @location = Location.find_by_id(@rfa.location_id)
   
-    Discord::Notifier.message('Request for assistance at:' + @location.name)
 
     respond_to do |format|
       if @rfa.save
+
+        embed = Discord::Embed.new do |location_name|
+          rfa = Rfa.last
+          title "New request for assistance"
+          description "Please view this RFA within Citadel"
+          
+          location = Location.find_by_id(rfa.location_id)
+          author name: rfa.user.username
+          color "00FFFF"
+          
+          url "https://cty.altama.energy/rfas/#{rfa.id}/edit"
+          add_field name: "Location",
+                    value: location.name
+        end
+        
+        
+        Discord::Notifier.message(embed)
+    
+
         format.html { redirect_to rfa_location_path(location: @location), notice: "Rfa was successfully created." }
         #format.json { render :show, status: :created, location: @rfa }
       else
