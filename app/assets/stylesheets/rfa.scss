@@ -1,7 +1,6 @@
 @import 'mixins';
 
 $rfa_border: #272321;
-
 #rfa_open{
     background-color:black;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -71,6 +70,10 @@ $rfa_border: #272321;
                 padding: 3px 4px;
                 border-radius: 5px;
                 margin-right: 10px;
+            }
+            .top-status-Unassigned{
+                background-color: #64c6ff;
+                color:black;
             }
             .top-status-In.Progress{
                 background-color: #b34a19;
@@ -908,6 +911,12 @@ $rfa_border: #272321;
         display: flex;
         flex-direction: column;
         height:100%;
+        .rfa-list-item{
+            display:none;
+            &.show{
+                display:block;
+            }
+        }
         .index-header{
             display: flex;
             width: 100%;

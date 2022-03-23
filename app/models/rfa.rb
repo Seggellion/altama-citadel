@@ -1,5 +1,26 @@
 class Rfa < ApplicationRecord
     belongs_to :user
+    after_update_commit {broadcast_replace_to 'active_rfa', partial: '/rfas/status', locals: { active_rfa: self }}
+
+#  after_update_commit do
+ #   broadcast_append_to 'active_rfa'
+
+  #  broadcast_replace_to 'active_rfa',
+  #  partial: 'web/rfa-status',
+  #  target: "#{dom_id(self.id)}_item",
+  #  locals: { active_rfa: self }
+
+   # broadcast_append_to [self, :active_rfa],
+    # target: "rfa_#{id}_item", 
+   #  partial: '/web/rfa-status'
+
+
+    #broadcast_update_to [active_rfa, :status], target: self
+    #broadcast_append_to [rfa, :status], target: self
+   # broadcast_append_to "active_rfa"
+    #broadcast_append_to [post, :comments], target: "#{dom_id(post)}_comments", partial: 'web/rfa-status'
+
+ # end
     
 def location_name
     location_name = Location.find_by_id(self.location_id)
@@ -23,6 +44,22 @@ def status
     when 4
       "Solved"
     end
+end
+
+def status_response 
+  user = User.find_by_id(self.user_assigned_id)
+  case self.status_id    
+  when 0
+  "Waiting response from Support Queue (current wait times: X hours)"
+  when 1 
+    "#{user.username} has accepted your issue, please add as a friend"
+  when 2
+    "#{user.username}  has arrived and awaiting rendezvous"
+  when 3
+    "Issue is currently on hold"
+  when 4
+    "Would you like to complete a review?"
+  end
 end
 
 def self.get_status(status_id)
@@ -54,7 +91,7 @@ end
     end
 
     def self.open_tickets
-        self.where(status_id:1).count
+      self.where.not(status_id:4).count
     end
 
     def self.solved_tickets

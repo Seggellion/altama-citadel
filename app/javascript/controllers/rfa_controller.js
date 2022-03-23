@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "status_field", "user", "status_menu", "status_button"]
+  static targets = ["form", "status_field", 
+  "user", "status_menu", "status_button",
+   "rfaUnassigned", "rfaSolved","rfaMine", "rfaAll"]
 
  
 clear(event){
@@ -31,8 +33,32 @@ clear(event){
     this.formTarget.submit();
   }
 
-  solved(event) {
+  rfaAll(event){
+    this.rfaAllTarget.classList.add('show');
+    this.rfaUnassignedTarget.classList.remove('show');
+    this.rfaSolvedTarget.classList.remove('show');
+    this.rfaMineTarget.classList.remove('show');
+  }
+  rfaMine(event){
+    this.rfaMineTarget.classList.add('show');
+    this.rfaAllTarget.classList.remove('show');
+    this.rfaUnassignedTarget.classList.remove('show');
+    this.rfaSolvedTarget.classList.remove('show');
+  }
+  rfaUnassigned(event){
+    this.rfaUnassignedTarget.classList.add('show');
+    this.rfaMineTarget.classList.remove('show');
+    this.rfaAllTarget.classList.remove('show');
+    this.rfaSolvedTarget.classList.remove('show');
+  }
 
+  rfaSolved(event){
+    this.rfaSolvedTarget.classList.add('show');
+    this.rfaAllTarget.classList.remove('show');
+    this.rfaMineTarget.classList.remove('show');
+  }
+
+  solved(event) {
     this.status_fieldTarget.value = 4;
     this.formTarget.submit();
   }

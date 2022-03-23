@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => "/cable"
+  constraints subdomain: "sos" do
+    get "/" => "web#roadside_assistance"
+   end
   resources :org_roles
   resources :guildstones
   resources :locations
@@ -13,9 +17,7 @@ Rails.application.routes.draw do
   resources :rfas
   resources :control_points
   
-  constraints subdomain: "sos" do
-    get "/" => "web#roadside_assistance"
-   end
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", sessions: 'users/sessions' }

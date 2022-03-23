@@ -6,17 +6,18 @@
 
     <%= link_to "New rfa", new_rfa_path %>
   </div>
-  <div class="rfa-main">
+  <div class="rfa-main" data-controller="rfa" >
     <div id="sidebar" class="views-panel">
     <h2>Views</h2>
     
       <ul>
-        <li>Altama Energy Queue <span class="count"><%= Rfa.open_tickets %></span></li>
-        <li>Unassigned Queue</li>
+        <li data-action="click->rfa#rfaAll" >Altama Energy Queue <span class="count"><%= @rfas.count %></span></li>
+        <li data-action="click->rfa#rfaUnassigned">Unassigned Queue <span class="count"><%= @rfa_unassigned.count %></span> </li>
+        <li data-action="click->rfa#rfaMine">Assigned to me <span class="count"><%= @rfa_mine.count %></span></li>
         <li>Urgent issues</li>
         <li>Triage</li>
         <li>Suspended issues</li>
-        <li>Solved issues <span class="count"><%= Rfa.solved_tickets %></span></li>
+        <li data-action="click->rfa#rfaSolved">My solved issues <span class="count"><%= Rfa.solved_tickets %></span></li>
       </ul>
     </div>
     <div class="rfa-list">
@@ -38,7 +39,21 @@
         Escalated
         </div>
       </div>
+
+
+      <div data-rfa-target="rfaAll" id="rfas" class="rfa-list-item show">
         <%= render @rfas %>
+      </div>
+      <div data-rfa-target="rfaUnassigned" id="unassigned_rfas" class="rfa-list-item">
+      <%= render @rfa_unassigned %>
+    </div>
+    <div data-rfa-target="rfaMine" id="my_rfas" class="rfa-list-item">
+    <%= render @rfa_mine %>
+  </div>
+    <div data-rfa-target="rfaSolved" id="solved_rfas" class="rfa-list-item">
+    <%= render @rfa_solved %>
+  </div>
+
       </div>
     </div>
   </div>

@@ -53,9 +53,10 @@ end
    end
 
    def has_open_ticket?
-    open_ticket = Rfa.where(user_id: self.id, status_id: 1)
-    
-    if !open_ticket.empty?
+    user_tickets = Rfa.where(user_id: self.id)
+    open_tickets = user_tickets.where.not(status_id:4)
+
+    if !open_tickets.empty?
       return true
     end
    end

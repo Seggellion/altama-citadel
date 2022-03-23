@@ -16,7 +16,7 @@
 
   <% if current_user && !current_user.has_open_ticket? %> 
   <%= form.hidden_field :title, :value => 'Web roadside request' %>
-  <%= form.hidden_field :status_id, :value => 1 %>
+  <%= form.hidden_field :status_id, :value => 0 %>
   <%= form.hidden_field :user_id, :value => current_user.id %>
   <%= form.hidden_field :location_id, :value => location.id, data:{ 'web-target' => 'locationField'} %>
   <div  class="field">
@@ -58,9 +58,28 @@
 
   </div>
 
+<div class="field">
+<div class="userships" style="margin-top:5px; margin-bottom:10px;">
+<span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
+Caterpillar
+</span>
+<span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
+Starfarer
+</span>
+<span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
+Aurora
+</span>
+</div>
+</div>
+
+<div class="field" style="margin-bottom:10px;">
+<span style="text-decoration:underline;">Ship not shown? Add new!</span>
+<%#= form.select :ship_id, options_for_select(@ships.collect{ |u| [u.model, u.id] } ), :include_blank => 'Select Ship' %>
+</div>
+
   <div class="field">
   <div class="submit-row">
-  <%= form.select :ship_id, options_for_select(@ships.collect{ |u| [u.model, u.id] } ), :include_blank => 'Select Ship' %>
+  
   <%= form.submit 'Request' %>
   </div>
   <div>
