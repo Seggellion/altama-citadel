@@ -15,6 +15,10 @@ def index
   @manufacturer = Manufacturer.new
   @locations = Location.all
   @location = Location.new
+  @commodity = Commodity.new
+  @reward  = Reward.new
+  @all_rewards = Reward.all
+  @all_commodities = Commodity.all
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 

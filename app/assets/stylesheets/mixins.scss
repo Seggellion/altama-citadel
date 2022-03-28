@@ -12,7 +12,8 @@ $altama_green: #6eb288;
 $altama_blue: #05aac7;
 $rfa_white: #beb5ae;
 
-$mobile: 480px;
+// $mobile: 480px;
+$mobile: 625px;
 
 @font-face {
     font-family: 'dos';
@@ -67,14 +68,14 @@ $mobile: 480px;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     user-select: all;
     font-weight: 900;
-    display: inline-block;
+    
     padding: .8125rem 2.4375rem;
     border: 0;
     outline: 0;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: background-color 200ms cubic-bezier(.39,.575,.565,1),color 200ms cubic-bezier(.39,.575,.565,1),box-shadow 200ms cubic-bezier(.39,.575,.565,1),border-color 200ms cubic-bezier(.39,.575,.565,1),transform 200ms cubic-bezier(.39,.575,.565,1),box-shadow 200ms cubic-bezier(.39,.575,.565,1),-webkit-transform 200ms cubic-bezier(.39,.575,.565,1);
+    transition: all 200ms cubic-bezier(.39,.575,.565,1),color 200ms cubic-bezier(.39,.575,.565,1),box-shadow 200ms cubic-bezier(.39,.575,.565,1),border-color 200ms cubic-bezier(.39,.575,.565,1),transform 200ms cubic-bezier(.39,.575,.565,1),box-shadow 200ms cubic-bezier(.39,.575,.565,1),-webkit-transform 200ms cubic-bezier(.39,.575,.565,1);
     background-color: #0277d1;
     color: #fff;
     font-size: 1rem;
@@ -83,12 +84,22 @@ $mobile: 480px;
     margin-top: 2.375rem;
     visibility: visible;
     opacity: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
     //pointer-events:none;
     &:hover{
         -webkit-transform: translateY(-5px);
         -ms-transform: translateY(-5px);
         transform: translateY(-5px);
         box-shadow: 0 10px 40px 0 rgba(0,0,0,.2);
+        color:darkgrey;
+        svg{
+            color:darkgrey;
+            fill:darkgrey;
+            transition: all 200ms;
+        }
     }
   }
 

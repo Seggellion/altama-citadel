@@ -3,7 +3,7 @@
 <div class="bordered-container">
 <div class="column">
 <a class="verify close" data-action="click->web#closeVerify"> </a>
-<h2>Verify your RSI account to get 10%-off all refillings!</h2>
+<h2>Verify your RSI account to get <%= Reward.apply('verified') %>%-off all refillings!</h2>
 <%= form_with url: verify_path do |f| %>
     <p>
         To verify you RSI handle please copy the following code in your RSI profile bio

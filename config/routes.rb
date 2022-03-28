@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   resources :events
   resources :ships
   resources :rfas
+  resources :rfa_products
+  resources :commodities
+  resources :rewards
   resources :control_points
   
 

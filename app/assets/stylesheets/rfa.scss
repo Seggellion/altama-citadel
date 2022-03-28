@@ -1,5 +1,9 @@
 @import 'mixins';
 
+input:disabled{
+   background-color: #161616 !important;
+}
+
 $rfa_border: #272321;
 #rfa_open{
     background-color:black;
@@ -57,7 +61,7 @@ $rfa_border: #272321;
             margin-right:10px;
             flex-direction: column;
             align-items: left;
-            overflow:scroll;
+            overflow:hidden;
         }
     }
     .information-row{
@@ -223,6 +227,7 @@ $rfa_border: #272321;
                     margin:0px;
                 }
             }
+
             .comm-entry-header{
                 margin-top:15px;
                 position:relative;
@@ -883,11 +888,13 @@ $rfa_border: #272321;
         padding: 4.5px 0px;
         display: flex;
         justify-content: space-between;
+        user-select: none;
         .count{
             padding-right:26px;
         }
         &:hover{
             font-weight:900;
+            cursor:pointer;
             background-color: #2f1d0c;
         }
     }

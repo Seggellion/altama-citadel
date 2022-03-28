@@ -1,0 +1,15 @@
+
+<%= form_with(model: commodity) do |form| %>
+
+
+    <div>
+      
+      <%= form.text_field :name, placeholder:'Name' %>
+
+
+      <%= form.text_field :symbol, placeholder:'Symbol' %>
+      <%= form.number_field :price, placeholder:'Price', step:'0.001' %>
+      <%= form.submit 'create commodity' %>
+    </div>
+
+  <% end %>

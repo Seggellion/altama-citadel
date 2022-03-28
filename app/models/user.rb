@@ -19,6 +19,15 @@ class User < ApplicationRecord
     end
 end
 
+def discounts
+  discount = 0
+  if self.verified?
+  discount =+ 5
+  end
+  
+  discount
+end
+
 def verified?
   
 return true if self.rsi_verify == true

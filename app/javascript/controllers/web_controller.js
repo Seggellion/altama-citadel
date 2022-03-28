@@ -62,10 +62,7 @@ export default class extends Controller {
     copyToClipboard(event){
         event.target.preventDefault;
         var text = event.target.text;
-        console.log(text);
         window.navigator.clipboard.writeText(text);
-        console.log('clipboard',window.navigator.clipboard);
-       // event.target.allowDefault;
        window.open('https://robertsspaceindustries.com/account/profile', '_blank');
     }
 
