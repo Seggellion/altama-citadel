@@ -4,22 +4,49 @@
     
 
     <div class="location-container">
-<div class="location-image">
-<%= image_tag("location_sidebar.png") %>
-</div>
+        <div class="location-image">
+        <%= image_tag("location_sidebar.png") %>
+        </div>
 
-<div class="location-form">
-Global setting: <br/>
-Worker Commission:<input type="text"><br/>
-AEC rewards: <input type="text"><br/>
+        <div class="location-form">
+        <% @all_rewards.each do | reward| %>
+        <%= reward.title + ' ' + reward.amount.to_s + '%' %>
+        <%= button_to "Del", reward_path(reward), method: :delete %>
+        <br/>
+        <% end %>
+
+        <%= render '/rewards/form',  reward: @reward %>
+        
+
+        <hr />
+
+        <div class="commodity-form">
+            <% @all_commodities.each do | commodity| %>
+            <%= commodity.name + ' ' + commodity.price.to_s + 'AUEC/SCU' %>
+            <%= button_to "Del", commodity_path(commodity), method: :delete %>
+            <br/>
+            <% end %>
+
+            <%= render '/commodities/form',  commodity: @commodity %>
+
+        </div>
 
 
-</div>
+        </div>
 
-</div>
+
+
+    </div>
+
+
+
 
 <hr />
 
 
     </div>
 </div>
+
+Verified rewards: <input type="text"> % <br/>
+Worker Commission:<input type="text"> % <br/>
+AEC purchase rewards: <input type="text"> % <br/>

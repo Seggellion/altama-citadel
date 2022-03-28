@@ -15,9 +15,9 @@
             <p class="disclaimer">*Services may vary based on astro location.</p>
             </header>
 
-    <ul class="location-group">
-    <% @all_planets.each do | level_two | %>
-    <li class="location-list-item">
+        <ul class="location-group">
+        <% @all_planets.each do | level_two | %>
+        <li class="location-list-item">
             <a href="<%= rfa_location_path(location: level_two.id) %>" class="btn-location" aria-controls="location-selected-tab" aria-selected="false" >
             <%= level_two.name %>
             </a>

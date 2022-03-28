@@ -18,11 +18,28 @@
   <%= form.select :user_assigned_id, options_for_select(@users.collect{ |u| [u.username, u.id] } , {:class => 'teamTag', selected: @rfa.user_assigned_id || nil, data:{ 'rfa-target' => 'assigned_to'}  }   ), :include_blank => 'Altama Support Queue'%>
   </div>
 <hr />
+
   <div class="field"><label>Priority:</label> <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
-  <div class="field"><label>Fuel Amt:</label> <%= form.number_field :total_fuel %></div>
-  <div class="field"><label>Price:</label> <%= form.number_field :total_price %></div>
-  <div class="field"><label>Cost:</label> <%= form.number_field :total_cost %></div>
-  <div class="field"><label>Aec:</label> <%= form.number_field :aec_rewards %></div>
+
+  <% @all_commodities.each do |commodity| %>
+    
+    <% if @rfa.commodities.include? commodity  %>
+    <%= commodity.name %>
+    <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: @rfa.commodity_total(commodity) %>
+    <% else %>
+
+    <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: 0 %>
+  <% end %>
+  <% end %>
+  <div class="field"><label>Total charge:</label> <%= form.number_field :total_charge, disabled:true, value: @rfa.total_charge  %></div>
+  <div class="field">
+  <label>AEC:</label>
+  
+
+   <%= form.number_field :aec_rewards, disabled: true, value: @rfa.aec_rewards,
+   data:{ 'rfa-target' => 'aec_field', 'aec' => Reward.apply('aec').to_i } %>
+   
+   </div>
   </div>
 
   <div class="rfa-comms column">
@@ -53,11 +70,17 @@
 
       <strong>Are they authenticated? (If no, please authenticate) </strong>
       
-      <div class="point"><%= rfa.user.verified? %></div>
+      <div class="point"><%= rfa.user.verified? || "Not authenticated" %></div>
 
       <strong>Closest location:</strong>
       
       <div class="point"><%= @rfa.location_name %></div>
+
+      <strong>Spaceship:</strong>
+      
+      <div class="point"><%= @rfa.full_ship_name %></div>
+
+      <strong>Fuel SCU:</strong>
     </div>
   </div>
 
@@ -77,15 +100,20 @@
    RSI: <%= @rfa.user.rsi_username %>
    <% end %>
    </div>
+
+
   <div class="field">Home Location: <%= form.select :location_id, ["Cellin","Daymar","Crusader"] %></div>
-  <div class="field">Ship: <%= form.select :ship_id, ["Mustang","85x","Hornet"] %></div>
+  <div class="field">Ship: <%= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
-  <button>Storefront</button><button>Admin</button><button>Internal</button>
+<% Commodity.all.each do | commodity|  %>
+  <button><h2><%= commodity.symbol %>  <%= @rfa.price(commodity.name) %></h2></button>
+  <% end %>
+  <button>Admin</button>
   </div>
   <ul>
     <li>United States</li>
     <li>(GMT-05:00)America/New York</li>
-    <li><%=  @rfa.user.user_type_text if @rfa.user.present? %></li>
+    <li><%=  @rfa.user.user_type_text if @rfa.user.present? %> - <span data-rfa-target="total_discount" data-amt="<%= @rfa.user.discounts %>"><%= @rfa.user.discounts %>%</span></li>
     <li><%= @rfa.user.created_at.strftime("%a %b %e %Y") %></li>
   </ul>
   </div>

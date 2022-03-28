@@ -3,17 +3,19 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["form", "status_field", 
   "user", "status_menu", "status_button",
-   "rfaUnassigned", "rfaSolved","rfaMine", "rfaAll"]
+   "rfaUnassigned", "rfaSolved","rfaMine",
+    "rfaAll"]
 
  
 clear(event){
   let status_menu_element = document.getElementsByClassName('status-menu-wrapper')[0]
    
   if(event.target!= this.status_buttonTarget){
-    console.log('not clicked', event.target.id);
+    
     status_menu_element.classList.remove("open"); 
   }
 }
+
 
   open(event) {
 
@@ -69,6 +71,8 @@ clear(event){
     let element = document.getElementById('rfa_user_assigned_id');
     element.value = current_user
   }
+
+
   statusbutton(event){
     event.preventDefault();
     this.status_menuTarget.classList.add("open");

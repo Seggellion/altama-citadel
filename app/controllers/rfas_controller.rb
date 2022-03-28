@@ -23,7 +23,7 @@ class RfasController < ApplicationController
 
   # GET /rfas/1/edit
   def edit
-    
+    @all_commodities = Commodity.all
     @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   end
 
@@ -70,12 +70,52 @@ class RfasController < ApplicationController
     status = Rfa.get_status(params[:rfa][:status_id].to_i) 
     Discord::Notifier.message('!update ,'+ user.uid + ',' + status)
   #  assigned_user = User.find_by_id(rfa_params[:user_assigned_id])
-  merge_params = rfa_params
+  @aec = 0
+
+  if params[:rfa][:HYD]
+    commodity = Commodity.find_by(symbol:"HYD")
+    amount =  params[:rfa][:HYD].to_f
+    market_price = commodity.price
+    discounts = user.discounts / 100.00
+    discount_price = market_price - (market_price * discounts)
+    selling_price = discount_price * amount
+    
+    @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
+   if @rfa.commodities.find_by_id(commodity)
+    rfa_product = RfaProduct.find_by(commodity_id: commodity.id)
+    rfa_product.update(amount: amount, selling_price: selling_price, market_price: market_price)
+   else
+    RfaProduct.create(commodity_id: commodity.id, amount: amount, rfa_id:@rfa.id,
+    market_price: market_price, selling_price: selling_price )
+   end
+  end
+
+  if params[:rfa][:QNT]
+    commodity = Commodity.find_by(symbol:"QNT")
+    amount =  params[:rfa][:QNT].to_f
+    market_price = commodity.price
+    discounts = user.discounts / 100.00
+    discount_price = market_price - (market_price * discounts) 
+    selling_price = discount_price * amount
+
+    @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
+   if @rfa.commodities.find_by_id(commodity)
+    rfa_product = RfaProduct.find_by(commodity_id: commodity.id)
+    rfa_product.update(amount: amount, selling_price: selling_price, market_price: market_price)
+    
+   else
+    RfaProduct.create(commodity_id: commodity.id, amount: amount, rfa_id:@rfa.id,
+    market_price: market_price, selling_price: selling_price )
+   end
+  end
+  
+  
+  merge_params = rfa_params.merge(aec_rewards: @aec)
   if rfa_params[:user_assigned_id].blank?
     merge_params = rfa_params.merge(status_id: 0)
   end
-    
 
+  
     respond_to do |format|
       if @rfa.update(merge_params)
          #format.turbo_stream { render turbo_stream: turbo_stream.update(@rfa) }
@@ -115,7 +155,7 @@ class RfasController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def rfa_params      
+    def rfa_params
       params.require(:rfa).permit(:title, :description, :rsi_username, :status_id, 
       :location_id, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
       :aec_rewards, :user_assigned_id, :user_id)      

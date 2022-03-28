@@ -505,6 +505,7 @@
     justify-content: center;
     align-items: center;
     background-color: #00000082;
+    z-index:9001;
     .popup{
         width: 500px;
         margin: 0px auto;
@@ -533,6 +534,14 @@
         }
          button{
             @include roadside_button;
+
+            svg{
+                height:20px;
+                width:20px;
+                color:white;
+                fill:white;
+                margin: 0px 5px;
+            }
         }
 
     }
@@ -553,7 +562,8 @@
     color:white;
     font-weight: 900;
     text-align:center;
-    padding:2px;
+    padding:5px;
+    
 }
 
 #rfa_status_modal{

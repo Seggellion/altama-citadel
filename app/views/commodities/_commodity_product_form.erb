@@ -1,0 +1,9 @@
+    <div class="commodity-container"  data-controller="commodity">
+    <div class="field"><label><%= commodity.symbol %> amt:</label>
+     <%= form.number_field "#{commodity.symbol}", step:0.01, data:{ action: 'change->commodity#total_amount'}, value: existing_total %></div>
+    <div class="field"><label><%= commodity.symbol %> mkt price:</label>
+     <%= form.number_field "#{commodity.symbol}-price", disabled:true, value: commodity.price, data:{ 'commodity-target' => 'mkt_price'} %></div>
+    <div class="field"><label>
+    <%= commodity.symbol %> total price:</label> 
+    <%= form.number_field "#{commodity.symbol}-total", disabled:true, value: "#{@rfa.line_item_price(commodity) }", class:'totals', data:{ 'commodity-target' => 'total_field'} %></div>
+    </div>

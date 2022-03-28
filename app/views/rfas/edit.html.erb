@@ -19,7 +19,7 @@
  </div>
 <div class="information-row">
 <button class="profile-button">No Organization</button>
-<button class="profile-button"><%= @rfa.user.rsi_username %></button>
+<button class="profile-button"><%= @rfa.user.rsi_username || "ANV-" + @rfa.user.username %></button>
 <button class="profile-button"><small class="top-status-<%= @rfa.status %>"><%= @rfa.status %></small>RFA #1212<%= @rfa.id%></button>
 </div>
   <%= render "open", rfa: @rfa %>

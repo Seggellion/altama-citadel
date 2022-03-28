@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_13_075739) do
+ActiveRecord::Schema.define(version: 2022_03_24_031232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,14 @@ ActiveRecord::Schema.define(version: 2022_03_13_075739) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "commodities", force: :cascade do |t|
+    t.string "symbol"
+    t.string "name"
+    t.float "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "control_points", force: :cascade do |t|
@@ -148,6 +156,22 @@ ActiveRecord::Schema.define(version: 2022_03_13_075739) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "rewards", force: :cascade do |t|
+    t.string "title"
+    t.float "amount"
+  end
+
+  create_table "rfa_products", force: :cascade do |t|
+    t.integer "commodity_id"
+    t.integer "rfa_id"
+    t.float "amount"
+    t.float "market_price"
+    t.float "selling_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["rfa_id", "commodity_id"], name: "one_product_per_rfa", unique: true
+  end
+
   create_table "rfas", force: :cascade do |t|
     t.string "title"
     t.string "rsi_username"
@@ -157,9 +181,6 @@ ActiveRecord::Schema.define(version: 2022_03_13_075739) do
     t.integer "location_id"
     t.integer "ship_id"
     t.integer "priority_id"
-    t.integer "total_fuel"
-    t.integer "total_price"
-    t.integer "total_cost"
     t.integer "aec_rewards"
     t.integer "user_assigned_id"
     t.datetime "created_at", precision: 6, null: false

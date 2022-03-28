@@ -20,17 +20,18 @@
   <%= form.hidden_field :user_id, :value => current_user.id %>
   <%= form.hidden_field :location_id, :value => location.id, data:{ 'web-target' => 'locationField'} %>
   <div  class="field">
-  <% if current_user.rsi_username %>
-  <span style="text-align:center; width:100%;">RSI name: <%= current_user.rsi_username %></span>
+  <% if current_user.rsi_username && current_user.verified? %>
+  <span style="text-align:center; width:100%;">Verified RSI name: <%= current_user.rsi_username %></span>
 <%= form.hidden_field :rsi_username, :value => current_user.rsi_username %>
     <% else %>
    RSI Character name:
  <%= form.text_field :rsi_username %>
+ <div class="field">
+ <a class="verify cta" data-action="click->web#verify"><%= Reward.apply('verified') %>% discount!</a>
+ </div>
   <% end %>
   </div>
-  <div class="field">
-  <a class="verify cta" data-action="click->web#verify">10% discount!</a>
-  </div>
+
   <div class="field">
 
   <%= form.select :location_id_parent,
