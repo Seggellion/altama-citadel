@@ -24,7 +24,7 @@ class UsershipsController < ApplicationController
     @usership = Usership.new(usership_params)
 @usership.update(user_id:current_user.id)
     respond_to do |format|
-      if @usership.save
+      if @usership.save && current_page?(controller: 'web', action: 'show')
         format.html { redirect_to my_hangar_add_path, notice: "Usership was successfully created." }
         format.json { render :show, status: :created, location: @usership }
       else
