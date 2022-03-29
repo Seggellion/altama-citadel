@@ -50,6 +50,14 @@ end
   end
 
 
+    def get_userships
+
+      self.joins(:ships).select("userships.*, ships.model")
+      #Division.where(race_id: race.id).joins(:division_joins)
+
+
+    end
+
    def user_type_text
     if self.user_type == 42
       p 'Administrator'
