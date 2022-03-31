@@ -1,4 +1,4 @@
- <%= form_with(model: usership) do |forma| %>
+ <%= form_with(model: usership, :html => {:id => 'userships_form', :style => 'display:none;' }) do |forma| %>
   <% if usership.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(usership.errors.count, "error") %> prohibited this usership from being saved:</h2>
@@ -10,13 +10,15 @@
       </ul>
     </div>
   <% end %>
-    <div>
+    <div class="field" style="margin-top:5px; margin-bottom:10px;">
      <%#= forma.select :ship_id, options_for_select(@userships.collect{ |u| [u.model, u.id] } ), :include_blank => 'Select from My Ships' %>
   <%= forma.select :ship_id, options_for_select(@ships.collect{ |u| [u.model, u.id] } ), :include_blank => 'Select Ship' %>
-  <%= forma.label "Default Ship" %>
-  <%= forma.check_box :primary %>
-  </div>
+  <%#= forma.label "Default Ship" %>
+  <%# removing default ship behaviour until it's fleshed out more %>
+  <%#= forma.check_box :primary %>
+
   <%= forma.submit %>
+    </div>
 <% end %>
   
 

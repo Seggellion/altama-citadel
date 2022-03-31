@@ -59,27 +59,32 @@
 
   </div>
 
-<div class="field">
-<div class="userships" style="margin-top:5px; margin-bottom:10px;">
 
-<% @userships = current_user.userships %> 
-<% userships_array = Array.new %>
-      <% @userships.each do | ship | %>
-        <% userships_array.push(ship.ship.model) %>
-      <% end %>
-      <% for ship_model in userships_array.uniq %>
-<%= radio_button_tag(:ship_id, ship_model) %>
-  <%= label_tag(ship_model) %>
-<%= hidden_field_tag :ship_id %>
-
-<% end %>
-</div>
-</div>
+  <div class="userships" style="margin-top:5px; margin-bottom:10px;">
+    <% @userships = current_user.userships.uniq %> 
+    <% userships_hash = Hash.new %>
+          <% @userships.each do | ship | %>
+            <% userships_hash[ship.ship.model] = ship.ship.id %>
+          <% end %>
+          <% userships_hash.each do |ship_model, ship_id| %>
+          <span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
+            <%= form.radio_button(:ship_id, ship_id) %>
+            <%= label_tag(ship_model) %>
+            </span>
+          <% end %>
+  </div>
 
 
-<div class="field" style="margin-bottom:10px;">
-<span style="text-decoration:underline;">Ship not shown? Add new!</span>
 
+<div class="field" style="margin-top:5px; margin-bottom:10px;">
+<span id="demo" style="text-decoration:underline;" onclick="myFunction()">Ship not shown? Add new!</span>
+
+
+<script>
+function myFunction() {
+  document.getElementById("userships_form").style.display = "block";
+}
+</script>
 </div>
 
 
