@@ -8,6 +8,10 @@ class User < ApplicationRecord
   has_one :task_manager
   has_many :rfas
 
+  def top_five
+    userships = self.userships
+end
+
   def email_required? 
     false 
   end 

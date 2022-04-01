@@ -61,15 +61,15 @@
 
 
   <div class="userships" style="margin-top:5px; margin-bottom:10px;">
-    <% @userships = current_user.userships.uniq %> 
-    <% userships_hash = Hash.new %>
-          <% @userships.each do | ship | %>
-            <% userships_hash[ship.ship.model] = ship.ship.id %>
-          <% end %>
-          <% userships_hash.each do |ship_model, ship_id| %>
+  Select your ship:
+    <% @userships = current_user.userships %> 
+    
+          <% @userships.each do | usership | %>
+   
+       
           <span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-            <%= form.radio_button(:ship_id, ship_id) %>
-            <%= label_tag(ship_model) %>
+            <%= form.radio_button(:ship_id, usership.ship.id,checked: usership.primary) %>
+            <%= label_tag(usership.ship.model) %>
             </span>
           <% end %>
   </div>
@@ -77,12 +77,13 @@
 
 
 <div class="field" style="margin-top:5px; margin-bottom:10px;">
-<span id="demo" style="text-decoration:underline;" onclick="myFunction()">Ship not shown? Add new!</span>
+<span id="demo" style="text-decoration:underline;" onclick="show()">Ship not shown? Add new!</span>
 
 
 <script>
-function myFunction() {
+function show() {
   document.getElementById("userships_form").style.display = "block";
+  document.getElementById("submit").style.display = "none";
 }
 </script>
 </div>
@@ -93,7 +94,7 @@ function myFunction() {
   <div class="field">
   <div class="submit-row">
   
-  <%= form.submit 'Request' %>
+  <%= form.submit 'Request' , id: 'submit'%>
   </div>
   <div>
 
