@@ -218,11 +218,11 @@
 
 #rfa_container{
     margin:0px;
-    height:100vh;
+    //height:100vh;
     width:100vw;
     background-size:cover;
     font-family: acumin-pro,sans-serif;
-    overflow:hidden;
+    overflow: hidden;
     header{
         height:70px;
         display:flex;
@@ -450,7 +450,7 @@
         display:none;
         opacity:0;
         transform: translateY(60px);
-        overflow:hidden;
+        overflow: hidden;
         transition: opacity 1s;
     }
 }
@@ -580,7 +580,7 @@
     padding:10px;
     font-family: acumin-pro,sans-serif;
     border-radius:10px;
-    overflow:hidden;
+    overflow: hidden;
     .avatar-image img{
         border-radius: 40px;
         width: 70px;
