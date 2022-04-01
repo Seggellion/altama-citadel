@@ -40,7 +40,9 @@
 <%= render 'rfa-status', user: current_user %>
 
 
-<div id="rfa_container" data-controller="web">
+<div id="rfa_container" data-controller="web"
+ data-action="load@window->web#google" data-page_name="Roadside Assistance <%= @location.full_name %>" data-page_url="<%= request.original_url %>" data-page_path="<%= request.path %>">
+
 <header><div class="logo"> <%= image_tag("altama_logo_white.png") %> </div><div class="title">Roadside Request <%=@location.name %></div> <div class="back"><%= link_to roadside_assistance_path do %> < Back to location selection<% end %></div></header>
 <div class="rfa-body">
 <div class="left-drawer">
@@ -50,7 +52,7 @@
     </div>
     <div class="drawer-body">
     <div class="drawer-headline">
-    <h2>Altama Roadside Assistance</h2>
+    <h1>Altama Roadside Assistance</h1>
     <p>
     Altama accepts online requests for  spaceship service 24-hours a day so you can be confident your service request will be handled promptly. 
     </p>

@@ -77,7 +77,17 @@ end
     end
   end
 
-
+def full_name
+  name = self.name
+  planet = self.find_planet.name  
+  star = self.find_planet.get_parent.name
+  if name == planet
+    p  planet + ' ' + star
+  else
+    p name + ' ' + planet + ' ' + star
+  end
+  
+end
 # If location is at Lathan it's ID 
 #
 #

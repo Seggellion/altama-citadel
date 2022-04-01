@@ -5,7 +5,26 @@ function styler(event){
 export default class extends Controller {
     static targets = [ "locationField", "localField" ]
 
+connect(){
 
+  
+}
+google(event){
+    
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+   let title =  this.element.dataset.page_name;
+   let page_path =  this.element.dataset.page_path;
+   let page_url =  this.element.dataset.page_url;
+   
+    gtag('config', 'G-NE86H4JCCD',{
+        page_location: page_url,
+        page_path: page_path,
+        page_title: title
+    });
+}
 
     moonSelect(event){
         var current_shown = document.getElementsByClassName('show')
