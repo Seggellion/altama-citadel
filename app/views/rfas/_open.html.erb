@@ -89,16 +89,16 @@
   <div class="rfa-module">
 <h2>Altama Member Search</h2>
 <hr />
-
+<!-- 
   <div class="field">
   <% unless @rfa.user.verified? %>
-  RSI: <input type="text" value="<%= form.text_field :rsi_username %>" >
+  RSI: <input type="text" value="<%#= form.text_field :rsi_username %>" >
    <small><a class="verify" data-action="click->rfa#verify">Authenticate</a></small>
    <% else %>
    RSI: <%= @rfa.user.rsi_username %>
    <% end %>
    </div>
-
+-->
 <div class="reviews">
    <% if !@rfa.review_description_exists(@rfa.user_assigned_id) %>
        <div class="review-stars" >
