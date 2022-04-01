@@ -2,6 +2,8 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: %i[edit update destroy ]
 
 def create
+  rfa_page = params[:review][:rfa_page]
+  
   rfa = Rfa.find_by_id(review_params[:rfa_id])
   rating =review_params[:rating].to_i
   if request.path.include? "reviews"
@@ -25,12 +27,14 @@ def create
 
     respond_to do |format|
       if  existing_review.blank? && @review.save
-        if request.path.include? "reviews"
+        unless rfa_page
+          
           format.html { redirect_to roadside_assistance_path, notice: "review was successfully created." }
         #  format.html { redirect_to rfa_location_path(location: rfa.location.find_planet.id), notice: "review was successfully created." }
           format.json { render :show, status: :created, location: @review }
         else
-          format.html { redirect_to desktop_path, notice: "review was successfully created." }
+          
+          format.html { redirect_to edit_rfa_path(rfa), notice: "Rfa was successfully updated." }
           format.json { render :show, status: :created, location: @review }
         end
       elsif !existing_review.blank?
