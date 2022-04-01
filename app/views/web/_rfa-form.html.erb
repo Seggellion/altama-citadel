@@ -59,29 +59,48 @@
 
   </div>
 
-<div class="field">
+
 <div class="userships" style="margin-top:5px; margin-bottom:10px;">
-<span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-Caterpillar
-</span>
-<span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-Starfarer
-</span>
-<span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-Aurora
-</span>
-</div>
+  Select from your ships:
+<% @dropped = Array.new %>
+    <% @userships = current_user.userships %> 
+    <% @userships.each_with_index do | usership, i | %>
+    <% if i >= 5  %>
+ <% @dropped.push(usership)%>
+    <% else %>
+      <span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
+        <%= form.radio_button(:ship_id, usership.ship.id, checked: usership.primary) %>
+        <%= label_tag(usership.ship.model) %>
+      </span>
+      <% end %>
+    <% end %>
+<% if @userships.count > 5 %>
+<%# TODO %>
+<%#= form.select :ship_id, options_for_select(@dropped.collect{ |u| [u.ship.model]}),{:include_blank => "Select from your other ships.."}%>
+  <% end %>
+  </div>
+
+
+
+<div class="field" style="margin-top:5px; margin-bottom:10px;">
+<span id="demo" style="text-decoration:underline;" onclick="show()">Ship not shown? Add new!</span>
+
+
+<script>
+function show() {
+  document.getElementById("userships_form").style.display = "block";
+  document.getElementById("submit").style.display = "none";
+}
+</script>
 </div>
 
-<div class="field" style="margin-bottom:10px;">
-<span style="text-decoration:underline;">Ship not shown? Add new!</span>
-<%#= form.select :ship_id, options_for_select(@ships.collect{ |u| [u.model, u.id] } ), :include_blank => 'Select Ship' %>
-</div>
+
+
 
   <div class="field">
   <div class="submit-row">
   
-  <%= form.submit 'Request' %>
+  <%= form.submit 'Request' , id: 'submit'%>
   </div>
   <div>
 

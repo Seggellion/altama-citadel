@@ -1,7 +1,5 @@
 <style>
-#rfa_container{
- background-image: url('<%= rails_blob_url(@location.image) %>');
-}
+
 .popup{
     background-image: url('<%= image_url"BC_landscape.jpg" %>');
     background-size: cover;
@@ -54,7 +52,8 @@
     <a href="">Member Owner</a>
     <small>Learn more about our Member Owner program</small>
     </p>
-    <%= render "rfa-form", rfa: @rfa, location: @location%>
+    <%= render "rfa-form", rfa: @rfa, location: @location, usership: @usership%>
+    <%= render "userships/usership-form", usership: @usership%>
 <% if current_user && current_user.has_open_ticket? %>
  <p>Thanks! An agent will be contacting you soon! Please keep an eye for in-game friend requests.</p>
 
