@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["form", "status_field", 
   "user", "status_menu", "status_button",
    "rfaUnassigned", "rfaSolved","rfaMine",
-    "rfaAll"]
+    "rfaAll","rating_field", "review_form"]
 
  
 clear(event){
@@ -81,6 +81,34 @@ clear(event){
     event.preventDefault();
     this.status_menuTarget.classList.add("open");
   }
+  star1(event){
+    this.rating_fieldTarget.value = "1"    
+    event.target.classList.add('selected');
+    this.review_formTarget.submit();
+  }
+
+  star2(event){
+    this.rating_fieldTarget.value = "2"
+    event.target.classList.add('selected');
+    this.review_formTarget.submit();
+  }
+  star3(event){
+    this.rating_fieldTarget.value = "3"
+    event.target.classList.add('selected');
+    this.review_formTarget.submit();
+  }
+  star4(event){
+    this.rating_fieldTarget.value = "4"
+    event.target.classList.add('selected');
+    this.review_formTarget.submit();
+  }
+
+  star5(event){
+    this.rating_fieldTarget.value = "5"
+    event.target.classList.add('selected');
+    this.review_formTarget.submit();
+  }
+
 
   verify(event){
     document.getElementById('rsi_verification').classList.add('open');

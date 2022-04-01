@@ -1,19 +1,8 @@
-<%= form_with(model: rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
+
   <div  class="rfa-open-container">
-    <% if rfa.errors.any? %>
-    
-      <div style="color: red">
-        <h2><%= pluralize(rfa.errors.count, "error") %> prohibited this rfa from being saved:</h2>
-
-        <ul>
-          <% rfa.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
+  
   <div class="rfa-params column">
+  <%= form_with(model: rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
   <div class="field"><label>Assigned to:<a href="#" data-action="click->rfa#takeit"   class="take">take it</a></label>
   <%= form.select :user_assigned_id, options_for_select(@users.collect{ |u| [u.username, u.id] } , {:class => 'teamTag', selected: @rfa.user_assigned_id || nil, data:{ 'rfa-target' => 'assigned_to'}  }   ), :include_blank => 'Altama Support Queue'%>
   </div>
@@ -30,25 +19,19 @@
   </div>
 
 
-  <% @all_commodities.each do |commodity| %>
-    
+  <% @all_commodities.each do |commodity| %>    
     <% if @rfa.commodities.include? commodity  %>
-    <%= commodity.name %>
-    <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: @rfa.commodity_total(commodity) %>
+      <%= commodity.name %>
+      <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: @rfa.commodity_total(commodity) %>
     <% else %>
-
-    <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: 0 %>
+      <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: 0 %>
+    <% end %>
   <% end %>
-  <% end %>
-  <div class="field"><label>Total charge:</label> <%= form.number_field :total_charge, disabled:true, value: @rfa.total_charge  %></div>
-  <div class="field">
-  <label>AEC:</label>
-  
 
-   <%= form.number_field :aec_rewards, disabled: true, value: @rfa.aec_rewards,
-   data:{ 'rfa-target' => 'aec_field', 'aec' => Reward.apply('aec').to_i } %>
-   
-   </div>
+    <div class="field"><label>Total charge:</label> <%= form.number_field :total_charge, disabled:true, value: @rfa.total_charge  %></div>
+    <div class="field"><label>AEC:</label><%= form.number_field :aec_rewards, disabled: true, value: @rfa.aec_rewards, data:{ 'rfa-target' => 'aec_field', 'aec' => Reward.apply('aec').to_i } %></div>
+    <%= form.hidden_field :status_id, data:{ 'rfa-target' => 'status_field'}, :value => 1 %>
+    <% end %>
   </div>
 
   <div class="rfa-comms column">
@@ -59,20 +42,26 @@
   <%= time_ago_in_words(@rfa.created_at) %> ago  	&#8226; <%= rfa.user.username %>
   </div>
   <hr />
+
+  <%= form_with(model: rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
   <div class="field">Comment: <%= form.text_field :description %></div>
+  <% end %>
+
   <hr />
   <div class="comm-entry">
     <div class="comm-entry-header">
       <div class="avatar-image"><%= image_tag @rfa.user.profile_image if @rfa.user.profile_image.present? %></div>
       <strong><%= @rfa.user.username %> </strong>
       <small>
-      <% if @rfa.created_at === Date.today %>
-      <%= @rfa.created_at.strftime("Today %b %d") %>
-<% else %>
-<%= @rfa.created_at.strftime("%A %b %d") %>
-<% end %>
-</small>
+        <% if @rfa.created_at === Date.today %>
+        <%= @rfa.created_at.strftime("Today %b %d") %>
+        <% else %>
+        <%= @rfa.created_at.strftime("%A %b %d") %>
+        <% end %>
+      </small>
     </div>
+
+
     <div class="comm-entry-body">
       <strong>Your name or alias used with the customer:</strong>
       <div class="point"><%= current_user.username %></div>
@@ -112,13 +101,14 @@
 
 <div class="reviews">
    <% if !@rfa.review_description_exists(@rfa.assigned_user) %>
-       <div class="review-stars" data-controller="rfa-review">
-           <%= form_with(model: Review.new, remote: true, data:{ 'review-target' => 'form'}) do |form| %>
-               <%= form.hidden_field :rfa_id, :value => @rfa.id%>
-               <%= form.hidden_field :rating, :value => @rfa.current_rating(@rfa.assigned_user), data:{ 'review-target' => 'rating_field'}%>
+       <div class="review-stars" >
+           <%= form_with(model: Review.new, remote: true, data:{ 'rfa-target' => 'review_form'}) do |form| %>
+            <%= form.hidden_field :rfa_page, :value => true %>   
+            <%= form.hidden_field :rfa_id, :value => @rfa.id%>
+               <%= form.hidden_field :rating, :value => @rfa.current_rating(@rfa.assigned_user), data:{ 'rfa-target' => 'rating_field'}%>
                <% 5.downto(1).each do | index| %>
                    <%= form.hidden_field "star_id_#{index}", :value => index %>
-                   <div class="star-container <% if @rfa.current_rating(@rfa.user) >= index %> selected <% end %>" data-action="click->rfa_review#star<%=index%>" >
+                   <div class="star-container <% if @rfa.current_rating(@rfa.user) >= index %> selected <% end %>" data-action="click->rfa#star<%=index%>" >
                        <%= show_svg('review_star') %>
                    </div>
                <% end %>
@@ -131,11 +121,11 @@
            <% end %>
        </div>
        <% else %>
-       <h3>Thanks for submitting your feedback!</h3>
+       <h4>Rating: <%= @rfa.current_rating(@rfa.assigned_user) %> / 5</h3>
        <% end %>
    </div>
 
-  <div class="field">Ship: <%= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
+  <div class="field">Ship: <%#= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
 <% Commodity.all.each do | commodity|  %>
   <%= form_with(model: @rfa.get_product(commodity)) do |product| %>
@@ -154,10 +144,8 @@
   </ul>
   </div>
   
-  <%= form.hidden_field :status_id, data:{ 'rfa-target' => 'status_field'}, :value => 1 %>
-  <div style="display:none">
-  <%= form.submit %>
-  </div>
+  
+
   
  
   </div>
@@ -213,5 +201,5 @@
   </div>
 </div>
 </div>
-<% end %>
+
 

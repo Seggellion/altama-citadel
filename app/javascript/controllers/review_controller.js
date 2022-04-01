@@ -7,6 +7,7 @@ export default class extends Controller {
  static targets = ["rating_field", "form", "description"]
 
     star1(event){
+        
         this.rating_fieldTarget.value = "1"
         //document.querySelector('form').submit();
         this.descriptionTarget.classList.add('show');
