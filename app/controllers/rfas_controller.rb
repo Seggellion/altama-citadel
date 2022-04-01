@@ -24,6 +24,8 @@ class RfasController < ApplicationController
   # GET /rfas/1/edit
   def edit
     @all_commodities = Commodity.all
+    @all_locations = Location.all
+    @all_products = RfaProduct.all
     @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   end
 
@@ -69,10 +71,11 @@ class RfasController < ApplicationController
 
   # PATCH/PUT /rfas/1 or /rfas/1.json
   def update
+    
     user = User.find_by_id(@rfa.user_id)
     # Discord::Notifier.message('!update user: <@'+ user.uid + '>' )
     status = Rfa.get_status(params[:rfa][:status_id].to_i) 
-    Discord::Notifier.message('!update ,'+ user.uid + ',' + status)
+    
   #  assigned_user = User.find_by_id(rfa_params[:user_assigned_id])
   @aec = 0
 
@@ -103,8 +106,10 @@ class RfasController < ApplicationController
     selling_price = discount_price * amount
 
     @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
+    
    if @rfa.commodities.find_by_id(commodity)
-    rfa_product = RfaProduct.find_by(commodity_id: commodity.id)
+    
+    rfa_product = RfaProduct.find_by(rfa_id: @rfa.id,commodity_id: commodity.id)
     rfa_product.update(amount: amount, selling_price: selling_price, market_price: market_price)
     
    else
@@ -118,10 +123,22 @@ class RfasController < ApplicationController
   if rfa_params[:user_assigned_id].blank?
     merge_params = rfa_params.merge(status_id: 0)
   end
-
   
+  if status == "Solved"
+    user_aec = user.aec + @aec
+    user.update(aec: user_aec)
+    user.give_karma(2)
+    user.give_fame(2)
+    current_user.give_karma(5)
+    current_user.give_fame(5)
+  end
+
     respond_to do |format|
       if @rfa.update(merge_params)
+        unless rfa_params[:user_assigned_id].blank?
+          Discord::Notifier.message('!update ,'+ user.uid + ',' + status)
+        end
+        
          #format.turbo_stream { render turbo_stream: turbo_stream.update(@rfa) }
        format.turbo_stream
        

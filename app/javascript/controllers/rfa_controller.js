@@ -18,21 +18,25 @@ clear(event){
 
 
   open(event) {
-
     this.status_fieldTarget.value = 1;
-    this.formTarget.submit();
+    Turbo.navigator.submitForm(this.formTarget);
   }
 
   pending(event) {
 
     this.status_fieldTarget.value = 2;
-    this.formTarget.submit();
+    Turbo.navigator.submitForm(this.formTarget);
   }
 
   hold(event) {
 
     this.status_fieldTarget.value = 3;
-    this.formTarget.submit();
+    Turbo.navigator.submitForm(this.formTarget);
+  }
+
+  free_fuel(event){
+    this.target.classList.add('selected');
+    Turbo.navigator.submitForm(this.formTarget);
   }
 
   rfaAll(event){

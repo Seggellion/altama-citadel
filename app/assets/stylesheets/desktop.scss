@@ -65,6 +65,10 @@
         background-color: $light_grey;
         border-right:$shadow_border;
         border-bottom:$shadow_border;
+        h4,h3{
+            display:block;
+            width:100%;
+        }
         .window-menu{
             height:54px;
             display:flex;

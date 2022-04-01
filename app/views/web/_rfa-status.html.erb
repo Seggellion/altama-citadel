@@ -4,10 +4,10 @@
 
 <%= turbo_stream_from "active_rfa" %>
 <div id="active_rfa">
-  <h2>Thank you for your patience </h2>
+  
   <div style="height:100%;" id="<%= "#{dom_id(@active_rfa)}_item" %>">
-    <%= render  "rfas/status", active_rfa:@active_rfa %>
-    <%= image_tag('status-loading.gif', class:'status-loading')  %>
+    <%= render  "rfas/status", active_rfa:@active_rfa, review: @review %>
+
   </div>
 
 </div>

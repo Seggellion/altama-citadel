@@ -1,4 +1,53 @@
 
 <%= turbo_frame_tag dom_id(active_rfa) do %>
-    <h3><%= active_rfa.status_response %></h3>
+    
+
+
+    <% case active_rfa.status_id 
+when 0 %>
+<h2>Thanks for choosing Altama!</h2>
+<p>
+Waiting response from Support Queue (current wait times: X hours), Join our discord for instant updates
+</p>
+<%= image_tag('status-loading.gif', class:'status-loading')  %>
+<% when 1 %>
+<div class="avatar-image"><%= image_tag active_rfa.assigned_user.profile_image if active_rfa.assigned_user.profile_image.present? %></div>
+<%=  active_rfa.assigned_user.username %> has accepted your issue, please await friend request
+<a href="https://discord.com/invite/kNwx4Bw" target="_blank">Join our discord for instant updates: discord.altama.energy</a>
+<%= image_tag('status-loading.gif', class:'status-loading')  %>
+<% when 2 %>
+<a href="https://discord.com/invite/kNwx4Bw" target="_blank">Join our discord for instant updates: discord.altama.energy</a>
+<%= image_tag('status-loading.gif', class:'status-loading')  %>
+<% when 3 %>
+<%= image_tag('status-loading.gif', class:'status-loading')  %>
+<% when 4 %>
+
+<% if !active_rfa.review_description_exists(active_rfa.user) %>
+<h3>Refilling Complete! How did we do?</h3>
+    <div class="review-stars" data-controller="review">
+        <%= form_with(model: Review.new, remote: true, data:{ 'review-target' => 'form'}) do |form| %>
+            <%= form.hidden_field :rfa_id, :value => active_rfa.id%>
+            <%= form.hidden_field :rating, :value => active_rfa.current_rating(active_rfa.user), data:{ 'review-target' => 'rating_field'}%>
+
+            <% 5.downto(1).each do | index| %>
+                <%= form.hidden_field "star_id_#{index}", :value => index %>
+                <div class="star-container <% if active_rfa.current_rating(active_rfa.user) >= index %> selected <% end %>" data-action="click->review#star<%=index%>" >
+                    <%= show_svg('review_star') %>
+                </div>
+            <% end %>
+            
+                <div class="field-row description" data-review-target="description">
+                    <%= form.text_area :description, :placeholder => "How was your experience? What could be improved?" %>
+                    <%= form.submit "Save" %>
+                </div>
+        
+        <% end %>
+    </div>
+    <% else %>
+    <h3>Thanks for submitting your feedback!</h3>
+    <% end %>
+
+
+<% end %>
+
 <% end %>
