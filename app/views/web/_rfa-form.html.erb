@@ -61,17 +61,23 @@
 
 
   <div class="userships" style="margin-top:5px; margin-bottom:10px;">
-  Select your ship:
+  Select from your ships:
+<% @dropped = Array.new %>
     <% @userships = current_user.userships %> 
-    
-          <% @userships.each do | usership | %>
-   
-       
-          <span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-            <%= form.radio_button(:ship_id, usership.ship.id,checked: usership.primary) %>
-            <%= label_tag(usership.ship.model) %>
-            </span>
-          <% end %>
+
+    <% @userships.each_with_index do | usership, i | %>
+    <% if i >= 5  %>
+ <% @dropped.push(usership)%>
+    <% else %>
+      <span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
+        <%= form.radio_button(:ship_id, usership.ship.id) %>
+        <%= label_tag(usership.ship.model) %>
+      </span>
+      <% end %>
+    <% end %>
+<% if @userships.count > 5 %>
+<%= form.select :ship_id, options_for_select(@dropped.collect{ |u| [u.ship.model]}),{:include_blank => "Select from your other ships.."}%>
+  <% end %>
   </div>
 
 

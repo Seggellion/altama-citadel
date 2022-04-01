@@ -1,4 +1,4 @@
- <%= form_with(model: usership, :html => {:id => 'userships_form', :style => 'display:none;' }) do |forma| %>
+ <%= form_with(model: usership, data:{ 'web-target' => 'usershipForm'}, :html => {:id => 'userships_form', :style => 'display:none;' }) do |forma| %>
   <% if usership.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(usership.errors.count, "error") %> prohibited this usership from being saved:</h2>

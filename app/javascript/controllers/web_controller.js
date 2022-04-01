@@ -3,7 +3,7 @@ function styler(event){
     event.target.style.backgroundColor = 'transparent'
 };
 export default class extends Controller {
-    static targets = [ "locationField", "localField" ]
+    static targets = [ "locationField", "localField"] //, "usershipForm" ]
 
 
 
@@ -27,10 +27,17 @@ export default class extends Controller {
         }
     }
 
+    /*addNew(event){
+
+        document.getElementById("userships_form").style.display = "block";
+        document.getElementById("submit").style.display = "none";
+    }
+    */
+
     selectSubLocation(event){
         event.target.style.backgroundColor = 'yellow'
         this.locationFieldTarget.value = event.target.dataset.location;
-        var option_select =document.getElementById('rfa_location_id_parent');
+        var option_select = document.getElementById('rfa_location_id_parent');
 
 
         const newItem = document.createElement("div");

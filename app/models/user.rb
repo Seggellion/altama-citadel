@@ -8,9 +8,7 @@ class User < ApplicationRecord
   has_one :task_manager
   has_many :rfas
 
-  def top_five
-    userships = self.userships
-end
+
 
   def email_required? 
     false 
@@ -54,13 +52,7 @@ end
   end
 
 
-    def get_userships
-
-      self.joins(:ships).select("userships.*, ships.model")
-      #Division.where(race_id: race.id).joins(:division_joins)
-
-
-    end
+ 
 
    def user_type_text
     if self.user_type == 42
