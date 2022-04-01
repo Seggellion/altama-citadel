@@ -5,6 +5,7 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable,
   :omniauthable, omniauth_providers: %i[discord]
   has_many :userships
+  has_many :ships, :through => :userships
   has_one :task_manager
   has_many :rfas
 
@@ -17,6 +18,18 @@ class User < ApplicationRecord
     if task_manager.tasks
         return true
     end
+end
+
+def isAdmin?
+  if self.user_type == 0
+    return true
+  else
+    return false
+  end
+end
+
+def desktop
+  self.update(last_login: Date.today)
 end
 
 def discounts

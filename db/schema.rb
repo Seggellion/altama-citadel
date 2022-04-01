@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_24_031232) do
+ActiveRecord::Schema.define(version: 2022_03_28_045351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,15 @@ ActiveRecord::Schema.define(version: 2022_03_24_031232) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "badges", force: :cascade do |t|
+    t.string "badge_name"
+    t.string "badge_description"
+    t.string "badge_image"
+    t.string "badge_color"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "commodities", force: :cascade do |t|
@@ -156,6 +165,17 @@ ActiveRecord::Schema.define(version: 2022_03_24_031232) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "rfa_id"
+    t.integer "reviewee_id"
+    t.integer "rating"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "rfa_id"], name: "one_review_per_rfa", unique: true
+  end
+
   create_table "rewards", force: :cascade do |t|
     t.string "title"
     t.float "amount"
@@ -211,6 +231,9 @@ ActiveRecord::Schema.define(version: 2022_03_24_031232) do
     t.string "ship_image_primary"
     t.string "ship_image_secondary"
     t.string "image_topdown"
+    t.float "hyd_fuel_capacity"
+    t.float "qnt_fuel_capacity"
+    t.float "liquid_storage_capacity"
   end
 
   create_table "task_managers", force: :cascade do |t|
@@ -241,6 +264,14 @@ ActiveRecord::Schema.define(version: 2022_03_24_031232) do
     t.string "team_color"
   end
 
+  create_table "user_badges", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "badge_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "badge_id"], name: "one_badge_per_user", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -255,6 +286,13 @@ ActiveRecord::Schema.define(version: 2022_03_24_031232) do
     t.string "uid"
     t.string "rsi_username"
     t.boolean "rsi_verify"
+    t.integer "aec", default: 0, null: false
+    t.integer "fame", default: 0, null: false
+    t.integer "karma", default: 0, null: false
+    t.datetime "last_login", precision: 6
+    t.string "desktop_background"
+    t.string "org_title"
+    t.string "crew_title"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
   end

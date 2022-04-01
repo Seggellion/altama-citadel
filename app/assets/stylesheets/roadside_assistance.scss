@@ -6,9 +6,9 @@
     @media (max-width: $mobile){
         margin-bottom: 200px;
     }
-    background-color:black;
+   
     &.modal{
-        
+        background-color:black;
         transition: all 0.5s ease-in-out;
         #rfa_container{
             transition: all 0.5s ease-in-out;
@@ -566,12 +566,14 @@
     
 }
 
+
+
 #rfa_status_modal{
     position:absolute;
     top:50%;
     left:50%;
     width: 400px;
-    height:300px;
+    min-height:300px;
     background-color:white;
     transform: translate(-50%, -50%);
     z-index:90001;
@@ -579,7 +581,54 @@
     font-family: acumin-pro,sans-serif;
     border-radius:10px;
     overflow:hidden;
+    .avatar-image img{
+        border-radius: 40px;
+        width: 70px;
+    }
+    .review-stars{
+        display:flex;
+        flex-wrap:wrap;
+        .star-container:hover ~ .star-container,
+                .star-container:hover{
+                path{
+                    transition: all 0.3s ease-in-out;
+            fill: black !important;
+            stroke:transparent !important; 
+        }
+            }
 
+        form{
+            display:flex;
+            flex-wrap:wrap;
+            flex-direction: row-reverse;
+            justify-content: space-evenly;
+        }
+        .selected svg path{
+            fill:black !important;
+            stroke:transparent !important; 
+            }
+        svg{
+            transition: all 0.3s ease-in-out;
+            &:hover{
+                path{
+                    fill:black;
+                     stroke:transparent !important; 
+                }
+                    cursor:pointer;
+                }
+            margin:0px 5px;
+            width:50px;
+            path{
+                stroke-width: 20px !important;
+                stroke:black !important;
+                fill:transparent !important;
+                transition: all 0.3s ease-in-out;
+            }
+        }
+        .star-container svg path.selected{
+            fill:black !important;
+        }
+    }
 }
 .status-loading{
     position: absolute;
@@ -598,4 +647,34 @@
 }
 #active_rfa{
     height:100%;
+    .field-row{
+        width: 100%;
+        display:flex;
+        margin: 0px 10px;
+        height: 80px;
+        flex-basis: 100% !important;
+        padding:10px;
+        &.description{
+            height:0px;
+            display:none;
+            transition: height 0.2s ease-in-out;
+            &.show{
+                display:flex;
+                height: 80px;
+                transition: height 0.2s ease-in-out;
+            }
+        }
+    }
+    #review_description{
+    width: 100%;
+    padding:10px;
+    }
+    input[type="submit"]:hover{
+        cursor:pointer
+    }
+
+    .star-container{
+        height:65px;
+    }
 }
+
