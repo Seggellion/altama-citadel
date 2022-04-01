@@ -62,6 +62,7 @@ end
 
 def location_name
     location_name = self.location
+    
     if location_name.present?
         location_name.name
     else
@@ -85,23 +86,33 @@ def status
 end
 
 def current_rating(user)
+  reviewer = User.find_by_id(user)
+  if reviewer
   review = Review.find_by(user_id: user.id, rfa_id: self.id)
   if review && review.rating
   review.rating
   else
     0
   end
+else
+  "No assigned user"
+end
 end
 
 def review_exists(user)
   return true if Review.find_by(user_id: user.id, rfa_id: self.id)
 end
 
-def review_description_exists(user)
-  review = Review.find_by(user_id: user.id, rfa_id: self.id)
+def review_description_exists(user)  
+  reviewer = User.find_by_id(user)
+  if reviewer
+  review = Review.find_by(user_id: reviewer.id, rfa_id: self.id)
   if review
   return true if review.description
   end
+else
+"No assigned user"
+end
 end
 
 def status_response 

@@ -4,7 +4,6 @@ before_action :not_logged_in
 
 def index
 @current_user = current_user
-# Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 
 

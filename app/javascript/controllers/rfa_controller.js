@@ -19,19 +19,20 @@ clear(event){
 
   open(event) {
     this.status_fieldTarget.value = 1;
-    Turbo.navigator.submitForm(this.formTarget);
+    this.formTarget.submit();
   }
 
   pending(event) {
 
     this.status_fieldTarget.value = 2;
-    Turbo.navigator.submitForm(this.formTarget);
+    this.formTarget.submit();
   }
 
   hold(event) {
 
     this.status_fieldTarget.value = 3;
-    Turbo.navigator.submitForm(this.formTarget);
+    this.formTarget.submit();
+   // Turbo.navigator.submitForm(this.formTarget);
   }
 
   free_fuel(event){

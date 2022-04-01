@@ -100,7 +100,7 @@
    </div>
 
 <div class="reviews">
-   <% if !@rfa.review_description_exists(@rfa.assigned_user) %>
+   <% if !@rfa.review_description_exists(@rfa.user_assigned_id) %>
        <div class="review-stars" >
            <%= form_with(model: Review.new, remote: true, data:{ 'rfa-target' => 'review_form'}) do |form| %>
             <%= form.hidden_field :rfa_page, :value => true %>   
@@ -114,7 +114,7 @@
                <% end %>
                
                    <div class="field-row description" data-review-target="description">
-                       <%= form.text_area :description, :placeholder => "How was your experience? What could be improved?" %>
+                       <%= form.text_area :description, :placeholder => "Add review" %>
                        <%= form.submit "Save" %>
                    </div>
            

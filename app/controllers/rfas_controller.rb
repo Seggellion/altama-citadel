@@ -23,6 +23,7 @@ class RfasController < ApplicationController
 
   # GET /rfas/1/edit
   def edit
+    
     @all_commodities = Commodity.all
     @all_locations = Location.all
     @all_products = RfaProduct.all
@@ -78,8 +79,11 @@ class RfasController < ApplicationController
     
   #  assigned_user = User.find_by_id(rfa_params[:user_assigned_id])
   @aec = 0
+  
+    bot_url = "https://altama-energy-support.herokuapp.com/"
+    bot =  Nokogiri::HTML(URI.open(bot_url).read)
 
-  if params[:rfa][:HYD]
+  if params[:rfa][:HYD].to_f > 0
     commodity = Commodity.find_by(symbol:"HYD")
     amount =  params[:rfa][:HYD].to_f
     market_price = commodity.price
@@ -88,6 +92,8 @@ class RfasController < ApplicationController
     selling_price = discount_price * amount
     
     @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
+
+
    if @rfa.commodities.find_by_id(commodity)
     rfa_product = RfaProduct.find_by(commodity_id: commodity.id)
     rfa_product.update(amount: amount, selling_price: selling_price, market_price: market_price)
@@ -97,7 +103,7 @@ class RfasController < ApplicationController
    end
   end
 
-  if params[:rfa][:QNT]
+  if params[:rfa][:QNT].to_f > 0
     commodity = Commodity.find_by(symbol:"QNT")
     amount =  params[:rfa][:QNT].to_f
     market_price = commodity.price
