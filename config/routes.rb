@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
+
   constraints subdomain: "sos" do
     get "/" => "web#roadside_assistance"
    end
+
   resources :org_roles
   resources :guildstones
   resources :locations
@@ -15,6 +17,7 @@ Rails.application.routes.draw do
   resources :events
   resources :ships
   resources :rfas
+  resources :reviews
   resources :rfa_products
   resources :commodities
   resources :rewards
@@ -40,9 +43,11 @@ Rails.application.routes.draw do
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
+  get 'my_badges', to: 'badges#index'
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'users', to: 'desktop#users'
   get 'roadside_assistance', to: 'web#roadside_assistance'
+  get 'current_review', to: 'web#current_review'
   get 'rfa_location', to: 'web#show'
   get 'ship_view', to: 'desktop#ship_view_switch'
   get 'select_ship', to: 'desktop#index'
@@ -50,6 +55,7 @@ Rails.application.routes.draw do
   get 'vote', to: 'guildstones#vote'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'properties', to: 'tasks#properties'
+  get 'profile', to: 'tasks#profile'
 
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify

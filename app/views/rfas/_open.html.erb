@@ -21,6 +21,15 @@
 
   <div class="field"><label>Priority:</label> <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
 
+  <div class="field"><label>RFA Location:</label>
+   <%= form.select :location_id,
+   options_for_select(@all_locations.collect{ |u| [u.name, u.id] }, @rfa.location_id ),
+   {:include_blank => @rfa.location_name},   
+   {:selected => @rfa.location_id}
+       %>
+  </div>
+
+
   <% @all_commodities.each do |commodity| %>
     
     <% if @rfa.commodities.include? commodity  %>
@@ -94,19 +103,46 @@
 
   <div class="field">
   <% unless @rfa.user.verified? %>
-  RSI: <%= form.text_field :rsi_username %>
+  RSI: <input type="text" value="<%= form.text_field :rsi_username %>" >
    <small><a class="verify" data-action="click->rfa#verify">Authenticate</a></small>
    <% else %>
    RSI: <%= @rfa.user.rsi_username %>
    <% end %>
    </div>
 
+<div class="reviews">
+   <% if !@rfa.review_description_exists(@rfa.assigned_user) %>
+       <div class="review-stars" data-controller="rfa-review">
+           <%= form_with(model: Review.new, remote: true, data:{ 'review-target' => 'form'}) do |form| %>
+               <%= form.hidden_field :rfa_id, :value => @rfa.id%>
+               <%= form.hidden_field :rating, :value => @rfa.current_rating(@rfa.assigned_user), data:{ 'review-target' => 'rating_field'}%>
+               <% 5.downto(1).each do | index| %>
+                   <%= form.hidden_field "star_id_#{index}", :value => index %>
+                   <div class="star-container <% if @rfa.current_rating(@rfa.user) >= index %> selected <% end %>" data-action="click->rfa_review#star<%=index%>" >
+                       <%= show_svg('review_star') %>
+                   </div>
+               <% end %>
+               
+                   <div class="field-row description" data-review-target="description">
+                       <%= form.text_area :description, :placeholder => "How was your experience? What could be improved?" %>
+                       <%= form.submit "Save" %>
+                   </div>
+           
+           <% end %>
+       </div>
+       <% else %>
+       <h3>Thanks for submitting your feedback!</h3>
+       <% end %>
+   </div>
 
-  <div class="field">Home Location: <%= form.select :location_id, ["Cellin","Daymar","Crusader"] %></div>
   <div class="field">Ship: <%= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
 <% Commodity.all.each do | commodity|  %>
-  <button><h2><%= commodity.symbol %>  <%= @rfa.price(commodity.name) %></h2></button>
+  <%= form_with(model: @rfa.get_product(commodity)) do |product| %>
+    <%= product.hidden_field :selling_price, :value => 0 %>
+    <%= product.hidden_field :commodity_id, :value => commodity.id %>
+  <button data-action="click->rfa#free_fuel" ><h2><%= commodity.symbol %>  <%= commodity.selling_price_discounted(@rfa) %></h2></button>
+  <% end %>
   <% end %>
   <button>Admin</button>
   </div>
@@ -139,9 +175,6 @@
 
 <div data-garden-id="dropdowns.menu_wrapper" data-garden-version="8.48.0" class="StyledMenuWrapper-sc-tiwdxz-0 hPndRc" style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;">
 <ul data-garden-id="dropdowns.menu" data-garden-version="8.48.0" class="StyledMenu-sc-1x4w0kg-1 jmiUVD StyledMenu-sc-1vpttfd-0 dfwXOG" role="menu" aria-labelledby="downshift-8-label" id="downshift-8-menu" data-simplified-get-started-tour-id="submitMenu"></ul></div></div>
-
-
-
 
 <div  data-rfa-target="status_menu"  class="status-menu-wrapper is-animated bvNpkX" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-27px, -158px, 0px);">
 

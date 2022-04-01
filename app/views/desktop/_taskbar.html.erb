@@ -4,7 +4,7 @@
     <div data-hello-target="mainmenu" id="main_menu">
         <div class="menu-branding">
             <span class="branding">
-                ALTAMA Citadel
+                ALTAMA <span class="citadel">Citadel</span>
             </span>
         </div>
         <div class="menu-items">    
@@ -20,12 +20,11 @@
         </div>
 
         <div class="menu-item">
-        <div class="icon"><%= image_tag("programs_icon.png") %></div>
-        <span><a class="pull-out" href="">Search</a></span>
+        <div class="icon"><%= image_tag("all_icons.png", class: "profile") %></div>
+        <span><%= link_to "Profile", profile_path %></span>
         </div>
 
-
-
+        <% if current_user && current_user.isAdmin? %>
         <div class="menu-item pull-out">
         <div class="icon"><%= image_tag("settings_icon.png") %></div>
         <span><a class="" href="">Admin settings</a></span>
@@ -37,8 +36,9 @@
                 <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "User manager", users_path, class:'child-link' %></span></div>
             </div>
         </div>
+        <% end %>
         <hr>
-            <div class="menu-item"><div class="icon"></div><span><%= link_to "Shut Down..", destroy_user_session_path, 'data-turbo-method': :delete %></span></div>
+            <div class="menu-item"><div class="icon"><%= image_tag( "all_icons.png", class: "shutdown")  %></div><span><%= link_to "Shut Down..", destroy_user_session_path, 'data-turbo-method': :delete %></span></div>
         </div>
     </div>
 

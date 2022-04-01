@@ -12,7 +12,7 @@ class="highlight">
     </div>
     <% else %>
     <div class="icon">
-    <%= image_tag( "all_icons.png", class: "invalid")  %> 
+    <%= image_tag( "all_icons.png", class: "invalid #{app1.downcase.parameterize.underscore}")  %> 
     </div>
     <% end %>
     <%= app1 %>

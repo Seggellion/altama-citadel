@@ -1,6 +1,8 @@
 
 <a href="<%= edit_rfa_path(rfa) %>" class="rfa-row" id="<%#= dom_id rfa %>">
-
+<div class="rfa-column">
+<small class="top-status-<%= rfa.status %>"><%= rfa.status[0] %></small>
+</div>
 <div class="rfa-column">
   <%= rfa.rsi_username %>
 </div>

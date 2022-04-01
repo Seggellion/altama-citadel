@@ -1,5 +1,12 @@
 <style>
 
+#rfa_container{
+
+    <% unless @location.image.blank? %>
+ background-image: url('<%= rails_blob_url(@location.image) %>');
+ <% end %>
+}
+
 .popup{
     background-image: url('<%= image_url"BC_landscape.jpg" %>');
     background-size: cover;
