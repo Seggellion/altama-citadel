@@ -1,9 +1,13 @@
 class Rfa < ApplicationRecord
     belongs_to :user
-    
+
     has_many :reviews
+
+    has_one :usership
+
     has_many :rfa_products
     has_many :commodities, :through => :rfa_products
+    accepts_nested_attributes_for :usership
     after_update_commit {broadcast_replace_to 'active_rfa', partial: '/rfas/status', locals: { active_rfa: self }}
 
 #  after_update_commit do

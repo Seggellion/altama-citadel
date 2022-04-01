@@ -31,8 +31,12 @@ class RfasController < ApplicationController
 
   # POST /rfas or /rfas.json
   def create
+
     @rfa = Rfa.new(rfa_params)
+    @usership = Usership.new
+    @userships = Usership.where(user_id: current_user.id)
     @location = Location.find_by_id(@rfa.location_id)
+    @ships = Ship.all
   
 
     respond_to do |format|
@@ -175,6 +179,6 @@ class RfasController < ApplicationController
     def rfa_params
       params.require(:rfa).permit(:title, :description, :rsi_username, :status_id, 
       :location_id, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
-      :aec_rewards, :user_assigned_id, :user_id)      
+      :aec_rewards, :user_assigned_id, :user_id, userships_attributes: [:ship_id, :user_id])      
     end
 end
