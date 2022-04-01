@@ -62,6 +62,7 @@
 
 <div class="userships" style="margin-top:5px; margin-bottom:10px;">
   Select from your ships:
+  <small> Only your first 5 ships will currently show </small>
 <% @dropped = Array.new %>
     <% @userships = current_user.userships %> 
     <% @userships.each_with_index do | usership, i | %>
