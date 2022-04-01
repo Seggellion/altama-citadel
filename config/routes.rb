@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
+  get 'my_badges', to: 'badges#index'
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'users', to: 'desktop#users'
   get 'roadside_assistance', to: 'web#roadside_assistance'

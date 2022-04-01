@@ -25,6 +25,7 @@ class RfasController < ApplicationController
   def edit
     @all_commodities = Commodity.all
     @all_locations = Location.all
+    @all_products = RfaProduct.all
     @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   end
 
@@ -66,6 +67,7 @@ class RfasController < ApplicationController
 
   # PATCH/PUT /rfas/1 or /rfas/1.json
   def update
+    
     user = User.find_by_id(@rfa.user_id)
     # Discord::Notifier.message('!update user: <@'+ user.uid + '>' )
     status = Rfa.get_status(params[:rfa][:status_id].to_i) 
@@ -100,8 +102,10 @@ class RfasController < ApplicationController
     selling_price = discount_price * amount
 
     @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
+    
    if @rfa.commodities.find_by_id(commodity)
-    rfa_product = RfaProduct.find_by(commodity_id: commodity.id)
+    
+    rfa_product = RfaProduct.find_by(rfa_id: @rfa.id,commodity_id: commodity.id)
     rfa_product.update(amount: amount, selling_price: selling_price, market_price: market_price)
     
    else

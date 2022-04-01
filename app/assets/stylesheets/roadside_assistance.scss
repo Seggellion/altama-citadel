@@ -588,47 +588,11 @@
     .review-stars{
         display:flex;
         flex-wrap:wrap;
-        .star-container:hover ~ .star-container,
-                .star-container:hover{
-                path{
-                    transition: all 0.3s ease-in-out;
-            fill: black !important;
-            stroke:transparent !important; 
-        }
-            }
-
-        form{
-            display:flex;
-            flex-wrap:wrap;
-            flex-direction: row-reverse;
-            justify-content: space-evenly;
-        }
-        .selected svg path{
-            fill:black !important;
-            stroke:transparent !important; 
-            }
-        svg{
-            transition: all 0.3s ease-in-out;
-            &:hover{
-                path{
-                    fill:black;
-                     stroke:transparent !important; 
-                }
-                    cursor:pointer;
-                }
-            margin:0px 5px;
-            width:50px;
-            path{
-                stroke-width: 20px !important;
-                stroke:black !important;
-                fill:transparent !important;
-                transition: all 0.3s ease-in-out;
-            }
-        }
-        .star-container svg path.selected{
-            fill:black !important;
-        }
+        @include stars(50px, black, 20px); 
     }
+
+
+
 }
 .status-loading{
     position: absolute;
