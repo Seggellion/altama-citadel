@@ -32,7 +32,7 @@ $rfa_border: #272321;
     background-color:black;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     height:100vh;
-    overflow:hidden;
+    overflow: hidden;
     
     a, a:visited{
         color:#d08a3e;
@@ -85,7 +85,7 @@ $rfa_border: #272321;
             margin-right:10px;
             flex-direction: column;
             align-items: left;
-            overflow:hidden;
+            overflow: hidden;
         }
     }
     .information-row{
