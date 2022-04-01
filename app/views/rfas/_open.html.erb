@@ -21,6 +21,15 @@
 
   <div class="field"><label>Priority:</label> <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
 
+  <div class="field"><label>RFA Location:</label>
+   <%= form.select :location_id,
+   options_for_select(@all_locations.collect{ |u| [u.name, u.id] }, @rfa.location_id ),
+   {:include_blank => @rfa.location_name},   
+   {:selected => @rfa.location_id}
+       %>
+  </div>
+
+
   <% @all_commodities.each do |commodity| %>
     
     <% if @rfa.commodities.include? commodity  %>
@@ -101,8 +110,8 @@
    <% end %>
    </div>
 
-
-  <div class="field">Home Location: <%= form.select :location_id, ["Cellin","Daymar","Crusader"] %></div>
+<button>FREE FUEL</button>
+  <div class="field">Home Location: <%= form.select :home_location_id, ["Cellin","Daymar","Crusader"] %></div>
   <div class="field">Ship: <%= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
 <% Commodity.all.each do | commodity|  %>

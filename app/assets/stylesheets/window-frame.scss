@@ -91,6 +91,14 @@
     transform: translateX(-294px) translateY(3px);
     height: 663px;
     width: auto;
+    &.user_profile{
+      background-position: top;
+      object-fit: contain;
+      transform: translateX(-816px) translateY(-479px);
+      height: 663px;
+      width: auto;
+  }
+
   }
   img{
     width:21px;

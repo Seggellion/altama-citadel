@@ -1,5 +1,7 @@
 class Rfa < ApplicationRecord
     belongs_to :user
+    
+    has_many :reviews
     has_many :rfa_products
     has_many :commodities, :through => :rfa_products
     after_update_commit {broadcast_replace_to 'active_rfa', partial: '/rfas/status', locals: { active_rfa: self }}
@@ -23,6 +25,11 @@ class Rfa < ApplicationRecord
     #broadcast_append_to [post, :comments], target: "#{dom_id(post)}_comments", partial: 'web/rfa-status'
 
  # end
+
+    def assigned_user
+      User.find_by_id(self.user_assigned_id)
+    end
+
     def commodity_total(commodity)
       rfa_product  =RfaProduct.find_by(commodity_id: commodity.id, rfa_id: self.id)
       if rfa_product
@@ -41,8 +48,12 @@ def line_item_price(commodity)
   end
 end
 
+def location
+  Location.find_by_id(self.location_id)
+end
+
 def location_name
-    location_name = Location.find_by_id(self.location_id)
+    location_name = self.location
     if location_name.present?
         location_name.name
     else
@@ -65,11 +76,31 @@ def status
     end
 end
 
+def current_rating(user)
+  review = Review.find_by(user_id: user.id, rfa_id: self.id)
+  if review && review.rating
+  review.rating
+  else
+    0
+  end
+end
+
+def review_exists(user)
+  return true if Review.find_by(user_id: user.id, rfa_id: self.id)
+end
+
+def review_description_exists(user)
+  review = Review.find_by(user_id: user.id, rfa_id: self.id)
+  if review
+  return true if review.description
+  end
+end
+
 def status_response 
   user = User.find_by_id(self.user_assigned_id)
   case self.status_id    
   when 0
-  "Waiting response from Support Queue (current wait times: X hours), Join our discord for instant updates"
+  ""
   when 1 
     "#{user.username} has accepted your issue, please add as a friend"
   when 2
@@ -83,6 +114,10 @@ end
 
 def aec
 
+end
+
+def new_review
+binding.break
 end
 
 def total_charge
@@ -124,6 +159,14 @@ def self.get_status(status_id)
     when 4
       "Solved"
     end
+end
+
+def isSolved?
+  if self.status_id == 4
+    true
+  else
+    false
+  end
 end
 
 def ship_name

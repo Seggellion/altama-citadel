@@ -1,0 +1,44 @@
+
+
+
+    
+    <style>
+.main{
+    width:100%;
+    height:100%;
+    background-size:contain;
+    <% unless @location.image.blank? %>
+    background-image: url('<%= rails_blob_url(@location.image) %>');
+    <% end %>
+
+}
+    </style>
+
+    <div id="rfa_container" class="main">
+
+    <header><div class="logo"> <%= image_tag("altama_logo_white.png") %> </div><div class="title">Roadside Request <%=@location.name %></div> <div class="back"><%= link_to roadside_assistance_path do %> < Back to location selection<% end %></div></header>
+
+    <div id="rfa_status_modal">
+
+
+    <% if !@rfa.blank? %>
+    <div id="rfa_status_modal">
+    <%= image_tag('status-banner.png', class:'status-banner')  %>
+
+    <%= turbo_stream_from "active_rfa" %>
+    <div id="active_rfa">
+
+    <div style="height:100%;" id="<%= "#{dom_id(@rfa)}_item" %>">
+    <%= render  "rfas/status", active_rfa:@rfa, review: @review %>
+
+    </div>
+
+    </div>
+    </div>
+
+
+    <% end %>
+
+
+</div>
+    </div>

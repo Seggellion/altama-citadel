@@ -21,4 +21,17 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
+  def give_karma(points)
+    self.increment(:karma,points).save
+  end
+  def take_karma(points)
+    self.decrement(:karma,points).save
+  end
+  def give_fame(points)
+    self.increment(:fame,points).save
+  end
+  def take_fame(points)
+    self.decrement(:fame,points).save
+  end
+
 end

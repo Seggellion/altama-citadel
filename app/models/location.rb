@@ -8,6 +8,7 @@ def star
      Location.where("system = id")
 end
 
+
 def sublocations
      Location.where(parent: self.id).where.not(location_type: 3)
 end
@@ -45,5 +46,42 @@ end
 def planets
      Location.where(parent: self.id, location_type: 2)
 end
+
+def get_moon
+  Location.find_by(id: self.parent, location_type: 3)
+end
+
+def get_planet
+  Location.find_by(id: self.parent, location_type: 2)
+end
+
+def get_parent
+  Location.find_by(id:self.parent)
+end
+
+  def find_planet
+    if self.location_type > 2
+    parent = self.get_parent 
+    if parent.location_type == 2
+      parent
+    else
+        grandparent = parent.get_parent
+        if grandparent.location_type == 2
+          grandparent
+        end
+      end
+    elsif self.location_type == 2
+      self
+    else
+      "Location is star"
+    end
+  end
+
+
+# If location is at Lathan it's ID 
+#
+#
+
+
 
 end

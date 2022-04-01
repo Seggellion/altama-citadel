@@ -3,6 +3,29 @@
 input:disabled{
    background-color: #161616 !important;
 }
+.rfa-column{
+    padding-left:30px;
+    small{
+        padding:1px 3px;
+        border-radius:3px;
+    }
+}
+.top-status-Unassigned{
+    background-color: #64c6ff;
+    color:black;
+}
+.top-status-In.Progress{
+    background-color: #b34a19;
+}
+.top-status-On.Hold{
+    background-color: blue;
+}
+.top-status-Pending{
+    background-color:purple;
+}
+.top-status-Solved{
+    background-color:green;
+}
 
 $rfa_border: #272321;
 #rfa_open{
@@ -10,6 +33,7 @@ $rfa_border: #272321;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     height:100vh;
     overflow:hidden;
+    
     a, a:visited{
         color:#d08a3e;
         text-decoration:none;
@@ -75,26 +99,11 @@ $rfa_border: #272321;
                 border-radius: 5px;
                 margin-right: 10px;
             }
-            .top-status-Unassigned{
-                background-color: #64c6ff;
-                color:black;
-            }
-            .top-status-In.Progress{
-                background-color: #b34a19;
-            }
-            .top-status-On.Hold{
-                background-color: blue;
-            }
-            .top-status-Pending{
-                background-color:purple;
-            }
-            .top-status-Solved{
-                background-color:green;
-            }
+
             &:first-child{
                 border-top-left-radius: 10px;
             }
-            &:last-child{
+            &:nth-last-child(2){
                 border-top-right-radius: 10px;
             }
             height:30px;

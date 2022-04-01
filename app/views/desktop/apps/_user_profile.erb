@@ -1,0 +1,17 @@
+<div data-controller="desktop" id="location_manager" class="window">
+    <%= render '/desktop/window-frame', app1: 'User profile', task: task, windowed: windowed %>
+        <div class="location-container">
+        <h3> <% if current_user.aec %>
+        Wallet: <%= current_user.aec %> AEC
+        <% else %>
+        No money
+        <% end %>
+        </h3>
+        <h4>Id: 0<%=current_user.id %> </h4>
+        <h4>Karma:<%= current_user.karma | 0 %> </h4>
+        <h4>Fame:<%= current_user.fame | 0 %> </h4>
+        <h4><%= link_to "My badges" my_badges_path %> %> </h4>
+        <h4>Change Background image</h4>
+        </div>
+
+    </div>
