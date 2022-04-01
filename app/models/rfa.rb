@@ -31,12 +31,16 @@ class Rfa < ApplicationRecord
     end
 
     def commodity_total(commodity)
-      rfa_product  =RfaProduct.find_by(commodity_id: commodity.id, rfa_id: self.id)
+      rfa_product  = self.get_product(commodity)
       if rfa_product
       RfaProduct.find_by(commodity_id: commodity.id, rfa_id: self.id).amount
       else
         0
       end
+    end
+
+    def get_product(commodity)
+      rfa_product= RfaProduct.find_by(commodity_id: commodity.id, rfa_id: self.id)
     end
 
 def line_item_price(commodity)
@@ -139,7 +143,7 @@ end
 
 def price(commodity)
   
-  commodity_price = Commodity.find_by(name: commodity).price
+  commodity_price = Commodity.find_by(symbol: commodity).price
   user_discounts = self.user.discounts * 0.01
 
   price = commodity_price - (commodity_price * user_discounts)

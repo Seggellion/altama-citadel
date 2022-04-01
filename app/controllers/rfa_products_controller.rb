@@ -15,6 +15,18 @@ class RfaProductsController < ApplicationController
         end
       end
     end
+
+
+    def update
+      @rfa = Rfa.find_by_id(@rfa_product.rfa_id)
+      
+      respond_to do |format|
+          if @rfa_product.update(rfa_product_params)
+              format.html { redirect_to edit_rfa_path(@rfa), notice: "Rfa was successfully updated." }
+          end
+      end
+  end
+
   
     def destroy
   
@@ -35,7 +47,7 @@ class RfaProductsController < ApplicationController
   
   
   def rfa_product_params
-    params.require(:rfa_product).permit(:name, :price, :symbol) 
+    params.require(:rfa_product).permit(:name, :price, :symbol, :selling_price, :commodity_id) 
   end
   
   

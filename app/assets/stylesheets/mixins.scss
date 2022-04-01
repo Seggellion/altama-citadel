@@ -137,3 +137,46 @@ $mobile: 625px;
     }
   
   }
+
+  @mixin stars($size: 50px, $color: black, $thickness: 20px) {
+    .star-container:hover ~ .star-container,
+            .star-container:hover{
+            path{
+                transition: all 0.3s ease-in-out;
+        fill: $color !important;
+        stroke:transparent !important; 
+    }
+        }
+
+    form{
+        display:flex;
+        flex-wrap:wrap;
+        flex-direction: row-reverse;
+        justify-content: space-evenly;
+    }
+    .selected svg path{
+        fill:$color !important;
+        stroke:transparent !important; 
+        }
+    svg{
+        transition: all 0.3s ease-in-out;
+        &:hover{
+            path{
+                fill:$color !important;
+                 stroke:transparent !important; 
+            }
+                cursor:pointer;
+            }
+        margin:0px 5px;
+        width: $size;
+        path{
+            stroke-width: $thickness !important;
+            stroke:$color !important;
+            fill:transparent !important;
+            transition: all 0.3s ease-in-out;
+        }
+    }
+    .star-container svg path.selected{
+        fill:$color !important;
+    }
+}
