@@ -52,7 +52,7 @@ class RfasController < ApplicationController
           author name: rfa.user.username
           color "00FFFF"
           
-          url "https://cty.altama.energy/rfas/#{rfa.id}/edit"
+          url "https://ctd.altama.energy/rfas/#{rfa.id}/edit"
           add_field name: "Location",
                     value: location.name
         end
