@@ -67,11 +67,20 @@
 <div class="userships field" id="shipSelector" style="margin-bottom:10px;">
 
 
-    <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id]}), {:include_blank => "Select Existing Ship"}%>
-
+    <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id,{:usership_id=>u.id}]}), {:include_blank => "Select Existing Ship"}, :id => "ship"%>
+    <%= form.hidden_field :usership_id, :value => '',:id => "usership"  %>
+    
 </div>
 <% end %>
-
+<script>
+window.onload = function () {
+  document.getElementById("ship").addEventListener("change", function(e) {
+    var usership_id = this.options[this.selectedIndex].getAttribute('usership_id');
+     alert(usership_id);
+    document.getElementById("usership").value = usership_id;
+  });
+};
+</script>
 
 <div class="field" style="margin-top:5px; margin-bottom:10px;">
 <span style="text-decoration:underline;" data-action="click->web#show">Ship not shown? Add new!</span>
