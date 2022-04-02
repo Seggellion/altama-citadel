@@ -70,29 +70,22 @@
  <% @dropped.push(usership)%>
     <% else %>
       <span style="background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-        <%= form.radio_button(:ship_id, usership.ship.id, checked: usership.primary) %>
+        <%= form.radio_button(:ship_id, usership.ship.id, checked: usership.primary, :id => :checked.to_s+i.to_s) %>
         <%= label_tag(usership.ship.model) %>
       </span>
       <% end %>
     <% end %>
 <% if @userships.count > 5 %>
 <%# TODO %>
-<%#= form.select :ship_id, options_for_select(@dropped.collect{ |u| [u.ship.model]}),{:include_blank => "Select from your other ships.."}%>
+<%= form.select :ship_id, options_for_select(@dropped.collect{ |u| [u.ship.model, u.ship.id]}),{:include_blank => "Select from your other ships.."}, {data:{ action: 'click->web#uncheck'}}%>
   <% end %>
   </div>
 
 
 
 <div class="field" style="margin-top:5px; margin-bottom:10px;">
-<span id="demo" style="text-decoration:underline;" onclick="show()">Ship not shown? Add new!</span>
+<span id="demo" style="text-decoration:underline;" data-action="click->web#show">Ship not shown? Add new!</span>
 
-
-<script>
-function show() {
-  document.getElementById("userships_form").style.display = "block";
-  document.getElementById("submit").style.display = "none";
-}
-</script>
 </div>
 
 
@@ -101,7 +94,7 @@ function show() {
   <div class="field">
   <div class="submit-row">
   
-  <%= form.submit 'Request' , id: 'submit'%>
+  <%= form.submit 'Request' , id: 'submit', {data:{ action: 'click->web#submit'}}%>
   </div>
   <div>
 
