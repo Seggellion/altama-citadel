@@ -5,7 +5,13 @@ function styler(event){
 export default class extends Controller {
     static targets = [ "locationField", "localField" ]
 
-
+usershipUpdate(event){
+    document.getElementById("ship").addEventListener("change", function(e) {
+        var usership_id = this.options[this.selectedIndex].getAttribute('usership_id');
+         alert(usership_id);
+        document.getElementById("usership").value = usership_id;
+      });
+}
 
 show(event){
     document.getElementById("userships_form").style.display = "block";
