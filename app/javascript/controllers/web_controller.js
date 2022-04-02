@@ -7,9 +7,9 @@ export default class extends Controller {
 
 removeShipButtons(event){
     const radioButtons = document.getElementsByClassName('shipButtons');
-    for (let x in radioButtons){
-        radioButtons[x].remove();
-    };
+        for (let x in radioButtons){
+            radioButtons[x].remove();
+        };
 }
 
 show(event){
