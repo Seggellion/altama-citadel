@@ -3,13 +3,15 @@ function styler(event){
     event.target.style.backgroundColor = 'transparent'
 };
 export default class extends Controller {
-    static targets = [ "locationField", "localField" ]
+    static targets = [ "locationField", "localField", "usershipsField", "shipSelectorField" ]
 
 usershipUpdate(event){
-    document.getElementById("ship").addEventListener("change", function(e) {
+    console.log("working");
+   this.shipSelectorFieldTarget.addEventListener("change", function(e) {
+       console.log("working");
         var usership_id = this.options[this.selectedIndex].getAttribute('usership_id');
          alert(usership_id);
-        document.getElementById("usership").value = usership_id;
+         document.getElementById("usership").value = usership_id;
       });
 }
 
