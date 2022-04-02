@@ -10,6 +10,10 @@ class BadgesController < ApplicationController
   def show
   end
 
+  def all_badges
+
+  end
+
   # GET /badges/new
   def new
     @badge = Badge.new
