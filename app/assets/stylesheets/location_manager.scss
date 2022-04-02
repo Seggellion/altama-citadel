@@ -1,21 +1,25 @@
 @import 'mixins';
 
-#desktop #location_manager{
-    right: 41%;
-    width: 573px;
-    height: 420px;
-    input, select{
-        border-bottom:$highlight_border;
-        border-right:$highlight_border;
-        border-top:$shadow_border;
-        border-left:$shadow_border;
-        border-radius: 0px;
+#desktop {
+    .config_window{
+        right: 41%;
+        width: 573px;
+        height: 420px;
+        input, select{
+            border-bottom:$highlight_border;
+            border-right:$highlight_border;
+            border-top:$shadow_border;
+            border-left:$shadow_border;
+            border-radius: 0px;
+        }
+        .control-buttons{
+            justify-content: right;
+            padding: 9px 8px;
+        }
+        #rsi_verification{
+            display:block;
+        }
     }
-    .control-buttons{
-        justify-content: right;
-        padding: 9px 8px;
-    }
-
 }
 
 .location-container{
