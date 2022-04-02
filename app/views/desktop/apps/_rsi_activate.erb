@@ -1,0 +1,10 @@
+<div data-controller="desktop" id="location_manager" class="window">
+    <%= render '/desktop/window-frame', app1: 'RSI Activate', task: task, windowed: windowed %>
+        <div class="profile location-container">
+
+        <h3>RSI Activate</h3>
+            <%= render '/users/authenticate', user: current_user %>
+
+        </div>
+
+    </div>

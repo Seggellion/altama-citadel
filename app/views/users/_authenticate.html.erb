@@ -1,4 +1,4 @@
-<div id="rsi_verification" data-controller="web">
+<div id="rsi_verification" <% if ctd %>class="ctd"<% end %> data-controller="web">
 
 <div class="bordered-container">
 <div class="column">
@@ -6,7 +6,7 @@
 <h2>Verify your RSI account to get <%= Reward.apply('verified') %>%-off all refillings!</h2>
 <%= form_with url: verify_path do |f| %>
     <p>
-        To verify you RSI handle please copy the following code in your RSI profile bio
+        To verify your RSI handle please copy the following code in your RSI profile bio
     </p>
     <a class="btn user-hash" target="_blank" data-action="click->web#copyToClipboard"><%= @hash %></a>
 

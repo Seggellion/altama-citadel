@@ -56,8 +56,10 @@ Rails.application.routes.draw do
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
+  get 'rsi_activate', to: 'tasks#rsi_activate'
 
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
+  
   
 end
