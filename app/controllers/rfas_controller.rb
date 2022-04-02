@@ -185,6 +185,6 @@ class RfasController < ApplicationController
     def rfa_params
       params.require(:rfa).permit(:title, :description, :rsi_username, :status_id, 
       :location_id, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
-      :aec_rewards, :user_assigned_id, :user_id, userships_attributes: [:ship_id, :user_id])      
+      :aec_rewards, :user_assigned_id, :user_id, :usership_id, userships_attributes: [:ship_id, :user_id])      
     end
 end

@@ -16,6 +16,7 @@
 
   <% if current_user && !current_user.has_open_ticket? %> 
   <%= form.hidden_field :title, :value => 'Web roadside request' %>
+  <%= form.hidden_field :usership_id, :value => 1, :id => 'usership'  %>
   <%= form.hidden_field :status_id, :value => 0 %>
   <%= form.hidden_field :user_id, :value => current_user.id %>
   <%= form.hidden_field :location_id, :value => location.id, data:{ 'web-target' => 'locationField'} %>
@@ -67,11 +68,11 @@
 <div class="userships field" id="shipSelector" style="margin-bottom:10px;">
 
 
-    <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id]}), {:include_blank => "Select Existing Ship"}%>
-
+    <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id,{:usership_id=>u.id}]}), {:include_blank => "Select Existing Ship"}, {data:{ 'web-target' => 'shipSelectorField', 'action' => 'click->web#usershipUpdate' }}%>
+    
+    
 </div>
 <% end %>
-
 
 <div class="field" style="margin-top:5px; margin-bottom:10px;">
 <span style="text-decoration:underline;" data-action="click->web#show">Ship not shown? Add new!</span>
