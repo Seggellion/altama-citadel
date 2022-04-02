@@ -13,7 +13,9 @@ class WebController < ApplicationController
     end
 
     def show
-        @userships = current_user.userships
+        if current_user
+            @userships = current_user.userships
+        end
         @usership = Usership.new
         @ships = Ship.all
         
