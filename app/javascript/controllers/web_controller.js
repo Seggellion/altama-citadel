@@ -5,16 +5,12 @@ function styler(event){
 export default class extends Controller {
     static targets = [ "locationField", "localField" ]
 
-removeShipButtons(event){
-    const radioButtons = document.getElementsByClassName('shipButtons');
-        for (let x in radioButtons){
-            radioButtons[x].remove();
-        };
-}
+
 
 show(event){
     document.getElementById("userships_form").style.display = "block";
     document.getElementById("submit").style.display = "none";
+    document.getElementById("shipSelector").style.display = "none";
 }
 
 google(event){

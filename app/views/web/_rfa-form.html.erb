@@ -59,22 +59,18 @@
 
   </div>
 
-
-<div class="userships" style="margin-top:5px; margin-bottom:10px;">
-  Select from your ships:
   <% @userships = current_user.userships %> 
-  <% @userships.take(5).each do | usership| %>
+  <span class="field" style="margin-top:10px;" >
+    Select from your ships:
+    </span>
+<% if @userships.count > 1%>
+<div class="userships field" id="shipSelector" style="margin-bottom:10px;">
 
-      <span class="shipButtons" style="display:inline-block;background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-        <%= form.radio_button(:ship_id, usership.ship.id, checked: usership.primary) %>
-        <%= label_tag(usership.ship.model) %>
-      </span>
-  <% end %>
 
-    <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id]}), {:include_blank => "Select from your other ships.."}, {data:{ action: 'click->web#removeShipButtons'}}%>
+    <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id]}), {:include_blank => "Select Existing Ship"}%>
 
 </div>
-
+<% end %>
 
 
 <div class="field" style="margin-top:5px; margin-bottom:10px;">

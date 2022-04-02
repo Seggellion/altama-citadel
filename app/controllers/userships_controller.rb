@@ -2,6 +2,9 @@ class UsershipsController < ApplicationController
   before_action :set_usership, only: %i[ show edit update destroy ]
   include ActionView::Helpers::UrlHelper
 
+  before_action :redirect_cancel, only: [:create, :update]
+
+
   # GET /userships or /userships.json
   def index
     @userships = Usership.all
@@ -66,6 +69,10 @@ class UsershipsController < ApplicationController
   end
 
   private
+    
+  def redirect_cancel
+    redirect_to request.referrer if params[:cancel]
+  end
     # Use callbacks to share common setup or constraints between actions.
     def set_usership
       @usership = Usership.find(params[:id])
