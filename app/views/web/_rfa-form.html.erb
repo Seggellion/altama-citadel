@@ -63,19 +63,16 @@
 <div class="userships" style="margin-top:5px; margin-bottom:10px;">
   Select from your ships:
   <% @userships = current_user.userships %> 
-  <% @userships.each_with_index do | usership, i | %>
-    <% if i < 5  %>
+  <% @userships.take(5).each do | usership| %>
+
       <span class="shipButtons" style="display:inline-block;background-color:grey; margin: 0px 3px; border-radius:10px; padding:2px 5px;">
-        <%= form.radio_button(:ship_id, usership.ship.id, checked: usership.primary, :id => :checked.to_s+i.to_s) %>
+        <%= form.radio_button(:ship_id, usership.ship.id, checked: usership.primary) %>
         <%= label_tag(usership.ship.model) %>
       </span>
-    <% else %>
-        <%break%>
-    <% end %>
   <% end %>
-  <% if @userships.count > 5 %>
+
     <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id]}), {:include_blank => "Select from your other ships.."}, {data:{ action: 'click->web#removeShipButtons'}}%>
-  <% end %>
+
 </div>
 
 
