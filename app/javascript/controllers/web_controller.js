@@ -10,7 +10,7 @@ usershipUpdate(event){
    this.shipSelectorFieldTarget.addEventListener("change", function(e) {
        console.log("working");
         var usership_id = this.options[this.selectedIndex].getAttribute('usership_id');
-         alert(usership_id);
+        // alert(usership_id);
          document.getElementById("usership").value = usership_id;
       });
 }
