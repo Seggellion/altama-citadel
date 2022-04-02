@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :commodities
   resources :rewards
   resources :control_points
+  resources :badges
   
 
 
@@ -44,6 +45,7 @@ Rails.application.routes.draw do
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_badges', to: 'badges#index'
+  get 'all_badges', to: 'badges#all_badges'
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'users', to: 'desktop#users'
   get 'roadside_assistance', to: 'web#roadside_assistance'
