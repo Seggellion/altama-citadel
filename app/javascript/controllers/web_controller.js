@@ -6,7 +6,12 @@ export default class extends Controller {
     static targets = [ "locationField", "localField" ]
 
 submit(event){
-
+    const checked = document.querySelectorAll('input[type=radio]');
+    for (let x in checked){
+        if (x.checked){
+            console.log("working")
+        }
+    };
   
 }
 
