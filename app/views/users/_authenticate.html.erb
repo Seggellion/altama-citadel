@@ -11,7 +11,12 @@
     <a class="btn user-hash" target="_blank" data-action="click->web#copyToClipboard"><%= @hash %></a>
 
   <%= f.hidden_field :hash, id: "hash", value: @hash %>
+  <% if ctd %>
+  <%= f.text_field :user, id: "user", value: current_user.username %>
+  <% else %>
   <%= f.hidden_field :user, id: "user", value: user.id %>
+  <% end %>
+  
   <%= f.hidden_field :rsi_username, id: "handle", value: user.rsi_username %>
 
 
