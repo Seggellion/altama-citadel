@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'hangardumps/index'
+  get 'hangardumps/new'
+  get 'hangardumps/create'
+  get 'hangardumps/destroy'
   mount ActionCable.server => "/cable"
 
   constraints subdomain: "sos" do
@@ -23,7 +27,7 @@ Rails.application.routes.draw do
   resources :rewards
   resources :control_points
   resources :badges
-  
+  resources :hangardumps, only: [:index, :new, :create, :destroy]
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -43,6 +47,7 @@ Rails.application.routes.draw do
   get 'cargo_manifest', to: 'cargo_manifest#welcome'
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
+  get 'my_hangar_import', to: 'hangardump#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_badges', to: 'badges#index'
   get 'all_badges', to: 'badges#all_badges'

@@ -29,20 +29,20 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: altama_citadel
+  username: postgres
 
   # The password associated with the postgres role (username).
-  #password:
+  password: R2KTr5d4
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  #host: localhost
+  host: localhost
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
-  #port: 5432
-
+  port: 5432
+  reconnect: true
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
 
@@ -58,7 +58,11 @@ development:
 test:
   <<: *default
   database: altama_citadel_test
-
+  username: postgres
+  password: R2KTr5d4
+  host: localhost
+  port: 5432
+  reconnect: true
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.
@@ -83,4 +87,4 @@ production:
   <<: *default
   database: altama_citadel_production
   username: altama_citadel
-  password: <%= ENV["ALTAMA_CITADEL_DATABASE_PASSWORD"] %>
+#  password: <%= ENV["ALTAMA_CITADEL_DATABASE_PASSWORD"] %>

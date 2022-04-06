@@ -5,28 +5,25 @@ export default class extends Controller {
  static targets = ["form", "ownedships"]
 
   submit(event) {
-    
-
-    var selected = document.querySelectorAll('[data-selected="true"]')[0].getElementsByTagName('form')[0];
-    console.log('hi', selected);
-
-    selected.submit();
-
-
+    this.formTarget.submit();
   };
   
-edit(event){
-  var ship_id =  event.currentTarget.dataset.ship;
-  var edit_container = document.getElementById('container-' + ship_id);
-  
-    if (edit_container.classList.contains('show')){
-      edit_container.classList.remove('show');
-    }else{
-      edit_container.classList.add('show');
-    }
+  edit(event){
+    var ship_id =  event.currentTarget.dataset.ship;
+    var edit_container = document.getElementById('container-' + ship_id);
+    
+      if (edit_container.classList.contains('show')){
+        edit_container.classList.remove('show');
+      }else{
+        edit_container.classList.add('show');
+      }
 
 
-}
+  }
+
+  import(event){
+    
+  }
 
   select(event) {
     
