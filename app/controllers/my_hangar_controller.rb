@@ -41,6 +41,13 @@ end
     end
   end
 
+    #def import
+    #  require 'csv'
+    #  CSV.read("favorite_foods.csv")
+    #  # give url to csv file
+    #  @csv_file_path ||= File.read("https://...")
+    #end    
+
   # PATCH/PUT /userships/1 or /userships/1.json
   def update
     respond_to do |format|
