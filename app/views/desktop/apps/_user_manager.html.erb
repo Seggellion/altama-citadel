@@ -9,12 +9,12 @@
 <div  class="content-body">
     <div class="left-pane">
     <div class="root-level">Citadel</div>
-    <div class="level-1" data-action="click->desktop#all_users" > <i class="folder"></i> HKEY_ROOT_USERS</div>
+    <div class="level-1" data-action="click->desktop#root_users" > <i class="folder"></i>[+]<%= link_to "HKEY_ROOT_USER", root_user_list_path  %></div>
     <div class="level-1"> <i class="folder"></i> HKEY_WORKER_USER</div>
     <div class="level-1"> <i class="folder"></i> HKEY_MEMBER_USER</div>
-    <div class="level-1"> <i class="folder"></i> HKEY_DISCORD_USER</div>
+    <div class="level-1"  data-action="click->desktop#discord_users"> <i class="folder"></i>[+]<%= link_to "HKEY_DISCORD_USER", discord_user_list_path  %> (<%=DiscordUser.all.count %>)</div>
     <div class="level-1" data-action="click->desktop#rsi_users" > <i class="folder"></i> [+]<%= link_to "HKEY_RSI_USER", rsi_user_list_path  %> (<%=RsiUser.all.count %>)</div>
-    <div class="level-1"> <i class="folder"></i> HKEY_AUTH_USER</div>
+    <div class="level-1">  <i class="folder">[+]</i><%= link_to "HKEY_ALL_USER", all_user_list_path  %> </div>
     <div class="level-1"> <i class="folder"></i> HKEY_LOCAL_SERVER</div>
 
     </div>
@@ -22,41 +22,44 @@
         <div class="right-pane">
         <div class="right-pane-header">
         <span>
+        Type
+        </span>
+        <span>
+        Status
+        </span>
+        <span>
+        Verified
+        </span>
+        <span>
         Name
         </span>
         <span>
         UserType
         </span>
         <span>
+        DiscordRole
+        </span>
+        <span>
+        Last Login
+        </span>
+        <span>
         Created At
         </span>
         </div>
 
-        <div class="user-list list" data-desktop-target="all_users" >
 
-            <% root_users.each do | user | %>
-                <div class="user-row" data-desktop-target="user_row" data-action="click->desktop#user_row"  >
-                    <i class="page-object"></i>
-                    <span class="username"><%= user.username %></span>
-                    <span class="user-type">{ <%= user.user_type || 'nil' %> }</span>
-                    <span class="user-created"> <%= user.created_at.utc  %> </span>
-                </div>
-            <% end %>
-
-            </div>
-
-            <div class="rsi-user-list list" data-desktop-target="rsi_users" >
-
-            <% @rsi_users.each do | user | %>
-                <div class="user-row" data-desktop-target="rsi_user_row" data-action="click->desktop#user_row"  >
-                    <i class="page-object"></i>
-                    <span class="username"><%= user.name %></span>
-                    <span class="user-type">{ <%= user.title || 'nil' %> }</span>
-                    <span class="user-created"> <%= user.link  %> </span>
-                </div>
-            <% end %>
-    
-            </div>
+<% case @user_manager.state 
+when 'root_users' %>
+<%= render 'users/root_users'  %>
+<% when 'all_users' %>
+<%= render 'users/all_users'  %>
+<% when 'rsi_users'  %>
+<%= render '/users/rsi_users' %>
+<% when 'discord_users'  %>
+<%= render '/users/discord_users'  %>
+<% when 'local_users'%>
+<%= render '/users/local_users'%>
+<% end %>
 
         </div>
 

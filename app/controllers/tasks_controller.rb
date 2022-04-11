@@ -10,6 +10,36 @@ class TasksController < ApplicationController
   def show
   end
 
+  def state_all_users
+    task_manager = TaskManager.find_by(user_id: current_user)
+    task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+    task.update(state:"all_users")
+
+    respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "All users" }
+    end
+  end
+
+  def state_root_users
+    task_manager = TaskManager.find_by(user_id: current_user)
+    task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+    task.update(state:"root_users")
+    
+    respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "Root users" }
+    end
+  end
+
+  def state_discord_users
+    task_manager = TaskManager.find_by(user_id: current_user)
+    task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+    task.update(state:"discord_users")
+    
+    respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "Discord users" }
+    end
+  end
+
   def properties
     task_manager = TaskManager.find_by(user_id: current_user)
    @task =  Task.new(name: 'System Properties',task_manager_id: task_manager.id)
