@@ -28,8 +28,55 @@ end
 
       handle_name = doc.css('strong.value')[2].text
       if handle_name == rsi_name && hash_match
-        user.update(rsi_verify: true, rsi_username: rsi_name)
-        
+
+        rsi_user = RsiUser.find_by(username: rsi_name)
+        discord_user = DiscordUser.find_by(username: user.username)
+        user_error = nil
+        case rsi_user.title
+        when 'Board Member'
+          user_type = 10
+          if discord_user.role != 'Board Member'
+            user_error = 'Role Mismatch'
+          end
+        when 'Executive'
+          user_type = 15
+          if discord_user.role != 'Executive'
+            user_error = 'Role Mismatch'
+          end
+        when 'Partner'
+          user_type = 20
+          if discord_user.role != 'Partner'
+            user_error = 'Role Mismatch'
+          end
+        when 'Flight Crew'
+          user_type = 25
+          if discord_user.role != 'Flight Crew'
+            user_error = 'Role Mismatch'
+          end
+        when 'Worker Owner'
+          user_type = 30
+          if discord_user.role != 'Worker Owner'
+            user_error = 'Role Mismatch'
+          end
+        when 'Member Owner'
+          user_type = 42
+          if discord_user.role != 'Member Owner'
+            user_error = 'Role Mismatch'
+          end
+        else
+          user_type = 100
+          if discord_user.role != 'Altama Plus'
+            user_error = 'Role Mismatch'
+          end
+        end
+
+        user.update(rsi_verify: true, rsi_username: rsi_name, 
+        user_type: user_type, error: user_error, org_title: rsi_user.title)
+       
+# check of the Discord profile role is correct
+# if not show error
+
+
       else
         return false
 
@@ -114,7 +161,7 @@ end
 
 
 unless name.blank?
-      RsiUser.create(name: name, title: title, link: link)
+      RsiUser.create(username: name, title: title, link: link)
 end
      # RsiUser.new(name, title, link)
      

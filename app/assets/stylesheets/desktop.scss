@@ -93,6 +93,60 @@
             border-bottom:none;
         }
     }
+    .clippy{
+        position:fixed;
+        right:0px;
+        bottom:10px;
+    }
+}
+.hidden{
+    display:none;
+}
+.rsi-logo{
+    background-color: #2e3143;
+    width: 37px;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 5px;
+    transform: translate(10px, 10px);
+    &.small{
+        width:20px;
+        border: 0.5px solid black;
+        padding: 1px;
+        border-radius: 3px;
+        transform: none;
+    }
+}
+#user_profile .container{
+    margin-top:30px;
+    .avatar-image{
+        height:100%;
+    }
+}
+#rsi_activation, #user_profile{
+    .container{
+        display:flex;
+        width:100%;
+
+        .content{
+            padding-left:20px;
+            input:disabled{
+                width:70px;
+            }
+            input, input:disabled{
+                background-color:white !important;
+            }
+        }
+    }
+    .sidebar-image{
+        width: 225px;
+        height: 285px;
+        overflow: hidden;
+        border: 1px solid black;
+        img{
+            height:100%;
+        }
+    }
 }
 
 @keyframes fadein {

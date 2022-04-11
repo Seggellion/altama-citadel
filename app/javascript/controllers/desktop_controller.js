@@ -6,7 +6,7 @@ export default class extends Controller {
   //  this.all_usersTarget.hidden = true;
 //
 //  }
- static targets = ["location_form", "all_users", "rsi_users"]
+ static targets = ["location_form", "activate_form", "all_users", "rsi_users"]
 
  dragstart(event) {
    console.log('dragstart');
@@ -66,16 +66,22 @@ user_row(event){
 
 }
 rsi_users(event){
+  
+ // document.getElementsByClassName('list').hidden = true
   this.rsi_usersTarget.hidden = false;
+}
+discord_users(event){
+  this.discord_usersTarget.hidden = false;
   this.all_usersTarget.hidden = true;
 }
 all_users(event){
   this.rsi_usersTarget.hidden = true;
   this.all_usersTarget.hidden = false;
 }
-
-
-
+local_users(event){
+  this.rsi_usersTarget.hidden = true;
+  this.all_usersTarget.hidden = false;
+}
 
   task_drag(event) {
 
@@ -115,17 +121,16 @@ all_users(event){
         document.removeEventListener('mousemove', onMouseMove);
         event.target.onmouseup = null;
       };
-    
-
-
-
-
   }
   
 new_location(event){
 
 this.location_formTarget.submit();
 }
+
+rsi_authenticate(event){
+  this.activate_formTarget.submit();
+  }
 
 
 }

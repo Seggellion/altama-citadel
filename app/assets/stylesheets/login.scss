@@ -19,6 +19,9 @@
                 top:0px;
                 left:0px;
                 z-index:9000;
+                @media (max-width: $mobile){
+                    width:100%;
+                }
             }
         }
     }
@@ -45,10 +48,25 @@
                 position:absolute;
             }
         }
+        @media (max-width: $mobile){
+            flex-direction: column;
+            .castle{
+                height:240px;
+            }
+        }
     }
     .footer{
         width: 100%;
         text-align: center;
         margin-top: -100px;
+        position: absolute;
+        z-index: 9001;
+        @media (max-width: $mobile){
+            margin-top:20px;
+            padding: 0px 20px;
+            position:relative;
+            margin:20px auto;
+            width:300px;
+        }
     }
 }

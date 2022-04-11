@@ -1,4 +1,4 @@
-<div id="rsi_verification" data-controller="web">
+<div id="rsi_verification"  data-controller="web">
 
 <div class="bordered-container">
 <div class="column">
@@ -6,13 +6,16 @@
 <h2>Verify your RSI account to get <%= Reward.apply('verified') %>%-off all refillings!</h2>
 <%= form_with url: verify_path do |f| %>
     <p>
-        To verify you RSI handle please copy the following code in your RSI profile bio
+        To verify your RSI handle please copy the following code in your RSI profile bio
     </p>
     <a class="btn user-hash" target="_blank" data-action="click->web#copyToClipboard"><%= @hash %></a>
 
   <%= f.hidden_field :hash, id: "hash", value: @hash %>
-  <%= f.hidden_field :user, id: "user", value: user.id %>
-  <%= f.hidden_field :rsi_username, id: "handle", value: user.rsi_username %>
+  
+  <%= f.text_field :user, id: "user", value: current_user.username %>
+
+  
+  <%= f.hidden_field :rsi_username, id: "handle", value: current_user.rsi_username %>
 
 
 

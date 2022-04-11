@@ -2,11 +2,15 @@ class DesktopController < ApplicationController
 # before_action :authenticate_user!
 before_action :require_login
 
+
 def index
   @current_user = current_user
   task_manager = TaskManager.find_by(user_id: current_user)
   @all_tasks = Task.where(task_manager_id: task_manager.id)
+  @all_users = User.all + DiscordUser.all + RsiUser.all
+  @local_users = User.all
   @root_users = User.all
+  @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)
   @ships = Ship.all
   @ship = Ship.new
@@ -18,7 +22,9 @@ def index
   @commodity = Commodity.new
   @reward  = Reward.new
   @all_rewards = Reward.all
-  @all_commodities = Commodity.all
+  @all_commodities = Commodity.all  
+  @user_manager = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+  @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 
@@ -28,8 +34,15 @@ end
 
 def rsi_user_list
   users = RsiUser.write
-redirect_to desktop_path
+  task_manager = TaskManager.find_by(user_id: current_user)
+  task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+  task.update(state:"rsi_users")
 
+redirect_to desktop_path
+end
+def discord_user_list
+  users = DiscordUser.write
+redirect_to desktop_path
 end
 
 def bootup
@@ -50,8 +63,7 @@ def users
       format.json { render json: @task.errors, status: :unprocessable_entity }
     end
   end
-
-
 end
+
 
 end

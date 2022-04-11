@@ -1,23 +1,30 @@
 <div class="live-desktop">
 <% current_user.desktop %>
+
 <%= link_to my_hangar_path, class: 'desktop-icon', method: :post do %>
     <%= image_tag("my_hangar_icon.png") %>
     My Hangar
 <% end %>
 
-<%= link_to website_manager_path, class: 'desktop-icon', method: :post do %>
-    <%= image_tag("website_manager_icon.png") %>
-    Website Manager
+<% if current_user.user_type <= 10 %>
+    <%= link_to website_manager_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("website_manager_icon.png") %>
+        Website Manager
+    <% end %>
 <% end %>
 
-<%= link_to cargo_manifest_path, class: 'desktop-icon', method: :post do %>
-    <%= image_tag("cargo_manifest_icon.png") %>
-    Cargo Manifest
+<% if current_user.user_type <= 10 %>
+    <%= link_to cargo_manifest_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("cargo_manifest_icon.png") %>
+        Cargo Manifest
+    <% end %>
 <% end %>
 
-<%= link_to rfas_path, class: 'desktop-icon', method: :post do %>
-    <%= image_tag("roadside_assistance_icon.png") %>
-    Roadside Assistance
+<% if current_user.user_type <= 15 %>
+    <%= link_to rfas_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("roadside_assistance_icon.png") %>
+        Roadside Assistance
+    <% end %>
 <% end %>
 
 <%= link_to roadside_assistance_path, class: 'desktop-icon', method: :post do %>
@@ -25,9 +32,11 @@
     RFAS Customer Portal
 <% end %>
 
-<%= link_to conquest_path, class: 'desktop-icon', method: :post do %>
-    <%= image_tag("conquest_icon.png") %>
-    ConQuest
+<% if current_user.user_type <= 30 %>
+    <%= link_to conquest_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("conquest_icon.png") %>
+        ConQuest
+    <% end %>
 <% end %>
 
 <%= link_to "https://anime-kingdom.herokuapp.com/", class: 'desktop-icon', method: :post do %>
@@ -35,9 +44,11 @@
     Anime Kingdom
 <% end %>
 
-<%= link_to guildstone_path(0), class: 'desktop-icon', method: :post do %>
-    <%= image_tag("guildstone_icon.png") %>
-    Guildstone
+<% if current_user.user_type <= 42 %>
+    <%= link_to guildstone_path(0), class: 'desktop-icon', method: :post do %>
+        <%= image_tag("guildstone_icon.png") %>
+        Guildstone
+    <% end %>
 <% end %>
     
 </div>
