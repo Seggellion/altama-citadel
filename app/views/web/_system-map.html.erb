@@ -1,7 +1,13 @@
 <div class="system-map">
 
 <div class="planet-container">
-<%= show_svg('locations/planet') %>
+<style>
+#planet-<%=location.id %> .surface{fill: <%=location.surface_color %>};
+</style>
+<style>
+#planet-<%=location.id %> .ocean{fill: <%=location.ocean_color %>};
+</style>
+<%= show_svg('locations/planet', id:"planet-#{location.id}" )%>
 <div class="planet-menu">
 
 <h2><%= location.name %></h2>
@@ -24,7 +30,11 @@
         <% end %>
         </ul>
     </div>
-    <%= show_svg('locations/moon') %>
+    <style>
+#moon-<%=moon.id %> path#land{fill: <%=moon.surface_color %>};
+#moon-<%=moon.id %> path#water{fill: <%=moon.ocean_color %>};
+</style>
+    <%= show_svg('locations/moon',id:"moon-#{moon.id}" ) %>
     </div>
     <% end %>
 </div>
