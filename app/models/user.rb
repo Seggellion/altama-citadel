@@ -33,7 +33,8 @@ def isAdmin?
 end
 
 def desktop
-  self.update(last_login: Date.today)
+  
+  self.update(last_login: DateTime.now)
 end
 
 def discounts

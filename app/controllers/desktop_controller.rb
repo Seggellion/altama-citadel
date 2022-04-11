@@ -25,6 +25,7 @@ def index
   @all_commodities = Commodity.all  
   @user_manager = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
+  current_user.desktop
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 
