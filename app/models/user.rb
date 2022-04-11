@@ -73,7 +73,7 @@ end
 
     def discord_role
       discord_user = DiscordUser.find_by(username: self.username)
-      if discord_user.role
+      if discord_user && !discord_user.role.nil?
         discord_user.role
       else
         "Nosync"
