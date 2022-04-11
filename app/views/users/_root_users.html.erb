@@ -8,7 +8,6 @@
         <span class="user-type"><%= user.user_type %></span>
         <span class="org-title"><%= user.org_title %></span>
         <span class="discord-role"><%= user.discord_role %></span>
-        <span class="user-role"><% if defined?(user.role) %>{ <%= user.role || 'nil' %> }<% end %></span>
         <span class="user-created"><% if defined?(user.created_at) %> <%= user.created_at.utc  %> <% end%></span>
     </div>
 <% end %>
