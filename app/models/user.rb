@@ -72,7 +72,12 @@ end
     end
 
     def discord_role
-      discord_user = DiscordUser.find_by(username: self.username).role
+      discord_user = DiscordUser.find_by(username: self.username)
+      if discord_user.role
+        discurd_user.role
+      else
+        "Nosync"
+      end
     end
 
    def user_type_text
