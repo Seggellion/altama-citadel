@@ -45,10 +45,7 @@ def discounts
   discount
 end
 
-def verified?
-  
-return true if self.rsi_verify == true
-end
+
 
   def will_save_change_to_email?
     false
@@ -72,13 +69,26 @@ end
       self.joins(:ships).select("userships.*, ships.model")
       #Division.where(race_id: race.id).joins(:division_joins)
 
+    end
 
+    def discord_role
+      discord_user = DiscordUser.find_by(username: self.username).role
     end
 
    def user_type_text
-    if self.user_type == 42
+    if self.user_type == 0
       p 'Administrator'
-    elsif self.user_type == 1202
+    elsif self.user_type == 10
+      p 'Members of the Board'
+    elsif self.user_type == 15
+      p 'Executive'
+    elsif self.user_type == 20
+      p 'Partner'
+    elsif self.user_type == 30
+      p 'Worker Owner'
+    elsif self.user_type == 42
+      p 'Member Owner'
+    elsif self.user_type == 100
       p 'Altama Plus'
     else
       p 'Guest'
@@ -140,5 +150,11 @@ end
         user.username = data["username"] if user.email.blank?
       end
     end
-  end        
+  end
+  
+  def verified?
+  
+    return true if self.rsi_verify == true
+    end
+    
 end

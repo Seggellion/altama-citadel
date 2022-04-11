@@ -70,6 +70,12 @@ ActiveRecord::Schema.define(version: 2022_04_02_053843) do
     t.integer "capture_team_id"
   end
 
+  create_table "discord_users", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "discord_id"
+    t.string "role"
+  end
+
   create_table "event_records", force: :cascade do |t|
     t.integer "event_type"
     t.integer "event_id"
@@ -209,7 +215,7 @@ ActiveRecord::Schema.define(version: 2022_04_02_053843) do
   end
 
   create_table "rsi_users", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "username", null: false
     t.string "title"
     t.string "link"
   end
@@ -251,6 +257,7 @@ ActiveRecord::Schema.define(version: 2022_04_02_053843) do
     t.integer "task_manager_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "state"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -294,6 +301,7 @@ ActiveRecord::Schema.define(version: 2022_04_02_053843) do
     t.string "desktop_background"
     t.string "org_title"
     t.string "crew_title"
+    t.string "error"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
   end

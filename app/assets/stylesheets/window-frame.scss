@@ -14,7 +14,7 @@
     border-right: $shadow_border;
     border-bottom: $shadow_border;
     background-color: $light_grey;
-    user-select: none;
+   // user-select: none;
     z-index:9001;
     .app-bar{
         display: flex;
@@ -24,7 +24,7 @@
         font-weight:900;
         height:100%;
         font-size:1.2rem;
-        pointer-events: none;
+       pointer-events: none;
         user-select: none;
 
     }

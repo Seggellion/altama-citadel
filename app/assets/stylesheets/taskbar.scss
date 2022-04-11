@@ -12,6 +12,14 @@
     border-bottom: $shadow_border;
     display:flex;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    .arrow-right {
+        width: 0; 
+        height: 0; 
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-left: 6px solid black;
+        transform: translate(14px);
+      }
     .app-bar{
         width: 160px;
         display: flex;
@@ -69,7 +77,7 @@
 
 #main_menu{
     padding:0px;
-    width: 230px;
+    width: 250px;
     min-height: 240px;
     position: absolute;
     bottom: 33px;
@@ -81,6 +89,10 @@
     border-left:$highlight_border;
     border-right:$shadow_border;
     border-bottom:$shadow_border;
+    .menu-link{
+        display:flex;
+        align-items: center;
+    }
     hr{
         width:100%;
         margin-top:auto;
@@ -93,7 +105,7 @@
     }
     .child-menu{
         position: absolute;
-        right: -213px;
+        right: -240px;
         display:none;
         color:black;
         background-color: $light_grey;
@@ -105,7 +117,8 @@
             &:hover a.child-link{color:white;}
             a.child-link{
                 padding-right:10px;
-                color:black;            
+                color:black;        
+                display:flex;    
             }
         } 
      &:hover{
@@ -149,6 +162,21 @@
         height: 100%;
         min-height: 240px;
         flex: 1;
+    }
+    .menu-item.pull-out{
+        a{
+            display:block;
+            width:100%;
+        }
+        span{
+            width: 122px;
+            display: flex;
+            align-items: center;
+        }
+        .child-menu span{
+            width:auto;
+            min-width: 160px;
+        }
     }
     .menu-item, .child-menu-item{
         &:hover{

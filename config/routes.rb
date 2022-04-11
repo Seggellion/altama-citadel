@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     get "/" => "web#roadside_assistance"
    end
 
+
+
+
   resources :org_roles
   resources :guildstones
   resources :locations
@@ -30,9 +33,9 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", sessions: 'users/sessions' }
   # Defines the root path route ("/")
    
-  root 'welcome#index'
-  get 'desktop', to: 'desktop#index'
-  get 'bootup', to: 'desktop#bootup'
+  root 'welcome#index', :constraints => { :subdomain => "cty" }
+  get 'desktop', to: 'desktop#index', :constraints => { :subdomain => "cty" }
+  get 'bootup', to: 'desktop#bootup', :constraints => { :subdomain => "cty" }
   # get 'rfas', to: 'rfas#index'
   get 'conquest', to: 'conquest#index'
   get 'conquest_event', to: 'conquest#show'
@@ -56,10 +59,18 @@ Rails.application.routes.draw do
   get 'apply_role', to: 'guildstones#apply_role'
   get 'vote', to: 'guildstones#vote'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
+  get 'all_user_list', to: 'tasks#state_all_users'
+  get 'root_user_list', to: 'tasks#state_root_users'
+  get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
-
+  get 'rsi_activate', to: 'tasks#rsi_activate'
+  
+  
+  post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
+  post 'activate', to: 'users#activate', as: :activate
+  
   
 end
