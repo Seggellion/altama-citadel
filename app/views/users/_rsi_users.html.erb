@@ -1,0 +1,10 @@
+<div class="rsi-user-list list" data-desktop-target="rsi_users" >
+<% @rsi_users.each do | user | %>
+    <div class="user-row" data-desktop-target="rsi_user_row" data-action="click->desktop#user_row"  >
+        <i class="page-object"></i>
+        <span class="username"><%= user.username %></span>
+        <span class="user-type">{ <%= user.title || 'nil' %> }</span>
+        <span class="user-created"> <%= user.link  %> </span>
+    </div>
+<% end %>
+</div>

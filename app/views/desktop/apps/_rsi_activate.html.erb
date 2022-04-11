@@ -1,0 +1,54 @@
+<div data-controller="desktop" id="rsi_activate" class="window config_window">
+    <%= render '/desktop/window-frame', app1: 'RSI Activate', task: task, windowed: windowed %>
+        <div class="profile location-container">
+        
+        <div id="rsi_activation">
+            <div class="container">
+            <% unless current_user.verified? %>
+                <div class="sidebar-image column">
+                    <%= image_tag("rsi_activate.png") %>
+                </div>
+                <div class="column">
+                    <div class="content">
+                        <h1>RSI Activate</h1>
+
+                        <%= form_with url: activate_path, data:{ 'desktop-target' => 'activate_form'} do |f| %>
+                        
+                            <p>
+                                To verify your RSI handle please copy the following code in your RSI profile bio
+                            </p>
+                            
+                            <%= f.text_field :hash, id: "hash", value: @hash, readonly: true %> - 
+                            <%= f.hidden_field :user, id: "user", value: current_user.id %>
+                            <%= f.text_field :handle, id: "handle", value: current_user.username %>
+                            <%= link_to "https://robertsspaceindustries.com/account/profile", target:"blank" do %>
+                            <%= image_tag("rsi_logo.png", class:"rsi-logo") %>
+                            <% end %>
+                        <%= f.submit "Verify", :class => 'hidden' %>
+                        
+                        <% end %>
+                    </div>
+                </div>        
+            </div>
+            <hr>
+            </div class="window-footer">
+            
+                <div class="control-buttons" >
+                <button disabled=true >Back</button>
+                    <button data-action="click->desktop#rsi_authenticate">Verify</button>
+                    
+                    <button>Cancel</button>
+                </div>
+                <% else%>
+                    Account verified!
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+    

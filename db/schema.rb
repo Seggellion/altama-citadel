@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_01_043100) do
+ActiveRecord::Schema.define(version: 2022_04_03_202859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,12 @@ ActiveRecord::Schema.define(version: 2022_04_01_043100) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "capture_team_id"
+  end
+
+  create_table "discord_users", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "discord_id"
+    t.string "role"
   end
 
   create_table "event_records", force: :cascade do |t|
@@ -205,10 +211,11 @@ ActiveRecord::Schema.define(version: 2022_04_01_043100) do
     t.integer "user_assigned_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "usership_id"
   end
 
   create_table "rsi_users", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "username", null: false
     t.string "title"
     t.string "link"
   end
@@ -250,6 +257,7 @@ ActiveRecord::Schema.define(version: 2022_04_01_043100) do
     t.integer "task_manager_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "state"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -293,6 +301,7 @@ ActiveRecord::Schema.define(version: 2022_04_01_043100) do
     t.string "desktop_background"
     t.string "org_title"
     t.string "crew_title"
+    t.string "error"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
   end
