@@ -56,12 +56,12 @@ end
           end
         when 'Worker Owner'
           user_type = 30
-          if discord_user.role != 'Worker Owner'
+          if discord_user.role != 'Worker-Owner'
             user_error = 'Role Mismatch'
           end
         when 'Member Owner'
           user_type = 42
-          if discord_user.role != 'Member Owner'
+          if discord_user.role != 'Member-Owner'
             user_error = 'Role Mismatch'
           end
         else

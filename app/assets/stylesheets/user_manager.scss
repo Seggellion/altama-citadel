@@ -25,9 +25,9 @@
         border-top:$shadow_border;
         border-left:$shadow_border;
         .list.local-user-list{
-            overflow: scroll;
             height: 100%;
             width:auto;
+            min-width:1000px;
             .username{
                 width:150px;
                 padding-left:5px;
