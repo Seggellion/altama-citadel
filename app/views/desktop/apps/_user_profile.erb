@@ -20,7 +20,7 @@
                     </h3>
                     <h4>Id: 0<%=current_user.id %> </h4>
                     <h4>Karma:<%= current_user.karma | 0 %> </h4>
-                    <h4>Title:<%= current_user.org_title | 'no title' %> </h4>
+                    <h4>Title:<%= current_user.org_title %> </h4>
                     <h4>User_Level: <%= current_user.user_type_text %> </h4>
                     <h4>Fame:<%= current_user.fame | 0 %> </h4>
                     <h4><%= link_to "My badges", my_badges_path %> </h4>

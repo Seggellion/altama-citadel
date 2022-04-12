@@ -32,6 +32,7 @@ end
         rsi_user = RsiUser.find_by(username: rsi_name)
         discord_user = DiscordUser.find_by(username: user.username)
         user_error = nil
+        
         case rsi_user.title
         when 'Board Member'
           user_type = 10
@@ -64,6 +65,7 @@ end
             user_error = 'Role Mismatch'
           end
         else
+          rsi_user.title = 'Plus'
           user_type = 100
           if discord_user.role != 'Altama Plus'
             user_error = 'Role Mismatch'
@@ -144,6 +146,14 @@ end
        target3 = browser.lis(:class => 'member-item').last
        target3.scroll.to
        
+       sleep 1
+       target2 = browser.div(:id => 'organization')
+       target2.scroll.to
+
+       sleep 1
+       target3 = browser.lis(:class => 'member-item').last
+       target3.scroll.to
+
        sleep 1
        target2 = browser.div(:id => 'organization')
        target2.scroll.to
