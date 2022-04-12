@@ -113,7 +113,7 @@ end
 
    def isGuest?
     return false
-    if self.user_type != 42
+    if self.user_type > 100
       return true
     end
   end
@@ -121,7 +121,7 @@ end
  
 
   def isPlus?
-    if self.user_type == 1202
+    if self.user_type == 100
       return true
     end
   end
@@ -136,7 +136,7 @@ end
       
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       if params["plus"] == "true"
-        user.user_type = 1202 
+        user.user_type = 100 
       end
       user.password = Devise.friendly_token[0, 20]
       user.username = auth.info.name   # assuming the user model has a name

@@ -24,7 +24,7 @@
         border-right:$highlight_border;
         border-top:$shadow_border;
         border-left:$shadow_border;
-        .list{
+        .list.local-user-list{
             overflow: scroll;
             height: 100%;
             width:auto;
