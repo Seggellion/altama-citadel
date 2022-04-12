@@ -9,7 +9,7 @@ def index
   @all_tasks = Task.where(task_manager_id: task_manager.id)
   @all_users = User.all + DiscordUser.all + RsiUser.all
   @local_users = User.all
-  @root_users = User.all.order(last_login: :asc)
+  @root_users = User.all.order(last_login: :desc)
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)
   @ships = Ship.all
