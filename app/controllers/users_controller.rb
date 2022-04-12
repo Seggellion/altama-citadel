@@ -35,7 +35,7 @@ end
         rfa = Rfa.find_by(user_id:user.id, status_id: 1)
         hash = params[:hash]
         
-        if  RsiUser.authenticate(hash,user.id, params[:handle]) && user.user_type != 1202
+        if  RsiUser.authenticate(hash,user.id, params[:handle]) && user.user_type != 100
    
           redirect_to edit_rfa_path(rfa), notice: "Successfully verified user."
         else
