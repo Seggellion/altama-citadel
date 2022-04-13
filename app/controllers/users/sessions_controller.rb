@@ -5,6 +5,8 @@ class Users::SessionsController < Devise::SessionsController
 
     def destroy_task_manager
       task_manager = TaskManager.find_by_user_id(current_user.id)
-      task_manager.destroy
+      if task_manager
+        task_manager.destroy
+      end
     end
   end

@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
   get 'rsi_activate', to: 'tasks#rsi_activate'
-  
+  get 'bsod', to: 'desktop#bsod'
   
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
