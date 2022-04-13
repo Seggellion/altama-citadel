@@ -9,14 +9,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #   desktop_path
   #  end
   
-  if resource.is_a?(User)  && resource.isPlus?
-    roadside_assistance_path
+  subdomain = request.subdomain
 
-  elsif resource.is_a?(User)  && !resource.isGuest?
-  
+    if resource.is_a?(User)  &&  subdomain == "ctd"
       TaskManager.create(user_id: current_user.id)
-      bootup_path
+      bootup_path(subdomain: 'ctd')
+    elsif resource.is_a?(User)  &&  subdomain == "sos"
+      roadside_assistance_path(subdomain: 'sos')
     end
+
   end
 
   def discord

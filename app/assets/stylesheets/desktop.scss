@@ -154,3 +154,21 @@
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+
+#bsod{
+    width:100vw;
+    height:100vh;
+    background-color:blue;
+    color:white;
+    padding-top: 10px;
+    .bsod-link{
+        color:white;
+        &:hover{
+            background-color:black;
+        }
+    }
+    p{
+        font-family: dos;
+        color:white;
+    }
+}

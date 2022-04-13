@@ -6,6 +6,13 @@ before_action :require_login
 def index
   @current_user = current_user
   task_manager = TaskManager.find_by(user_id: current_user)
+  
+  if task_manager.nil?
+    
+    redirect_to bsod_path
+    return
+    
+  end
   @all_tasks = Task.where(task_manager_id: task_manager.id)
   @all_users = User.all + DiscordUser.all + RsiUser.all
   @local_users = User.all
@@ -47,6 +54,10 @@ redirect_to desktop_path
 end
 
 def bootup
+
+end
+
+def bsod
 
 end
 

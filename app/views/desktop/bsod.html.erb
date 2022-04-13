@@ -1,0 +1,33 @@
+<div id="bsod">
+<p>
+    A problem has been detected and citadel has been shut down to prevent damage to the system.
+</p>
+<p>
+    The problems seems to be caused by a conflict with the task manager: SYSTEM69.SYS
+</p>
+<p>
+    PAGE_FAULT_IN_NONPAGED_AREA
+    </p>
+    <p>
+    If this is the first time you've seen this stop error screen, restart the citadel. If this screen appears again, follow these steps:
+    </p>
+    <p>
+    Check to make sure any new hardware or software is properly installed. 
+    </p>
+    <p>
+    If this is a new installation, as your hardware or software manufacturer for any citadel updates you might need.
+    </p>
+    <p>
+    Technical Information:
+    </p>
+    <p>
+    *** STOP: 0x0000000050 (0xFD3094C2,0x00000001,0xFBFE7617, 0x0000000)
+    </p>
+    <br/>
+    <p>
+    *** SYSTEM69.SYS - ADDRESS FBFE7617 BASE AT FBFE5000, DATESTAMP 36D6FE
+    </p>
+    <p>
+    <%= link_to "RESTART SYSTEM", destroy_user_session_path, class: 'bsod-link', 'data-turbo-method': :delete  %>
+    </p>
+</div>
