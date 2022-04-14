@@ -3,6 +3,7 @@ class RsiUser < ApplicationRecord
   class << self
 
 def authenticate(hash, user, rsi_name)
+  
 rsi_auth(hash, user, rsi_name)
 end
 
@@ -24,15 +25,17 @@ end
       profile_url = "https://robertsspaceindustries.com/citizens/#{rsi_name}"
       doc =  Nokogiri::HTML(URI.open(profile_url).read)
       user = User.find_by_id(user)    
+      
       hash_match = doc.search(".bio .value:contains('#{hash}')").first
 
       handle_name = doc.css('strong.value')[2].text
+      
       if handle_name == rsi_name && hash_match
 
         rsi_user = RsiUser.find_by(username: rsi_name)
         discord_user = DiscordUser.find_by(username: user.username)
         user_error = nil
-        
+        if rsi_user && discord_user
         case rsi_user.title
         when 'Board Member'
           user_type = 10
@@ -71,7 +74,9 @@ end
             user_error = 'Role Mismatch'
           end
         end
-
+      else
+        return
+      end
         user.update(rsi_verify: true, rsi_username: rsi_name, 
         user_type: user_type, error: user_error, org_title: rsi_user.title)
        
@@ -165,7 +170,7 @@ end
 
       parser =  Nokogiri::HTML.parse(browser.html)
     parser.css('a.membercard').each do |row|
-      name = row.css('span.name').text
+      name = row.css('span.nick').text
       title = row.css('span.rank').text
       link = row.css('td.tod').text
 

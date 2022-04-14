@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_11_052927) do
+ActiveRecord::Schema.define(version: 2022_04_14_065722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -227,12 +227,9 @@ ActiveRecord::Schema.define(version: 2022_04_11_052927) do
     t.integer "manufacturer_id"
     t.integer "scu"
     t.integer "crew"
-    t.integer "fuel"
-    t.integer "quantum"
     t.integer "length"
     t.integer "beam"
     t.integer "height"
-    t.integer "weight"
     t.integer "msrp"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -243,6 +240,28 @@ ActiveRecord::Schema.define(version: 2022_04_11_052927) do
     t.float "hyd_fuel_capacity"
     t.float "qnt_fuel_capacity"
     t.float "liquid_storage_capacity"
+    t.float "mass"
+    t.string "vehicle_type"
+    t.string "career"
+    t.string "role"
+    t.integer "size"
+    t.integer "hp"
+    t.integer "speed"
+    t.integer "afterburner_speed"
+    t.integer "ifcs_pitch_max"
+    t.integer "ifcs_yaw_max"
+    t.integer "ifcs_roll_max"
+    t.string "shield_face_type"
+    t.integer "armor_physical_dmg_reduction"
+    t.integer "armor_energy_dmg_reduction"
+    t.integer "armor_distortion_dmg_reduction"
+    t.integer "armor_em_signal_reduction"
+    t.integer "armor_ir_signal_reduction"
+    t.integer "armor_cs_signal_reduction"
+    t.integer "capacitor_crew_load"
+    t.integer "capacitor_crew_regen"
+    t.integer "capacitor_turret_load"
+    t.integer "capacitor_turret_regen"
   end
 
   create_table "task_managers", force: :cascade do |t|
