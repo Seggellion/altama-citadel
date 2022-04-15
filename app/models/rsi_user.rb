@@ -29,13 +29,14 @@ end
       hash_match = doc.search(".bio .value:contains('#{hash}')").first
 
       handle_name = doc.css('strong.value')[2].text
-      
-      if handle_name == rsi_name && hash_match
-
+      verified = nil
+      if handle_name.downcase == rsi_name.downcase && hash_match.present?
+        verified = true
         rsi_user = RsiUser.find_by(username: rsi_name)
         discord_user = DiscordUser.find_by(username: user.username)
         user_error = nil
         if rsi_user && discord_user
+        user_title = rsi_user.title
         case rsi_user.title
         when 'Board Member'
           user_type = 10
@@ -68,20 +69,21 @@ end
             user_error = 'Role Mismatch'
           end
         else
-          rsi_user.title = 'Plus'
+          user_title = 'Plus'
           user_type = 100
           if discord_user.role != 'Altama Plus'
             user_error = 'Role Mismatch'
           end
         end
       else
-        return
+        user_title = 'Plus'
+        user_type = 100
+
       end
-        user.update(rsi_verify: true, rsi_username: rsi_name, 
-        user_type: user_type, error: user_error, org_title: rsi_user.title)
+      
+        user.update(rsi_verify: verified, rsi_username: rsi_name, 
+        user_type: user_type, error: user_error, org_title: user_title)
        
-# check of the Discord profile role is correct
-# if not show error
 
 
       else
