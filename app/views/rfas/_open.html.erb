@@ -125,13 +125,19 @@
        <% end %>
    </div>
 
+   <div class="service-charge">
+    <%= render 'service-charge' %>
+   </div>
+
   <div class="field">Ship: <%#= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
 <% Commodity.all.each do | commodity|  %>
   <%= form_with(model: @rfa.get_product(commodity)) do |product| %>
     <%= product.hidden_field :selling_price, :value => 0 %>
     <%= product.hidden_field :commodity_id, :value => commodity.id %>
-  <button data-action="click->rfa#free_fuel" ><h2><%= commodity.symbol %>  <%= commodity.selling_price_discounted(@rfa) %></h2></button>
+  <button data-action="click->rfa#free_fuel" ><h2><%= commodity.symbol %>
+    <%= commodity.selling_price_discounted(@rfa) || commodity.price %></h2></button>
+    
   <% end %>
   <% end %>
   <button>Admin</button>
