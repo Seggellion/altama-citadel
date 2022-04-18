@@ -1,45 +1,66 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  //connect() {
-  //  this.rsi_usersTarget.hidden = true;
-  //  this.all_usersTarget.hidden = true;
-//
-//  }
+  connect() {
+    var windowName = this.element.querySelectorAll('.app-bar')[0].dataset.appname;
+    var leftPosition = window.sessionStorage.getItem(`window-${windowName}-left`);
+    var topPosition = window.sessionStorage.getItem(`window-${windowName}-top`);
+    this.element.style.left = leftPosition;
+    this.element.style.top = topPosition;
+    console.log('leftPosition', leftPosition);
+ }
  static targets = ["location_form", "activate_form", "all_users", "rsi_users"]
 
  dragstart(event) {
-   console.log('dragstart');
+   
   event.dataTransfer.setData("application/drag-key", event.target.id);
   event.dataTransfer.effectAllowed = "move";
 }
+click(event){
 
+  
+  function getMaxZIndex() {
+    return Math.max(
+      ...Array.from(document.querySelectorAll('.window'), el =>
+        parseFloat(window.getComputedStyle(el).zIndex),
+      ).filter(zIndex => !Number.isNaN(zIndex)),
+      0,
+    );
+  }
+  this.element.style.zIndex = getMaxZIndex() + 1;
+  console.log(getMaxZIndex()); 
+  
+
+}
 dragover(event) {
 
   event.target.style.cursor = "move";
   this.element.style.left = event.pageX - event.target.offsetWidth / 2 + 'px';
   this.element.style.top = event.pageY - event.target.offsetHeight / 2 + 'px';
+  
+
   event.preventDefault()
 
   return true
 }
 
 dragenter(event) {
-  console.log('dragenter');
+  console.log('dragenter', this);
   event.preventDefault()
 }
 
 drop(event) {
   console.log('drop');
+  var windowName = event.target.dataset.appname;
+  window.sessionStorage.setItem(`window-${windowName}-left`, this.element.style.left);
+  window.sessionStorage.setItem(`window-${windowName}-top`, this.element.style.top);
   var data = event.dataTransfer.getData("application/drag-key")
   const dropTarget = event.target
   const draggedItem = this.element;
   const positionComparison = dropTarget.compareDocumentPosition(draggedItem)
   if ( positionComparison & 4) {
-      event.target.insertAdjacentElement('beforebegin', draggedItem);
-  } else if ( positionComparison & 2) {
-      event.target.insertAdjacentElement('afterend', draggedItem);
-  }
+     // event.target.insertAdjacentElement('beforebegin', draggedItem);
+  } 
   
   event.preventDefault()
 }
@@ -102,9 +123,7 @@ local_users(event){
        // this.element.style.left = pageX - this.element.offsetWidth / 2 + 'px';
       //  this.element.style.top = pageY - this.element.offsetHeight / 2 + 'px';
       }
-    console.log('this.element.style.top', this.element.style.top);
-    console.log('event.pageX', event.pageX);
-    console.log('event.pageY', event.pageY);
+
       // move our absolutely positioned this.element under the pointer
       moveAt(event.pageX, event.pageY);
     

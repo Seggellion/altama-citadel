@@ -12,18 +12,22 @@
         <div class="menu-item pull-out">
         <%= render '/desktop/taskbar/all_programs'%>       
         </div>
-
-        <div class="menu-item">
-        <div class="icon"><%= image_tag("programs_icon.png") %></div>
-        <span><a class="pull-out" href="">Help</a></span>
-        </div>
-
+        
         <div class="menu-item">
         <%= link_to profile_path, class: 'menu-link' do %>
         <div class="icon"><%= image_tag("all_icons.png", class: "profile") %></div>
         <span>Profile</span>
         <% end %>
         </div>
+
+        <div class="menu-item">
+        <%= link_to profile_path, class: 'menu-link' do %>
+        <div class="icon"><%= image_tag("all_icons.png", class: "help") %></div>
+        <span>Help</span>
+        <% end %>
+        </div>
+
+
 
         <% if current_user && current_user.isAdmin? %>
         <div class="menu-item pull-out">

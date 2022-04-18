@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_14_065722) do
+ActiveRecord::Schema.define(version: 2022_04_17_174222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 2022_04_14_065722) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "usership_id"
+    t.float "servicefee"
   end
 
   create_table "rsi_users", force: :cascade do |t|
@@ -323,6 +324,7 @@ ActiveRecord::Schema.define(version: 2022_04_14_065722) do
     t.string "org_title"
     t.string "crew_title"
     t.string "error"
+    t.integer "background_style"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
   end
