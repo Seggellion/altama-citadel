@@ -19,31 +19,48 @@ def activate
 end
 
 def discord_populate
-  
   information = request.raw_post
-data_parsed = JSON.parse(information)
+  data_parsed = JSON.parse(information)
 
-DiscordUser.destroy_all
+  DiscordUser.destroy_all
 
-DiscordUser.create(data_parsed)
-
-
+  DiscordUser.create(data_parsed)
 end
 
     def verify
-        user = User.find_by_id(params[:user])
-        rfa = Rfa.find_by(user_id:user.id, status_id: 1)
-        hash = params[:hash]
+          hash = params[:hash]
+          
+          url = request.env["HTTP_REFERER"]
+          uri = URI::parse(url)
+          static_params = CGI::parse(uri.query)
+
+        @location = Location.find_by_id(static_params['location'])
+        rfa = Rfa.find_by(user_id:current_user.id, status_id: 1)
         
-        if  RsiUser.authenticate(hash,user.id, params[:handle]) && user.user_type != 100
-   
-          redirect_to edit_rfa_path(rfa), notice: "Successfully verified user."
+        if  RsiUser.authenticate(hash, current_user.id, params[:user])          
+          redirect_to rfa_location_path(location: @location.id), notice: "Successfully verified user."
         else
- 
-          redirect_to edit_rfa_path(rfa), notice: "Sorry we couldn't verify your account please try again."
+          
+          redirect_to rfa_location_path(location: @location.id), notice: "Sorry we couldn't verify your account please try again."
         end
-
-
     end
+
+
+def admin_verify
+  hash = params[:hash]
+
+  rfa = Rfa.find_by(user_id:current_user.id, status_id: 1)
+
+  if  RsiUser.authenticate(hash,current_user.id, params[:handle])
+    
+    redirect_to edit_rfa_path(rfa), notice: "Successfully verified user."
+  else
+
+rfa = Rfa.find_by(user_id:current_user.id, status_id: 1)
+    redirect_to edit_rfa_path(rfa), notice: "Sorry we couldn't verify your account please try again."
+  end
+
+end
+
 
 end

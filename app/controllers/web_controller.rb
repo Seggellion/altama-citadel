@@ -19,8 +19,16 @@ class WebController < ApplicationController
         @usership = Usership.new
         @ships = Ship.all
         
-        @location = Location.find_by_id(params[:location])
 
+     #   url = request.url
+     #   uri = URI::parse(url)   
+     #   urlparams = CGI::parse(uri.query)
+
+        if params[:location]
+        @location = Location.find_by_id(params[:location])
+        else
+            @location = Location.find_by_id(params[:format])
+        end
         
         # @active_rfa = Rfa.where(user_id: current_user, status_id: 0).first
         @review = Review.new
