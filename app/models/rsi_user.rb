@@ -23,7 +23,17 @@ end
 
     def rsi_auth(hash, user, rsi_name)
       profile_url = "https://robertsspaceindustries.com/citizens/#{rsi_name}"
-      doc =  Nokogiri::HTML(URI.open(profile_url).read)
+
+      
+
+      begin
+        doc =  Nokogiri::HTML(URI.open(profile_url).read)
+      rescue Exception => ex
+
+        return
+      end
+      
+
       user = User.find_by_id(user)    
       
       hash_match = doc.search(".bio .value:contains('#{hash}')").first
