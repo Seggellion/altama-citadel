@@ -138,7 +138,7 @@ class RfasController < ApplicationController
     current_user.give_karma(5)
     current_user.give_fame(5)
   end
-
+  
     respond_to do |format|
       if @rfa.update(merge_params)
         unless rfa_params[:user_assigned_id].blank?
@@ -185,6 +185,7 @@ class RfasController < ApplicationController
     def rfa_params
       params.require(:rfa).permit(:title, :description, :rsi_username, :status_id, 
       :location_id, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
-      :aec_rewards, :user_assigned_id, :user_id, :usership_id, userships_attributes: [:ship_id, :user_id])      
+      :aec_rewards, :user_assigned_id, :user_id, :usership_id, :servicefee,
+      userships_attributes: [:ship_id, :user_id])      
     end
 end

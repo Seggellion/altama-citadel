@@ -1,11 +1,15 @@
 
-<div id="window_frame">
-<div 
-data-action="dragstart->desktop#dragstart dragover->desktop#dragover dragenter->desktop#dragenter drop->desktop#drop dragend->desktop#dragend"
-class="highlight">
+<div draggable="true"  id="window_frame">
+<div class="highlight">
 
     <% if defined?(app1) %>
-    <div class="app-bar">
+    
+    <div class="app-bar" data-appname="<%= app1 %>" data-action="dragstart->desktop#dragstart
+    dragover->desktop#dragover
+    click->desktop#click
+     dragenter->desktop#dragenter
+      drop->desktop#drop
+       dragend->desktop#dragend" >
     <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
     <div class="icon">
     <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> 
@@ -18,7 +22,6 @@ class="highlight">
     <%= app1 %>
      </div>
     <% end %>
-    data-action="mousedown->desktop#task_drag"
 <div class="control-buttons">
 
 <% if defined?(windowed) %>

@@ -16,17 +16,20 @@ total_amount(event){
     let market_price = market_container.querySelector('input').value;
     let aec_field = document.getElementById('rfa_aec_rewards');
     let total_charges_field = document.getElementById('rfa_total_charge');
-
     let discount_amount = document.querySelectorAll('[data-amt]')[0].dataset.amt;
+    let discount = (discount_amount ) /100.00;
+    
     let aec_amount = document.querySelectorAll('[data-aec]')[0];
+    let service_fee = document.getElementById('servicefee').value;
+    let service_fee_percent = service_fee / 1000.00;
     let all_totals = document.getElementsByClassName('totals');
 
-    let discount = (discount_amount ) /100.00;
+
     
     
     let current_value = event.target.value;
     let aec_rate = +aec_amount.dataset.aec / 100.00;
-    let subtotal = current_value * market_price;
+    let subtotal = (current_value * market_price) * service_fee_percent;
     
     let calculated_amount = Math.ceil(subtotal - (subtotal * discount));
     
