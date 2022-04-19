@@ -25,19 +25,36 @@ class UsershipsController < ApplicationController
 
   # POST /userships or /userships.json
   def create
-    @usership = Usership.new(usership_params)
-    @usership.update(user_id:current_user.id)
-    respond_to do |format|
+    json = {
+      "name": "Spartan",
+      "manufacturer_code": "ANVL",
+      "manufacturer_name": "Anvil Aerospace",
+      "ship_code": "ANVL_Spartan",
+      "ship_name": "Spartan",
+      "ship_serial": null,
+      "pledge_id": "31119322",
+      "pledge_name": "Package - 100i Starter Pack - Free Fly",
+      "pledge_date": "2021-08-19",
+      "pledge_cost": "$73.50 USD",
+      "lti": false,
+      "warbond": false
+    }.to_json
+
+    @usership = Usership.new
+    @usership.from_json(json)
+    ##@usership = Usership.new(usership_params)
+    ##@usership.update(user_id:current_user.id)
+    ##respond_to do |format|
      # if @usership.save
         #flash[:notice] = "Post has been saved successfully."
-        if @usership.save 
+      if @usership.save 
           format.html { redirect_to request.referrer, notice: "Usership was successfully created." }
           format.json { render :show, status: :created, location: @usership }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @usership.errors, status: :unprocessable_entity }
       end
-    end
+    ##end
   end
 
   # PATCH/PUT /userships/1 or /userships/1.json
