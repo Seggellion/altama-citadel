@@ -41,12 +41,23 @@ class HangardumpsController < ApplicationController
       #file = Net::HTTP.get_response(URI.parse(@url_string)).body
       #data_hash = JSON.parse(file)
       
-      
+      ##data_hash.each do |k,v| 
+      ##  if (k = )
+      ##  hash[k] = v.to_date if date_keys.include?(k)
+      ##end
+
+      data_hash.each do |key, value|
+        ##puts (key)
+        ship_hash = JSON.parse(JSON.dump(key))
+        ship_hash.each do |k, v|
+           puts(k, v) # this is working - so now use these values to update the db for each ship
+        end
+      end
       
       #json_file = StringIO.new(@url_string)
       #file = json_file.read
       #data_hash = JSON.parse(file)
-      puts(JSON.dump(data_hash))
+      #puts(JSON.dump(data_hash))
     else
       render "new"
     end
