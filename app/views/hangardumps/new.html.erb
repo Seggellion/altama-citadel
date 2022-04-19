@@ -7,6 +7,7 @@
          <% end %>
       </ul>
       
+      
    </div>
 
 
@@ -15,7 +16,7 @@
       <%= f.label :name %>
       <%= f.text_field :name %>
       <%= f.label :attachment %>
-      <%= f.file_field :attachment %>
+      <%= f.file_field :attachment, direct_upload: true %>
       <%= f.submit "Save", class: "btn btn-primary" %>
    <% end %>
 </div>
