@@ -1,0 +1,10 @@
+<div class="discord-user-list list" data-desktop-target="discord_users" >
+<% @discord_users.each do | user | %>
+    <div class="user-row" data-desktop-target="rsi_user_row" data-action="click->desktop#user_row"  >
+        <i class="page-object"></i>
+        <span class="username"><%= user.username %></span>
+        <span class="user-type">{ <%= user.role || 'nil' %> }</span>
+        <span class="user-created"> <%= user.discord_id  %> </span>
+    </div>
+<% end %>
+</div>

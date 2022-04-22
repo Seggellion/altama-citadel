@@ -17,7 +17,13 @@
    {:selected => @rfa.location_id}
        %>
   </div>
-
+  
+  <div class="field">
+  <label>Service fee:</label>
+    <div class="service-charge">
+    <%= render 'service-charge', form: form %>
+  </div>
+ </div>
 
   <% @all_commodities.each do |commodity| %>    
     <% if @rfa.commodities.include? commodity  %>
@@ -28,7 +34,8 @@
     <% end %>
   <% end %>
 
-    <div class="field"><label>Total charge:</label> <%= form.number_field :total_charge, disabled:true, value: @rfa.total_charge  %></div>
+    <div class="field"><label>Total charge:</label> 
+    <%= form.number_field :total_charge, disabled:true, value: @rfa.total_charge,  data:{ 'rfa-target' => 'total_charge'} %></div>
     <div class="field"><label>AEC:</label><%= form.number_field :aec_rewards, disabled: true, value: @rfa.aec_rewards, data:{ 'rfa-target' => 'aec_field', 'aec' => Reward.apply('aec').to_i } %></div>
     <%= form.hidden_field :status_id, data:{ 'rfa-target' => 'status_field'}, :value => 1 %>
     <% end %>
@@ -131,7 +138,9 @@
   <%= form_with(model: @rfa.get_product(commodity)) do |product| %>
     <%= product.hidden_field :selling_price, :value => 0 %>
     <%= product.hidden_field :commodity_id, :value => commodity.id %>
-  <button data-action="click->rfa#free_fuel" ><h2><%= commodity.symbol %>  <%= commodity.selling_price_discounted(@rfa) %></h2></button>
+  <button data-action="click->rfa#free_fuel" ><h2><%= commodity.symbol %>
+    <span data-rfa-target="commodityCustomerRate" data-customercommodity="<%= commodity.symbol %>" ><%= commodity.selling_price_discounted(@rfa) || commodity.price %></span></h2></button>
+    
   <% end %>
   <% end %>
   <button>Admin</button>

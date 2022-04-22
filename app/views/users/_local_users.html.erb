@@ -1,0 +1,10 @@
+<div class="local-user-list list" data-desktop-target="local_users" >
+<% @local_users.each do | user | %>
+    <div class="user-row" data-desktop-target="rsi_user_row" data-action="click->desktop#user_row"  >
+        <i class="page-object"></i>
+        <span class="username"><%= user.username %></span>
+        
+        <span class="user-created"><% if defined?(user.created_at) %> <%= user.created_at.utc  %> <% end%></span>
+    </div>
+<% end %>
+</div>

@@ -92,6 +92,8 @@ end
 
     # Only allow a list of trusted parameters through.
     def location_params
-      params.require(:location).permit(:name, :location_type, :parent, :trade_port, :image, :starfarer_image, :classification, :system, :habitable, :affiliation)
+      params.require(:location).permit(:name, :location_type, :parent, :trade_port, 
+      :image, :starfarer_image, :classification, :system, :habitable, :affiliation,
+       :ocean_color, :surface_color)
     end
 end

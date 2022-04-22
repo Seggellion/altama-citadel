@@ -7,8 +7,8 @@ export default class extends Controller {
  static targets = ["mainmenu"]
 
   greet(event) {
-    console.log('hi', event.target);
-    //this.outputTarget.textContent =
+
+
     if (this.mainmenuTarget.classList.contains("open")){
       this.mainmenuTarget.classList.remove("open"); 
       event.target.classList.remove("clicked");     

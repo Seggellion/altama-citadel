@@ -9,36 +9,42 @@
         </div>
         <div class="menu-items">    
 
-        <div class="menu-item">
-        <div class="icon"><%= image_tag("programs_icon.png") %></div>
-        <span><a class="pull-out" href="">Programs</a></span>
+        <div class="menu-item pull-out">
+        <%= render '/desktop/taskbar/all_programs'%>       
         </div>
-
+        
         <div class="menu-item">
-        <div class="icon"><%= image_tag("programs_icon.png") %></div>
-        <span><a class="pull-out" href="">Help</a></span>
-        </div>
-
-        <div class="menu-item">
+        <%= link_to profile_path, class: 'menu-link' do %>
         <div class="icon"><%= image_tag("all_icons.png", class: "profile") %></div>
-        <span><%= link_to "Profile", profile_path %></span>
+        <span>Profile</span>
+        <% end %>
         </div>
+
+        <div class="menu-item">
+        <%= link_to profile_path, class: 'menu-link' do %>
+        <div class="icon"><%= image_tag("all_icons.png", class: "help") %></div>
+        <span>Help</span>
+        <% end %>
+        </div>
+
+
 
         <% if current_user && current_user.isAdmin? %>
         <div class="menu-item pull-out">
-        <div class="icon"><%= image_tag("settings_icon.png") %></div>
-        <span><a class="" href="">Admin settings</a></span>
-        
-            <div class="child-menu">
-                <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "Location manager", locations_path, class:'child-link' %></span></div>
-                <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "Spaceship manager", ships_path, class:'child-link' %></span></div>
-                <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "System Properties", properties_path, class:'child-link' %></span></div>
-                <div class="child-menu-item"><div class="icon"><%= image_tag("programs_icon.png") %></div><span><%= link_to "User manager", users_path, class:'child-link' %></span></div>
-            </div>
+        <%= render '/desktop/taskbar/admin_settings'%>
+       
         </div>
         <% end %>
         <hr>
-            <div class="menu-item"><div class="icon"><%= image_tag( "all_icons.png", class: "shutdown")  %></div><span><%= link_to "Shut Down..", destroy_user_session_path, 'data-turbo-method': :delete %></span></div>
+            <div class="menu-item">
+            <%= link_to destroy_user_session_path, class: 'menu-link', 'data-turbo-method': :delete do %>
+            <div class="icon">
+            <%= image_tag( "all_icons.png", class: "shutdown")  %>
+            </div>
+          
+            <span>Shut Down..</span>
+            <% end %>
+            </div>
         </div>
     </div>
 
@@ -58,3 +64,20 @@
     <%= Time.current.utc.strftime('%H:%M') %>
     </div>
 </div>
+
+<% unless current_user.verified? %>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<%= javascript_include_tag "clippy.min.js" %>
+<script type="text/javascript">
+clippy.load('Clippy', function(agent){
+
+    agent.speak("Hey listen! Don't forget to validate your profile with your RSI account!");
+
+    
+    $( "#citadel_button" ).click(function() {
+        agent.animate();
+        agent.speak("You can verify through the profile app");
+});
+});
+</script>
+<% end %>

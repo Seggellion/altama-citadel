@@ -35,11 +35,11 @@ $rfa_border: #272321;
     overflow: hidden;
     
     a, a:visited{
-        color:#d08a3e;
+        color:$orange;
         text-decoration:none;
         border-bottom: 1px solid transparent;
         &:hover{
-            border-bottom: 1px solid #d08a3e;
+            border-bottom: 1px solid $orange;
         }
     }
     .avatar-image{
@@ -131,7 +131,7 @@ $rfa_border: #272321;
             font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             padding:5px;
             &:focus,&:focus-visible{
-                outline-color:#d08a3e;
+                outline-color:$orange;
                 outline-style: solid;
             }
         }
@@ -204,14 +204,14 @@ $rfa_border: #272321;
             width: 20.3%;
             height: 65vh;
             padding: 57px 28.7px 20px 18.7px;
-            overflow:scroll;
+            overflow-y:scroll;
             .take{
                 font-size:0.7rem;
                 float:right;
                 font-weight:100;
                 border-bottom: 1px solid transparent;
                 &:hover{
-                    border-bottom: 1px solid #d08a3e;
+                    border-bottom: 1px solid $orange;
                 }
             }
             select{
@@ -1014,4 +1014,34 @@ $rfa_border: #272321;
     position: absolute;
     bottom: 0px;
     right: 4.6vw;
+}
+.service-charge{ 
+    #rangeValue {
+        position: relative;
+        display: block;
+        text-align: center;
+        font-size: 4em;
+        color: #999;
+        font-weight: 400;
+    }
+    .range {
+        width: 400px;
+        height: 15px;
+        -webkit-appearance: none;
+        background: #111;
+        outline: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
+    }
+    .range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: $orange;
+        cursor: pointer;
+        border: 4px solid #333;
+        box-shadow: -407px 0 0 400px $orange;
+    }
 }

@@ -24,11 +24,31 @@
         border-right:$highlight_border;
         border-top:$shadow_border;
         border-left:$shadow_border;
+        .list.local-user-list{
+            height: 100%;
+            width:auto;
+            min-width:1000px;
+            .username{
+                width:150px;
+                padding-left:5px;
+            }
+            .discord-role{
+                width:160px;
+            }
+            .user-type{
+                width:50px;
+                text-align:center;
+            }
+        }
+        .right-pane-header{
+            min-width:1000px;
+        }
         .user-row{
             display:flex;
+            min-width:1000px;
             flex-direction:row;
             align-items: center;
-            justify-content:space-between;
+            justify-content:left;
         }
         .right-pane-header{
             background-color: $light_grey;
