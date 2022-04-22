@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     get "/" => "web#roadside_assistance"
    end
 
+
+
+
   resources :org_roles
   resources :guildstones
   resources :locations
@@ -30,17 +33,17 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", sessions: 'users/sessions' }
   # Defines the root path route ("/")
    
-  root 'welcome#index'
-  get 'desktop', to: 'desktop#index'
-  get 'bootup', to: 'desktop#bootup'
+  root 'welcome#index', :constraints => { :subdomain => "ctd" }
+  get 'desktop', to: 'desktop#index', :constraints => { :subdomain => "ctd" }
+  get 'bootup', to: 'desktop#bootup', :constraints => { :subdomain => "ctd" }
   # get 'rfas', to: 'rfas#index'
-  get 'conquest', to: 'conquest#index'
-  get 'conquest_event', to: 'conquest#show'
+  get 'conquest', to: 'conquest#index', :constraints => { :subdomain => "ctd" }
+  get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
-  get 'stop_conquest', to: 'control_points#stop_conquest'
-  get 'capture_conquest', to: 'control_points#capture_conquest'
+  get 'stop_conquest', to: 'control_points#stop_conquest', :constraints => { :subdomain => "ctd" }
+  get 'capture_conquest', to: 'control_points#capture_conquest', :constraints => { :subdomain => "ctd" }
   get 'conquest_overlay', to: 'conquest#overlay'
-  get 'cargo_manifest', to: 'cargo_manifest#welcome'
+  get 'cargo_manifest', to: 'cargo_manifest#welcome', :constraints => { :subdomain => "ctd" }
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
@@ -52,14 +55,22 @@ Rails.application.routes.draw do
   get 'current_review', to: 'web#current_review'
   get 'rfa_location', to: 'web#show'
   get 'ship_view', to: 'desktop#ship_view_switch'
-  get 'select_ship', to: 'desktop#index'
+  get 'select_ship', to: 'desktop#index', :constraints => { :subdomain => "ctd" }
   get 'apply_role', to: 'guildstones#apply_role'
   get 'vote', to: 'guildstones#vote'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
+  get 'all_user_list', to: 'tasks#state_all_users'
+  get 'root_user_list', to: 'tasks#state_root_users'
+  get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
-
+  get 'rsi_activate', to: 'tasks#rsi_activate'
+  get 'bsod', to: 'desktop#bsod'
+  
+  post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
+  post 'activate', to: 'users#activate', as: :activate
+  
   
 end
