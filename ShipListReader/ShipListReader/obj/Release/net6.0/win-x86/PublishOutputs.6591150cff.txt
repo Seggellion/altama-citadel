@@ -1,4 +1,0 @@
-L:\ShipListReader\ShipListReader\bin\Release\net6.0\publish\win-x86\ShipListReader.pdb
-L:\ShipListReader\ShipListReader\bin\Release\net6.0\publish\win-x86\NLog.config
-L:\ShipListReader\ShipListReader\bin\Release\net6.0\publish\win-x86\ShipListReader.dll.config
-L:\ShipListReader\ShipListReader\bin\Release\net6.0\publish\win-x86\ShipListReader.exe
