@@ -318,6 +318,13 @@ ActiveRecord::Schema.define(version: 2022_04_05_071733) do
     t.string "paint"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "ship_serial"
+    t.integer "pledge_id"
+    t.string "pledge_name"
+    t.date "pledge_date"
+    t.string "pledge_cost"
+    t.boolean "lti"
+    t.boolean "warbond"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -49,9 +49,39 @@ class HangardumpsController < ApplicationController
       data_hash.each do |key, value|
         ##puts (key)
         ship_hash = JSON.parse(JSON.dump(key))
+        @usership = Usership.new
         ship_hash.each do |k, v|
-           puts(k, v) # this is working - so now use these values to update the db for each ship
+          #create and save new usership
+          ##@usership.update(user_id:current_user.id)
+          ##puts(k, v)
+          if k == "ship_name"
+            @usership.update(ship_name: v)
+          elsif k == "ship_serial"
+            @usership.update(ship_serial: v)
+          elsif k == "pledge_id"
+            @usership.update(pledge_id: v)
+          elsif k == "pledge_name"
+            @usership.update(pledge_name: v)
+          elsif k == "pledge_date"
+            d = Date.parse(v)
+            d.next_year(930)
+            @usership.update(pledge_date: d.strftime("%Y-%m-%d"))
+          elsif k == "lti"
+            if (v)
+              @usership.update(lti: true)
+            else
+              @usership.update(lti: false)
+            end
+          elsif k == "warbond"
+            if (v)
+              @usership.update(warbond: true)
+            else
+              @usership.update(warbond: false)
+            end
+          end
+          ## puts(k, v) # this is working - so now use these values to update the db for each ship
         end
+        @usership.save
       end
       
       #json_file = StringIO.new(@url_string)
