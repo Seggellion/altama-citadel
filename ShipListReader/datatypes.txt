@@ -1,0 +1,40 @@
+Name
+Manufacturer
+Type
+Career
+Role
+Size
+Crew size
+Dimensions
+Mass
+Cargo
+HP
+Speed
+Afterburner speed
+IFCS pitch max
+IFCS yaw max
+IFCS roll max
+Hydrogen capacity
+QT fuel capacity
+Shield face type
+Armor physical
+dmg reduction
+Armor energy
+dmg reduction
+Armor distortion
+dmg reduction
+Armor EM
+signal reduction
+Armor IR
+signal reduction
+Armor CS
+signal reduction
+Capacitor crew
+load
+Capacitor crew
+regen
+Capacitor turret
+load
+Capacitor turret
+regen
+Base price
