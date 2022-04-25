@@ -1,0 +1,60 @@
+ <div class="rfa-module">
+<h2>Altama Member Search</h2>
+<hr />
+<!-- 
+  <div class="field">
+  <% unless @rfa.user.verified? %>
+  RSI: <input type="text" value="<%#= form.text_field :rsi_username %>" >
+   <small><a class="verify" data-action="click->rfa#verify">Authenticate</a></small>
+   <% else %>
+   RSI: <%= @rfa.user.rsi_username %>
+   <% end %>
+   </div>
+-->
+<div class="reviews">
+   <% if !@rfa.review_description_exists(@rfa.user_assigned_id) %>
+       <div class="review-stars" >
+           <%= form_with(model: Review.new, remote: true, data:{ 'rfa-target' => 'review_form'}) do |form| %>
+            <%= form.hidden_field :rfa_page, :value => true %>   
+            <%= form.hidden_field :rfa_id, :value => @rfa.id%>
+               <%= form.hidden_field :rating, :value => @rfa.current_rating(@rfa.assigned_user), data:{ 'rfa-target' => 'rating_field'}%>
+               <% 5.downto(1).each do | index| %>
+                   <%= form.hidden_field "star_id_#{index}", :value => index %>
+                   <div class="star-container <% if @rfa.current_rating(@rfa.user) >= index %> selected <% end %>" data-action="click->rfa#star<%=index%>" >
+                       <%= show_svg('review_star') %>
+                   </div>
+               <% end %>
+               
+                   <div class="field-row description" data-review-target="description">
+                       <%= form.text_area :description, :placeholder => "Add review" %>
+                       <%= form.submit "Save" %>
+                   </div>
+           
+           <% end %>
+       </div>
+       <% else %>
+       <h4>Rating: <%= @rfa.current_rating(@rfa.assigned_user) %> / 5</h3>
+       <% end %>
+   </div>
+
+  <div class="field">Ship: <%#= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
+<div class="rfa-action-buttons">
+<% Commodity.all.each do | commodity|  %>
+  <%= form_with(model: @rfa.get_product(commodity)) do |product| %>
+    <%= product.hidden_field :selling_price, :value => 0 %>
+    <%= product.hidden_field :commodity_id, :value => commodity.id %>
+  <button data-action="click->rfa#free_fuel" ><h2><%= commodity.symbol %>
+    <span data-rfa-target="commodityCustomerRate" data-customercommodity="<%= commodity.symbol %>" ><%= commodity.selling_price_discounted(@rfa) || commodity.price %></span></h2></button>
+    
+  <% end %>
+  <% end %>
+  <button>Admin</button>
+  </div>
+  <ul>
+    <li>United States</li>
+    <li>(GMT-05:00)America/New York</li>
+    <li><%=  @rfa.user.user_type_text if @rfa.user.present? %> - <span data-rfa-target="total_discount" data-amt="<%= @rfa.user.discounts %>"><%= @rfa.user.discounts %>%</span></li>
+    <li><%= @rfa.user.created_at.strftime("%a %b %e %Y") %></li>
+  </ul>
+
+  </div>

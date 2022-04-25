@@ -277,6 +277,8 @@
         box-shadow: 0 1px 10px rgba(0,0,0,0.12), 0 1px 10px rgba(0,0,0,0.24);
         padding-bottom: 10px;
         overflow: hidden;
+
+
         @media (max-width: $mobile){
             width:80%;
         }
@@ -329,17 +331,23 @@
                 .submit-row{
                     display:flex;
                     flex-direction: row;
+                    
                     @media (max-width: $mobile){
                         flex-wrap:wrap;
                     }
                 }
                 input[type="submit"]{
                     @include roadside_button;
-                    margin:0px;
+                    margin:0px auto;
                     height:auto;
                     @media (max-width: $mobile){
                         width:100%;
                         margin-top:5px;
+                    }
+                    &:disabled{
+                        color: rgb(75, 75, 75) !important;
+                        background-color:grey !important;
+                
                     }
                 }
                 &:first-child{
@@ -363,6 +371,19 @@
                     height: 39px;
                 }
             }
+            .usership-trigger{text-decoration:underline;&:hover{cursor:pointer}}
+            #usership_primary:hover{
+              cursor:pointer;
+            }
+            #usership_ship_id{
+                width:55%;
+            }
+            .flex-row{
+             flex-direction: row;
+             align-items: center;
+
+            }
+            #usership_primary{width:20%;}
             .drawer-headline{
                 background-color:white;
                 h1{
@@ -567,7 +588,14 @@
     font-weight: 900;
     text-align:center;
     padding:5px;
-    
+    &.red{
+        background-color:red;
+    }
+    &:disabled{
+        color: rgb(75, 75, 75) !important;
+        background-color:grey !important;
+
+    }
 }
 
 

@@ -135,6 +135,7 @@ end
     def self.from_omniauth(auth, params)
       
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.user_type = 101 
       if params["plus"] == "true"
         user.user_type = 100 
       end
