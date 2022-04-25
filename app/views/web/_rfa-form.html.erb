@@ -66,11 +66,8 @@
     </span>
 <% if @userships.count > 0%>
 <div class="userships field" id="shipSelector" style="margin-bottom:10px;">
-
-
     <%= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id,{:usership_id=>u.id}]}), {:include_blank => "Select Existing Ship"}, {data:{ 'web-target' => 'shipSelectorField', 'action' => 'click->web#usershipUpdate' }}%>
-    
-    
+     
 </div>
 <% end %>
 
