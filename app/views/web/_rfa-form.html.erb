@@ -26,7 +26,7 @@
 <%= form.hidden_field :rsi_username, :value => current_user.rsi_username %>
     <% else %>
    RSI Character name:
- <%= form.text_field :rsi_username %>
+ <%= form.text_field :rsi_username, :required=>'true' %>
  <div class="field">
  <a class="verify cta" data-action="click->web#verify"><%= Reward.apply('verified') %>% discount!</a>
  </div>
@@ -64,7 +64,7 @@
   <span class="field" style="margin-top:10px;" >
     Select from your ships:
     </span>
-<% if @userships.count > 1%>
+<% if @userships.count > 0%>
 <div class="userships field" id="shipSelector" style="margin-bottom:10px;">
 
 
@@ -75,17 +75,14 @@
 <% end %>
 
 <div class="field" style="margin-top:5px; margin-bottom:10px;">
-<span style="text-decoration:underline;" data-action="click->web#show">Ship not shown? Add new!</span>
+<span class="usership-trigger" data-action="click->web#show">Ship not shown? Add new!</span>
 
 </div>
-
-
-
 
   <div class="field">
   <div class="submit-row">
   
-  <%= form.submit 'Request' , id: 'submit'%>
+  <%= form.submit 'Request' , id: 'submit', disabled: 'true' %>
   </div>
   <div>
 

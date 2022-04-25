@@ -1,0 +1,39 @@
+<%= form_with(model: @rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
+  <div class="field"><label>Assigned to:<a href="#" data-action="click->rfa#takeit"   class="take">take it</a></label>
+  <%= form.select :user_assigned_id, options_for_select(@users.collect{ |u| [u.username, u.id] } , {:class => 'teamTag', selected: @rfa.user_assigned_id || nil, data:{ 'rfa-target' => 'assigned_to'}  }   ), :include_blank => 'Altama Support Queue'%>
+  </div>
+<hr />
+
+  <div class="field"><label>Priority:</label> <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
+
+  <div class="field"><label>RFA Location:</label>
+   <%= form.select :location_id,
+   options_for_select(@all_locations.collect{ |u| [u.name, u.id] }, @rfa.location_id ),
+   {:include_blank => @rfa.location_name},   
+   {:selected => @rfa.location_id}
+       %>
+  </div>
+  
+    <div class="field">
+        <label>Service fee:</label>
+        <div class="service-charge">
+        <%= render 'service-charge', form: form %>
+        </div>
+    </div>
+
+    <% @all_commodities.each do |commodity| %>    
+        <% if @rfa.commodities.include? commodity  %>
+        <%= commodity.name %>
+        <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: @rfa.commodity_total(commodity) %>
+        <% else %>
+        <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: 0 %>
+        <% end %>
+    <% end %>
+
+    <div class="field">
+        <label>Total charge:</label> 
+        <%= form.number_field :total_charge, readonly:true, value: @rfa.total_charge,  data:{ 'rfa-target' => 'total_charge'} %>
+    </div>
+    <div class="field"><label>AEC:</label><%= form.number_field :aec_rewards, readonly: true, value: @rfa.aec_rewards, data:{ 'rfa-target' => 'aec_field', 'aec' => Reward.apply('aec').to_i } %></div>
+    <%= form.hidden_field :status_id, data:{ 'rfa-target' => 'status_field'}, :value => 1 %>
+<% end %>

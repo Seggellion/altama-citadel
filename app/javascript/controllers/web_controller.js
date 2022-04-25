@@ -12,7 +12,17 @@ usershipUpdate(event){
         var usership_id = this.options[this.selectedIndex].getAttribute('usership_id');
         // alert(usership_id);
          document.getElementById("usership").value = usership_id;
+
       });
+
+      var selected_option = event.target.selectedOptions[0].text;
+
+      if (selected_option != "Select Existing Ship" ){
+        document.getElementById("submit").disabled = false;
+      }else{
+        document.getElementById("submit").disabled = true;
+      }
+
 }
 
 show(event){
@@ -55,6 +65,19 @@ google(event){
         }
         if ( selected_element !== null){
             selected_element.classList.add('show');
+        }
+    }
+
+    shipSelect(event){
+        var selected_option = event.target.selectedOptions[0].text;
+
+        if (selected_option != "Select New Ship" ){
+  
+        document.querySelector('#usership_submit').value = 'Add Ship To Hangar';
+        document.querySelector('#usership_submit').disabled = false;
+        }else{
+            document.querySelector('#usership_submit').value = 'Select Ship';
+            document.querySelector('#usership_submit').disabled = true;
         }
     }
 

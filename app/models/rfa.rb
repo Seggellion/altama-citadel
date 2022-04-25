@@ -140,14 +140,17 @@ binding.break
 end
 
 def total_charge
+
 @all_products = RfaProduct.where(rfa_id: self.id).sum(:selling_price).ceil
 
 end
 
 
 def full_ship_name
-if self.ship_id
-  ship = Ship.find_by_id(self.ship_id)
+
+if self.usership_id
+
+  ship = Ship.find_by_id(self.usership_id)
   manufacturer = Manufacturer.find_by_id(ship.manufacturer_id)
   p ship.model  + ", " + manufacturer.name
 else

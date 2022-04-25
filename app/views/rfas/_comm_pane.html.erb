@@ -1,0 +1,46 @@
+
+  <i class="special"></i>
+  <div class="comms-header">
+    <h1 class="field"><%= @rfa.title %></h1>
+    <%= time_ago_in_words(@rfa.created_at) %> ago  	&#8226; <%= @rfa.user.username %>
+  </div>
+  <hr />
+
+  <%= form_with(model: @rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
+    <div class="field">Comment: <%= form.text_field :description %></div>
+  <% end %>
+
+  <hr />
+  <div class="comm-entry">
+    <div class="comm-entry-header">
+      <div class="avatar-image"><%= image_tag @rfa.user.profile_image if @rfa.user.profile_image.present? %></div>
+      <strong><%= @rfa.user.username %> </strong>
+      <small>
+        <% if @rfa.created_at === Date.today %>
+        <%= @rfa.created_at.strftime("Today %b %d") %>
+        <% else %>
+        <%= @rfa.created_at.strftime("%A %b %d") %>
+        <% end %>
+      </small>
+    </div>
+
+
+    <div class="comm-entry-body">
+      <strong>Your name or alias used with the customer:</strong>
+      <div class="point"><%= current_user.username %></div>
+
+      <strong>Are they authenticated? (If no, please authenticate) </strong>
+      
+      <div class="point"><%= @rfa.user.verified? || "Not authenticated" %></div>
+
+      <strong>Closest location:</strong>
+      
+      <div class="point"><%= @rfa.location_name %></div>
+
+      <strong>Spaceship:</strong>
+      
+      <div class="point"><%= @rfa.full_ship_name %></div>
+
+      <strong>Fuel SCU:</strong>
+    </div>
+</div>
