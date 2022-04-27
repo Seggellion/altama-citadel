@@ -159,6 +159,11 @@ end
     end
   end
   
+
+  def total_reviews
+    Review.where(reviewee_id: self.id).count
+  end
+
   def verified?
   
     return true if self.rsi_verify == true

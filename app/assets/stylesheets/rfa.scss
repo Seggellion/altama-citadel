@@ -266,7 +266,7 @@ $rfa_border: #272321;
                 border: none;
                 border-top: 1px solid $rfa_border;
                 transform: translateX(-13%);
-                width: 123.9%;
+                width: 95%;
             }
             .comms-header{
                 display:inline-block;
@@ -365,7 +365,9 @@ $rfa_border: #272321;
                 min-height:42px;
                 border-radius: 0px;
                 border:none;
+                transition: background-color 0.5s;
                 &:hover{
+                    background-color: #918986;
                     border:none;
                 }
             }
@@ -974,8 +976,6 @@ $rfa_border: #272321;
     max-height: 400px;
     overflow-y: auto;
     position: static !important;
-    
-    
     box-sizing: border-box;
     border: 1px solid rgb(216, 220, 222);
     border-radius: 4px;

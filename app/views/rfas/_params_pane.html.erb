@@ -20,6 +20,11 @@
         <%= render 'service-charge', form: form %>
         </div>
     </div>
+        <div class="field">
+        <label>Total service fees:</label> 
+        <%= form.number_field :total_service_fees, readonly:true, value: @rfa.total_charge, id: 'total_service_fees', data:{ 'rfa-target' => 'total_service_fees'} %>
+        </div>
+
 
     <% @all_commodities.each do |commodity| %>    
         <% if @rfa.commodities.include? commodity  %>
