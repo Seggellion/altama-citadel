@@ -82,6 +82,7 @@ class RfasController < ApplicationController
   @aec = 0
   
     bot_url = "https://altama-energy-support.herokuapp.com/"
+
     bot =  Nokogiri::HTML(URI.open(bot_url).read)
 
     if params[:rfa][:HYD].to_f > 0

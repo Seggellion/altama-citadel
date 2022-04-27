@@ -7,19 +7,48 @@
 when 0 %>
 <h2>Thanks for choosing Altama!</h2>
 <p>
-Waiting response from Support Queue (current wait times: X hours), Join our discord for instant updates
+Waiting response from Support Queue (current wait times: {x} minutes), Join our discord for instant updates
 </p>
 <%= image_tag('status-loading.gif', class:'status-loading')  %>
 <% when 1 %>
-<div class="avatar-image"><%= image_tag active_rfa.assigned_user.profile_image if active_rfa.assigned_user.profile_image.present? %></div>
-<%=  active_rfa.assigned_user.username %> has accepted your issue, please await friend request
-<a href="https://discord.com/invite/kNwx4Bw" target="_blank">Join our discord for instant updates: discord.altama.energy</a>
-<%= image_tag('status-loading.gif', class:'status-loading')  %>
+
+<h1>Please await in-game friend request</h1>
+<h2>Support staff has accepted your request, estimated update: {x}mins</h2>
+<%= image_tag('preloader-1.gif', class:'horizontal-status-loading')  %>
+<div class="user-profile-container">
+    <div class="avatar-image"><%= image_tag active_rfa.assigned_user.profile_image if active_rfa.assigned_user.profile_image.present? %></div>
+    <div class="user-info">
+        <h3><%=  active_rfa.assigned_user.rsi_username || active_rfa.assigned_user.username %></h3>
+        <h4><%=  active_rfa.assigned_user.org_title || "INITIATE" %></h4> <small>(<%= active_rfa.assigned_user.total_reviews || "0" %> reviews)</small>
+    </div>
+</div>
+<a href="https://discord.com/invite/kNwx4Bw" target="_blank" class="footer-link">Join our discord for instant updates: discord.altama.energy</a>
+
 <% when 2 %>
-<a href="https://discord.com/invite/kNwx4Bw" target="_blank">Join our discord for instant updates: discord.altama.energy</a>
-<%= image_tag('status-loading.gif', class:'status-loading')  %>
+<h1>We've arrived at your location</h1>
+<h2>Please connect through discord, in-game chat or audio comms</h2>
+<%= image_tag('greenbar.gif', class:'horizontal-status-loading-green')  %>
+<div class="user-profile-container">
+    <div class="avatar-image"><%= image_tag active_rfa.assigned_user.profile_image if active_rfa.assigned_user.profile_image.present? %></div>
+    <div class="user-info">
+        <h3><%=  active_rfa.assigned_user.rsi_username || active_rfa.assigned_user.username %></h3>
+        <h4><%=  active_rfa.assigned_user.org_title || "INITIATE" %></h4> <small>(<%= active_rfa.assigned_user.total_reviews || "0" %> reviews)</small>
+    </div>
+</div>
+<a href="https://discord.com/invite/kNwx4Bw" target="_blank" class="footer-link">Join our discord for instant updates: discord.altama.energy</a>
 <% when 3 %>
-<%= image_tag('status-loading.gif', class:'status-loading')  %>
+<h1>This request has been set to hold</h1>
+<h2>Please contact an Altama service representative for more information</h2>
+
+<div class="user-profile-container">
+    <div class="avatar-image"><%= image_tag active_rfa.assigned_user.profile_image if active_rfa.assigned_user.profile_image.present? %></div>
+    <div class="user-info">
+        <h3><%=  active_rfa.assigned_user.rsi_username || active_rfa.assigned_user.username %></h3>
+        <h4><%=  active_rfa.assigned_user.org_title || "INITIATE" %></h4> <small>(<%= active_rfa.assigned_user.total_reviews || "0" %> reviews)</small>
+    </div>
+</div>
+<a href="https://discord.com/invite/kNwx4Bw" target="_blank" class="footer-link">Join our discord for instant updates: discord.altama.energy</a>
+
 <% when 4 %>
 
 <% if !active_rfa.review_description_exists(active_rfa.user) %>
@@ -44,9 +73,16 @@ Waiting response from Support Queue (current wait times: X hours), Join our disc
         <% end %>
     </div>
     <% else %>
-    <h3>Thanks for submitting your feedback!</h3>
+    <h1>Thanks for your feedback!</h1>
+        <h4>Redirecting to Roadside Assistance</h4>
+            <%= image_tag('status-loading.gif', class:'status-loading')  %>
+       <div data-controller="redirect"></div>
     <% end %>
-
+    <% else %>
+    <h1>Thanks for your feedback!</h1>
+    <h4>Redirecting to Roadside Assistance</h4>
+    <%= image_tag('status-loading.gif', class:'status-loading')  %>
+    <div data-controller="redirect"></div>
 
 <% end %>
 

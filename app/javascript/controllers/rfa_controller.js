@@ -17,7 +17,7 @@ export default class extends Controller {
   static targets = ["form", "status_field", 
   "user", "status_menu", "status_button",
    "rfaUnassigned", "rfaSolved","rfaMine",
-    "rfaAll","rating_field", "review_form", 
+    "rfaAll","rating_field", "review_form", "total_service_fees",
     "total_charge", "commodityCustomerRate","appsPane"]
 
     connect(){
@@ -56,7 +56,7 @@ service_fee(event){
 this.total_charged_amount = 0;
 let service_fee = parseFloat(event.target.value).toFixed(2);
 let total_fees = 0;
-
+let fees_sum = 0;
 let original_total = this.net_total_price;
 let updated_discount_amount = this.total_discount * original_total;
 
@@ -75,17 +75,18 @@ for (var i = 0; i < this.all_commodities.length; i++) {
     let market_price = parseFloat(document.getElementById(`rfa_${current_commodity}-price`).value);
     let commodity_total = document.getElementById(`rfa_${current_commodity}-total`);
     total_fees = (service_fee / 10) * market_price;
-
+    fees_sum += total_fees * commodity_quantity;
     let discount_amount = parseFloat(document.querySelectorAll('[data-amt]')[0].dataset.amt);
     let discount = discount_amount / 100.00;
     let discounted_market_price = market_price - (market_price * discount);
+    
 
 // let subtotal = this.total_discounted_amount + (market_price * service_fee)
 
   //  this.total_discounted_amount = this.total_discounted_amount + (market_price * discount);
     current_customer_commodity.innerHTML = discounted_market_price + total_fees;
     this.total_charged_amount += parseFloat((discounted_market_price + total_fees) * commodity_quantity);
-
+this.total_service_feesTarget.value = fees_sum;
     commodity_total.value =  ((discounted_market_price * commodity_quantity) + total_fees).toFixed(2);
 
   } 

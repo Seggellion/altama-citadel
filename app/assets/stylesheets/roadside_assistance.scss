@@ -636,6 +636,26 @@
     z-index: -1;
     bottom: 0px;
 }
+.horizontal-status-loading{
+    position: absolute;
+    width: 466px;
+    margin: 0px auto;
+    display: block;
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: -1;
+    bottom: 7px;
+}
+.horizontal-status-loading-green{
+    position: absolute;
+    width: 179px;
+    margin: 0px auto;
+    display: block;
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: -1;
+    bottom: 122px;
+}
 .status-banner{
     margin-top:-10px;
     margin-left:-10px;
@@ -643,6 +663,53 @@
 }
 #active_rfa{
     height:100%;
+    h1{
+        font-size:1.4rem;
+        margin-bottom:0px;
+    }
+    h2{
+        font-size: 0.7rem;
+    }
+    h3{
+        margin:0px;
+    }
+    h4{
+        margin:0px;
+        display:inline-block;
+        font-size:0.7rem;
+        text-transform: uppercase;
+        color: rgb(128, 128, 128);
+    }
+    .footer-link{
+        font-size: 0.8rem;
+        color: black;
+        background-color: #9b9b9b;
+        text-decoration: none;
+        margin: 0px auto;
+        text-align: center;
+        width: 100%;
+        display: block;
+        border-radius: 5px;
+        padding: 5px 0px;
+        transform: translateY(10px);
+        transition: background-color 0.5s;
+        &:hover{
+            transition: background-color 0.5s;
+            background-color: #818181;
+        }
+    }
+    small{
+        font-size: 0.6rem;
+        font-weight:900;
+    }
+.user-profile-container{
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    .avatar-image{
+        margin-right:20px;
+    }
+}
     .field-row{
         width: 100%;
         display:flex;
