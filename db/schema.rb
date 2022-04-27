@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_071733) do
+ActiveRecord::Schema.define(version: 2022_04_27_051933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,13 +108,6 @@ ActiveRecord::Schema.define(version: 2022_04_05_071733) do
   create_table "guildstones", force: :cascade do |t|
     t.string "charter"
     t.string "title"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "hangardumps", id: :bigint, default: -> { "nextval('hangar_dumps_id_seq'::regclass)" }, force: :cascade do |t|
-    t.string "name"
-    t.string "attachment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
