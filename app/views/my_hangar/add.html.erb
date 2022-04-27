@@ -33,6 +33,12 @@
     <div class="hangar-actions">
     <%= link_to "My Hangar", my_hangar_path %>
       <button id="importfleet_button" data-action="click->hangardump#index">Import <small>Fleetview</small></button>
+      <div class = "well">
+      <%= form_with url: hangardump_path do |f| %>
+      <%= f.file_field :attachment, direct_upload: true %>
+      <%= f.submit "Save", class: "btn btn-primary" %>
+      <% end %>
+      </div>
       <button id="usership_button"  data-action="click->usership#submit" >Add To Hangar</button>
     </div>
   </div>

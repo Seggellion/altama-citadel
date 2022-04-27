@@ -28,15 +28,15 @@ class HangardumpsController < ApplicationController
 
 
   def create
-    @hangardump = Hangardump.new(hangardump_params)
-    if @hangardump.save
-      redirect_to hangardumps_path, notice: "The hangardump has been uploaded."
-      @url_string = url_for(@hangardump.attachment)
-      puts(@url_string)
+    #@hangardump = Hangardump.new(hangardump_params)
+    #if @hangardump.save
+      #redirect_to hangardumps_path, notice: "The hangardump has been uploaded."
+      #@url_string = url_for(params[:attachment])
+      #puts(@url_string)
       
-      response = fetch(@url_string)
-      puts(response.body)
-      data_hash = JSON.parse(response.body)
+      #response = fetch(@url_string)
+      #puts(response.body)
+      data_hash = JSON.parse(File.read(params[:attachment].tempfile))
 
       #file = Net::HTTP.get_response(URI.parse(@url_string)).body
       #data_hash = JSON.parse(file)
@@ -49,48 +49,48 @@ class HangardumpsController < ApplicationController
       data_hash.each do |key, value|
         ##puts (key)
         ship_hash = JSON.parse(JSON.dump(key))
-        @usership = Usership.new
+        
         ship_hash.each do |k, v|
           #create and save new usership
-          ##@usership.update(user_id:current_user.id)
-          ##puts(k, v)
+          puts(k, v)
           if k == "ship_name"
-            @usership.update(ship_name: v)
+            @shipname = v
           elsif k == "ship_serial"
-            @usership.update(ship_serial: v)
+            @shipserial = v
           elsif k == "pledge_id"
-            @usership.update(pledge_id: v)
+            @pledgeid = v
           elsif k == "pledge_name"
-            @usership.update(pledge_name: v)
+            @pledgename = v
           elsif k == "pledge_date"
             d = Date.parse(v)
             d.next_year(930)
-            @usership.update(pledge_date: d.strftime("%Y-%m-%d"))
+            @pledgedate = d.strftime("%Y-%m-%d")
           elsif k == "lti"
             if (v)
-              @usership.update(lti: true)
+              @lti = true
             else
-              @usership.update(lti: false)
+              @lti = false
             end
           elsif k == "warbond"
             if (v)
-              @usership.update(warbond: true)
+              @warbond = true
             else
-              @usership.update(warbond: false)
+              @warbond = false
             end
           end
           ## puts(k, v) # this is working - so now use these values to update the db for each ship
         end
-        @usership.save
+        #Usership.create(user_id:current_user.id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
       end
       
       #json_file = StringIO.new(@url_string)
       #file = json_file.read
       #data_hash = JSON.parse(file)
       #puts(JSON.dump(data_hash))
-    else
-      render "new"
-    end
+    #else
+    #  render "new"
+    #end
+    redirect_to my_hangar_view_path
   end
 
   def destroy

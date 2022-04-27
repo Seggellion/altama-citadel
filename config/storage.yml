@@ -10,7 +10,7 @@ local:
   #service: GCS
   #project: altama-citadel
   #credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
-  # credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
+  #credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
   #bucket: altama-citadel
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)

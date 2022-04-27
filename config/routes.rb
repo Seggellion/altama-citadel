@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'hangardumps/index'
-  get 'hangardumps/new'
-  get 'hangardumps/create'
-  get 'hangardumps/destroy'
   mount ActionCable.server => "/cable"
 
   constraints subdomain: "sos" do
@@ -27,7 +23,7 @@ Rails.application.routes.draw do
   resources :rewards
   resources :control_points
   resources :badges
-  resources :hangardumps, only: [:index, :new, :create, :destroy]
+
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -66,5 +62,5 @@ Rails.application.routes.draw do
 
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
-  
+  post 'hangardump', to: 'hangardumps#create', as: :hangardump
 end
