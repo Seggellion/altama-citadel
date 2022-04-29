@@ -24,7 +24,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     staff_code =  (0...5).map { ('a'..'z').to_a[rand(26)] }.join
     
-    @event.update(owner_id:current_user.id, staff_code: staff_code)
+    @event.update(owner_id:current_user.id)
 
     respond_to do |format|
       if @event.save
