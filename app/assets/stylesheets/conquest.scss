@@ -6,16 +6,19 @@
     padding:0px;
     background-color:black;
     overflow: hidden;
-    
+    .staff-code{
+        margin-right:20px;
+        text-transform: uppercase;
+    }
     .btn{
         text-transform: uppercase;
         border: none;
-        background-color: white;
+        background-color: white !important;
         font-family: 'dos';
         font-size: 1.3rem;
         cursor: pointer;
         &:hover{
-            background: repeating-conic-gradient($light_grey_shadow 0% 25%, transparent 0% 50%) 50% / 3px 3px;
+            background: repeating-conic-gradient($light_grey_shadow 0% 25%, transparent 0% 50%) 50% / 3px 3px !important;
             padding:0px 5px;
 
             color:white;
@@ -55,6 +58,7 @@
             max-height: 400px;
             display: flex;
             flex-direction: column;
+            overflow:hidden;
         }
         .event-row{
             width:100%;
@@ -95,6 +99,7 @@
         .new-event{
             margin-top:20px;
             display:block;
+            cursor:pointer;
         }
         .new-event-row{
             width:100%;
@@ -134,6 +139,8 @@
         display:flex;
         width:100%;
         height:100%;
+        align-items: center;
+        justify-content: center;
         .conquest-controlpoints{
             width:60%;
         }
@@ -221,22 +228,55 @@
                 border:3px solid white;
             }
         }
-        .team-container{
-            ul,li{
-                padding:0px;
-                margin:0px;
-                list-style-type: none;
+    }
+    .team-container{
+        ul,li{
+            padding:0px;
+            margin:0px;
+            list-style-type: none;
+        }
+        ul{
+            width: 300px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap:wrap;
+        }
+        &.staff ul{
+            width:auto;
+        }
+        .active .btn{
+            background: repeating-conic-gradient(green 0% 25%, transparent 0% 50%) 50% / 3px 3px;
+            padding:0px 5px;
+        }
+    }
+    .staff {
+        .control-point{
+            display:flex;
+            flex-direction:column;
+        } 
+        form{
+            width: 200px;
+            margin: 0px auto;
+            text-align: center;
+            input[type=submit]{
+                color: white;
+                font-size: 1rem;
+                padding: 7px;
+                font-family: 'dos';
             }
-            ul{
-                width: 300px;
-                display: flex;
-                flex-direction: row;
-                flex-wrap:wrap;
+            #staff_code{
+                font-size: 3rem;
+                background-color: black;
+                color: green;
+                font-family: 'dos';
+                text-transform: uppercase;
+                width: 200px;
+                text-align: center;
+                margin-bottom: 20px;
             }
-            .active .btn{
-                background: repeating-conic-gradient(green 0% 25%, transparent 0% 50%) 50% / 3px 3px;
-                padding:0px 5px;
-            }
+        }
+        .column:first-child{
+            width:auto;
         }
     }
 }

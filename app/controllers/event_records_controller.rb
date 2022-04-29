@@ -49,7 +49,11 @@ control_point = ControlPoint.find_by_id(event_record_params[:control_point_id])
 control_point.update(capture_team_id: nil) 
     respond_to do |format|
       if @event_record.save
+        if current_user
         format.html { redirect_to conquest_event_path(id: event), notice: "Event Record was successfully created." }
+        else
+          format.html { redirect_to staff_edit_conquest_path(event), notice: "Event Record was successfully created." }
+        end
         format.json { render :show, status: :created, location: @event_record }
       else
         format.html { render :new, status: :unprocessable_entity }

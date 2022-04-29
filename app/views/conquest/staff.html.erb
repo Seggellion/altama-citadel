@@ -1,0 +1,16 @@
+<%= render '/desktop/window-frame', app1: 'ConQuest' %>
+
+<div class="conquest-window">
+    <div class="conquest-header">
+        <div class="logo">    
+            <h1>ConQuest</h1>
+        </div>
+    </div>
+    <div class="staff">
+        <%= form_with url: staff_code_path do |f|  %>
+            <%= f.text_field :staff_code  %>
+            <%= f.submit :ENTER  %>
+        <% end %>
+    </div>
+
+</div>
