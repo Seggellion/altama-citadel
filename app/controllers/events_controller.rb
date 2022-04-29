@@ -25,7 +25,7 @@ class EventsController < ApplicationController
     staff_code =  (0...5).map { ('a'..'z').to_a[rand(26)] }.join
     
     @event.update(owner_id:current_user.id)
-
+    @event.update(staff_code:staff_code)
     respond_to do |format|
       if @event.save
         format.html { redirect_to conquest_event_path(id: @event), notice: "Event Record was successfully created." }
