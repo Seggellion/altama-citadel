@@ -22,7 +22,9 @@ class EventsController < ApplicationController
   # POST /events or /events.json
   def create
     @event = Event.new(event_params)
-    @event.update(owner_id:current_user.id)
+    staff_code =  (0...5).map { ('a'..'z').to_a[rand(26)] }.join
+    
+    @event.update(owner_id:current_user.id, staff_code: staff_code)
 
     respond_to do |format|
       if @event.save

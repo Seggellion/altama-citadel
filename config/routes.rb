@@ -38,6 +38,14 @@ Rails.application.routes.draw do
   get 'bootup', to: 'desktop#bootup', :constraints => { :subdomain => "ctd" }
   # get 'rfas', to: 'rfas#index'
   get 'conquest', to: 'conquest#index', :constraints => { :subdomain => "ctd" }
+
+  resource :conquest do
+    get 'staff', to: 'conquest#staff', :constraints => { :subdomain => "ctd" }
+    get 'staff_edit', to: 'conquest#staff_edit', :constraints => { :subdomain => "ctd" }
+  end
+
+  post 'staff_code', to: 'conquest#staff_code',  as: :staff_code, :constraints => { :subdomain => "ctd" }
+
   get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
   get 'stop_conquest', to: 'control_points#stop_conquest', :constraints => { :subdomain => "ctd" }
@@ -48,7 +56,8 @@ Rails.application.routes.draw do
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_badges', to: 'badges#index'
-  get 'all_badges', to: 'badges#all_badges'
+  get 'my_badges', to: 'badges#index'
+
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'users', to: 'desktop#users'
   get 'roadside_assistance', to: 'web#roadside_assistance'

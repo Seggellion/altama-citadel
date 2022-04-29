@@ -38,7 +38,6 @@ class RfasController < ApplicationController
     @userships = Usership.where(user_id: current_user.id)
     @location = Location.find_by_id(@rfa.location_id)
     @ships = Ship.all
-  
 
     respond_to do |format|
       if @rfa.save
