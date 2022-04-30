@@ -10,12 +10,14 @@
         margin-right:20px;
         text-transform: uppercase;
     }
-    .btn{
+    .btn, .btn:visited, .btn:link{
         text-transform: uppercase;
         border: none;
         background-color: white !important;
         font-family: 'dos';
         font-size: 1.3rem;
+        color:black;
+        height:30px;
         cursor: pointer;
         &:hover{
             background: repeating-conic-gradient($light_grey_shadow 0% 25%, transparent 0% 50%) 50% / 3px 3px !important;
@@ -255,6 +257,15 @@
             display:flex;
             flex-direction:column;
         } 
+        .control-point-timer{
+            margin:20px 0px;
+            a{
+                color: white;
+                text-decoration: none;
+                border: 1px solid white;
+                padding: 5px;
+            }
+        }
         form{
             width: 200px;
             margin: 0px auto;
@@ -264,6 +275,12 @@
                 font-size: 1rem;
                 padding: 7px;
                 font-family: 'dos';
+                &.btn{
+                    color:black;
+                    &:hover{
+                        color:white;
+                    }
+                }
             }
             #staff_code{
                 font-size: 3rem;
