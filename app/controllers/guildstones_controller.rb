@@ -9,7 +9,7 @@ class GuildstonesController < ApplicationController
   # GET /guildstones/1 or /guildstones/1.json
   def show
     #@new_role_nomination = OrgRoleNomination.new
-    @departments = Guildstone.all
+    @departments = Department.all
   end
 
   def apply_role
