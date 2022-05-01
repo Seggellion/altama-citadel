@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_01_224953) do
+ActiveRecord::Schema.define(version: 2022_05_01_231736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 2022_05_01_224953) do
     t.string "description"
     t.integer "department_id"
     t.integer "guildstone_id"
-    t.integer "term_length_days"
+    t.integer "term_length_days", default: 185
     t.float "compensation"
     t.integer "parent_position_id"
     t.datetime "created_at", precision: 6, null: false
@@ -232,7 +232,7 @@ ActiveRecord::Schema.define(version: 2022_05_01_224953) do
     t.integer "position_id"
     t.integer "user_id"
     t.string "description"
-    t.integer "term_length_days"
+    t.integer "term_length_days", default: 185
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "title"
