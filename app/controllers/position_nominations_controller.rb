@@ -1,4 +1,4 @@
-class VotesController < ApplicationController
+class PositionNominationsController < ApplicationController
 
 
   def show
