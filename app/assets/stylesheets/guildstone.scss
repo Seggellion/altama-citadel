@@ -35,7 +35,12 @@
     border-right:1px solid white;
     border-right:1px solid white;
     background-color: #808080;
-    
+    .window-form{
+        width:100%;
+        background-color: #c0c0c0;
+        margin-bottom:10px;
+        
+    }
 
     .section-window{
         height: 198px;
@@ -54,6 +59,13 @@
     }
     .shortcut-icon-container{
         overflow:hidden;
+        .position-create{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-2px) translateY(-152px);
+            height: 753px;
+            width: auto;
+        }
         &:nth-child(3n+3){
             margin-right:7px;
         }
