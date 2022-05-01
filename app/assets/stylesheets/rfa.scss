@@ -1,8 +1,10 @@
 @import 'mixins';
-
-input:disabled, input:read-only{
-   background-color: #161616 !important;
+#rfas{
+    input:disabled, input:read-only{
+        background-color: #161616 !important;
+     }
 }
+
 .rfa-column{
     padding-left:30px;
     small{
