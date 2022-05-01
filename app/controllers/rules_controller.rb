@@ -16,7 +16,8 @@ class RulesController < ApplicationController
   def create
     user_id = current_user
     @rule = Rule.new(rule_params)
-    guildstone_id = 1
+    @guildstone = Guildstone.first
+    @rule.update(guildstone_id: @guildstone.id)
     respond_to do |format|
       if @rule.save
         format.html { redirect_to @rule, notice: "Rule was successfully created." }
@@ -56,7 +57,7 @@ class RulesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def rule_params
-    params.require(:rule).permit(:description, :title)
+    params.require(:rule).permit(:guildstone_id, :description, :title)
   end
 
   
