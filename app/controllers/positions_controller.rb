@@ -16,14 +16,14 @@ class PositionsController < ApplicationController
 
   def create
     @position = Position.new(position_params)
-
+    @guildstone = Guildstone.first
     respond_to do |format|
       if @position.save
-        format.html { redirect_to @position, notice: "Position was successfully created." }
-        format.json { render :show, status: :created, location: @position }
+        format.html { redirect_to @guildstone, notice: "Position was successfully created." }
+        
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @position.errors, status: :unprocessable_entity }
+        format.html { redirect_to @guildstone, notice: "Error." }
+        
       end
     end
   end

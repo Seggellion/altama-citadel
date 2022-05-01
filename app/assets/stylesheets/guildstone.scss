@@ -7,6 +7,18 @@
     background-color: #c0c0c0;
     .window-container{
         margin-top:40px;
+        .form-section{
+            padding: 5px 8px;
+        }
+    }
+    .position-list{
+        background-color: white;
+        margin: 0px 6px;
+        padding: 0px 3px;
+        border-top:1px solid black;
+        border-left:1px solid black;
+        border-right:1px solid white;
+        border-right:1px solid white;
     }
     .window-icon-bar{
         height: 40px;
@@ -62,7 +74,7 @@
         .position-create{
             background-position: top;
             object-fit: contain;
-            transform: translateX(-2px) translateY(-152px);
+            transform: translateX(-32px) translateY(-479px);
             height: 753px;
             width: auto;
         }
