@@ -8,13 +8,8 @@ class GuildstonesController < ApplicationController
 
   # GET /guildstones/1 or /guildstones/1.json
   def show
-    @new_role_nomination = OrgRoleNomination.new
-    @org_role = OrgRole.new
-    @lvl1_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:1)
-    @lvl2_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:2)
-    @lvl3_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:3)
-    @lvl4_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:4)
-    @lvl5_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:5)
+    #@new_role_nomination = OrgRoleNomination.new
+    @departments = Department.all
   end
 
   def apply_role

@@ -1,85 +1,55 @@
 <%= render '/desktop/window-frame', app1: 'Guildstone' %>
-<%= render @guildstone %>
 
-<%= render "/org_roles/form", org_role: @org_role %>
-<div class="role-container">
-<div class="lvl-container">
-  <% @lvl1_roles.each do | role |  %>
-    <div class="role-box lvl1">
-    <%= button_to "Remove this role", org_role_path(role), method: :delete %>
-      <%= role.title %>
-      <%= link_to "Apply", apply_role_path(role: role), class: 'btn'  %>
 
-      <% if role.nominations.present? %>
-        <div class="nomination-box">
-          <% role.nominations.each do | nomination |  %>
-  
-            <%= nomination.id %> 
-            <% unless current_user.voted?(role) %>
-              <%= link_to "Vote", vote_path(nomination: nomination), class: 'btn' %> 
-              ( <%= nomination.total_votes %> )
+
+<div class="window-container">
+  <ul class="window-menu">
+    <li>File</li>
+    <li>File</li>
+    <li>File</li>
+    <li>File</li>
+    <li>File</li>
+    <li>File</li>
+  </ul>
+  <div class="window-icon-bar">
+    <div class="shortcut-icon-container"><a title="Create new position" href="#"><%= image_tag("all_icons.png", class: "position-create") %> </a></div>
+    <div class="shortcut-icon-container"><a title="Create new department"  href="#"></a></div>
+    <div class="shortcut-icon-container"><a title="Create new rule" href="#"></a></div>
+    <div class="shortcut-icon-container"><a title="Create new nomination" href="#"></a></div>
+    <div class="shortcut-icon-container"><a title="View index" href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container"><a href="#"></a></div>
+  </div>
+  <div class="window-section-body-container">
+    <div class="window-section-body">
+      <div class="section-header">Relationships</div>
+
+      <%= @departments.each do |department| %>
+        <div class="section-window">
+          <div class="section-window-header"><%= department.title %></div>
+          <div class="position-list">
+          <% if department.positions %>
+            <%= department.positions.each do |position|  %>
+
             <% end %>
+            <% else %>
+            No positions
           <% end %>
+          </div>
         </div>
       <% end %>
-
     </div>
-  <% end %>
   </div>
-<hr />
-
-<div class="lvl-container">
-<% @lvl2_roles.each do | role |  %>
-  <div class="role-box lvl2">
-  <%= button_to "Remove this role", org_role_path(role), method: :delete %>
-    <%= role.title %>
-    <button>Apply</button>
-  </div>
-<% end %>
-</div>
 
 
-  <% if @lvl3_roles.present? %>
-  <hr />
-    <div class="lvl-container">
-      <% @lvl3_roles.each do | role |  %>
-        <div class="role-box lvl3">
-        <%= button_to "Remove this role", org_role_path(role), method: :delete %>
-          <%= role.title %>
-          <button>Apply</button>
-        </div>
-      <% end %>
-    </div>
-  <% end%>
-  <% if @lvl4_roles.present? %>
-  <hr />
-    <div class="lvl-container">
-      <% @lvl4_roles.each do | role |  %>
-        <div class="role-box lvl4">
-        <%= button_to "Remove this role", org_role_path(role), method: :delete %>
-          <%= role.title %>
-          <button>Apply</button>
-        </div>
-      <% end %>
-    </div>
-  <% end%>
 
-  <% if @lvl5_roles.present? %>
-  <hr />
-    <div class="lvl-container">
-      <% @lvl5_roles.each do | role |  %>
-        <div class="role-box lvl5">
-        <%= button_to "Remove this role", org_role_path(role), method: :delete %>
-          <%= role.title %>
-          <button>Apply</button>
-        </div>
-      <% end %>
-    </div>
-  <% end%>
 
-</div>
-<div>
-  <%= link_to "Edit this guildstone", edit_guildstone_path(@guildstone) %>
-
-</div>
 <%= render '/desktop/taskbar', app1: 'Guildstone' %>
