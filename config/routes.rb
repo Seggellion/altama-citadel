@@ -6,8 +6,13 @@ Rails.application.routes.draw do
    end
 
 
-
-
+  resources :departments
+  resources :positions
+  resources :rules
+  resources :user_position_histories
+  resources :user_positions
+  resources :votes
+  resources :position_nominations
   resources :org_roles
   resources :guildstones
   resources :locations
