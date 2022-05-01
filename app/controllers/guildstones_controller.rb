@@ -10,6 +10,7 @@ class GuildstonesController < ApplicationController
   def show
     #@new_role_nomination = OrgRoleNomination.new
     @departments = Department.all
+    @department = Department.new
   end
 
   def apply_role
