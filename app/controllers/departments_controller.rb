@@ -57,7 +57,7 @@ class DepartmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def department_params
-    params.fetch(:department, {})
+    params.require(:department).permit(:guildstone_id, :title, :description)
   end
 
 

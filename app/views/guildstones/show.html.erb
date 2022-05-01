@@ -66,12 +66,12 @@
 
       <div class="section-header">Relationships</div>
 
-      <%= @departments.each do |department| %>
+      <% @departments.each do |department| %>
         <div class="section-window">
           <div class="section-window-header"><%= department.title %></div>
           <div class="position-list">
           <% if department.positions %>
-            <%= department.positions.each do |position|  %>
+            <% department.positions.each do |position|  %>
 
             <% end %>
             <% else %>
