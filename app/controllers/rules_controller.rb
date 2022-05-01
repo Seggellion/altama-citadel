@@ -14,6 +14,7 @@ class RulesController < ApplicationController
   end
 
   def create
+    user_id = current_user
     @rule = Rule.new(rule_params)
 
     respond_to do |format|

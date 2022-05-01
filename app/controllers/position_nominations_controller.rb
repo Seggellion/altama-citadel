@@ -15,7 +15,8 @@ class PositionNominationsController < ApplicationController
 
   def create
     @position_nomination = PositionNomination.new(position_nomination_params)
-
+    nominator_id = current_user
+    guildstone_id = 1
     respond_to do |format|
       if @position_nomination.save
         format.html { redirect_to @position_nomination, notice: "PositionNomination was successfully created." }
@@ -55,7 +56,7 @@ class PositionNominationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def position_nomination_params
-    params.fetch(:position_nomination, {})
+    params.require(:position_nomination).permit(:position_id, :nominee_id, :campaign_description, :resume)
   end
 
   
