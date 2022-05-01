@@ -15,7 +15,7 @@ class UserPositionHistoriesController < ApplicationController
   def create
     user_id = current_user
     @user_position_history = UserPositionHistory.new(user_position_history_params)
-
+    guildstone_id = 1
     respond_to do |format|
       if @user_position_history.save
         format.html { redirect_to @user_position_history, notice: "User Position History was successfully created." }
@@ -55,7 +55,7 @@ class UserPositionHistoriesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_position_history_params
-    params.fetch(:user_position_history, {})
+    params.require(:user_position_history).permit(:description, :title, :department_id, :nomination_id, :compensation, :term_end)
   end
 
   
