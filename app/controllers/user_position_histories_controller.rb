@@ -13,6 +13,7 @@ class UserPositionHistoriesController < ApplicationController
   end
 
   def create
+    user_id = current_user
     @user_position_history = UserPositionHistory.new(user_position_history_params)
 
     respond_to do |format|
