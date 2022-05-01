@@ -13,7 +13,7 @@
     <%= form_with(model: Position) do |f| %>
       <span>Position:</span>
       Title: <%= f.text_field :title, :required=>'true' %>
-      <%= f.select :departmemnt_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select department'%>
+      <%= f.select :department_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select department'%>
       
       <%= f.submit 'Add' %>
     <% end %>
