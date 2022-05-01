@@ -14,6 +14,7 @@ class UserPositionsController < ApplicationController
   end
 
   def create
+    user_id = current_user
     @user_position = UserPosition.new(user_position_params)
 
     respond_to do |format|

@@ -15,7 +15,7 @@ class VotesController < ApplicationController
 
   def create
     @vote = Vote.new(rule_params)
-
+    user_id = current_user
     respond_to do |format|
       if @vote.save
         format.html { redirect_to @vote, notice: "Vote was successfully created." }
