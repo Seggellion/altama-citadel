@@ -17,6 +17,7 @@ class PositionsController < ApplicationController
   def create
     @position = Position.new(position_params)
     @guildstone = Guildstone.first
+    @position.update(guildstone_id: @guildstone.id)
     respond_to do |format|
       if @position.save
         format.html { redirect_to @guildstone, notice: "Position was successfully created." }
@@ -56,7 +57,7 @@ class PositionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def position_params
-    params.require(:position).permit(:title, :description, :department_id, :compensation, :parent_position_id)
+    params.require(:position).permit(:guildstone_id, :title, :description, :department_id, :compensation, :parent_position_id)
   end
 
   
