@@ -1,0 +1,3 @@
+class UserPosition < ApplicationRecord
+
+end
