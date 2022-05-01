@@ -1,0 +1,3 @@
+class PositionNomination < ApplicationRecord
+
+end
