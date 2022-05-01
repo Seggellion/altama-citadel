@@ -67,7 +67,7 @@
   <% if @lvl5_roles.present? %>
   <hr />
     <div class="lvl-container">
-      <% @lvl3_roles.each do | role |  %>
+      <% @lvl5_roles.each do | role |  %>
         <div class="role-box lvl5">
         <%= button_to "Remove this role", org_role_path(role), method: :delete %>
           <%= role.title %>
