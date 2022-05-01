@@ -1,7 +1,84 @@
+@import 'mixins';
+
 #guildstones{
     margin:0px;
     padding:0px;
     overflow: hidden;
     background-color: #c0c0c0;
+    .window-container{
+        margin-top:40px;
+    }
+    .window-icon-bar{
+        height: 40px;
+        display: flex;
+        margin-top: 9px;
+        padding-left: 8px;
+    }
+    .section-header, .section-window-header{
+        background-color:$system_blue;
+        padding-left: 30px;
+        color: white;
+        font-size: 1.2rem;
+        margin-top: -3px;
+        height: 28px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+    .section-window-header{
+        padding-left:5px;
+        margin:3px;
+        height:24px;
+    }
+    .window-section-body-container{
+    padding:4px 8px;
+    border-top:1px solid black;
+    border-left:1px solid black;
+    border-right:1px solid white;
+    border-right:1px solid white;
+    background-color: #808080;
+    
 
+    .section-window{
+        height: 198px;
+        width: 137px;
+        margin-top: 9px;
+        margin-left: 4px;
+        border-top:1px solid white;
+        border-left:1px solid white;
+        border-right:1px solid black;
+        border-bottom:1px solid black;
+    }
+        .window-section-body{
+            padding:4px;
+            background-color: #c0c0c0;
+        }
+    }
+    .shortcut-icon-container{
+        overflow:hidden;
+        &:nth-child(3n+3){
+            margin-right:7px;
+        }
+        a{
+            
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        border-top:1px solid white;
+        border-left:1px solid white;
+        border-right:1px solid black;
+        border-bottom:1px solid black;
+        width: 32px;
+        height: 32px;
+    }
+    .window-menu{
+        display: flex;
+        list-style:none;
+        padding:0px; 
+        margin:0px;
+        li{
+            width:32px;
+            padding:0px; 
+            margin:0px;
+        }
+    }
 }
