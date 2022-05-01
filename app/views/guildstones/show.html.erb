@@ -32,45 +32,10 @@
     <div class="shortcut-icon-container"><a href="#"></a></div>
     <div class="shortcut-icon-container"><a href="#"></a></div>
   </div>
+  <%= render 'form_section' %>
+
   <div class="window-section-body-container">
-  <div class="window-form">
-    <%= form_with(model: @department) do |form| %>
-      <span>Department:</span>
-      Title: <%= form.text_field :title, :required=>'true' %>
-      <%= form.hidden_field :guildstone_id, :value => @guildstone.id %>
-      <%= form.submit 'Add' %>
-    <% end %>
-  </div>
-
-  <div class="window-form">
-    <%= form_with(model: Position) do |f| %>
-      <span>Position:</span>
-      Title: <%= f.text_field :title, :required=>'true' %>
-      <%= f.hidden_field :guildstone_id, :value => @guildstone.id %>
-      <%= f.submit 'Add' %>
-    <% end %>
-  </div>
-
-  <div class="window-form">
-    <%= form_with(model: PositionNomination) do |n| %>
-    <span>Nominate:</span>
-      
-      <%= n.select :position_id, options_for_select(@positions.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select position'%>
-      <%= n.select :nominee_id, options_for_select(@users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select nominee'%>
-      Reason: <%= n.text_field :title, :required=>'true' %>
-      <%= n.hidden_field :guildstone_id, :value => @guildstone.id %>
-      <%= n.submit 'Add' %>
-    <% end %>
-  </div>
-
-  <div class="window-form">
-  <%= form_with(model: Rule) do |r| %>
-    <span>Rule:</span>
-    Title: <%= r.text_field :title, :required=>'true' %>
-    <%= r.hidden_field :guildstone_id, :value => @guildstone.id %>
-    <%= r.submit 'Add' %>
-  <% end %>
-  </div>
+  
 
     <div class="window-section-body">
 
