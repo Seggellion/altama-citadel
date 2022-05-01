@@ -16,7 +16,8 @@ class UserPositionsController < ApplicationController
   def create
     user_id = current_user
     @user_position = UserPosition.new(user_position_params)
-    guildstone_id = 1
+    @guildstone = Guildstone.first
+    @user_position.update(guildstone_id: @guildstone.id)
     respond_to do |format|
       if @user_position.save
         format.html { redirect_to @user_position, notice: "User Position was successfully created." }
@@ -56,7 +57,7 @@ class UserPositionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_position_params
-    params.require(:user_position).permit(:description, :title, :department_id, :nomination_id, :compensation, :parent_position_id, :term_end)
+    params.require(:user_position).permit(:guildstone_id, :description, :title, :department_id, :nomination_id, :compensation, :parent_position_id, :term_end)
   end
 
   
