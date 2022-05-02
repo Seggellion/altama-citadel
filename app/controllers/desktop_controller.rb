@@ -37,7 +37,7 @@ def index
 end
 
 def ship_view_switch
-binding.break
+
 end
 
 def rsi_user_list
