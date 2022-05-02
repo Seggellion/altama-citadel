@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_01_231736) do
+ActiveRecord::Schema.define(version: 2022_05_02_005128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -336,7 +336,7 @@ ActiveRecord::Schema.define(version: 2022_05_01_231736) do
     t.string "description"
     t.integer "department_id"
     t.float "compensation"
-    t.integer "parent_position_id"
+    t.integer "position_id"
     t.integer "guildstone_id"
     t.date "term_end"
     t.datetime "created_at", precision: 6, null: false
