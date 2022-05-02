@@ -8,8 +8,9 @@ class User < ApplicationRecord
   has_many :ships, :through => :userships
   has_one :task_manager
   has_many :rfas
-  #has_one :position
-
+  has_one :position, :through => :user_position
+  has_one :user_position
+  
   def top_five
     userships = self.userships
 end
