@@ -13,6 +13,7 @@ class GuildstonesController < ApplicationController
     @department = Department.new
     @users = User.all
     @positions = Position.all
+    @position_nominations = PositionNomination.all
   end
 
   def apply_role
