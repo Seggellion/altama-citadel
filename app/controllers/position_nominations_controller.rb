@@ -17,6 +17,7 @@ class PositionNominationsController < ApplicationController
     @position_nomination = PositionNomination.new(position_nomination_params)
     nominator_id = current_user
     guildstone_id = 1
+  
     respond_to do |format|
       if @position_nomination.save
         format.html { redirect_to @position_nomination, notice: "PositionNomination was successfully created." }
