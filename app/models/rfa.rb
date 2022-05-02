@@ -136,7 +136,7 @@ def aec
 end
 
 def new_review
-binding.break
+
 end
 
 def total_charge
