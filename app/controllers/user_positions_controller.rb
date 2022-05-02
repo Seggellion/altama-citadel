@@ -20,11 +20,11 @@ class UserPositionsController < ApplicationController
     @user_position.update(user_id: current_user.id)
     respond_to do |format|
       if @user_position.save
-        format.html { redirect_to @user_position, notice: "User Position was successfully created." }
-        format.json { render :show, status: :created, location: @user_position }
+        format.html { redirect_to @guildstone, notice: "Position was successfully Applied." }
+        
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user_position.errors, status: :unprocessable_entity }
+        format.html { redirect_to @guildstone, notice: "Error." }
+        
       end
     end
   end
@@ -57,7 +57,9 @@ class UserPositionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_position_params
+
     params.require(:user_position).permit(:user_id, :guildstone_id, :description, :title, :department_id, :nomination_id, :compensation, :position_id, :term_end)
+
   end
 
   
