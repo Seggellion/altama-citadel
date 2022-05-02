@@ -39,7 +39,7 @@
 
     <div class="window-section-body">
 
-      <div class="section-header">Relationships</div>
+      <div class="section-header"><%= @guildstone.title %></div>
 
       <% @departments.each do |department| %>
         <div class="section-window">
@@ -47,8 +47,10 @@
           <div class="position-list">
           <% if department.positions %>
             <% department.positions.each do |position|  %>
-<%= position.title %>
+              <a href="">Apply</a>  <%= position.title %>
+              <%= render 'modal-position', position: position %>
             <% end %>
+            
             <% else %>
             No positions
           <% end %>
@@ -58,7 +60,7 @@
     </div>
   </div>
 
-
+  
 
 
 <%= render '/desktop/taskbar', app1: 'Guildstone' %>
