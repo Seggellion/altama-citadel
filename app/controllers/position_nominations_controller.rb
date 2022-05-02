@@ -19,7 +19,7 @@ class PositionNominationsController < ApplicationController
     @guildstone = Guildstone.first
     @position_nomination.update(nominator_id: current_user.id)
     @position_nomination.update(guildstone_id: @guildstone.id)
-binding.break
+
     respond_to do |format|
       if @position_nomination.save
         format.html { redirect_to @guildstone, notice: "Position Nomination was successfully created." }
