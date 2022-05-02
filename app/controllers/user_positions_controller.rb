@@ -14,13 +14,13 @@ class UserPositionsController < ApplicationController
   end
 
   def create
-    user_id = current_user
     @user_position = UserPosition.new(user_position_params)
     @guildstone = Guildstone.first
     @user_position.update(guildstone_id: @guildstone.id)
-    binding.break
+    @user_position.update(user_id: current_user.id)
+    
     respond_to do |format|
-      if @position.save
+      if @user_position.save
         format.html { redirect_to @guildstone, notice: "Position was successfully Applied." }
         
       else

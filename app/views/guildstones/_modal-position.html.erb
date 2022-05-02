@@ -18,7 +18,7 @@
                 <hr />
                 <div class="buttons">
                 <%= form_with(model: UserPosition) do |form| %>
-                    <%= form.hidden_field :status_id, :value => position.id %>
+                    <%= form.hidden_field :position_id, :value => position.id %>
                     
                     <%= form.submit 'Apply' %>
                 <% end %>
