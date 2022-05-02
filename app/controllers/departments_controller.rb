@@ -17,7 +17,8 @@ class DepartmentsController < ApplicationController
 
   def create
     @department = Department.new(department_params)
-    guildstone_id = 1
+    @guildstone = Guildstone.first
+    @department.update(guildstone_id: @guildstone.id)
     respond_to do |format|
       if @department.save
         format.html { redirect_to @department, notice: "Department was successfully created." }
@@ -57,7 +58,7 @@ class DepartmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def department_params
-    params.require(:department).permit( :title, :description, :parent_department_id)
+    params.require(:department).permit(:guildstone_id, :title, :description, :parent_department_id)
   end
 
 

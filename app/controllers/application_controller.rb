@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
       end
 
 def vote
-binding.break
+
 end
 
 end

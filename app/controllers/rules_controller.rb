@@ -14,16 +14,17 @@ class RulesController < ApplicationController
   end
 
   def create
-    user_id = current_user
     @rule = Rule.new(rule_params)
-    guildstone_id = 1
+    @guildstone = Guildstone.first
+    @rule.update(guildstone_id: @guildstone.id)
+    @rule.update(user_id: current_user.id)
     respond_to do |format|
+
       if @rule.save
-        format.html { redirect_to @rule, notice: "Rule was successfully created." }
-        format.json { render :show, status: :created, location: @rule }
+        format.html { redirect_to @guildstone, notice: "Rule was successfully created." }
+       
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @rule.errors, status: :unprocessable_entity }
+        format.html { redirect_to @guildstone, notice: "Error." }
       end
     end
   end
@@ -56,7 +57,7 @@ class RulesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def rule_params
-    params.require(:rule).permit(:description, :title)
+    params.require(:rule).permit(:user_id, :guildstone_id, :description, :title)
   end
 
   
