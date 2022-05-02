@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   get 'all_user_list', to: 'tasks#state_all_users'
   get 'root_user_list', to: 'tasks#state_root_users'
   get 'discord_user_list', to: 'tasks#state_discord_users'
+  get 'state_positions', to: 'tasks#state_positions'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
   get 'rsi_activate', to: 'tasks#rsi_activate'
