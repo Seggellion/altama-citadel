@@ -15,9 +15,9 @@ class VotesController < ApplicationController
 
   def create
     @vote = Vote.new(rule_params)
-    user_id = current_user
     @guildstone = Guildstone.first
     @vote.update(guildstone_id: @guildstone.id)
+    @vote.update(user_id: current_user.id)
     respond_to do |format|
       if @vote.save
         format.html { redirect_to @vote, notice: "Vote was successfully created." }
@@ -57,7 +57,7 @@ class VotesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def vote_params
-    params.require(:vote).permit(:guildstone_id, :position_id, :rule_id, :position_nomination_id, :feedback)
+    params.require(:vote).permit(:user_id, :guildstone_id, :position_id, :rule_id, :position_nomination_id, :feedback)
   end
 
   
