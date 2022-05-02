@@ -1,5 +1,9 @@
 <div draggable="true" class="guildstone-modal">
-<div class="section-window-header"><%= position.title %></div>
+<div class="section-window-header"><%= position.title %> 
+    <%#= form_with(model: task) do |form| %>
+    <%#= button_to "", task, class:'close-btn windowed', method: :delete  %>
+    <%# end %>
+    </div>
     <div class="position-container">
         <div class="position-header">
         <%#= position.user %> Anne Dodsworth
@@ -13,7 +17,11 @@
                 <div class="position-row">Hire Date: </div>
                 <hr />
                 <div class="buttons">
-                    <a href="btn">Apply</a>
+                <%= form_with(model: UserPosition) do |form| %>
+                    <%= form.hidden_field :position_id, :value => position.id %>
+                    
+                    <%= form.submit 'Apply' %>
+                <% end %>
                     <a href="btn">Nominate</a>
                     <a href="btn">Cancel</a>
                 </div>
