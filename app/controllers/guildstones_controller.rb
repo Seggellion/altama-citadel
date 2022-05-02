@@ -8,6 +8,10 @@ class GuildstonesController < ApplicationController
 
   # GET /guildstones/1 or /guildstones/1.json
   def show
+    task_manager = TaskManager.find_by(user_id: current_user)
+    
+    @task =  Task.new(name: 'Guildstone',task_manager_id: task_manager.id)
+    @task.save
     #@new_role_nomination = OrgRoleNomination.new
     @departments = Department.all
     @department = Department.new

@@ -47,7 +47,11 @@
           <div class="position-list">
           <% if department.positions %>
             <% department.positions.each do |position|  %>
-              <a href="">Apply</a>  <%= position.title %>
+              
+              <%= link_to state_positions_path(position: position.title), class: 'desktop-icon', method: :post do %>
+                Apply -  <%= position.title %>
+                <% end %>
+      
               <%= render 'modal-position', position: position %>
             <% end %>
             
@@ -63,4 +67,4 @@
   
 
 
-<%= render '/desktop/taskbar', app1: 'Guildstone' %>
+<%= render '/desktop/taskbar', app1: 'Guildstone', windowed: false %>
