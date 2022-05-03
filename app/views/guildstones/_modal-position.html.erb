@@ -1,8 +1,13 @@
-<div draggable="true" class="guildstone-modal">
+<div draggable="true" class="guildstone-modal" 
+<% if i > 0 %>
+style="transform: translate(
+    calc(-50% + <%= i + 1.5 %>%),calc(-30% + <%= i + 2 %>%));
+    z-index: <%= i %>"
+<%end%> >
 <div class="section-window-header"><%= position.title %> 
-    <%#= form_with(model: task) do |form| %>
-    <%#= button_to "", task, class:'close-btn windowed', method: :delete  %>
-    <%# end %>
+    
+    <%= link_to "", close_position_window_path(window: position.title), class:'close-btn windowed' %>
+    
     </div>
     <div class="position-container">
         <div class="position-header">

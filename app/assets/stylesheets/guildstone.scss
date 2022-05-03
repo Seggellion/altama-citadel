@@ -5,7 +5,8 @@
     padding:0px;
     overflow: hidden;
     background-color: #c0c0c0;
-    height:100%;
+    height: calc(100% - 6px);
+    box-sizing: border-box;
     .window-container{
         margin-top:40px;
         height:100%;
@@ -23,6 +24,9 @@
         border-right:1px solid black;
         border-bottom:1px solid black;
         overflow:hidden;
+        transform: translate(-50%, -30%);
+        left: 50%;
+        top: 50%;
         .position-container{
             height:87%;
         }

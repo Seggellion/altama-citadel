@@ -1,5 +1,6 @@
 class GuildstonesController < ApplicationController
   before_action :set_guildstone, only: %i[ show edit update destroy ]
+  before_action :task_manager
 
   # GET /guildstones or /guildstones.json
   def index
@@ -8,16 +9,19 @@ class GuildstonesController < ApplicationController
 
   # GET /guildstones/1 or /guildstones/1.json
   def show
-    task_manager = TaskManager.find_by(user_id: current_user)
     
-    @task =  Task.new(name: 'Guildstone',task_manager_id: task_manager.id)
-    @task.save
+    window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+    end
+
     #@new_role_nomination = OrgRoleNomination.new
     @departments = Department.all
     @department = Department.new
     @users = User.all
     @positions = Position.all
     @position_nominations = PositionNomination.all
+
   end
 
   def apply_role

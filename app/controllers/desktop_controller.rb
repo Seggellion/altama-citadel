@@ -3,17 +3,12 @@ class DesktopController < ApplicationController
 before_action :require_login
 
 
+
 def index
-  @current_user = current_user
-  task_manager = TaskManager.find_by(user_id: current_user)
-  
-  if task_manager.nil?
-    
-    redirect_to bsod_path
-    return
-    
-  end
-  @all_tasks = Task.where(task_manager_id: task_manager.id)
+  redirect_to bsod_path && return if @task_manager.nil?
+if @all_tasks
+  @windowed_tasks = @all_tasks.where(view:'window')
+end
   @all_users = User.all + DiscordUser.all + RsiUser.all
   @local_users = User.all
   @root_users = User.all.order(last_login: :desc)
@@ -30,7 +25,7 @@ def index
   @reward  = Reward.new
   @all_rewards = Reward.all
   @all_commodities = Commodity.all  
-  @user_manager = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+  @user_manager = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   current_user.desktop
 # Discord::Notifier.message('Discord Notifier Webhook Notification')

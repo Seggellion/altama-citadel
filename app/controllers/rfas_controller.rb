@@ -10,7 +10,9 @@ class RfasController < ApplicationController
     @rfa_solved = Rfa.where(status_id:4)
     @rfa_unassigned = Rfa.where(status_id:0)
     @rfa_mine = Rfa.where(user_assigned_id: current_user.id)
-    
+
+    task_manager = TaskManager.find_by(user_id: current_user)
+    @task =  Task.new(name: 'RFA Manager',task_manager_id: task_manager.id, view: 'full')
   end
 
   # GET /rfas/1 or /rfas/1.json
