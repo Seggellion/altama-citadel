@@ -1,0 +1,12 @@
+<div id="task_manager">
+
+<%= render '/desktop/window-frame', app1: 'Task Manager' %>
+
+<ul class="task-list">
+<% if @all_tasks.present? %>
+    <% @all_tasks.each do | task |  %>
+    <li><%= task.name %></li>
+    <% end %>
+<% end %>
+</ul>
+</div>

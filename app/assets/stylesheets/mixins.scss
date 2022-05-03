@@ -188,3 +188,50 @@ i.error-icon{
         fill:$color !important;
     }
 }
+
+
+
+.close-btn{
+  cursor: pointer;
+  padding: 0px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 17px;
+  height: 15px;
+  opacity: 1;
+      background-color: $light_grey;
+      border-top: $highlight_border;
+      border-left: $highlight_border;
+      border-right: $shadow_border;
+      border-bottom: $shadow_border;
+      background-color: $light_grey;
+      &.windowed{
+        width: 19px;
+        height: 17px;
+        right: -3px;
+        &:before, &:after {
+          top:0px;
+          left:7px;
+        }
+      }
+      &:hover {
+        opacity: 1;
+      }
+      &:before, &:after {
+        position: absolute;
+        left: 8px;
+        top:1px;
+        content: ' ';
+        height: 14px;
+        width: 2px;
+        background-color: black;
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(-45deg);
+      }
+      
+}
