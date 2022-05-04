@@ -72,6 +72,7 @@ Rails.application.routes.draw do
   get 'select_ship', to: 'desktop#index', :constraints => { :subdomain => "ctd" }
   get 'apply_role', to: 'guildstones#apply_role'
   get 'vote', to: 'guildstones#vote'
+  get 'killall', to:'tasks#killall'
   get 'start_guildstone', to:'tasks#start_guildstone'
   get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
   get 'start_location_manager', to:'tasks#start_location_manager'
