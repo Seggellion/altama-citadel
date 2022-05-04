@@ -72,6 +72,7 @@ Rails.application.routes.draw do
   get 'select_ship', to: 'desktop#index', :constraints => { :subdomain => "ctd" }
   get 'apply_role', to: 'guildstones#apply_role'
   get 'vote', to: 'guildstones#vote'
+  get 'start_guildstone', to:'tasks#start_guildstone'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'all_user_list', to: 'tasks#state_all_users'
   get 'root_user_list', to: 'tasks#state_root_users'
@@ -81,6 +82,7 @@ Rails.application.routes.draw do
   get 'profile', to: 'tasks#profile'
   get 'rsi_activate', to: 'tasks#rsi_activate'
   get 'bsod', to: 'desktop#bsod'
+  get 'close_position_window', to: 'tasks#close_position_window'
   
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth

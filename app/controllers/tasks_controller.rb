@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
-
+before_action :task_manager
   # GET /tasks or /tasks.json
   def index
     @tasks = Task.all
@@ -10,15 +10,53 @@ class TasksController < ApplicationController
   def show
   end
 
+def close_position_window
+  window = params[:window]
+  window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+  end  
+  if @window_states.include?(window)
+    @window_states = @window_states - Array(window)
+  end
+  states_string = @window_states.join(',')
+  @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
+respond_to do |format|
+  format.html { redirect_to guildstone_path(0), notice: "opened position" }
+  end
+
+end
+
+def start_guildstone
+  unless Task.find_by(name:'Guildstone').present?
+    @task =  Task.create(name: 'Guildstone',task_manager_id: @task_manager.id, view: 'full')
+  end
+  respond_to do |format|
+    format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    end
+
+end
+
   def state_positions
-    task_manager = TaskManager.find_by(user_id: current_user)
-    task = Task.find_by(task_manager_id: task_manager.id, name: "Guildstone")
     
-    state_name = "position #{params[:position]}"
-    task.update(state:state_name)
+    task = Task.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
+    
+    state_name = "#{params[:position]},"
+
+
+
+    window_state_csv = task.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+    end  
+    unless @window_states.include?(state_name)
+      @window_states = @window_states + Array[state_name]
+    end
+    states_string = @window_states.join(',')
+    task.update(state:states_string)
     
     respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "Root users" }
+    format.html { redirect_to guildstone_path(0), notice: "opened position" }
     end
   end
 
@@ -54,7 +92,7 @@ class TasksController < ApplicationController
 
   def properties
     task_manager = TaskManager.find_by(user_id: current_user)
-   @task =  Task.new(name: 'System Properties',task_manager_id: task_manager.id)
+   @task =  Task.new(name: 'System Properties',task_manager_id: task_manager.id, view: 'window')
    respond_to do |format|
     if @task.save
       format.html { redirect_to desktop_path, notice: "Task started." }
@@ -68,7 +106,7 @@ class TasksController < ApplicationController
 
   def profile
     task_manager = TaskManager.find_by(user_id: current_user)
-    @task =  Task.new(name: 'User profile',task_manager_id: task_manager.id)
+    @task =  Task.new(name: 'User profile',task_manager_id: task_manager.id, view: 'window')
     respond_to do |format|
      if @task.save
        format.html { redirect_to desktop_path, notice: "Task started." }
@@ -82,7 +120,7 @@ class TasksController < ApplicationController
 
   def rsi_activate
     task_manager = TaskManager.find_by(user_id: current_user)
-    @task =  Task.new(name: 'RSI Activate',task_manager_id: task_manager.id)
+    @task =  Task.new(name: 'RSI Activate',task_manager_id: task_manager.id, view: 'window')
     respond_to do |format|
      if @task.save
        format.html { redirect_to desktop_path, notice: "Task started." }

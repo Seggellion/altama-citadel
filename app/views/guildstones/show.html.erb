@@ -1,7 +1,5 @@
 <%= render '/desktop/window-frame', app1: 'Guildstone' %>
 
-
-
 <div class="window-container">
   <ul class="window-menu">
     <li>File</li>
@@ -11,60 +9,15 @@
     <li>File</li>
     <li>File</li>
   </ul>
-  <div class="window-icon-bar">
-    <div class="shortcut-icon-container">
-    <a title="Create new position" href="#"><%= image_tag("all_icons.png", class: "position-create") %> </a>
-    
-    </div>
-    <div class="shortcut-icon-container"><a title="Create new department"  href="#"></a></div>
-    <div class="shortcut-icon-container"><a title="Create new position" href="#"></a></div>
-    <div class="shortcut-icon-container"><a title="Create new rule" href="#"></a></div>
-    <div class="shortcut-icon-container"><a title="Create new nomination" href="#"></a></div>
-    <div class="shortcut-icon-container"><a title="View index" href="#"></a></div>
-    
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-  </div>
+  <%= render 'icon-bar'%>
   <%= render 'form_section' %>
-
   <div class="window-section-body-container">
-  
-
     <div class="window-section-body">
-
       <div class="section-header"><%= @guildstone.title %></div>
-
       <% @departments.each do |department| %>
-        <div class="section-window">
-          <div class="section-window-header"><%= department.title %></div>
-          <div class="position-list">
-          <% if department.positions %>
-            <% department.positions.each do |position|  %>
-              
-              <%= link_to state_positions_path(position: position.title), class: 'desktop-icon', method: :post do %>
-                Apply -  <%= position.title %>
-                <% end %>
-      
-              <%= render 'modal-position', position: position %>
-            <% end %>
-            
-            <% else %>
-            No positions
-          <% end %>
-          </div>
-        </div>
+        <%= render 'department', department: department %>
       <% end %>
     </div>
   </div>
-
-  
-
-
-<%= render '/desktop/taskbar', app1: 'Guildstone', windowed: false %>
+</div>
+<%= render '/desktop/taskbar', app1: 'Guildstone' %>
