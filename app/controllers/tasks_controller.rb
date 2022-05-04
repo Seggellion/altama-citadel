@@ -36,7 +36,7 @@ end
 
 def close_state_window
   window = params[:window]
-  task = Task.find_by_id(params[:task])
+  task = @all_tasks.find_by_id(params[:task])
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
@@ -52,7 +52,7 @@ end
 
 def start_rfa_manager
 
-  unless Task.find_by(name:'RFA Manager').present?
+  unless @all_tasks.find_by(name:'RFA Manager').present?
   @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'full')
   end  
   respond_to do |format|
@@ -63,12 +63,12 @@ end
 
 def start_location_manager
 
-  unless Task.find_by(name:'Location Manager').present?
+  unless @all_tasks.find_by(name:'Location Manager').present?
   @task =  Task.create(name: 'Location Manager',task_manager_id: @task_manager.id, view: 'window')
   p @task
   end  
 p 'hello'
-p Task.last
+p @all_tasks.last
 
 
   respond_to do |format|
@@ -77,7 +77,7 @@ p Task.last
 end
 
 def state_location_wizard
-  task = Task.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
+  task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
     
   state_name = "#{params[:state]},"
   window_state_csv = task.state
@@ -98,7 +98,7 @@ end
 
 
 def state_location_edit
-  task = Task.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
+  task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
     
   state_name = "#{params[:state]},"
   window_state_csv = task.state
@@ -120,7 +120,7 @@ end
 
 
 def start_guildstone
-  unless Task.find_by(name:'Guildstone').present?
+  unless @all_tasks.find_by(name:'Guildstone').present?
     @task =  Task.create(name: 'Guildstone',task_manager_id: @task_manager.id, view: 'full')
   end
   respond_to do |format|
@@ -131,7 +131,7 @@ end
 
   def state_positions
     
-    task = Task.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
     
     state_name = "#{params[:position]},"
     window_state_csv = task.state
@@ -151,7 +151,7 @@ end
 
   def state_all_users
     task_manager = TaskManager.find_by(user_id: current_user)
-    task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+    task = @all_tasks.find_by(task_manager_id: task_manager.id, name: "User Manager")
     task.update(state:"all_users")
 
     respond_to do |format|
@@ -161,7 +161,7 @@ end
 
   def state_root_users
     task_manager = TaskManager.find_by(user_id: current_user)
-    task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+    task = @all_tasks.find_by(task_manager_id: task_manager.id, name: "User Manager")
     task.update(state:"root_users")
     
     respond_to do |format|
@@ -171,7 +171,7 @@ end
 
   def state_discord_users
     task_manager = TaskManager.find_by(user_id: current_user)
-    task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+    task = @all_tasks.find_by(task_manager_id: task_manager.id, name: "User Manager")
     task.update(state:"discord_users")
     
     respond_to do |format|
@@ -195,7 +195,7 @@ end
 
   def profile
 
-    unless Task.find_by(name:'User profile').present?
+    unless @all_tasks.find_by(name:'User profile').present?
       @task =  Task.create(name: 'User profile',task_manager_id: @task_manager.id, view: 'window')
     end
     respond_to do |format|

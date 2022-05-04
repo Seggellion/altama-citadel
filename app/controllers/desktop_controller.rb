@@ -39,7 +39,7 @@ end
 
 def rsi_user_list
   users = RsiUser.write
-  task = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
+  task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   task.update(state:"rsi_users")
 
 redirect_to desktop_path
@@ -59,7 +59,7 @@ end
 
   def users
 
-    unless Task.find_by(name:'User Manager').present?
+    unless @all_tasks.find_by(name:'User Manager').present?
    
       @task =  Task.create(name: 'User Manager',task_manager_id: @task_manager.id, view: 'window')
     end  
