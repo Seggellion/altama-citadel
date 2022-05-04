@@ -9,11 +9,11 @@
     display:flex;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background-color: $light_grey;
-    border-top: $highlight_border;
-    border-left: $highlight_border;
-    border-right: $shadow_border;
-    border-bottom: $shadow_border;
-    background-color: $light_grey;
+   // border-top: $highlight_border;
+   // border-left: $highlight_border;
+  //  border-right: $shadow_border;
+  //  border-bottom: $shadow_border;
+    
    // user-select: none;
    // z-index:9001;
     .app-bar{
@@ -31,7 +31,7 @@
     .highlight{
         background-color:$system_blue;
         width:100%;
-        margin:3px;
+        margin:2px;
     }
   }
 

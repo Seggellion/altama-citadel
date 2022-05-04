@@ -91,30 +91,90 @@ html{
     }
     .window{
         position: absolute;
-        right: 30%;
-        top: 10%;
-        width: 710px;
-        height: 363px;
+        right: 50%;
+        top: 50%;
+        width: 709px;
+        height:523px;
         background-color: $light_grey;
+        border-left: $highlight_border;
+        border-top: $highlight_border;
         border-right:$shadow_border;
         border-bottom:$shadow_border;
+        hr{
+            margin-bottom: 6px;
+            width: 100%;
+        }
+        .status-bar{
+            position:absolute;
+            bottom:4px;
+            width:calc(100% - 16px);
+            border-bottom: $highlight_border;
+            border-right: $highlight_border;
+            border-top:$shadow_border;
+            border-left:$shadow_border;
+            background-color: $light_grey;
+            padding-bottom:2px;
+            padding-left: 4px;
+            padding-top: 2px;
+            font-size: 0.9rem;
+        }
+        .window-container{
+            flex-direction: column;
+            height: calc(100% - 32px);
+            padding:5px;
+            margin-top:23px;
+            position:relative;
+        }
+        ul, .window-toolbar{
+            list-style:none;
+            padding:0px;
+            margin:0px;
+            display:flex;
+            align-items: center;
+            flex-direction: row;
+            padding-left:3px;
+        }
+        .window-menu,.window-toolbar{
+            width:100%;
+        }
+        .window-toolbar{
+            height: 26px;
+        }
+        .window-body-container{
+            background-color:white;
+            border-bottom: $highlight_border;
+            border-right: $highlight_border;
+            border-top:$shadow_border;
+            border-left:$shadow_border;
+            padding: 0px 12px;
+            height: calc(100% - 93px);
+            width:calc(100% - 26px);
+            display:flex;
+            .desktop-icon{
+                height:88px;
+                width:74px;
+                font-size:0.9rem;
+                color:black;
+                padding-bottom:0px;
+                margin:0px 10px;
+            }
+            .icon-frame{
+                width:42px;
+                height:42px;
+                overflow: hidden;
+            }
+            .new-location{
+                background-position: top;
+                object-fit: contain;
+                transform: translateX(-197px) translateY(-295px);
+                width: 1624px;
+                height: auto;
+            }
+        }
         h4,h3{
             display:block;
             width:100%;
-        }
-        .window-menu{
-            height:54px;
-            display:flex;
-            flex-direction: row;
-            text-align:left;
-            align-items:end;
-            padding:3px;
-            a, a:visited{
-                text-decoration:none;
-                color:black;
-                margin-right:10px;
-                display:block;
-            }
+            margin:0px;
         }
         .content-body{
             height:77%;
@@ -124,6 +184,29 @@ html{
         #window_frame{
             position:absolute;
             border-bottom:none;
+        }
+        &.config_window{
+            width: 573px;
+            height: 420px;
+            z-index:9001;
+            .window-container{
+                flex-direction: row;
+                height: auto;
+            }
+            .dialogue-window-menu{
+                height:54px;
+                display:flex;
+                flex-direction: row;
+                text-align:left;
+                align-items:end;
+                padding:3px;
+                a, a:visited{
+                    text-decoration:none;
+                    color:black;
+                    margin-right:10px;
+                    display:block;
+                }
+            }
         }
     }
     .clippy{
@@ -203,4 +286,19 @@ html{
         font-family: dos;
         color:white;
     }
+}
+
+.section-header, .section-window-header{
+    background-color:$system_blue;
+    padding-left: 30px;
+    color: white;
+    font-size: 1.2rem;
+    margin-top: -3px;
+    height: 28px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.section-window-header{
+    padding-left:5px;
+    margin:3px;
+    height:24px;
 }
