@@ -39,8 +39,7 @@ end
 
 def rsi_user_list
   users = RsiUser.write
-  task_manager = TaskManager.find_by(user_id: current_user)
-  task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+  task = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   task.update(state:"rsi_users")
 
 redirect_to desktop_path
@@ -58,21 +57,17 @@ def bsod
 
 end
 
-def users
- task_manager = TaskManager.find_by(user_id: current_user)
- 
-@task =  Task.new(name: 'User Manager',task_manager_id: task_manager.id)
- 
- respond_to do |format|
-    if @task.save
-      format.html { redirect_to desktop_path, notice: "Task started." }
-      format.json { render :index, status: :created, task: @task }
-    else
-      format.html { render :index, status: :unprocessable_entity }
-      format.json { render json: @task.errors, status: :unprocessable_entity }
-    end
+  def users
+
+    unless Task.find_by(name:'User Manager').present?
+   
+      @task =  Task.create(name: 'User Manager',task_manager_id: @task_manager.id, view: 'window')
+    end  
+    
+      respond_to do |format|
+        format.html { redirect_to desktop_path, notice: "location manager" }
+        end
   end
-end
 
 
 end

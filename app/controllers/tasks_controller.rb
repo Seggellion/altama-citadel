@@ -10,6 +10,13 @@ before_action :task_manager
   def show
   end
 
+  def killall
+    @all_tasks.destroy_all
+    respond_to do |format|
+      format.html { redirect_to desktop_path, notice: "Closed all tasks" }
+      end
+  end
+
 def close_position_window
   window = params[:window]
   window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
@@ -49,7 +56,7 @@ def start_rfa_manager
   @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'full')
   end  
   respond_to do |format|
-  format.html { redirect_to desktop_path, notice: "location manager" }
+  format.html { redirect_to rfas_path, notice: "location manager" }
   end
 end
 
@@ -59,9 +66,6 @@ def start_location_manager
   unless Task.find_by(name:'Location Manager').present?
   @task =  Task.create(name: 'Location Manager',task_manager_id: @task_manager.id, view: 'window')
   end  
-  
-  p "hello"
-  p @task
 
   respond_to do |format|
     format.html { redirect_to desktop_path, notice: "location manager" }
@@ -87,6 +91,7 @@ def state_location_wizard
     format.html { redirect_to desktop_path, notice: "location manager" }
     end
 end
+
 
 def state_location_edit
   task = Task.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
@@ -185,17 +190,14 @@ end
   end
 
   def profile
-    task_manager = TaskManager.find_by(user_id: current_user)
-    @task =  Task.new(name: 'User profile',task_manager_id: task_manager.id, view: 'window')
+
+    unless Task.find_by(name:'User profile').present?
+      @task =  Task.create(name: 'User profile',task_manager_id: @task_manager.id, view: 'window')
+    end
     respond_to do |format|
-     if @task.save
-       format.html { redirect_to desktop_path, notice: "Task started." }
-       format.json { render :index, status: :created, task: @task }
-     else
-       format.html { render :index, status: :unprocessable_entity }
-       format.json { render json: @task.errors, status: :unprocessable_entity }
-     end
-   end
+      format.html { redirect_to desktop_path, notice: "Task started." }
+      end
+
   end
 
   def rsi_activate
