@@ -43,17 +43,17 @@
     Anime Kingdom
 <% end %>
 
-<% if current_user.user_type <= 42 %>
-    <%= link_to guildstone_path(0), class: 'desktop-icon', method: :post do %>
+<% if current_user.user_type <= 0 %>
+    <%= link_to start_guildstone_path, class: 'desktop-icon', method: :post do %>
         <%= image_tag("guildstone_icon.png") %>
         Guildstone
     <% end %>
 <% end %>
     
 </div>
-<% if current_user && current_user.app_present? %>
-    <% @all_tasks.each do | task |  %>
-    <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task, windowed: true %>
+<% if current_user && @windowed_tasks.present? %>
+    <% @windowed_tasks.each do | task |  %>
+    <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
     <% end %>
 <% end %>
 

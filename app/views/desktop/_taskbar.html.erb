@@ -1,83 +1,44 @@
 
 <div id="taskbar" data-controller="hello">
-<button id="citadel_button" data-action="click->hello#greet" href="#"><%= image_tag("start_logo.png") %> Citadel</button>
+    <button id="citadel_button" data-action="click->hello#greet" href="#">
+        <%= image_tag("start_logo.png") %> Citadel
+    </button>
     <div data-hello-target="mainmenu" id="main_menu">
         <div class="menu-branding">
             <span class="branding">
                 ALTAMA <span class="citadel">Citadel</span>
             </span>
-        </div>
-        <div class="menu-items">    
-
-        <div class="menu-item pull-out">
-        <%= render '/desktop/taskbar/all_programs'%>       
-        </div>
-        
-        <div class="menu-item">
-        <%= link_to profile_path, class: 'menu-link' do %>
-        <div class="icon"><%= image_tag("all_icons.png", class: "profile") %></div>
-        <span>Profile</span>
-        <% end %>
-        </div>
-
-        <div class="menu-item">
-        <%= link_to profile_path, class: 'menu-link' do %>
-        <div class="icon"><%= image_tag("all_icons.png", class: "help") %></div>
-        <span>Help</span>
-        <% end %>
-        </div>
-
-
-
-        <% if current_user && current_user.isAdmin? %>
-        <div class="menu-item pull-out">
-        <%= render '/desktop/taskbar/admin_settings'%>
-       
-        </div>
-        <% end %>
-        <hr>
-            <div class="menu-item">
-            <%= link_to destroy_user_session_path, class: 'menu-link', 'data-turbo-method': :delete do %>
-            <div class="icon">
-            <%= image_tag( "all_icons.png", class: "shutdown")  %>
-            </div>
-          
-            <span>Shut Down..</span>
-            <% end %>
-            </div>
-        </div>
+        </div>           
+        <%= render 'desktop/taskbar/menu_items' %>       
     </div>
 
     <% if defined?(app1) %>
-    <div class="app-bar">
-    <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
-    <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> <%= app1 %>
-    <% else %>
-    <div class="icon">
-    <%= image_tag( "all_icons.png", class: "invalid")  %> <%= app1 %>
-    </div>
-    <% end %>
-    </div>
+        <div class="app-bar">
+            <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
+                <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> <%= app1 %>
+            <% else %>
+                <div class="icon">
+                    <%= image_tag( "all_icons.png", class: "invalid")  %> <%= app1 %>
+                </div>
+            <% end %>
+        </div>
     <% end %>
 
     <div id="clock">
-    <%= Time.current.utc.strftime('%H:%M') %>
+        <%= Time.current.utc.strftime('%H:%M') %>
     </div>
 </div>
 
 <% unless current_user.verified? %>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-<%= javascript_include_tag "clippy.min.js" %>
-<script type="text/javascript">
-clippy.load('Clippy', function(agent){
-
-    agent.speak("Hey listen! Don't forget to validate your profile with your RSI account!");
-
-    
-    $( "#citadel_button" ).click(function() {
-        agent.animate();
-        agent.speak("You can verify through the profile app");
-});
-});
-</script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <%= javascript_include_tag "clippy.min.js" %>
+    <script type="text/javascript">
+        clippy.load('Clippy', function(agent){
+            agent.speak("Hey listen! Don't forget to validate your profile with your RSI account!");    
+            $( "#citadel_button" ).click(function() {
+                agent.animate();
+                agent.speak("You can verify through the profile app");
+            });
+        });
+    </script>
 <% end %>
