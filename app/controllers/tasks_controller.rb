@@ -43,12 +43,26 @@ def close_state_window
     end
 end
 
+def start_rfa_manager
+
+  unless Task.find_by(name:'RFA Manager').present?
+  @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'full')
+  end  
+  respond_to do |format|
+  format.html { redirect_to desktop_path, notice: "location manager" }
+  end
+end
+
 
 def start_location_manager
-  
+
   unless Task.find_by(name:'Location Manager').present?
   @task =  Task.create(name: 'Location Manager',task_manager_id: @task_manager.id, view: 'window')
   end  
+  
+  p "hello"
+  p @task
+
   respond_to do |format|
     format.html { redirect_to desktop_path, notice: "location manager" }
     end

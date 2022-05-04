@@ -20,7 +20,7 @@
 <% end %>
 
 <% if current_user.user_type <= 42 %>
-    <%= link_to rfas_path, class: 'desktop-icon', method: :post do %>
+    <%= link_to start_rfa_manager_path, class: 'desktop-icon', method: :post do %>
         <%= image_tag("roadside_assistance_icon.png") %>
         RFA Manager
     <% end %>
