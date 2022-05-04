@@ -6,7 +6,7 @@
 <% end %>
 
 <% if current_user.user_type <= 10 %>
-    <%= link_to website_manager_path, class: 'desktop-icon', method: :post do %>
+    <%= link_to website_manager_path, class: 'desktop-icon', method: :post do %>        
         <%= image_tag("website_manager_icon.png") %>
         Website Manager
     <% end %>
@@ -51,6 +51,7 @@
 <% end %>
     
 </div>
+
 <% if current_user && @windowed_tasks.present? %>
     <% @windowed_tasks.each do | task |  %>
     <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>

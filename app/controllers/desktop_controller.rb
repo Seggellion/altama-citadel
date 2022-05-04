@@ -1,14 +1,16 @@
 class DesktopController < ApplicationController
 # before_action :authenticate_user!
 before_action :require_login
-
+before_action :task_manager
 
 
 def index
+  
   redirect_to bsod_path && return if @task_manager.nil?
 if @all_tasks
   @windowed_tasks = @all_tasks.where(view:'window')
 end
+
   @all_users = User.all + DiscordUser.all + RsiUser.all
   @local_users = User.all
   @root_users = User.all.order(last_login: :desc)

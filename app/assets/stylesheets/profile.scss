@@ -6,3 +6,17 @@
 
     }
 }
+
+#user_profile{
+    .window-image{
+        width: 155px;
+        img{
+            height:100%;
+            object-fit: cover;
+        }
+    }
+    .profile{
+        padding:10px;
+        padding-left:24px;
+    }
+}

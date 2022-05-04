@@ -27,6 +27,75 @@ respond_to do |format|
 
 end
 
+def close_state_window
+  window = params[:window]
+  task = Task.find_by_id(params[:task])
+  unless task.state.nil?
+    @window_states = task.state.split(',')
+  end  
+  if @window_states.include?(window)
+    @window_states = @window_states - Array(window)
+  end
+  states_string = @window_states.join(',')
+  task.update(state:states_string)
+  respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "closed window" }
+    end
+end
+
+
+def start_location_manager
+  
+  unless Task.find_by(name:'Location Manager').present?
+  @task =  Task.create(name: 'Location Manager',task_manager_id: @task_manager.id, view: 'window')
+  end  
+  respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "location manager" }
+    end
+end
+
+def state_location_wizard
+  task = Task.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
+    
+  state_name = "#{params[:state]},"
+  window_state_csv = task.state
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+    unless @window_states.include?(state_name)
+      @window_states = @window_states + Array[state_name]
+    end
+  else    
+    @window_states = Array[state_name]
+  end  
+  states_string = @window_states.join(',')
+  task.update(state:states_string)
+  respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "location manager" }
+    end
+end
+
+def state_location_edit
+  task = Task.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
+    
+  state_name = "#{params[:state]},"
+  window_state_csv = task.state
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+    unless @window_states.include?(state_name)
+      @window_states = @window_states + Array[state_name]
+    end
+  else    
+    @window_states = Array[state_name]
+  end  
+  states_string = @window_states.join(',')
+  task.update(state:states_string)
+  respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "location manager" }
+    end
+end
+
+
+
 def start_guildstone
   unless Task.find_by(name:'Guildstone').present?
     @task =  Task.create(name: 'Guildstone',task_manager_id: @task_manager.id, view: 'full')
@@ -42,9 +111,6 @@ end
     task = Task.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
     
     state_name = "#{params[:position]},"
-
-
-
     window_state_csv = task.state
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
@@ -172,6 +238,7 @@ end
 
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
+
     @task.destroy
     respond_to do |format|
       format.html { redirect_to desktop_path, notice: "Task closed." }
