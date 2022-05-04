@@ -65,7 +65,11 @@ def start_location_manager
 
   unless Task.find_by(name:'Location Manager').present?
   @task =  Task.create(name: 'Location Manager',task_manager_id: @task_manager.id, view: 'window')
+  p @task
   end  
+p 'hello'
+p Task.last
+
 
   respond_to do |format|
     format.html { redirect_to desktop_path, notice: "location manager" }
