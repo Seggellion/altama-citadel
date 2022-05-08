@@ -20,6 +20,7 @@ before_action :task_manager
 def close_position_window
   window = params[:window]
   window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+  @window_states =  []
   unless window_state_csv.nil?
     @window_states = window_state_csv.split(',')
   end  
@@ -73,7 +74,7 @@ end
 
 def state_location_wizard
   task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Location Manager")
-    
+  @window_states =  []
   state_name = "#{params[:state]},"
   window_state_csv = task.state
   unless window_state_csv.nil?
@@ -127,9 +128,10 @@ end
   def state_positions
     
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
-    
+    @window_states =  []
     state_name = "#{params[:position]},"
     window_state_csv = task.state
+    
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
     end  
