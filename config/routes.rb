@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   get 'start_guildstone', to:'tasks#start_guildstone'
   get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
   get 'start_location_manager', to:'tasks#start_location_manager'
+  get 'start_ship_manager', to:'tasks#start_ship_manager'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'all_user_list', to: 'tasks#state_all_users'
   get 'root_user_list', to: 'tasks#state_root_users'

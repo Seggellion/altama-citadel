@@ -61,6 +61,17 @@ def start_rfa_manager
   end
 end
 
+def start_ship_manager
+
+unless @all_tasks.find_by(name:'Ship Manager').present?
+  @task =  Task.create(name: 'Ship Manager',task_manager_id: @task_manager.id, view: 'window')
+  end  
+  respond_to do |format|
+  format.html { redirect_to desktop_path, notice: "task started" }
+  end
+
+end
+
 
 def start_location_manager
 
