@@ -1,5 +1,6 @@
 class RfasController < ApplicationController
   before_action :set_rfa, only: %i[edit update destroy ]
+  before_action :require_login
 
   # GET /rfas or /rfas.json
   def index
@@ -45,8 +46,8 @@ class RfasController < ApplicationController
 
         embed = Discord::Embed.new do |location_name|
           rfa = Rfa.last
-          title "New request for assistance"
-          description "Please view this RFA within Citadel"
+          title "ΛLTΛMΛ Citadel - New request for assistance - Click here to view"
+          description "@here Please view this RFA within Citadel"
           
           location = Location.find_by_id(rfa.location_id)
           author name: rfa.user.username
@@ -55,6 +56,10 @@ class RfasController < ApplicationController
           url "https://ctd.altama.energy/rfas/#{rfa.id}/edit"
           add_field name: "Location",
                     value: location.name
+          add_field name: "Ship",
+                    value: rfa.full_ship_name
+          footer text: "<#dispatch>"
+                image url:'https://i.pinimg.com/originals/ab/0a/5d/ab0a5d652bec1e632019c20edbc0444a.jpg'
         end
         
         

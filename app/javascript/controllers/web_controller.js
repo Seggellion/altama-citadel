@@ -12,17 +12,13 @@ usershipUpdate(event){
         var usership_id = this.options[this.selectedIndex].getAttribute('usership_id');
         // alert(usership_id);
          document.getElementById("usership").value = usership_id;
-
+         console.log('usership_id',usership_id );
+         if (usership_id != null ){
+            document.getElementById("submit").disabled = false;
+          }else{
+            document.getElementById("submit").disabled = true;
+          }
       });
-
-      var selected_option = event.target.selectedOptions[0].text;
-
-      if (selected_option != "Select Existing Ship" ){
-        document.getElementById("submit").disabled = false;
-      }else{
-        document.getElementById("submit").disabled = true;
-      }
-
 }
 
 show(event){
