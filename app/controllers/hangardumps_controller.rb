@@ -90,7 +90,10 @@ class HangardumpsController < ApplicationController
         ship_id = res.getvalue(0,0);
         puts('ship id is: ' + res.getvalue(0,0).to_s )
         puts('current_user.id: ' + current_user.id.to_s)
-        u = Usership.create(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
+        binding.break
+        u = Usership.new(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
+        u.valid?
+        u.save!
         #u.save!
       end
       
@@ -113,4 +116,9 @@ class HangardumpsController < ApplicationController
   #  def hangardump_params
   #  params.require(:hangardump).permit(:name, :attachment)
   #end
+  def usership_params
+    #params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint, :primary)
+    params.require(:usership).permit(:user_id, :ship_id, :ship_name, :ship_serial, :pledge_id, :pledge_name, :pledge_date, :lti, :warbond)
+    #(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
+  end  
 end
