@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_03_012636) do
+ActiveRecord::Schema.define(version: 2022_05_14_060310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -383,8 +383,15 @@ ActiveRecord::Schema.define(version: 2022_05_03_012636) do
     t.boolean "primary"
     t.boolean "fleetship"
     t.string "paint"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
+    t.string "ship_serial"
+    t.integer "pledge_id"
+    t.string "pledge_name"
+    t.date "pledge_date"
+    t.string "pledge_cost"
+    t.boolean "lti"
+    t.boolean "warbond"
   end
 
   create_table "votes", force: :cascade do |t|
