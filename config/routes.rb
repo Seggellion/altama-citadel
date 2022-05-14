@@ -6,8 +6,13 @@ Rails.application.routes.draw do
    end
 
 
-
-
+  resources :departments
+  resources :positions
+  resources :rules
+  resources :user_position_histories
+  resources :user_positions
+  resources :votes
+  resources :position_nominations
   resources :org_roles
   resources :guildstones
   resources :locations
@@ -38,6 +43,14 @@ Rails.application.routes.draw do
   get 'bootup', to: 'desktop#bootup', :constraints => { :subdomain => "ctd" }
   # get 'rfas', to: 'rfas#index'
   get 'conquest', to: 'conquest#index', :constraints => { :subdomain => "ctd" }
+
+  resource :conquest do
+    get 'staff', to: 'conquest#staff', :constraints => { :subdomain => "ctd" }
+    get 'staff_edit', to: 'conquest#staff_edit', :constraints => { :subdomain => "ctd" }
+  end
+
+  post 'staff_code', to: 'conquest#staff_code',  as: :staff_code, :constraints => { :subdomain => "ctd" }
+
   get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
   get 'stop_conquest', to: 'control_points#stop_conquest', :constraints => { :subdomain => "ctd" }
@@ -48,7 +61,8 @@ Rails.application.routes.draw do
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_badges', to: 'badges#index'
-  get 'all_badges', to: 'badges#all_badges'
+  get 'my_badges', to: 'badges#index'
+
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'users', to: 'desktop#users'
   get 'roadside_assistance', to: 'web#roadside_assistance'
@@ -58,14 +72,24 @@ Rails.application.routes.draw do
   get 'select_ship', to: 'desktop#index', :constraints => { :subdomain => "ctd" }
   get 'apply_role', to: 'guildstones#apply_role'
   get 'vote', to: 'guildstones#vote'
+  get 'killall', to:'tasks#killall'
+  get 'start_guildstone', to:'tasks#start_guildstone'
+  get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
+  get 'start_location_manager', to:'tasks#start_location_manager'
+  get 'start_ship_manager', to:'tasks#start_ship_manager'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'all_user_list', to: 'tasks#state_all_users'
   get 'root_user_list', to: 'tasks#state_root_users'
   get 'discord_user_list', to: 'tasks#state_discord_users'
+  get 'state_positions', to: 'tasks#state_positions'
+  get 'state_location_wizard', to: 'tasks#state_location_wizard'
+  get 'state_location_edit', to: 'tasks#state_location_edit'
+  get 'close_state_window', to: 'tasks#close_state_window'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
   get 'rsi_activate', to: 'tasks#rsi_activate'
   get 'bsod', to: 'desktop#bsod'
+  get 'close_position_window', to: 'tasks#close_position_window'
   
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth

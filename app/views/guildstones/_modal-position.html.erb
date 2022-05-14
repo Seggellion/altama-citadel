@@ -1,0 +1,36 @@
+<div draggable="true" class="guildstone-modal" 
+<% if i > 0 %>
+style="transform: translate(
+    calc(-50% + <%= i + 1.5 %>%),calc(-30% + <%= i + 2 %>%));
+    z-index: <%= i %>"
+<%end%> >
+<div class="section-window-header"><%= position.title %> 
+    
+    <%= link_to "", close_position_window_path(window: position.title), class:'close-btn windowed' %>
+    
+    </div>
+    <div class="position-container">
+        <div class="position-header">
+        <%= position.position_username  %> 
+        </div>
+        <div class="position-body">
+            <div class="position-action">
+                <div class="position-row">Employee ID:  </div>
+                <div class="position-row">Last Name:   First Name:</div>
+                <div class="position-row">Title:  </div>
+                <div class="position-row">Extension:  </div>
+                <div class="position-row">Hire Date: </div>
+                <hr />
+                <div class="buttons">
+                <%= form_with(model: UserPosition) do |form| %>
+                    <%= form.hidden_field :position_id, :value => position.id %>
+                    
+                    <%= form.submit 'Apply' %>
+                <% end %>
+                    <a href="btn">Nominate</a>
+                    <a href="btn">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

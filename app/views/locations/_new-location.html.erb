@@ -1,0 +1,22 @@
+<div data-controller="desktop" id="new_location" class="window config_window">
+<div class="section-window-header">Location wizard
+    
+<%= link_to "", close_state_window_path(window: 'new-location', task: task.id), class:'close-btn windowed' %>
+
+</div>
+    
+    <div class="window-container">
+        <div class="window-image">
+        <%= image_tag("location_sidebar.png") %>
+        </div>
+        <div class="location-form">
+            <%= render '/locations/min-form', location: @location %>
+        </div>
+        </div>
+        <hr />
+            <div class="control-buttons">
+            <button disabled>< Back</button>
+            <button data-action="click->desktop#new_location">Next ></button>
+            <button>Cancel</button>
+        </div>
+    </div>

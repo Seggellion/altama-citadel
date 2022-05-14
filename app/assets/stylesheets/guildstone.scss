@@ -1,21 +1,140 @@
+@import 'mixins';
+
 #guildstones{
     margin:0px;
     padding:0px;
     overflow: hidden;
-    .role-container{
-        width:100%;
-        height:80vh;
-        margin: 30px 0px;
-        .lvl-container{
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    background-color: #c0c0c0;
+    height: calc(100% - 6px);
+    box-sizing: border-box;
+    .window-container{
+        margin-top:40px;
+        height:100%;
+        flex-direction: column;
+        padding:0px;
+        .form-section{
+            padding: 5px 8px;
         }
-        .role-box{
-            padding: 20px;
-            border: 1px solid black;
-            width: 130px;
-            text-align: center;
+    }
+    .guildstone-modal{
+        position: absolute;
+        width: 700px;
+        height: 300px;
+        background-color: #c0c0c0;
+        border-top:1px solid white;
+        border-left:1px solid white;
+        border-right:1px solid black;
+        border-bottom:1px solid black;
+        overflow:hidden;
+        transform: translate(-50%, -30%);
+        left: 50%;
+        top: 50%;
+        .position-container{
+            height:87%;
+        }
+        .position-header{
+            height: 46px;
+            background-color: black;
+            display: flex;
+            color: white;
+            align-items: end;
+            font-size: 1.5rem;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0px 5px;
+        }
+        .position-body{
+            background-color:#4fa8ae;
+            margin: 2px 5px;
+            padding: 30px;
+            height: 100%;
+
+        }
+    }
+    .position-list{
+        background-color: white;
+        margin: 0px 6px;
+        padding: 0px 3px;
+        border-top:1px solid black;
+        border-left:1px solid black;
+        border-right:1px solid white;
+        border-right:1px solid white;
+    }
+    .window-icon-bar{
+        height: 40px;
+        display: flex;
+        margin-top: 9px;
+        padding-left: 8px;
+    }
+    .window-section-body-container{
+    padding:4px 8px;
+    border-top:1px solid black;
+    border-left:1px solid black;
+    border-right:1px solid white;
+    border-right:1px solid white;
+    background-color: #808080;
+    height:100%;
+    .window-form{
+        width:100%;
+        background-color: #c0c0c0;
+        margin-bottom:10px;
+        
+    }
+
+    .section-window{
+        height: 198px;
+        width: 137px;
+        margin-top: 9px;
+        margin-left: 4px;
+        border-top:1px solid white;
+        border-left:1px solid white;
+        border-right:1px solid black;
+        border-bottom:1px solid black;
+    }
+        .window-section-body{
+            padding:4px;
+            min-height:64%;
+            background-color: #c0c0c0;
+            border-top:1px solid white;
+            border-left:1px solid white;
+            border-right:1px solid black;
+            border-bottom:1px solid black;
+        }
+    }
+    .shortcut-icon-container{
+        overflow:hidden;
+        .position-create{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-32px) translateY(-479px);
+            height: 753px;
+            width: auto;
+        }
+        &:nth-child(3n+3){
+            margin-right:7px;
+        }
+        a{
+            
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        border-top:1px solid white;
+        border-left:1px solid white;
+        border-right:1px solid black;
+        border-bottom:1px solid black;
+        width: 32px;
+        height: 32px;
+    }
+    .window-menu{
+        display: flex;
+        list-style:none;
+        padding:0px; 
+        margin:0px;
+        li{
+            width:32px;
+            padding:0px; 
+            margin:0px;
         }
     }
 }

@@ -28,14 +28,37 @@ class ConquestController < ApplicationController
     @event = Event.new
   end
 
+  def staff_code
+    
+@event = Event.find_by(staff_code: params[:staff_code].downcase)
+if @event
+redirect_to staff_edit_conquest_path(@event)
+else
+  redirect_to staff_conquest_path
+end
+  end
+
+  def staff_edit
+    @teams = Team.all.order(team_name: :asc)
+@event = Event.find_by_id( params[:format])
+@control_points = ControlPoint.where(event_id: @event.id)
+@event_record = EventRecord.new
+  end
+
   # GET /rfas/1/edit
   def edit
+  end
+
+
+  def staff
+    @event = Event.first
   end
 
   # POST /rfas or /rfas.json
   def create
     @event = Event.new(event_params)
-# binding.break
+
+
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: "Event was successfully created." }

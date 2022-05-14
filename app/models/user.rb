@@ -8,7 +8,9 @@ class User < ApplicationRecord
   has_many :ships, :through => :userships
   has_one :task_manager
   has_many :rfas
-
+  has_one :position, :through => :user_position
+  has_one :user_position
+  
   def top_five
     userships = self.userships
 end
@@ -135,6 +137,7 @@ end
     def self.from_omniauth(auth, params)
       
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.user_type = 101 
       if params["plus"] == "true"
         user.user_type = 100 
       end
@@ -158,6 +161,11 @@ end
     end
   end
   
+
+  def total_reviews
+    Review.where(reviewee_id: self.id).count
+  end
+
   def verified?
   
     return true if self.rsi_verify == true

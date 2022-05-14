@@ -277,6 +277,8 @@
         box-shadow: 0 1px 10px rgba(0,0,0,0.12), 0 1px 10px rgba(0,0,0,0.24);
         padding-bottom: 10px;
         overflow: hidden;
+
+
         @media (max-width: $mobile){
             width:80%;
         }
@@ -329,17 +331,23 @@
                 .submit-row{
                     display:flex;
                     flex-direction: row;
+                    
                     @media (max-width: $mobile){
                         flex-wrap:wrap;
                     }
                 }
                 input[type="submit"]{
                     @include roadside_button;
-                    margin:0px;
+                    margin:0px auto;
                     height:auto;
                     @media (max-width: $mobile){
                         width:100%;
                         margin-top:5px;
+                    }
+                    &:disabled{
+                        color: rgb(75, 75, 75) !important;
+                        background-color:grey !important;
+                
                     }
                 }
                 &:first-child{
@@ -363,6 +371,19 @@
                     height: 39px;
                 }
             }
+            .usership-trigger{text-decoration:underline;&:hover{cursor:pointer}}
+            #usership_primary:hover{
+              cursor:pointer;
+            }
+            #usership_ship_id{
+                width:55%;
+            }
+            .flex-row{
+             flex-direction: row;
+             align-items: center;
+
+            }
+            #usership_primary{width:20%;}
             .drawer-headline{
                 background-color:white;
                 h1{
@@ -567,7 +588,14 @@
     font-weight: 900;
     text-align:center;
     padding:5px;
-    
+    &.red{
+        background-color:red;
+    }
+    &:disabled{
+        color: rgb(75, 75, 75) !important;
+        background-color:grey !important;
+
+    }
 }
 
 
@@ -608,6 +636,26 @@
     z-index: -1;
     bottom: 0px;
 }
+.horizontal-status-loading{
+    position: absolute;
+    width: 466px;
+    margin: 0px auto;
+    display: block;
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: -1;
+    bottom: 7px;
+}
+.horizontal-status-loading-green{
+    position: absolute;
+    width: 179px;
+    margin: 0px auto;
+    display: block;
+    transform: translateX(-50%);
+    left: 50%;
+    z-index: -1;
+    bottom: 122px;
+}
 .status-banner{
     margin-top:-10px;
     margin-left:-10px;
@@ -615,6 +663,53 @@
 }
 #active_rfa{
     height:100%;
+    h1{
+        font-size:1.4rem;
+        margin-bottom:0px;
+    }
+    h2{
+        font-size: 0.7rem;
+    }
+    h3{
+        margin:0px;
+    }
+    h4{
+        margin:0px;
+        display:inline-block;
+        font-size:0.7rem;
+        text-transform: uppercase;
+        color: rgb(128, 128, 128);
+    }
+    .footer-link{
+        font-size: 0.8rem;
+        color: black;
+        background-color: #9b9b9b;
+        text-decoration: none;
+        margin: 0px auto;
+        text-align: center;
+        width: 100%;
+        display: block;
+        border-radius: 5px;
+        padding: 5px 0px;
+        transform: translateY(10px);
+        transition: background-color 0.5s;
+        &:hover{
+            transition: background-color 0.5s;
+            background-color: #818181;
+        }
+    }
+    small{
+        font-size: 0.6rem;
+        font-weight:900;
+    }
+.user-profile-container{
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    .avatar-image{
+        margin-right:20px;
+    }
+}
     .field-row{
         width: 100%;
         display:flex;

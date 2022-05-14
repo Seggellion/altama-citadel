@@ -1,5 +1,6 @@
 class GuildstonesController < ApplicationController
   before_action :set_guildstone, only: %i[ show edit update destroy ]
+  before_action :task_manager
 
   # GET /guildstones or /guildstones.json
   def index
@@ -8,13 +9,19 @@ class GuildstonesController < ApplicationController
 
   # GET /guildstones/1 or /guildstones/1.json
   def show
-    @new_role_nomination = OrgRoleNomination.new
-    @org_role = OrgRole.new
-    @lvl1_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:1)
-    @lvl2_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:2)
-    @lvl3_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:3)
-    @lvl4_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:4)
-    @lvl5_roles = OrgRole.where(guildstone_id: @guildstone.id, role_level:5)
+    
+    window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+    end
+
+    #@new_role_nomination = OrgRoleNomination.new
+    @departments = Department.all
+    @department = Department.new
+    @users = User.all
+    @positions = Position.all
+    @position_nominations = PositionNomination.all
+
   end
 
   def apply_role

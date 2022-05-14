@@ -21,7 +21,38 @@ function clearMenu() {
    if(event.target.id != 'main_menu' && event.target.id != 'citadel_button' ){
     main_menu_element.classList.remove("open");
     button_element.classList.remove("clicked");
+    document.getElementById('primary_menu').style.display = 'none';
+    document.getElementById('primary_menu').style.height = 0;
+    document.getElementById('primary_menu').style.minHeight = 0;
     }
   //}
 }
 
+
+
+//window.addEventListener("keyup", handleKeyPress);
+//window.addEventListener("keydown", handleKeyPress);
+
+
+
+
+
+let keysPressed = {};
+document.addEventListener('keydown', (event) => {
+  var y = document.getElementById("task_manager");
+  keysPressed[event.key] = true;
+
+  if (keysPressed['Control'] &&  keysPressed['Shift'] &&  keysPressed['Backspace']) {
+    
+    if (y.style.display === "block"){
+      y.style.display = "none";
+    }else{
+      y.style.display = "block";
+    }
+      keysPressed = [];
+  }
+});
+
+document.addEventListener('keyup', (event) => {
+  delete keysPressed[event.key];
+});

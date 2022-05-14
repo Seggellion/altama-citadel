@@ -1,7 +1,7 @@
 class AltamaBot < ApplicationRecord
   
 def start
-  binding.break
+ 
     run
 end
 
@@ -54,7 +54,6 @@ end
     end
 
     def stop
-binding.break
 
     end
     

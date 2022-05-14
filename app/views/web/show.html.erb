@@ -63,9 +63,9 @@
     </p>
     <%= render "rfa-form", rfa: @rfa, location: @location, usership: @usership%>
     <%= render "userships/usership-form", usership: @usership%>
+
 <% if current_user && current_user.has_open_ticket? %>
  <p>Thanks! An agent will be contacting you soon! Please keep an eye for in-game friend requests.</p>
-
 <% end %>
 
     </div>

@@ -1,0 +1,24 @@
+<div class="section-window">
+    <div class="section-window-header"><%= department.title %></div>
+    <div class="position-list">
+        <% if department.positions %>
+        <% department.positions.each do |position|  %>
+            
+            <%= link_to state_positions_path(position: position.title), class: 'desktop-icon', method: :post do %>
+            Apply -  <%= position.title %>
+            <% end %>
+            <% if @window_states.present? %>
+            <% @window_states.each_with_index do |window, i | %>
+                <% if position.title == window %>
+                <%= render 'modal-position', position: position, i: i %>
+                <% end %>
+            <% end %>
+            <% end %>
+            
+        <% end %>
+        
+        <% else %>
+        No positions
+        <% end %>
+    </div>
+</div>

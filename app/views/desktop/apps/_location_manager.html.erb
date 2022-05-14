@@ -1,18 +1,45 @@
-<div data-controller="desktop" id="location_manager" class="window config_window">
-    <%= render '/desktop/window-frame', app1: 'Location Manager', task: task, windowed: windowed %>
-        <div class="location-container">
-        <div class="location-image">
-        <%= image_tag("location_sidebar.png") %>
-        </div>
-        <div class="location-form">
-            <%= render '/locations/min-form', location: @location %>
-        </div>
-        </div>
-        <hr />
-            <div class="control-buttons">
-            <button disabled>< Back</button>
-            <button data-action="click->desktop#new_location">Next ></button>
-            <button>Cancel</button>
-        </div>
+<div data-controller="desktop" id="location_manager" class="window">
+    <%= render '/desktop/window-frame', app1: 'Location Manager', task: task %>
+        <div class="window-container">
+            <div class="window-menu">
+                <ul>
+                    <li>File</li>
+                    <li>Edit</li>
+                    <li>View</li>
+                    <li>Connections</li>
+                    <li>Help</li>
+                </ul>
+            </div>
+            <hr>
+            <div class="window-toolbar">
+                <div class="shortcut-icon-container"><a title="Create new location"  href="#"></a></div>
+            </div>
 
-    </div>
+            <div class="window-body-container">
+
+            <%= link_to state_location_wizard_path(state:'new-location'), class: 'desktop-icon', method: :post do %>
+                <div class="icon-frame">
+                    <%= image_tag( "all_icons.png", class: "location new-location")  %> 
+                </div>
+                Create new location
+            <% end %>
+
+            <% @locations.each do |location| %>
+                <%= link_to state_location_edit_path(state: "edit-location-#{location.id}"), class: 'desktop-icon', method: :post do %>
+                    <%= image_tag( "all_icons.png", class: "location #{location.location_type}")  %> 
+                    <%= location.name %>
+                <% end %>
+            <% if !task.state.nil? && task.state["edit-location-#{location.id}"] %>
+                <%= render '/locations/edit-location', task: task, location: location %>
+            <% end %>
+            <% end %>
+
+            </div>
+            <div class="status-bar">
+                <%= Location.all.size %> location(s)
+            </div>
+        </div>
+</div>
+<% if !task.state.nil? && task.state["new-location"] %>
+    <%= render '/locations/new-location', task: task %>
+<% end %>

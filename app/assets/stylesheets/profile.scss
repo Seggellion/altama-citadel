@@ -1,8 +1,22 @@
-.profile{
+.profile-settings{
     display:flex;
     flex-direction:column;
     h4,h3{
         margin:0px;
 
+    }
+}
+
+#user_profile{
+    .window-image{
+        width: 155px;
+        img{
+            height:100%;
+            object-fit: cover;
+        }
+    }
+    .profile{
+        padding:10px;
+        padding-left:24px;
     }
 }

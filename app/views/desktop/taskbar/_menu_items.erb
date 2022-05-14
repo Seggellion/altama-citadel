@@ -1,0 +1,32 @@
+<div class="menu-items" id="primary_menu"> 
+    <div class="menu-item pull-out">
+        <%= render '/desktop/taskbar/all_programs'%>       
+    </div>
+
+    <div class="menu-item">
+        <%= link_to profile_path, class: 'menu-link' do %>
+            <div class="icon"><%= image_tag("all_icons.png", class: "profile") %></div>
+            <span>Profile</span>
+        <% end %>
+    </div>
+    <div class="menu-item">
+        <%= link_to profile_path, class: 'menu-link' do %>
+            <div class="icon"><%= image_tag("all_icons.png", class: "help") %></div>
+            <span>Help</span>
+        <% end %>
+    </div>
+    <% if current_user && current_user.isAdmin? %>
+        <div class="menu-item pull-out">
+            <%= render '/desktop/taskbar/admin_settings'%>
+        </div>
+    <% end %>
+    <hr>
+    <div class="menu-item">
+        <%= link_to destroy_user_session_path, class: 'menu-link', 'data-turbo-method': :delete do %>
+            <div class="icon">
+                <%= image_tag( "all_icons.png", class: "shutdown")  %>
+            </div>          
+            <span>Shut Down..</span>
+        <% end %>
+    </div>
+</div>

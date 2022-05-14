@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_19_061024) do
+ActiveRecord::Schema.define(version: 2022_05_03_012636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,15 @@ ActiveRecord::Schema.define(version: 2022_04_19_061024) do
     t.integer "capture_team_id"
   end
 
+  create_table "departments", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.integer "guildstone_id"
+    t.integer "parent_department_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "discord_users", force: :cascade do |t|
     t.string "username", null: false
     t.string "discord_id"
@@ -109,6 +118,7 @@ ActiveRecord::Schema.define(version: 2022_04_19_061024) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.float "capture_limit"
+    t.string "staff_code"
   end
 
   create_table "guildstones", force: :cascade do |t|
@@ -144,31 +154,25 @@ ActiveRecord::Schema.define(version: 2022_04_19_061024) do
     t.string "logo"
   end
 
-  create_table "org_role_nominations", force: :cascade do |t|
-    t.string "description"
+  create_table "position_nominations", force: :cascade do |t|
+    t.integer "position_id"
+    t.integer "nominee_id"
+    t.string "campaign_description"
+    t.text "resume"
+    t.integer "nominator_id"
     t.integer "guildstone_id"
-    t.integer "user_id"
-    t.integer "org_role_id"
-    t.datetime "expiry_date", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "org_role_votes", force: :cascade do |t|
-    t.integer "guildstone_id"
-    t.integer "user_id"
-    t.integer "org_role_nomination_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "org_role_id"
-  end
-
-  create_table "org_roles", force: :cascade do |t|
-    t.string "description"
+  create_table "positions", force: :cascade do |t|
     t.string "title"
+    t.string "description"
+    t.integer "department_id"
     t.integer "guildstone_id"
-    t.integer "role_level"
-    t.integer "org_role_owner"
+    t.integer "term_length_days", default: 185
+    t.float "compensation"
+    t.integer "parent_position_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -221,6 +225,17 @@ ActiveRecord::Schema.define(version: 2022_04_19_061024) do
     t.string "username", null: false
     t.string "title"
     t.string "link"
+  end
+
+  create_table "rules", force: :cascade do |t|
+    t.integer "guildstone_id"
+    t.integer "position_id"
+    t.integer "user_id"
+    t.string "description"
+    t.integer "term_length_days", default: 185
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
   end
 
   create_table "ships", force: :cascade do |t|
@@ -280,6 +295,7 @@ ActiveRecord::Schema.define(version: 2022_04_19_061024) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "state"
+    t.string "view"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -300,6 +316,33 @@ ActiveRecord::Schema.define(version: 2022_04_19_061024) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id", "badge_id"], name: "one_badge_per_user", unique: true
+  end
+
+  create_table "user_position_histories", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.string "description"
+    t.integer "department_id"
+    t.date "term_end"
+    t.float "compensation"
+    t.integer "guildstone_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "nomination_id"
+  end
+
+  create_table "user_positions", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.string "description"
+    t.integer "department_id"
+    t.float "compensation"
+    t.integer "position_id"
+    t.integer "guildstone_id"
+    t.date "term_end"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "nomination_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -340,6 +383,18 @@ ActiveRecord::Schema.define(version: 2022_04_19_061024) do
     t.boolean "primary"
     t.boolean "fleetship"
     t.string "paint"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.boolean "vote"
+    t.integer "user_id"
+    t.integer "position_id"
+    t.integer "rule_id"
+    t.integer "position_nomination_id"
+    t.string "feedback"
+    t.integer "guildstone_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

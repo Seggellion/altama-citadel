@@ -1,18 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
-const prices =  Array.from(document.querySelectorAll('[id*="-price"]'));
-const all_commodities = Array.from(document.querySelectorAll('[id*="-price"]'));
 
-[...all_commodities].forEach(commodity => console.log(commodity.getAttribute('data-commodity')))
 
-const quantities = Array.from(document.querySelectorAll('.quantity'));
-const total_market_price =  prices.map(amount).reduce(sum);
-const total_quantity =  quantities.map(amount).reduce(sum);
-const gross_total_price = total_quantity * total_market_price;
 
-const discount_amount = document.querySelectorAll('[data-amt]')[0].dataset.amt;
-const total_discount = discount_amount / 100.00;
-const net_total_price =  (total_market_price * (1.00 - total_discount));
 
 function amount(item){
   return parseFloat(item.value);
@@ -27,61 +17,99 @@ export default class extends Controller {
   static targets = ["form", "status_field", 
   "user", "status_menu", "status_button",
    "rfaUnassigned", "rfaSolved","rfaMine",
-    "rfaAll","rating_field", "review_form", 
-    "total_charge", "commodityCustomerRate"]
+    "rfaAll","rating_field", "review_form", "total_service_fees",
+    "total_charge", "commodityCustomerRate","appsPane"]
 
+    connect(){
+       this.prices =  Array.from(document.querySelectorAll('[id*="-price"]'));
+      this.all_commodities = Array.from(document.querySelectorAll('[id*="-price"]'));
+
+      if(this.all_commodities.length > 0){
+
+          [...this.all_commodities].forEach(commodity => console.log(commodity.getAttribute('data-commodity')))
+
+          let quantities = Array.from(document.querySelectorAll('.quantity'));
+          this.total_quantity =  quantities.map(amount).reduce(sum);
+          this.total_market_price =  this.prices.map(amount).reduce(sum);
+
+
+          const gross_total_price = this.total_quantity * this.total_market_price;
+          this.total_charged_amount = 0;
+          let discount_amount = document.querySelectorAll('[data-amt]')[0].dataset.amt;
+        // this.total_discount = discount_amount / 100.00;
+        //  this.net_total_price =  (total_market_price * (1.00 - this.total_discount));
+        // console.log('this.net_total_price', this.net_total_price);
+        }
+
+
+    }
  
 clear(event){
-  let status_menu_element = document.getElementsByClassName('status-menu-wrapper')[0]
-   
+  
   if(event.target!= this.status_buttonTarget){
-    
-    status_menu_element.classList.remove("open"); 
+    document.querySelector("#chevron").classList.remove("open");
+    this.status_menuTarget.classList.remove("open");
   }
 }
 
 service_fee(event){
-let service_fee = Math.floor(event.target.value / 10.00);
-let total_fees =  (service_fee * gross_total_price) ;
-let original_total =net_total_price ;
-let updated_discount_amount = total_discount * original_total;
+this.total_charged_amount = 0;
+let service_fee = parseFloat(event.target.value).toFixed(2);
+let total_fees = 0;
+let fees_sum = 0;
+let original_total = this.net_total_price;
+let updated_discount_amount = this.total_discount * original_total;
 
-// let new_total = ((service_fee * gross_total_price)+gross_total_price) + net_total_price;
-let fee_rate_amt = total_fees / total_quantity;
-let total_discounted_amount = 0;
+// let new_total = ((service_fee * gross_total_price)+gross_total_price) + this.net_total_price;
+let fee_rate_amt = total_fees / this.total_quantity;
+this.total_discounted_amount = 0;
 
-for (var i = 0; i < all_commodities.length; i++) {
-  let current_commodity = all_commodities[i].getAttribute('data-commodity');
+for (var i = 0; i < this.all_commodities.length; i++) {
+  let current_commodity = this.all_commodities[i].getAttribute('data-commodity');
+
+  // let commodity_total_price_field = document.getElementById(`rfa_${current_commodity}-total`);
+  let current_customer_commodity = document.querySelector(`[data-customercommodity="${current_commodity}"]`);
+
   let commodity_quantity = parseFloat(document.getElementById(`rfa_${current_commodity}`).value);
   if (commodity_quantity > 0){
-    let commodity_market_price = parseFloat(document.getElementById(`rfa_${current_commodity}-price`).value);
-    total_discounted_amount = total_discounted_amount + (commodity_market_price * total_discount);
-    let commodity_portion = total_quantity / commodity_quantity;
+    let market_price = parseFloat(document.getElementById(`rfa_${current_commodity}-price`).value);
+    let commodity_total = document.getElementById(`rfa_${current_commodity}-total`);
+    total_fees = (service_fee / 10) * market_price;
+    fees_sum += total_fees * commodity_quantity;
+    let discount_amount = parseFloat(document.querySelectorAll('[data-amt]')[0].dataset.amt);
+    let discount = discount_amount / 100.00;
+    let discounted_market_price = market_price - (market_price * discount);
+    
 
-    let commodity_fee_rate = total_fees * commodity_portion;
-    //this.commodityCustomerRateTarget.dataset.customerCommodity
-    let current_customer_commodity = document.querySelector(`[data-customercommodity="${current_commodity}"]`);
-    let original_customer_commodity_rate = (commodity_market_price-(total_discount * commodity_market_price) );
+// let subtotal = this.total_discounted_amount + (market_price * service_fee)
 
-    current_customer_commodity.innerHTML = original_customer_commodity_rate + commodity_fee_rate;
+  //  this.total_discounted_amount = this.total_discounted_amount + (market_price * discount);
+    current_customer_commodity.innerHTML = discounted_market_price + total_fees;
+    this.total_charged_amount += parseFloat((discounted_market_price + total_fees) * commodity_quantity);
+this.total_service_feesTarget.value = fees_sum;
+    commodity_total.value =  ((discounted_market_price * commodity_quantity) + total_fees).toFixed(2);
 
   } 
 }
-  document.getElementById('rangeValue').innerHTML = (service_fee * 10.00) + '%';
+  document.getElementById('rangeValue').innerHTML = (service_fee ) + '%';
 
-let new_total = total_discounted_amount + service_fee;
-// get total  charge before fee addition
-// find difference beteen charges.
-// divide difference by quantity
+  let all_totals = document.getElementsByClassName('totals');
 
-//then do this for all commodities
-// Find out how much each commodity contributes to total amount
-// Associate individual total contribution to customer selling price
+//  for (var i = 0; i < all_totals.length; i++) {
+ //   this.total_charged_amount = +all_totals[i].value + +this.total_charged_amount ;
+ //   console.log('all_totals[i].value : ', this.total_charged_amount );
+    
+ //   }
 
-//this.commodityCustomerRateTarget.element.innerHTML =  
-  this.total_chargeTarget.value = new_total;
+let new_total = this.total_charged_amount;
+
+  this.total_chargeTarget.value =  new_total.toFixed(2);
 
 }
+
+  apps_pane(event){
+    this.appsPaneTarget.classList.toggle('closed');
+  }
 
   open(event) {
     this.status_fieldTarget.value = 1;
@@ -146,7 +174,8 @@ let new_total = total_discounted_amount + service_fee;
 
   statusbutton(event){
     event.preventDefault();
-    this.status_menuTarget.classList.add("open");
+    this.status_menuTarget.classList.toggle("open");
+    document.querySelector("#chevron").classList.toggle("open");
   }
   star1(event){
     this.rating_fieldTarget.value = "1"    

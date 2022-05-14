@@ -24,13 +24,13 @@
     <% end %>
 <div class="control-buttons">
 
-<% if defined?(windowed) %>
-<%= form_with(model: task) do |form| %>
-    <%= button_to "", task, class:'close-btn windowed', method: :delete  %>
-<% end %>
-<% else %>
-<%=link_to "", root_url, class: 'close-btn' %>
-<% end%>
+    <% if defined?(task) && task.view == "window" %>
+        <%= form_with(model: task) do |form| %>
+            <%= button_to "", task, class:'close-btn windowed', method: :delete  %>
+        <% end %>
+    <% else %>
+        <%=link_to "", root_url, class: 'close-btn' %>
+    <% end%>
 </div>
 </div>
 </div>

@@ -1,0 +1,44 @@
+<div class="form-section">
+
+<div class="window-form">
+    <%= form_with(model: @department) do |form| %>
+      <span>Department:</span>
+      Title: <%= form.text_field :title, :required=>'true' %>
+      
+      <%= form.submit 'Add' %>
+    <% end %>
+  </div>
+
+  <div class="window-form">
+    <%= form_with(model: Position) do |f| %>
+      <span>Position:</span>
+      Title: <%= f.text_field :title, :required=>'true' %>
+      <%= f.select :department_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select department'%>
+      
+      <%= f.submit 'Add' %>
+    <% end %>
+  </div>
+
+  <div class="window-form">
+    <%= form_with(model: PositionNomination) do |n| %>
+    <span>Nominate:</span>
+      
+      <%= n.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select position'%>
+      <%= n.select :nominee_id, options_for_select(@users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select nominee'%>
+      Reason: <%= n.text_field :campaign_description, :required=>'true' %>
+      Resume: <%= n.text_field :resume %>
+      
+      <%= n.submit 'Add' %>
+    <% end %>
+  </div>
+
+  <div class="window-form">
+  <%= form_with(model: Rule) do |r| %>
+    <span>Rule:</span>
+    Title: <%= r.text_field :title, :required=>'true' %>
+    
+    <%= r.submit 'Add' %>
+  <% end %>
+  </div>
+
+</div>
