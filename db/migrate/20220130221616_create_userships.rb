@@ -6,7 +6,7 @@ class CreateUserships < ActiveRecord::Migration[7.0]
       t.integer :year_purchased
       t.string :description
       t.integer :ship_id
-      t.integer :user_id
+      t.integer :user_id      
       t.boolean :show_information
       t.boolean :primary
       t.boolean :fleetship

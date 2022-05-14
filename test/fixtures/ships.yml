@@ -10,7 +10,7 @@ one:
   length: 1
   beam: 1
   height: 1
-  weight: 1
+  mass: 1
   msrp: 1
 
 two:
@@ -23,5 +23,5 @@ two:
   length: 1
   beam: 1
   height: 1
-  weight: 1
+  mass: 1
   msrp: 1
