@@ -1,5 +1,5 @@
 class Ship < ApplicationRecord
-    belongs_to :manufacturer
+    belongs_to :manufacturer, optional: true
     has_one_attached :image_topdown
 
 def expandedships(user) 

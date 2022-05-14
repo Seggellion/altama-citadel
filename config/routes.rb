@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   get 'cargo_manifest', to: 'cargo_manifest#welcome', :constraints => { :subdomain => "ctd" }
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
+  get 'my_hangar_import', to: 'hangardump#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_badges', to: 'badges#index'
   get 'my_badges', to: 'badges#index'
@@ -94,6 +95,7 @@ Rails.application.routes.draw do
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
+  post 'hangardump', to: 'hangardumps#create', as: :hangardump
   post 'activate', to: 'users#activate', as: :activate
   
   
