@@ -101,6 +101,9 @@
     &.open{
         display:flex;
         z-index:9001;
+        .icon img{
+            min-height: 0px;
+        }
     }
     .pull-out:hover .child-menu{
         display:block;
@@ -214,6 +217,7 @@
                     transform: translateX(-633px) translateY(-266px);
                     height: 1113px;
                     width: auto;
+                    bottom:1px;
                 }
                 .help{
                     background-position: top;

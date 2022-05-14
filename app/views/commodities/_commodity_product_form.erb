@@ -2,8 +2,8 @@
     <div class="field"><label><%= commodity.symbol %> amt:</label>
      <%= form.number_field "#{commodity.symbol}", step:0.01, data:{ action: 'change->commodity#total_amount'},  class: 'quantity', value: existing_total, disabled: @rfa.isSolved? %></div>
     <div class="field"><label><%= commodity.symbol %> mkt price:</label>
-     <%= form.number_field "#{commodity.symbol}-price", disabled:true, value: commodity.price, data:{ 'commodity-target' => 'mkt_price',   'commodity' => commodity.symbol  } %></div>
+     <%= form.number_field "#{commodity.symbol}-price", readonly:true, value: commodity.price, data:{ 'commodity-target' => 'mkt_price',   'commodity' => commodity.symbol  } %></div>
     <div class="field"><label>
     <%= commodity.symbol %> total price:</label> 
-    <%= form.number_field "#{commodity.symbol}-total", disabled:true, value: "#{@rfa.line_item_price(commodity) }", class:'totals', data:{ 'commodity-target' => 'total_field'} %></div>
+    <%= form.number_field "#{commodity.symbol}-total", readonly:true, value: "#{@rfa.line_item_price(commodity) }", class:'totals', data:{ 'commodity-target' => 'total_field'} %></div>
     </div>

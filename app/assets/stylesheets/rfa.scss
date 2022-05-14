@@ -1,8 +1,10 @@
 @import 'mixins';
-
-input:disabled{
-   background-color: #161616 !important;
+#rfas{
+    input:disabled, input:read-only{
+        background-color: #161616 !important;
+     }
 }
+
 .rfa-column{
     padding-left:30px;
     small{
@@ -15,16 +17,27 @@ input:disabled{
     color:black;
 }
 .top-status-In.Progress{
-    background-color: #b34a19;
+    background-color: #00a8c5;
+ //   background-color: #b34a19;
 }
 .top-status-On.Hold{
-    background-color: blue;
+    background-color: #d0c6be;
+    //background-color: blue;
 }
 .top-status-Pending{
-    background-color:purple;
+    background-color: #c06b00;
+   // background-color:purple;
 }
 .top-status-Solved{
-    background-color:green;
+    background-color: #786d62;
+//    background-color:green;
+}
+.status-box{
+    width:14px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    margin-right:9px;
+    height:14px;
 }
 
 $rfa_border: #272321;
@@ -105,6 +118,16 @@ $rfa_border: #272321;
             }
             &:nth-last-child(2){
                 border-top-right-radius: 10px;
+            }
+            &.info-button{
+                position:absolute; right:10px;
+                transition: border 0.5s;
+                border-radius:3px;
+                &:hover{
+                    transition: border 0.5s;
+                    border:1px solid $orange;
+                    cursor:pointer;
+                }
             }
             height:30px;
             background-color:black;
@@ -231,15 +254,21 @@ $rfa_border: #272321;
             width:29%;
             padding:0px 15px;
             position:relative;
+            &.closed{
+                display:none;
+            }
         }
         .rfa-comms{
-            width:36%;
+            //width:36%;
             padding: 10px 22px 10px 70px;
+            display:flex;
+            flex:1;
+            flex-direction:column;
             hr{
                 border: none;
                 border-top: 1px solid $rfa_border;
                 transform: translateX(-13%);
-                width: 123.9%;
+                width: 95%;
             }
             .comms-header{
                 display:inline-block;
@@ -287,10 +316,90 @@ $rfa_border: #272321;
             right: 0px;
             height: 60px;
             margin-bottom: 37px;
+            padding-right:8px;
             text-align:right;
+            display:flex;
+            align-items: center;
+            justify-content:flex-end;
+            z-index:1;
             svg{
                 pointer-events:none;
             }
+
+            .status-menu{
+                display: block;
+                opacity:0;
+                max-height:0px;
+                position: absolute;
+                min-width: 236px;
+                right: 6px;
+                bottom:-100px;
+                list-style: none;
+                margin: 0px;
+                background-color:black;
+                color: #d0c4bd;
+                border-radius: 5px;
+                border: 1px solid $rfa_border;
+                padding:0px;
+     
+              transition: opacity 0.5s all;
+                z-index:-1;
+                &.open{
+                    opacity:1;
+                    max-height: 170px;
+                    transition: max-height 0.5s;
+                    bottom: 56px;
+                }
+                li{
+                    padding: 0px 37px;
+                    &:hover{background-color: $rfa_border;}
+                    cursor:pointer;
+                    list-style:none;
+                    height:42px;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+             .action-list,.chevron-button,.grey-button{
+                background-color: #d0c4bd;
+                color:black;
+                cursor:pointer;
+                min-height:42px;
+                border-radius: 0px;
+                border:none;
+                transition: background-color 0.5s;
+                &:hover{
+                    background-color: #918986;
+                    border:none;
+                }
+            }
+            .grey-button{
+
+                border-top-left-radius: 3px;
+                border-bottom-left-radius: 3px;
+                display: inline-flex;
+                align-items: center;
+                width: 168px;
+                justify-content: center;
+
+            }
+            .chevron-button{
+
+                border-top-right-radius: 3px;
+                border-left:1px solid $rfa_border;
+                border-bottom-right-radius: 3px;
+                display: inline-flex;
+                align-items: center;
+                width: 38px;
+                justify-content: center;
+                
+                svg{transform: rotateZ(0deg);transition: transform 0.25s;}
+                svg.open{transform: rotateZ(180deg);transition: transform 0.25s;}
+                &:hover{
+                    border-left:1px solid $rfa_border;
+                }
+            }
+
             .status-menu-wrapper{
                 display:none;
                 position:absolute;
@@ -869,8 +978,6 @@ $rfa_border: #272321;
     max-height: 400px;
     overflow-y: auto;
     position: static !important;
-    
-    
     box-sizing: border-box;
     border: 1px solid rgb(216, 220, 222);
     border-radius: 4px;
@@ -905,7 +1012,7 @@ $rfa_border: #272321;
     }
     li{
         margin: 8px 0px;
-        padding: 4.5px 0px;
+        padding: 6.5px 8px;
         display: flex;
         justify-content: space-between;
         user-select: none;
@@ -913,7 +1020,7 @@ $rfa_border: #272321;
             padding-right:26px;
         }
         &:hover{
-            font-weight:900;
+
             cursor:pointer;
             background-color: #2f1d0c;
         }
@@ -957,9 +1064,10 @@ $rfa_border: #272321;
             color: $rfa_white;
             text-decoration: none;
             padding:3px 0px;
-            font-weight:100;
+            background-color: transparent;
+        transition: background-color 0.1s;
             &:hover{
-                font-weight:900;
+                transition: background-color 0.1s;
                 background-color: #2f1d0c;
                 color: $rfa_white;
             }
@@ -972,6 +1080,7 @@ $rfa_border: #272321;
     height:100vh;
     width:100vw;
     background-color:black;
+    overflow: hidden;
     .rfa-main{
         display:flex;
         height:100%;

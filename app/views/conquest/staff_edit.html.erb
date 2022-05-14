@@ -1,0 +1,63 @@
+<%= render '/desktop/window-frame', app1: 'ConQuest' %>
+
+<div class="conquest-window">
+    <div class="conquest-header">
+        <div class="logo">    
+            <h1>ConQuest Staff Editor</h1>
+        </div>
+    </div>
+    <div class="staff">
+
+
+<div class="conquest-window conquest-body">
+
+        <div class="conquest-controlpoints column">
+                <h2>ControlPoints</h2>
+
+                
+            <div class="control-point-list">
+                <% @control_points.each do | control_point | %>
+
+                    <div style="background-color: <%= control_point.team_color %>" class="control-point <%= control_point.iscaptured? %>" data-controller="conquesttimer">
+                    <h4><%= control_point.title %></h4>
+                    <% if control_point.last_record_time %>
+
+                    <div class="timer" data-starttime="<%= control_point.last_record_time %>" data-capture-limit="<%= @event.capture_limit_seconds || 0 %>"  data-conquesttimer-target="timer" ></div>
+                    <% end %>
+                    <div class="staff team-container">
+                    <ul>
+                    <% @teams.each do | team | %>
+                        <li data-controller="conquest" class="<%= team.active_control_point(control_point) %> ">
+                        <%= form_with(model: control_point, data:{ 'conquesttimer-target' => 'form'}) do |form| %>
+                            <%= form.hidden_field :capture_team_id, :value => team.id %>
+                            <% end %>
+                            
+                        <%= form_with(model: @event_record) do |form| %>
+                            
+                            <%= form.submit team.team_name, data:{ 'action' => 'click->conquest_timer#start'}, class: 'btn' %> 
+                            <%= form.hidden_field :team_id, :value => team.id %> <%= form.hidden_field :event_id, :value => @event.id %> <%= form.hidden_field :control_point_id, :value => control_point.id %> <% end %></li>
+                       
+                    <% end %>
+                    </ul>
+                </div>
+                <div class="control-point-timer">
+                <% if control_point.iscaptured? %>
+                    <%= link_to 'REMOVE', stop_conquest_path(id: control_point) %>
+                    <% else %>
+                    <%= link_to 'CAPTURE', capture_conquest_path(id: control_point) %>
+                    <% end %>
+                    <%= link_to 'CLEAR', clear_conquest_records_path(id: control_point) %>
+                    
+                    </div>
+                    </div>
+
+                <% end %>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    </div>
+
+</div>

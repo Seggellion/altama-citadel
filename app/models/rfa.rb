@@ -136,18 +136,21 @@ def aec
 end
 
 def new_review
-binding.break
+
 end
 
 def total_charge
+
 @all_products = RfaProduct.where(rfa_id: self.id).sum(:selling_price).ceil
 
 end
 
 
 def full_ship_name
-if self.ship_id
-  ship = Ship.find_by_id(self.ship_id)
+
+if self.usership_id
+
+  ship = Usership.find_by_id(self.usership_id).ship
   manufacturer = Manufacturer.find_by_id(ship.manufacturer_id)
   p ship.model  + ", " + manufacturer.name
 else
@@ -189,7 +192,7 @@ def isSolved?
 end
 
 def ship_name
-    ship_name = Ship.find_by_id(self.ship_id)
+    ship_name = Ship.find_by_id(self.usership_id)
     if ship_name.present?
         ship_name.model
     else

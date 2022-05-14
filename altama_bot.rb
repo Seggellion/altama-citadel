@@ -58,9 +58,6 @@ require 'dotenv-rails'
     exit
   end
 
-
-  
-
 #bot.users.fetch('Seggellion').then(dm => {
 #    dm.send('Hello World')
 #})

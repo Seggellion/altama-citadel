@@ -1,5 +1,6 @@
 class RfasController < ApplicationController
   before_action :set_rfa, only: %i[edit update destroy ]
+  before_action :require_login
 
   # GET /rfas or /rfas.json
   def index
@@ -10,7 +11,8 @@ class RfasController < ApplicationController
     @rfa_solved = Rfa.where(status_id:4)
     @rfa_unassigned = Rfa.where(status_id:0)
     @rfa_mine = Rfa.where(user_assigned_id: current_user.id)
-    
+
+
   end
 
   # GET /rfas/1 or /rfas/1.json
@@ -38,15 +40,14 @@ class RfasController < ApplicationController
     @userships = Usership.where(user_id: current_user.id)
     @location = Location.find_by_id(@rfa.location_id)
     @ships = Ship.all
-  
 
     respond_to do |format|
       if @rfa.save
 
         embed = Discord::Embed.new do |location_name|
           rfa = Rfa.last
-          title "New request for assistance"
-          description "Please view this RFA within Citadel"
+          title "ΛLTΛMΛ Citadel - New request for assistance - Click here to view"
+          description "@here Please view this RFA within Citadel"
           
           location = Location.find_by_id(rfa.location_id)
           author name: rfa.user.username
@@ -55,6 +56,10 @@ class RfasController < ApplicationController
           url "https://ctd.altama.energy/rfas/#{rfa.id}/edit"
           add_field name: "Location",
                     value: location.name
+          add_field name: "Ship",
+                    value: rfa.full_ship_name
+          footer text: "<#dispatch>"
+                image url:'https://i.pinimg.com/originals/ab/0a/5d/ab0a5d652bec1e632019c20edbc0444a.jpg'
         end
         
         
@@ -76,43 +81,45 @@ class RfasController < ApplicationController
     user = User.find_by_id(@rfa.user_id)
     # Discord::Notifier.message('!update user: <@'+ user.uid + '>' )
     status = Rfa.get_status(params[:rfa][:status_id].to_i) 
-    
+    service_fee =  (params[:rfa][:servicefee].to_f / 10.00).round(2)
+
   #  assigned_user = User.find_by_id(rfa_params[:user_assigned_id])
   @aec = 0
   
     bot_url = "https://altama-energy-support.herokuapp.com/"
+
     bot =  Nokogiri::HTML(URI.open(bot_url).read)
 
-  if params[:rfa][:HYD].to_f > 0
-    commodity = Commodity.find_by(symbol:"HYD")
-    amount =  params[:rfa][:HYD].to_f
-    market_price = commodity.price
-    discounts = user.discounts / 100.00
-    discount_price = market_price - (market_price * discounts)
-    selling_price = discount_price * amount
-    
-    @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
+    if params[:rfa][:HYD].to_f > 0
+      commodity = Commodity.find_by(symbol:"HYD")
+      amount =  params[:rfa][:HYD].to_f
+      market_price = commodity.price
+      service_fee_total = market_price * service_fee
+      discounts = user.discounts / 100.00
+      discount_price = market_price - (market_price * discounts)
+      selling_price = (discount_price + service_fee_total ) * amount
 
-
-   if @rfa.commodities.find_by_id(commodity)
-    rfa_product = RfaProduct.find_by(commodity_id: commodity.id)
-    rfa_product.update(amount: amount, selling_price: selling_price, market_price: market_price)
-   else
-    RfaProduct.create(commodity_id: commodity.id, amount: amount, rfa_id:@rfa.id,
-    market_price: market_price, selling_price: selling_price )
-   end
-  end
+      #@aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
+      if @rfa.commodities.find_by_id(commodity)
+        rfa_product = RfaProduct.find_by(commodity_id: commodity.id)
+        rfa_product.update(amount: amount, selling_price: selling_price, market_price: market_price)
+      else
+        RfaProduct.create(commodity_id: commodity.id, amount: amount, rfa_id:@rfa.id,
+        market_price: market_price, selling_price: selling_price )
+      end
+    end
 
   if params[:rfa][:QNT].to_f > 0
     commodity = Commodity.find_by(symbol:"QNT")
     amount =  params[:rfa][:QNT].to_f
     market_price = commodity.price
+    service_fee_total = market_price * service_fee
     discounts = user.discounts / 100.00
     discount_price = market_price - (market_price * discounts) 
-    selling_price = discount_price * amount
+    selling_price = (discount_price + service_fee_total ) * amount
 
     @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
-    
+   
    if @rfa.commodities.find_by_id(commodity)
     
     rfa_product = RfaProduct.find_by(rfa_id: @rfa.id,commodity_id: commodity.id)

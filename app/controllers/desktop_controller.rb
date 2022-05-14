@@ -1,19 +1,16 @@
 class DesktopController < ApplicationController
 # before_action :authenticate_user!
 before_action :require_login
+before_action :task_manager
 
 
 def index
-  @current_user = current_user
-  task_manager = TaskManager.find_by(user_id: current_user)
   
-  if task_manager.nil?
-    
-    redirect_to bsod_path
-    return
-    
-  end
-  @all_tasks = Task.where(task_manager_id: task_manager.id)
+  redirect_to bsod_path && return if @task_manager.nil?
+if @all_tasks
+  @windowed_tasks = @all_tasks.where(view:'window')
+end
+
   @all_users = User.all + DiscordUser.all + RsiUser.all
   @local_users = User.all
   @root_users = User.all.order(last_login: :desc)
@@ -30,20 +27,19 @@ def index
   @reward  = Reward.new
   @all_rewards = Reward.all
   @all_commodities = Commodity.all  
-  @user_manager = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+  @user_manager = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   current_user.desktop
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 
 def ship_view_switch
-binding.break
+
 end
 
 def rsi_user_list
   users = RsiUser.write
-  task_manager = TaskManager.find_by(user_id: current_user)
-  task = Task.find_by(task_manager_id: task_manager.id, name: "User Manager")
+  task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   task.update(state:"rsi_users")
 
 redirect_to desktop_path
@@ -61,21 +57,17 @@ def bsod
 
 end
 
-def users
- task_manager = TaskManager.find_by(user_id: current_user)
- 
-@task =  Task.new(name: 'User Manager',task_manager_id: task_manager.id)
- 
- respond_to do |format|
-    if @task.save
-      format.html { redirect_to desktop_path, notice: "Task started." }
-      format.json { render :index, status: :created, task: @task }
-    else
-      format.html { render :index, status: :unprocessable_entity }
-      format.json { render json: @task.errors, status: :unprocessable_entity }
-    end
+  def users
+
+    unless @all_tasks.find_by(name:'User Manager').present?
+   
+      @task =  Task.create(name: 'User Manager',task_manager_id: @task_manager.id, view: 'window')
+    end  
+    
+      respond_to do |format|
+        format.html { redirect_to desktop_path, notice: "location manager" }
+        end
   end
-end
 
 
 end
