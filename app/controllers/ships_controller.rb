@@ -80,6 +80,6 @@ class ShipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ship_params
-      params.require(:ship).permit(:model, :manufacturer_id, :scu, :crew, :fuel, :quantum, :length, :beam, :height, :weight, :msrp, :image_topdown)
+      params.require(:ship).permit(:model, :manufacturer_id, :scu, :crew, :fuel, :quantum, :length, :beam, :height, :mass, :msrp, :image_topdown)
     end
 end

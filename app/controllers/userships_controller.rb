@@ -81,5 +81,6 @@ class UsershipsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def usership_params
       params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint, :primary)
+      #(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
     end
 end

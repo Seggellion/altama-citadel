@@ -8,7 +8,9 @@ class User < ApplicationRecord
   has_many :ships, :through => :userships
   has_one :task_manager
   has_many :rfas
-
+  has_one :position, :through => :user_position
+  has_one :user_position
+  
   def top_five
     userships = self.userships
 end
@@ -33,7 +35,8 @@ def isAdmin?
 end
 
 def desktop
-  self.update(last_login: Date.today)
+  
+  self.update(last_login: DateTime.now)
 end
 
 def discounts
@@ -45,10 +48,7 @@ def discounts
   discount
 end
 
-def verified?
-  
-return true if self.rsi_verify == true
-end
+
 
   def will_save_change_to_email?
     false
@@ -72,13 +72,31 @@ end
       self.joins(:ships).select("userships.*, ships.model")
       #Division.where(race_id: race.id).joins(:division_joins)
 
+    end
 
+    def discord_role
+      discord_user = DiscordUser.find_by(username: self.username)
+      if discord_user && !discord_user.role.nil?
+        discord_user.role
+      else
+        "Nosync"
+      end
     end
 
    def user_type_text
-    if self.user_type == 42
+    if self.user_type == 0
       p 'Administrator'
-    elsif self.user_type == 1202
+    elsif self.user_type == 10
+      p 'Members of the Board'
+    elsif self.user_type == 15
+      p 'Executive'
+    elsif self.user_type == 20
+      p 'Partner'
+    elsif self.user_type == 30
+      p 'Worker Owner'
+    elsif self.user_type == 42
+      p 'Member Owner'
+    elsif self.user_type == 100
       p 'Altama Plus'
     else
       p 'Guest'
@@ -97,7 +115,7 @@ end
 
    def isGuest?
     return false
-    if self.user_type != 42
+    if self.user_type > 100
       return true
     end
   end
@@ -105,7 +123,7 @@ end
  
 
   def isPlus?
-    if self.user_type == 1202
+    if self.user_type == 100
       return true
     end
   end
@@ -119,8 +137,9 @@ end
     def self.from_omniauth(auth, params)
       
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.user_type = 101 
       if params["plus"] == "true"
-        user.user_type = 1202 
+        user.user_type = 100 
       end
       user.password = Devise.friendly_token[0, 20]
       user.username = auth.info.name   # assuming the user model has a name
@@ -140,5 +159,16 @@ end
         user.username = data["username"] if user.email.blank?
       end
     end
-  end        
+  end
+  
+
+  def total_reviews
+    Review.where(reviewee_id: self.id).count
+  end
+
+  def verified?
+  
+    return true if self.rsi_verify == true
+    end
+    
 end

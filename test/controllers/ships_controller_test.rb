@@ -17,7 +17,7 @@ class ShipsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create ship" do
     assert_difference("Ship.count") do
-      post ships_url, params: { ship: { beam: @ship.beam, crew: @ship.crew, fuel: @ship.fuel, height: @ship.height, length: @ship.length, make_id: @ship.make_id, model: @ship.model, msrp: @ship.msrp, quantum: @ship.quantum, scu: @ship.scu, weight: @ship.weight } }
+      post ships_url, params: { ship: { beam: @ship.beam, crew: @ship.crew, fuel: @ship.fuel, height: @ship.height, length: @ship.length, make_id: @ship.make_id, model: @ship.model, msrp: @ship.msrp, quantum: @ship.quantum, scu: @ship.scu, weight: @ship.mass } }
     end
 
     assert_redirected_to ship_url(Ship.last)
@@ -34,7 +34,7 @@ class ShipsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update ship" do
-    patch ship_url(@ship), params: { ship: { beam: @ship.beam, crew: @ship.crew, fuel: @ship.fuel, height: @ship.height, length: @ship.length, make_id: @ship.make_id, model: @ship.model, msrp: @ship.msrp, quantum: @ship.quantum, scu: @ship.scu, weight: @ship.weight } }
+    patch ship_url(@ship), params: { ship: { beam: @ship.beam, crew: @ship.crew, fuel: @ship.fuel, height: @ship.height, length: @ship.length, make_id: @ship.make_id, model: @ship.model, msrp: @ship.msrp, quantum: @ship.quantum, scu: @ship.scu, weight: @ship.mass } }
     assert_redirected_to ship_url(@ship)
   end
 

@@ -77,10 +77,21 @@ class HangardumpsController < ApplicationController
             else
               @warbond = false
             end
+          elsif k == "manufacturer_code"
+            @manufacturer_code = v
           end
-          ## puts(k, v) # this is working - so now use these values to update the db for each ship
+          #puts(k, v) # this is working - so now use these values to update the db for each ship
         end
-        #Usership.create(user_id:current_user.id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
+        puts('hi')
+
+        query = "SELECT id FROM public.ships where model = '" + @shipname + "'"
+        puts(query)
+        res = ActiveRecord::Base.connection.execute(query)
+        ship_id = res.getvalue(0,0);
+        puts('ship id is: ' + res.getvalue(0,0).to_s )
+        puts('current_user.id: ' + current_user.id.to_s)
+        u = Usership.create(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
+        #u.save!
       end
       
       #json_file = StringIO.new(@url_string)
@@ -89,7 +100,6 @@ class HangardumpsController < ApplicationController
       #puts(JSON.dump(data_hash))
     #else
     #  render "new"
-    #end
     redirect_to my_hangar_view_path
   end
 
@@ -99,8 +109,8 @@ class HangardumpsController < ApplicationController
       redirect_to hangardumps_path, notice:  "The hangardump has been deleted."
   end
 
-  private
-    def hangardump_params
-    params.require(:hangardump).permit(:name, :attachment)
-  end
+  #private
+  #  def hangardump_params
+  #  params.require(:hangardump).permit(:name, :attachment)
+  #end
 end

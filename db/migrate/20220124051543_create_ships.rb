@@ -2,7 +2,7 @@ class CreateShips < ActiveRecord::Migration[7.0]
   def change
     create_table :ships do |t|
       t.string :model
-      t.integer :make_id
+      t.integer :make_id      
       t.integer :scu
       t.integer :crew
       t.integer :fuel
