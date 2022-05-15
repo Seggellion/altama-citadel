@@ -93,6 +93,11 @@
     .menu-link{
         display:flex;
         align-items: center;
+        width:100%;
+        span{
+            display: flex;
+            width: 100%;
+        }
     }
     hr{
         width:100%;
@@ -229,8 +234,16 @@
         }
         span{
             font-size: 1.1rem;
+            margin-left:5px;
+        }
+        &.noarrow{
+        .icon{
+                margin-left:15px;
+        }
+         span{
             margin-left:10px;
         }
+    }
         width:100%;
 
         display:flex;

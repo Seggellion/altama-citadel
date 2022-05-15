@@ -146,19 +146,6 @@ def total_charge
 end
 
 
-def full_ship_name
-
-if self.usership_id
-
-  ship = Usership.find_by_id(self.usership_id).ship
-  manufacturer = Manufacturer.find_by_id(ship.manufacturer_id)
-  p ship.model  + ", " + manufacturer.name
-else
-  "No ship data"
-end
-end
-
-
 def price(commodity)
   
   commodity_price = Commodity.find_by(symbol: commodity).price
@@ -188,6 +175,16 @@ def isSolved?
     true
   else
     false
+  end
+end
+
+def full_ship_name
+  if self.usership_id
+    ship = Usership.find_by_id(self.usership_id).ship
+    manufacturer = Manufacturer.find_by_id(ship.manufacturer_id)
+    p ship.model  + ", " + manufacturer.name
+  else
+    "No ship data"
   end
 end
 

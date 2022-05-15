@@ -61,7 +61,6 @@ Rails.application.routes.draw do
   get 'my_hangar', to: 'my_hangar#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_badges', to: 'badges#index'
-  get 'my_badges', to: 'badges#index'
 
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'users', to: 'desktop#users'
