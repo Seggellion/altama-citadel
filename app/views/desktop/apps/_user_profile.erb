@@ -4,7 +4,7 @@
         <div class="window-image">
             <%= image_tag current_user.profile_image if current_user.profile_image.present? %>
         </div>
-            
+
         <div class="profile">
             <h3> <% if current_user.aec %>
                 Wallet: <%= current_user.aec %> AEC

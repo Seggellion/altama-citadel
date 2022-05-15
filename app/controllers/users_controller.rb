@@ -6,11 +6,8 @@ class UsersController < ApplicationController
     end
 
 def activate
-  
   user = User.find_by_id(params[:user])
-  
   hash = params[:hash]
-  
   if  RsiUser.authenticate(hash,user.id, params[:handle]) 
     redirect_to desktop_path, notice: "Successfully verified user."
   else
@@ -29,7 +26,7 @@ end
 
     def verify
           hash = params[:hash]
-          
+
           url = request.env["HTTP_REFERER"]
           uri = URI::parse(url)
           static_params = CGI::parse(uri.query)
