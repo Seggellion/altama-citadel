@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_14_060310) do
+ActiveRecord::Schema.define(version: 2022_05_15_055003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -278,6 +278,7 @@ ActiveRecord::Schema.define(version: 2022_05_14_060310) do
     t.integer "capacitor_crew_regen"
     t.integer "capacitor_turret_load"
     t.integer "capacitor_turret_regen"
+    t.string "alt_ship_name"
   end
 
   create_table "task_managers", force: :cascade do |t|
@@ -392,6 +393,7 @@ ActiveRecord::Schema.define(version: 2022_05_14_060310) do
     t.string "pledge_cost"
     t.boolean "lti"
     t.boolean "warbond"
+    t.string "source", default: "manual"
   end
 
   create_table "votes", force: :cascade do |t|
