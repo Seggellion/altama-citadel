@@ -8,10 +8,9 @@
                 <% @myships.each do | usership | %>
                     <div class="usership-block">
                     <div class="info-box"><%= usership.ship.model %></div>
-
-                    <%= image_tag(usership.ship.ship_image_primary) if usership.ship.ship_image_primary.present? %>
+                        <%= image_tag(usership.ship.ship_image_primary) if File.file?('app/assets/images/' + usership.ship.ship_image_primary) %>
                     </div>
-                <% end %> 
+                <% end %>
             </div>
             <canvas id="starfield" width=750 height=500 ></canvas>
         </div>

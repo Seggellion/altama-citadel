@@ -25,8 +25,8 @@ class UsershipsController < ApplicationController
 
   # POST /userships or /userships.json
   def create
-    #@usership = Usership.new(usership_params)
-    #@usership.update(user_id:current_user.id)
+    @usership = Usership.new(usership_params)
+    @usership.update(user_id:current_user.id)
     respond_to do |format|
      # if @usership.save
         #flash[:notice] = "Post has been saved successfully."

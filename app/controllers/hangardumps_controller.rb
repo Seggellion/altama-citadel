@@ -28,81 +28,71 @@ class HangardumpsController < ApplicationController
 
 
   def create
-    #@hangardump = Hangardump.new(hangardump_params)
-    #if @hangardump.save
-      #redirect_to hangardumps_path, notice: "The hangardump has been uploaded."
-      #@url_string = url_for(params[:attachment])
-      #puts(@url_string)
-      
-      #response = fetch(@url_string)
-      #puts(response.body)
-      data_hash = JSON.parse(File.read(params[:attachment].tempfile))
+    del = "delete from public.userships where user_id = " + current_user.id.to_s + " and source = 'imported'"
+    delresult = ActiveRecord::Base.connection.execute(del)
 
-      #file = Net::HTTP.get_response(URI.parse(@url_string)).body
-      #data_hash = JSON.parse(file)
-      
-      ##data_hash.each do |k,v| 
-      ##  if (k = )
-      ##  hash[k] = v.to_date if date_keys.include?(k)
-      ##end
+    data_hash = JSON.parse(File.read(params[:attachment].tempfile))
 
-      data_hash.each do |key, value|
-        ##puts (key)
-        ship_hash = JSON.parse(JSON.dump(key))
-        
-        ship_hash.each do |k, v|
-          #create and save new usership
-          puts(k, v)
-          if k == "ship_name"
-            @shipname = v
-          elsif k == "ship_serial"
-            @shipserial = v
-          elsif k == "pledge_id"
-            @pledgeid = v
-          elsif k == "pledge_name"
-            @pledgename = v
-          elsif k == "pledge_date"
-            d = Date.parse(v)
-            d.next_year(930)
-            @pledgedate = d.strftime("%Y-%m-%d")
-          elsif k == "lti"
-            if (v)
-              @lti = true
-            else
-              @lti = false
-            end
-          elsif k == "warbond"
-            if (v)
-              @warbond = true
-            else
-              @warbond = false
-            end
-          elsif k == "manufacturer_code"
-            @manufacturer_code = v
+    data_hash.each do |key, value|
+      ##puts (key)
+      ship_hash = JSON.parse(JSON.dump(key))
+      
+      ship_hash.each do |k, v|
+        #create and save new usership
+        puts(k, v)
+        if k == "name"
+          @name = v          
+        elsif k == "ship_name"
+          @shipname = v
+        elsif k == "ship_serial"
+          @shipserial = v
+        elsif k == "pledge_id"
+          @pledgeid = v
+        elsif k == "pledge_name"
+          @pledgename = v
+        elsif k == "pledge_date"
+          d = Date.parse(v)
+          d.next_year(930)
+          @pledgedate = d.strftime("%Y-%m-%d")
+        elsif k == "lti"
+          if (v)
+            @lti = true
+          else
+            @lti = false
           end
-          #puts(k, v) # this is working - so now use these values to update the db for each ship
+        elsif k == "warbond"
+          if (v)
+            @warbond = true
+          else
+            @warbond = false
+          end
+        elsif k == "manufacturer_code"
+          @manufacturer_code = v
         end
-        puts('hi')
+        #puts(k, v) # this is working - so now use these values to update the db for each ship
+      end
+      puts('hi')
 
-        query = "SELECT id FROM public.ships where model = '" + @shipname + "'"
-        puts(query)
-        res = ActiveRecord::Base.connection.execute(query)
+      query = "SELECT id FROM public.ships where model = '" + @name + "' OR alt_ship_name = '" + @name + "'"
+      puts(query)
+      res = ActiveRecord::Base.connection.execute(query)
+      puts('res.cmd_tuples: ' + res.cmd_tuples.to_s)
+      if res.cmd_tuples > 0
         ship_id = res.getvalue(0,0);
         puts('ship id is: ' + res.getvalue(0,0).to_s )
         puts('current_user.id: ' + current_user.id.to_s)
-        binding.break
-        u = Usership.new(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond)        
+        u = Usership.new(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond, source: 'imported')        
         u.valid?
         u.save!
-        #u.save!
       end
-      
-      #json_file = StringIO.new(@url_string)
-      #file = json_file.read
-      #data_hash = JSON.parse(file)
-      #puts(JSON.dump(data_hash))
-    #else
-    #  render "new"
+      #u.save!
+    end
+    
+    #json_file = StringIO.new(@url_string)
+    #file = json_file.read
+    #data_hash = JSON.parse(file)
+    #puts(JSON.dump(data_hash))
+
     redirect_to my_hangar_view_path
   end
 
