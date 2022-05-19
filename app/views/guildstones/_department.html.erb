@@ -5,8 +5,9 @@
         <% department.positions.each do |position|  %>
             
             <%= link_to state_positions_path(position: position.title), class: 'desktop-icon', method: :post do %>
-            Apply -  <%= position.title %>
+            <% unless position.nomination(position.user) %> Apply - <% end %> <%= position.title %> <%= position.position_username || '' %>
             <% end %>
+            <br>
             <% if @window_states.present? %>
             <% @window_states.each_with_index do |window, i | %>
                 <% if position.title == window %>
