@@ -11,24 +11,30 @@ style="transform: translate(
     </div>
     <div class="position-container">
         <div class="position-header">
-        <%= position.position_username  %> 
+        <% if position.nomination(position.user) %>Nominated<% end %> | <%= position.position_username  %> 
         </div>
         <div class="position-body">
             <div class="position-action">
+            <% if  position.user_position  %> 
                 <div class="position-row">Employee ID:  </div>
                 <div class="position-row">Last Name:   First Name:</div>
                 <div class="position-row">Title:  </div>
                 <div class="position-row">Extension:  </div>
-                <div class="position-row">Hire Date: </div>
+                <div class="position-row">Hire Date:  <%= position.user_position.created_at  %> </div>
+                <% end %>
                 <hr />
                 <div class="buttons">
-                <%= form_with(model: UserPosition) do |form| %>
-                    <%= form.hidden_field :position_id, :value => position.id %>
-                    
-                    <%= form.submit 'Apply' %>
-                <% end %>
+                <% unless position.user_position %>
+                    <%= form_with(model: UserPosition) do |form| %>
+                        <%= form.hidden_field :position_id, :value => position.id %>
+                        <%= form.submit 'Apply' %>
+                    <% end %>
                     <a href="btn">Nominate</a>
+                <% end %>
                     <a href="btn">Cancel</a>
+                    <% if position.user == current_user %>
+                    <a href="btn">Terminate</a>
+                    <% end %>
                 </div>
             </div>
         </div>
