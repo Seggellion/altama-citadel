@@ -14,14 +14,22 @@ class UserPositionsController < ApplicationController
   end
 
   def create
-    @user_position = UserPosition.new(user_position_params)
+    @my_user_position_histories = UserPositionHistory.where(user_id: current_user.id)
+    @my_user_positions = UserPosition.where(user_id: current_user.id)
+    @my_user_positions.destroy_all
+    @user_position_history = UserPositionHistory.new(user_position_params)
     @guildstone = Guildstone.first
+    @user_position_history.update(guildstone_id: @guildstone.id)
+    @user_position = UserPosition.new(user_position_params)
     @user_position.update(guildstone_id: @guildstone.id)
     @user_position.update(user_id: current_user.id)
+    @my_user_position_histories.update_all(active: false)
+    @user_position_history.update(active: true)
+   
     respond_to do |format|
       if @user_position.save
-        format.html { redirect_to @guildstone, notice: "Position was successfully Applied." }
-        
+        @user_position_history.save
+        format.html { redirect_to @guildstone, notice: "Position was successfully Assigned." }     
       else
         format.html { redirect_to @guildstone, notice: "Error." }
         
@@ -57,12 +65,11 @@ class UserPositionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_position_params
-
-    params.require(:user_position).permit(:user_id, :guildstone_id, :description, :title, :department_id, :nomination_id, :compensation, :position_id, :term_end)
-
+    params.require(:user_position).permit(:user_id, :guildstone_id, :description, :title, :department_id, :nomination_id, :compensation, :position_id, :term_end, :active)
   end
 
-  
+
+
 
 
 end

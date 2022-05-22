@@ -26,10 +26,10 @@ def status
   end
 end
 
-  def nomination(user)
-    if user
-   PositionNomination.where(nominee_id: user.id, position_id: self.id)
-    end
+  def nomination(user_id)
+
+   PositionNomination.where(nominee_id: user_id, position_id: self.id).first
+
   end
 
   def application(user)

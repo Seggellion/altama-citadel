@@ -137,7 +137,7 @@ def start_guildstone
 end
 
   def state_positions
-    
+
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
     @window_states =  []
     state_name = "#{params[:position]},"
