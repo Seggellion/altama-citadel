@@ -1,6 +1,6 @@
 <div class="form-section">
 
-<div class="window-form">
+<div class="window-form" data-guildstone-target="createDepartment">
     <%= form_with(model: @department) do |form| %>
       <span>Department:</span>
       Title: <%= form.text_field :title, :required=>'true' %>
@@ -9,7 +9,7 @@
     <% end %>
   </div>
 
-  <div class="window-form">
+  <div class="window-form" data-guildstone-target="createPosition">
     <%= form_with(model: Position) do |f| %>
       <span>Position:</span>
       Title: <%= f.text_field :title, :required=>'true' %>
@@ -19,7 +19,7 @@
     <% end %>
   </div>
 
-  <div class="window-form">
+  <div class="window-form" data-guildstone-target="createNomination">
     <%= form_with(model: PositionNomination) do |n| %>
     <span>Nominate:</span>
       
@@ -32,7 +32,7 @@
     <% end %>
   </div>
 
-  <div class="window-form">
+  <div class="window-form" data-guildstone-target="createRule">
   <%= form_with(model: Rule) do |r| %>
     <span>Rule:</span>
     Title: <%= r.text_field :title, :required=>'true' %>

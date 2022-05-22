@@ -16,6 +16,16 @@
             padding: 5px 8px;
         }
     }
+    .window-form{
+        height:0px;
+        opacity:0;
+        transition: height 0.5s;
+        &.active{
+            transition: height 0.5s;
+            height:24px;
+            opacity:1;
+        }
+    }
     .guildstone-modal{
         position: absolute;
         width: 700px;
@@ -104,10 +114,37 @@
     }
     .shortcut-icon-container{
         overflow:hidden;
+        &.click{
+            border-top:1px solid black;
+            border-left:1px solid black;
+            border-right:1px solid white;
+            border-bottom:1px solid white;
+        }
         .position-create{
             background-position: top;
             object-fit: contain;
             transform: translateX(-32px) translateY(-479px);
+            height: 753px;
+            width: auto;
+        }
+        .department-create{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-209px) translateY(-361px);
+            height: 753px;
+            width: auto;
+        }
+        .nomination-create{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-626px) translateY(-569px);
+            height: 753px;
+            width: auto;
+        }
+        .rule-create{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-713px) translateY(-717px);
             height: 753px;
             width: auto;
         }
@@ -130,12 +167,19 @@
     .window-menu{
         display: flex;
         list-style:none;
-        padding:0px; 
+        padding:0px 8px; 
         margin:0px;
+            .disabled{
+                color:grey;
+                &:hover{
+                    background-color:$system_blue;
+                    cursor:pointer;
+                }
+        }
         li{
-            width:32px;
+            user-select: none;
+            margin-right: 10px;
             padding:0px; 
-            margin:0px;
         }
     }
 }
