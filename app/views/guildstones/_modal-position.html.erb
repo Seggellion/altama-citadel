@@ -24,16 +24,23 @@ style="transform: translate(
                 <% end %>
                 <hr />
                 <div class="buttons">
-                <% unless position.user_position %>
-                    <%= form_with(model: UserPosition) do |form| %>
-                        <%= form.hidden_field :position_id, :value => position.id %>
-                        <%= form.submit 'Apply' %>
+                    <% unless position.user_position || position.nomination(current_user.id)  %>
+                        <%= form_with(model: PositionNomination) do |form| %>
+                            <%= form.hidden_field :position_id, :value => position.id %>
+                            <%= form.hidden_field :nominee_id, :value => current_user.id%>
+                            <%= form.label :campaign_description, "Campaign Description: " %>
+                            <%= form.text_field :campaign_description %>
+                            <%= form.label :resume, "Resume: " %>
+                            <%= form.text_field :resume %>
+                            <%= form.submit 'Apply' %>
+                        <% end %>
                     <% end %>
-                    <a href="btn">Nominate</a>
-                <% end %>
-                    <a href="btn">Cancel</a>
-                    <% if position.user == current_user %>
-                    <a href="btn">Terminate</a>
+                    <% if position.user_position %>
+                        This is already your current position!
+                    <% elsif position.nomination(current_user.id) %>
+                        You have already applied/been nominated for this position!
+                        <br>
+                        <a href="btn">Cancel Nomination/Application</a>
                     <% end %>
                 </div>
             </div>
