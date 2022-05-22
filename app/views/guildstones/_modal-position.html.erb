@@ -11,7 +11,7 @@ style="transform: translate(
     </div>
     <div class="position-container">
         <div class="position-header">
-        <%= position.status %> |  <% if  position.user_position  %> <%= position.position_username  %><% end %> 
+         <% if  position.user_position  %> <%= position.position_username  %><% else %> Apply today for <%= position.title %><% end %> 
         </div>
         <div class="position-body">
             <div class="position-action">
