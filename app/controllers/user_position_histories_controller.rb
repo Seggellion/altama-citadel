@@ -56,7 +56,7 @@ class UserPositionHistoriesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_position_history_params
-    params.require(:user_position_history).permit(:guildstone_id, :description, :title, :department_id, :nomination_id, :compensation, :term_end)
+    params.require(:user_position_history).permit(:guildstone_id, :description, :title, :department_id, :nomination_id, :compensation, :term_end, :active)
   end
 
   
