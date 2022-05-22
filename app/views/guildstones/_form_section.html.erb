@@ -41,4 +41,14 @@
   <% end %>
   </div>
 
+    <div class="window-form">
+  <%= form_with(model: UserPosition) do |p| %>
+  <span>**For testing only**</span>
+    <span>Assign:</span>
+ <%= p.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select position'%>
+      <%= p.select :user_id, options_for_select(@users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select user'%>
+    <%= p.submit 'Assign' %>
+  <% end %>
+  </div>
+
 </div>

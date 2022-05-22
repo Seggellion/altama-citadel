@@ -20,7 +20,7 @@ class UserPositionsController < ApplicationController
     @user_position.update(user_id: current_user.id)
     respond_to do |format|
       if @user_position.save
-        format.html { redirect_to @guildstone, notice: "Position was successfully Applied." }
+        format.html { redirect_to @guildstone, notice: "Position was successfully Assigned." }
         
       else
         format.html { redirect_to @guildstone, notice: "Error." }
