@@ -12,6 +12,20 @@ class Position < ApplicationRecord
     UserPosition.find_by(position_id: self.id)
   end
 
+def status
+  
+  if user
+   nomination = PositionNomination.where(nominee_id: self.user.id, position_id: self.id).first
+   message = ""
+   if nomination && nomination.nominee_id == nomination.nominator_id
+    message =  "Application"
+   elsif nomination
+   message =  "Nomination"
+   end
+   message
+  end
+end
+
   def nomination(user)
     if user
    PositionNomination.where(nominee_id: user.id, position_id: self.id)

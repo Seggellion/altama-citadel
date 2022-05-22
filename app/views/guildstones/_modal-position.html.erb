@@ -11,7 +11,7 @@ style="transform: translate(
     </div>
     <div class="position-container">
         <div class="position-header">
-        <% if position.nomination(position.user) %>Nominated<% end %> | <%= position.position_username  %> 
+        <%= position.status %> | <%= position.position_username  %> 
         </div>
         <div class="position-body">
             <div class="position-action">
