@@ -25,8 +25,13 @@ style="transform: translate(
                 <hr />
                 <div class="buttons">
                 <% unless position.user_position %>
-                    <%= form_with(model: UserPosition) do |form| %>
+                    <%= form_with(model: PositionNomination) do |form| %>
                         <%= form.hidden_field :position_id, :value => position.id %>
+                        <%= form.hidden_field :nominee_id, :value => current_user.id%>
+                        <%= form.label :campaign_description, "Campaign Description: " %>
+                        <%= form.text_field :campaign_description %>
+                        <%= form.label :resume, "Resume: " %>
+                        <%= form.text_field :resume %>
                         <%= form.submit 'Apply' %>
                     <% end %>
                     <a href="btn">Nominate</a>
