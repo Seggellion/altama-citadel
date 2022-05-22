@@ -1,10 +1,29 @@
 <div class="window-icon-bar">
-    <div class="shortcut-icon-container">
-    <a title="Create new position" href="#"><%= image_tag("all_icons.png", class: "position-create") %> </a>
-
+    <div class="shortcut-icon-container" 
+        title="Create new position" 
+        data-action="click->guildstone#createPosition" >
+            <%= image_tag("all_icons.png", class: "position-create") %>
     </div>
-    <div class="shortcut-icon-container"><a title="Create new department"  href="#"></a></div>
-    <div class="shortcut-icon-container"><a title="Create new position" href="#"></a></div>
+
+    <div class="shortcut-icon-container" 
+        title="Create new department" 
+        data-action="click->guildstone#createDepartment" >
+            <%= image_tag("all_icons.png", class: "department-create") %>
+    </div>
+
+    <div class="shortcut-icon-container" 
+        title="Create new nomination" 
+        data-action="click->guildstone#createNomination" >
+            <%= image_tag("all_icons.png", class: "nomination-create") %>
+    </div>
+
+    <div class="shortcut-icon-container" 
+        title="Create new rule" 
+        data-action="click->guildstone#createRule" >
+            <%= image_tag("all_icons.png", class: "rule-create") %>
+    </div>
+
+
     <div class="shortcut-icon-container"><a title="Create new rule" href="#"></a></div>
     <div class="shortcut-icon-container"><a title="Create new nomination" href="#"></a></div>
     <div class="shortcut-icon-container"><a title="View index" href="#"></a></div>
