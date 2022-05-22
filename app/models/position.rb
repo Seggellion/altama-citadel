@@ -30,7 +30,7 @@ def status
 end
 
   def nomination(user)
-   PositionNomination.where(nominee_id: user.id, position_id: self.id).first
+   PositionNomination.where(nominee_id: user, position_id: self.id).first
   end
 
   def applications
