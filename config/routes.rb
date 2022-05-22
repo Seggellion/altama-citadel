@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :rules
   resources :user_position_histories
   resources :user_positions
-  resources :votes
+  #resources :votes
   resources :position_nominations
   resources :org_roles
   resources :guildstones
@@ -70,7 +70,7 @@ Rails.application.routes.draw do
   get 'ship_view', to: 'desktop#ship_view_switch'
   get 'select_ship', to: 'desktop#index', :constraints => { :subdomain => "ctd" }
   get 'apply_role', to: 'guildstones#apply_role'
-  get 'vote', to: 'guildstones#vote'
+  #get 'vote', to: 'guildstones#vote'
   get 'killall', to:'tasks#killall'
   get 'start_guildstone', to:'tasks#start_guildstone'
   get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
@@ -90,6 +90,8 @@ Rails.application.routes.draw do
   get 'bsod', to: 'desktop#bsod'
   get 'close_position_window', to: 'tasks#close_position_window'
   
+  get 'vote', to: 'guildstones#vote'
+  get 'unvote', to: 'guildstones#unvote'
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
