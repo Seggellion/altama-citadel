@@ -186,6 +186,7 @@ end
     
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
+      
     end  
     unless @window_states.include?(state_name)
       @window_states = @window_states + Array[state_name]
