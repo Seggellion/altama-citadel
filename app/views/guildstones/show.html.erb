@@ -23,8 +23,11 @@
         <%= render 'department', department: department %>
       <% end %>
 
+
       <%= link_to state_user_positions_path, class: 'desktop-icon', method: :post do %>
              View All User Positions
+             <% end %>
+
             <% if @window_states.present? %>
               <% @window_states.each_with_index do |window, i | %>
   
@@ -34,7 +37,7 @@
             <% else %>
              
             <% end %>
-            <%end%>
+
     </div>
   </div>
 </div>
