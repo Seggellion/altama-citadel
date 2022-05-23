@@ -13,16 +13,20 @@
   <% for users in User.all %>
     <div class="name"><%= users.username %></div>
     <div class="positions">
-      <% for positions in UserPositionHistory.where(user_id: users.id)%>
+      <% for positions in UserPositionHistory.where(user_id: users.id).where.not(title: nil) %>
+        <div class="item">
          <%= positions.title %> 
           <% if positions.active %>
             || Current Position
-          <% else %>
           <% end %>
-          <br>
-        
+          
+          </div>
+
+
       <% end%>
+      </div>
   <% end %>
-</div>
+    
+
 </div>
   
