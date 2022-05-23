@@ -28,8 +28,8 @@
              View All User Positions
              <% end %>
 
-            <% if @wuser_position_windows.present? %>
-              <%   @user_position_windows.each_with_index do |window, i | %>
+            <% if @user_position_windows.present? %>
+              <%  @user_position_windows.each_with_index do |window, i | %>
   
                     <%= render 'modal_user_positions', i: i %>
 
