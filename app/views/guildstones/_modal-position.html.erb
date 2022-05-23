@@ -44,31 +44,30 @@ style="transform: translate(
                     <% end %>
                 </div>
             </div>
-
-
-            <div class="position-applications">
-                
-                <div class="header-title">
-                <span>
-                Applicant
-                </span>
-                <span>
-                Action
-                </span>
-                </div>
-                <div class="application-table">
-                    <% position.applications.each do | application | %>
-                        <span><%= application.user.username %></span>
-                            <% unless application.user.id == current_user.id %>
-                            <% if position.already_voted?(current_user) %>
-                                <%= link_to "UnVote", unvote_path(user: current_user, nomination: application) %>
-                            <% else %>
-                                <%= link_to "Vote", vote_path(user: current_user, nomination: application) %>
+            <% unless  position.user_position  %>
+                <div class="position-applications">                
+                    <div class="header-title">
+                        <span>
+                        Applicant
+                        </span>
+                        <span>
+                        Action
+                        </span>
+                    </div>
+                    <div class="application-table">
+                        <% position.applications.each do | application | %>
+                            <span><%= application.user.username %></span>
+                                <% unless application.user.id == current_user.id %>
+                                <% if position.already_voted?(current_user) %>
+                                    <%= link_to "UnVote", unvote_path(user: current_user, nomination: application) %>
+                                <% else %>
+                                    <%= link_to "Vote", vote_path(user: current_user, nomination: application) %>
+                                <% end %>
                             <% end %>
                         <% end %>
-                    <% end %>
-                 </div>
-            </div>
+                    </div>
+                </div>
+            <% end %>
         </div>
     </div>
 </div>
