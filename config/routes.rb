@@ -81,6 +81,7 @@ Rails.application.routes.draw do
   get 'root_user_list', to: 'tasks#state_root_users'
   get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'state_positions', to: 'tasks#state_positions'
+  get 'state_user_positions', to: 'tasks#state_user_positions'
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'close_state_window', to: 'tasks#close_state_window'
