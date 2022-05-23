@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'close_state_window', to: 'tasks#close_state_window'
+  get 'close_user_position_window', to: 'tasks#close_user_position_window'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
   get 'rsi_activate', to: 'tasks#rsi_activate'

@@ -7,7 +7,7 @@
  >
   <div class="section-window-header">
     UserPositions
-    <%= link_to "", close_position_window_path(window: "UserPositions"), class:'close-btn windowed' %> 
+    <%= link_to "", close_user_position_window_path(window: "UserPositions"), class:'close-btn windowed' %> 
   </div>
 
   <% for users in User.all %>

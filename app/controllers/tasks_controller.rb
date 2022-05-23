@@ -35,6 +35,25 @@ respond_to do |format|
 
 end
 
+def close_user_position_window
+  window = params[:window]
+  window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+  @window_states =  []
+  binding.break
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+  end  
+  if @window_states.include?(window)
+    @window_states = @window_states - Array(window)
+  end
+  states_string = @window_states.join(',')
+  @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
+respond_to do |format|
+  format.html { redirect_to guildstone_path(0), notice: "opened position" }
+  end
+
+end
+
 def close_state_window
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
