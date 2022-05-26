@@ -35,7 +35,7 @@ style="transform: translate(
                             <%= form.submit 'Apply' %>
                         <% end %>
                     <% end %>
-                    <% if position.user_position %>
+                    <% if position.user_position?(current_user.id) %>
                         This is already your current position!
                     <% elsif position.nomination(current_user.id) %>
                         You have already applied/been nominated for this position!
