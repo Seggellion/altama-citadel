@@ -12,6 +12,10 @@ class Position < ApplicationRecord
     UserPosition.find_by(position_id: self.id)
   end
 
+  def user_position?(user)
+    UserPosition.find_by(position_id: self.id, user_id: user)
+  end
+
   def already_voted?(user)
     Vote.find_by(position_id: self.id, user_id: user.id)
   end
