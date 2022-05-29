@@ -47,7 +47,7 @@ class GuildstonesController < ApplicationController
     position = Position.find_by_id(nomination.position_id)
     guildstone = Guildstone.first
     @vote = Vote.new(position_nomination_id: nomination.id, guildstone_id: guildstone.id,
-    user_id: current_user.id, position_id: position.id, vote:true )
+    user_id: current_user.id, position_id: position.id, vote:true,  )
     total_members = User.where("user_type < ?", 100).count
     total_votes = Vote.where(position_id: nomination.id).count
     #remove the two -- for testing only
@@ -56,11 +56,11 @@ class GuildstonesController < ApplicationController
   
     if total_votes > consensus
       UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_end: term_end, 
-      department_id: position.department_id, guildstone_id: Guildstone.first.id, nomination_id: nomination.id)
+      department_id: position.department_id, guildstone_id: Guildstone.first.id, nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation)
       UserPositionHistory.create(
         user_id: nomination.user.id, position_id: position.id, term_end: term_end, 
         department_id: position.department_id, guildstone_id: Guildstone.first.id,
-        nomination_id: nomination.id, active: true
+        nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation, active: true
       )
     end
 
