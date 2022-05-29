@@ -35,9 +35,17 @@
   <div class="window-form" data-guildstone-target="createRule">
   <%= form_with(model: Rule) do |r| %>
     <span>Rule:</span>
-    Title: <%= r.text_field :title, :required=>'true' %>
+        Title: <%= r.text_field :title, :required=>'true' %>
+    <% if @categories.count >= 1 %>
     
-    <%= r.submit 'Add' %>
+      <%= r.select :category, options_for_select(@categories.collect{ |u| [u.name] }  ), :include_blank => 'Select category', :required=>"true" %>
+    <% end %>
+    <span class="category-trigger" data-action="click->guildstone#show">Add new category</span>
+    Description: <%= r.text_field :description, :required=>'true' %>
+     <%= r.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select Position (if applicable)'%>
+     <%= r.select :department_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select Department (if applicable)'%>
+    <%= r.submit 'Add', id: 'submit' %>
+    
   <% end %>
   </div>
 
