@@ -18,13 +18,22 @@
     }
     .window-form{
         height:0px;
-        display:none;
+        display: none;
         transition: height 0.5s;
         &.active{
+            display: block;
             transition: height 0.5s;
             height:24px;
             display:block;
         }
+    }
+    .name{
+        font-size:large;
+        font-weight: bold;
+        padding:5px;
+    }
+    .positions{
+        margin: 10px;
     }
     .guildstone-modal{
         position: absolute;
@@ -35,7 +44,7 @@
         border-left:1px solid white;
         border-right:1px solid black;
         border-bottom:1px solid black;
-        overflow:hidden;
+        overflow: auto;
         transform: translate(-50%, -30%);
         left: 50%;
         top: 50%;
