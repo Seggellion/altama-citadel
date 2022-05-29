@@ -11,7 +11,7 @@ style="transform: translate(
     </div>
     <div class="position-container">
         <div class="position-header">
-        <%= position.status %> | <%= position.position_username  %> 
+         <% if  position.user_position  %> <%= position.position_username  %><% else %> Apply today for <%= position.title %><% end %> 
         </div>
         <div class="position-body">
             <div class="position-action">
@@ -35,7 +35,7 @@ style="transform: translate(
                             <%= form.submit 'Apply' %>
                         <% end %>
                     <% end %>
-                    <% if position.user_position %>
+                    <% if position.user_position?(current_user.id) %>
                         This is already your current position!
                     <% elsif position.nomination(current_user.id) %>
                         You have already applied/been nominated for this position!
@@ -44,6 +44,30 @@ style="transform: translate(
                     <% end %>
                 </div>
             </div>
+            <% unless  position.user_position  %>
+                <div class="position-applications">                
+                    <div class="header-title">
+                        <span>
+                        Applicant
+                        </span>
+                        <span>
+                        Action
+                        </span>
+                    </div>
+                    <div class="application-table">
+                        <% position.applications.each do | application | %>
+                            <span><%= application.user.username %></span>
+                                <% unless application.user.id == current_user.id %>
+                                <% if position.already_voted?(current_user) %>
+                                    <%= link_to "UnVote", unvote_path(user: current_user, nomination: application) %>
+                                <% else %>
+                                    <%= link_to "Vote", vote_path(user: current_user, nomination: application) %>
+                                <% end %>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </div>
+            <% end %>
         </div>
     </div>
 </div>

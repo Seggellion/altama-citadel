@@ -24,7 +24,7 @@
             display: block;
             transition: height 0.5s;
             height:24px;
-            opacity:1;
+            display:block;
         }
     }
     .name{
@@ -68,7 +68,25 @@
             margin: 2px 5px;
             padding: 30px;
             height: 100%;
+            display:flex;
+            justify-content: space-between;
+            .position-applications{
+                width: 250px;
+                background-color: #cacaca;
+                padding: 5px;
+                .header-title{
+                    display: flex;
+                    justify-content: space-between;
+                    border-bottom:1px solid black;
+                }
+                .application-table{
+                    margin-top:10px;
+                    display:flex;
+                    justify-content: space-between;
 
+                    padding: 5px;
+                }
+            }
         }
     }
     .position-list{
@@ -123,6 +141,7 @@
     }
     .shortcut-icon-container{
         overflow:hidden;
+        cursor:pointer;
         &.click{
             border-top:1px solid black;
             border-left:1px solid black;
@@ -154,6 +173,20 @@
             background-position: top;
             object-fit: contain;
             transform: translateX(-713px) translateY(-717px);
+            height: 753px;
+            width: auto;
+        }
+        .mail{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-479px) translateY(-569px);
+            height: 753px;
+            width: auto;
+        }
+        .all-applications{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-773px) translateY(-688px);
             height: 753px;
             width: auto;
         }
