@@ -1,0 +1,26 @@
+@import 'mixins';
+#asl{
+    width:250px !important;
+    height: 490px;
+    right:initial;
+    left:12%;
+    margin:0px;
+    padding:0px;
+    .contact-list{
+        display:flex;
+        flex-direction:column;
+        background-color:#e8e8e8;
+        width:100%;
+        height:100%;
+
+        border-bottom:$highlight_border;
+        border-right:$highlight_border;
+        border-top:$shadow_border;
+        border-left:$shadow_border;
+        a{
+            display:block;
+            color:blue;
+            text-align:left;
+        }
+    }
+}

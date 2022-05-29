@@ -16,6 +16,20 @@
             padding: 5px 8px;
         }
     }
+    .gotmail{
+        position:relative;
+        &:after{
+            background-color:red;
+            border-radius:20px;
+            display:block;
+            position:absolute;
+            width:10px;
+            height:10px;
+            bottom:0px;
+            right:-0px;
+            content:'';
+        }
+    }
     .window-form{
         height:0px;
         display:none;

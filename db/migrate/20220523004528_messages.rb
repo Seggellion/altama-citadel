@@ -3,11 +3,13 @@ class Messages < ActiveRecord::Migration[7.0]
     create_table :messages do |t|
       t.integer :user_id
       t.integer :sender_id
-      t.integer :task_id
-      t.string :content
+      t.string :task_id
+      t.text :content
       t.boolean :read
       t.string :subject
       t.timestamps
     end
+
+    add_column :position_nominations, :approved, :boolean
   end
 end

@@ -9,12 +9,12 @@ class GuildstonesController < ApplicationController
 
   # GET /guildstones/1 or /guildstones/1.json
   def show
-    
-    window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+    @current_task = @all_tasks.where(name: 'Guildstone').first
+    window_state_csv = @current_task.state
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
     end
-
+    
     #@new_role_nomination = OrgRoleNomination.new
     @departments = Department.all
     @department = Department.new
