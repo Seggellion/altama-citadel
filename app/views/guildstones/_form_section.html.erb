@@ -41,49 +41,5 @@
   <% end %>
   </div>
 
-    <div class="window-form" data-guildstone-target="assignRole" >
-  <%= form_with(model: UserPosition) do |p| %>
-  <span>**For testing only**</span>
-    <span>Assign:</span>
- <%= p.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id, {:title => u.title},{:dept_id => u.department_id}, {:description => u.description},{:compensation => u.compensation}, {:pos_id=>u.id}] }  ), :include_blank => 'Select position'%>
-      <%= p.select :user_id, options_for_select(@users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select user'%>
-  <%= p.hidden_field :department_id %>
-  <%= p.hidden_field :title %>
-  <%= p.hidden_field :description %>
-  <%= p.hidden_field :compensation %>
-
-<%= fields_for(@user_position_history) do |h| %>
- <%= h.hidden_field :position_id %>
- <%= h.hidden_field :department_id%>
-   <%= h.hidden_field :title %>
-  <%= h.hidden_field :description %>
-  <%= h.hidden_field :compensation %>
-
- <% end %>
-
-    <%= p.submit 'Assign' %>
-  <% end %>
-  </div>
-
 </div>
 
-<script>
-window.onload = function () {
-  document.getElementById("user_position_position_id").addEventListener("change", function(e) {
-    var position_id = this.options[this.selectedIndex].getAttribute('pos_id');
-    document.getElementById("position_id").value = position_id;
-    var dept_id = this.options[this.selectedIndex].getAttribute('dept_id');
-    document.getElementById("department_id").value = dept_id;
-     document.getElementById("user_position_department_id").value = dept_id;
-    var title = this.options[this.selectedIndex].getAttribute('title');
-    document.getElementById("title").value = title;
-     document.getElementById("user_position_title").value = title;
-    var description = this.options[this.selectedIndex].getAttribute('description');
-    document.getElementById("description").value = description;
-     document.getElementById("user_position_description").value = description;
-    var comp = this.options[this.selectedIndex].getAttribute('compensation');
-    document.getElementById("compensation").value = comp;
-    document.getElementById("user_position_compensation").value = comp;
-  });
-};
-</script>

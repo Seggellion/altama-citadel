@@ -60,7 +60,7 @@ class GuildstonesController < ApplicationController
       UserPositionHistory.create(
         user_id: nomination.user.id, position_id: position.id, term_end: term_end, 
         department_id: position.department_id, guildstone_id: Guildstone.first.id,
-        nomination_id: nomination.id
+        nomination_id: nomination.id, active: true
       )
     end
 
