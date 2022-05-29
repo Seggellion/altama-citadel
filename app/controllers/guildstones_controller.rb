@@ -21,6 +21,7 @@ class GuildstonesController < ApplicationController
     @users = User.all
     @positions = Position.all
     @position_nominations = PositionNomination.all
+    @user_position_windows = @window_states.select { |s| s == "UserPositions" }
   end
 
   def apply_role
