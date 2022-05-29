@@ -1,6 +1,7 @@
 class GuildstonesController < ApplicationController
   before_action :set_guildstone, only: %i[ show edit update destroy ]
   before_action :task_manager
+  
 
   # GET /guildstones or /guildstones.json
   def index
@@ -18,7 +19,11 @@ class GuildstonesController < ApplicationController
     #@new_role_nomination = OrgRoleNomination.new
     @departments = Department.all
     @department = Department.new
+    @categories = Category.all
+    @category = Category.new
     @users = User.all
+    @rules = Rule.all
+    @rule = Rule.new
     @positions = Position.all
     @position_nominations = PositionNomination.all
     if @window_states

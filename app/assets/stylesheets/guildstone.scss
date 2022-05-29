@@ -224,4 +224,23 @@
             padding:0px; 
         }
     }
+    .category-trigger{text-decoration:underline;&:hover{cursor:pointer}}
+    .cta{
+        @include roadside_button;
+        background-color:green;
+        width:80%;
+        margin:0px auto;
+        color:white;
+        font-weight: 900;
+        text-align:center;
+        padding:5px;
+        &.red{
+            background-color:red;
+        }
+        &:disabled{
+            color: rgb(75, 75, 75) !important;
+            background-color:grey !important;
+    
+        }
+    }
 }
