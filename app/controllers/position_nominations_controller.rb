@@ -1,6 +1,6 @@
 class PositionNominationsController < ApplicationController
-
   before_action :set_position_nomination, only: %i[ show edit update destroy ]
+  before_action :task_manager
 
   def show
   end
@@ -15,13 +15,20 @@ class PositionNominationsController < ApplicationController
 
   def create
     @position_nomination = PositionNomination.new(position_nomination_params)
-    
+    user_id = position_nomination_params[:nominee_id].to_i
     @guildstone = Guildstone.first
     @position_nomination.update(nominator_id: current_user.id)
     @position_nomination.update(guildstone_id: @guildstone.id)
-
+    
+    
     respond_to do |format|
       if @position_nomination.save
+        if current_user.id != user_id 
+          
+          Message.create(user_id: user_id, task_name: "Guildstone", content:"You've been nominated for a role!")
+          
+        end
+
         format.html { redirect_to @guildstone, notice: "Position Nomination was successfully created." }
        
       else

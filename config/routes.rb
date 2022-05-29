@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   get 'start_ship_manager', to:'tasks#start_ship_manager'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'all_user_list', to: 'tasks#state_all_users'
+  get 'start_asl', to: 'tasks#start_asl'
   get 'root_user_list', to: 'tasks#state_root_users'
   get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'state_positions', to: 'tasks#state_positions'

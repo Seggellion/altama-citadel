@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(version: 2022_05_23_004528) do
   create_table "messages", force: :cascade do |t|
     t.integer "user_id"
     t.integer "sender_id"
-    t.integer "task_id"
-    t.string "content"
+    t.string "task_id"
+    t.text "content"
     t.boolean "read"
     t.string "subject"
     t.datetime "created_at", precision: 6, null: false
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 2022_05_23_004528) do
     t.integer "guildstone_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "approved"
   end
 
   create_table "positions", force: :cascade do |t|

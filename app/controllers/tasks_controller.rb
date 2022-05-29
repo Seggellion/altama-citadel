@@ -52,13 +52,20 @@ def close_state_window
 end
 
 def start_rfa_manager
-
   unless @all_tasks.find_by(name:'RFA Manager').present?
   @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'full')
   end  
   respond_to do |format|
   format.html { redirect_to rfas_path, notice: "location manager" }
   end
+end
+
+def start_asl
+  
+  unless @all_tasks.find_by(name:'ASL').present?
+    @task =  Task.create(name: 'ASL',task_manager_id: @task_manager.id, view: 'window')
+    end  
+    redirect_to(request.env['HTTP_REFERER'])
 end
 
 def start_ship_manager

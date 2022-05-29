@@ -42,10 +42,12 @@
     <div class="shortcut-icon-container"><a href="#"></a></div>
     <div class="shortcut-icon-container"><a href="#"></a></div>
     
-    <div class="shortcut-icon-container" 
+    <div class="shortcut-icon-container <%# if @current_task.mail(current_user).present? %>gotmail<%# end %>" 
         title="Check messages" 
         data-action="click->guildstone#allApplications" >
+        <%= link_to start_asl_path, class: 'desktop-icon', method: :post do %>
         <%= image_tag("all_icons.png", class: "mail") %>
+        <% end %>
     </div>
     
 </div>
