@@ -21,6 +21,7 @@ class GuildstonesController < ApplicationController
     @users = User.all
     @positions = Position.all
     @position_nominations = PositionNomination.all
+    @user_position_windows = @window_states.select { |s| s == "UserPositions" }
   end
 
   def apply_role
@@ -59,7 +60,7 @@ class GuildstonesController < ApplicationController
       UserPositionHistory.create(
         user_id: nomination.user.id, position_id: position.id, term_end: term_end, 
         department_id: position.department_id, guildstone_id: Guildstone.first.id,
-        nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation
+        nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation, active: true
       )
     end
 
