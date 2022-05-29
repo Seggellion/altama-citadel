@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :categories
   mount ActionCable.server => "/cable"
 
   constraints subdomain: "sos" do
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
   resources :rewards
   resources :control_points
   resources :badges
-  
+  resources :categories
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

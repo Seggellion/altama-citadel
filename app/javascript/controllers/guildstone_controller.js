@@ -8,6 +8,15 @@ export default class extends Controller {
 //event.target.
   }
 
+  show(event){
+    document.getElementById("submit").style.display = "none";
+    document.getElementById("rule_category_form").style.display = "block";
+    document.getElementById("testingcat").style.display = "block";
+    
+    document.getElementById("rule_category").style.display = "none";
+    console.log("test");
+  }
+
   createPosition(event){
     var button =  event.currentTarget;
     button.classList.toggle("click");
