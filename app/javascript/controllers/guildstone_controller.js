@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
 
- static targets = ["mainmenu", "createPosition", "createDepartment", "createNomination", "createRule"]
+ static targets = ["mainmenu", "createPosition", "createDepartment", "createNomination", "createRule", "assignRole"]
 
   close(event) {
 //event.target.
@@ -42,6 +42,20 @@ export default class extends Controller {
       el.classList.remove('active');
     });
     this.createNominationTarget.classList.toggle("active");
+    
+    setTimeout(function(){
+      button.classList.toggle("click");
+    },100);
+  }
+
+  assignRole(event){
+    var button =  event.currentTarget;
+    button.classList.toggle("click");
+    var active_elements = document.querySelectorAll('.active');
+    active_elements.forEach(el => {
+      el.classList.remove('active');
+    });
+    this.assignRoleTarget.classList.toggle("active");
     
     setTimeout(function(){
       button.classList.toggle("click");
