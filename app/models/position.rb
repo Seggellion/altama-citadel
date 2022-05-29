@@ -3,8 +3,8 @@ class Position < ApplicationRecord
   has_many :position_nominations
   
   def user
-    unless self.position_nominations.empty?
-      self.position_nominations.first.user
+    if self.user_position
+      self.user_position.user
     end
   end
 
@@ -12,8 +12,15 @@ class Position < ApplicationRecord
     UserPosition.find_by(position_id: self.id)
   end
 
+  def user_position?(user)
+    UserPosition.find_by(position_id: self.id, user_id: user)
+  end
+
+  def already_voted?(user)
+    Vote.find_by(position_id: self.id, user_id: user.id)
+  end
+
 def status
-  
   if user
    nomination = PositionNomination.where(nominee_id: self.user.id, position_id: self.id).first
    message = ""
@@ -26,14 +33,12 @@ def status
   end
 end
 
-  def nomination(user_id)
-
-   PositionNomination.where(nominee_id: user_id, position_id: self.id).first
-
+  def nomination(user)
+   PositionNomination.where(nominee_id: user, position_id: self.id).first
   end
 
-  def application(user)
-    PositionApplication.where(nominee_id: user.id, position_id: self.id)
+  def applications
+    PositionNomination.where(position_id: self.id)
   end
 
   def position_username

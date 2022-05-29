@@ -22,7 +22,6 @@ class GuildstonesController < ApplicationController
     @positions = Position.all
     @position_nominations = PositionNomination.all
     @user_position_windows = @window_states.select { |s| s == "UserPositions" }
-
   end
 
   def apply_role
@@ -44,11 +43,27 @@ class GuildstonesController < ApplicationController
   end
 
   def vote
-    nomination = OrgRoleNomination.find_by_id(params[:nomination])
-    role = OrgRole.find_by_id(nomination.org_role_id)
+    nomination = PositionNomination.find_by_id(params[:nomination])
+    position = Position.find_by_id(nomination.position_id)
+    guildstone = Guildstone.first
+    @vote = Vote.new(position_nomination_id: nomination.id, guildstone_id: guildstone.id,
+    user_id: current_user.id, position_id: position.id, vote:true )
+    total_members = User.where("user_type < ?", 100).count
+    total_votes = Vote.where(position_id: nomination.id).count
+    #remove the two -- for testing only
+    consensus = (total_members * 0.66666) - 2
+    term_end = Time.now + 3.months
+  
+    if total_votes > consensus
+      UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_end: term_end, 
+      department_id: position.department_id, guildstone_id: Guildstone.first.id, nomination_id: nomination.id)
+      UserPositionHistory.create(
+        user_id: nomination.user.id, position_id: position.id, term_end: term_end, 
+        department_id: position.department_id, guildstone_id: Guildstone.first.id,
+        nomination_id: nomination.id
+      )
+    end
 
-    guildstone = Guildstone.find_by_id(role.guildstone_id)
-    @vote = OrgRoleVote.new(org_role_nomination_id: nomination.id, user_id: current_user.id, org_role_id: nomination.org_role_id )
 
     respond_to do |format|
       if @vote.save
@@ -59,8 +74,23 @@ class GuildstonesController < ApplicationController
         format.json { render json: guildstone.errors, status: :unprocessable_entity }
       end
     end
+  end
 
-
+  def unvote
+    nomination = PositionNomination.find_by_id(params[:nomination])
+    position = Position.find_by_id(nomination.position_id)
+    guildstone = Guildstone.first
+    @vote = Vote.find_by(position_nomination_id: nomination.id, guildstone_id: guildstone.id,
+    user_id: current_user.id)
+    respond_to do |format|
+      if @vote.destroy
+        format.html { redirect_to guildstone, notice: "unvoted." }
+        format.json { render :show, status: :created, location: guildstone }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: guildstone.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /guildstones/new

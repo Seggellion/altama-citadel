@@ -22,6 +22,11 @@
         data-action="click->guildstone#createRule" >
             <%= image_tag("all_icons.png", class: "rule-create") %>
     </div>
+    <div class="shortcut-icon-container" 
+        title="Show all applications" 
+        data-action="click->guildstone#allApplications" >
+            <%= image_tag("all_icons.png", class: "all-applications") %>
+    </div>
 
      <div class="shortcut-icon-container" 
         title="[TESTING ONLY] Assign Role" 
@@ -42,5 +47,11 @@
     <div class="shortcut-icon-container"><a href="#"></a></div>
     <div class="shortcut-icon-container"><a href="#"></a></div>
     <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
+    
+    <div class="shortcut-icon-container" 
+        title="Check messages" 
+        data-action="click->guildstone#allApplications" >
+        <%= image_tag("all_icons.png", class: "mail") %>
+    </div>
+    
 </div>
