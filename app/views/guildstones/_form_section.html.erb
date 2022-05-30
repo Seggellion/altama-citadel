@@ -33,8 +33,8 @@
   </div>
 
   <div class="window-form" data-guildstone-target="createRule">
-  <%= form_with(model: Rule) do |r| %>
-    <span>Rule:</span>
+  <%= form_with(model: RuleProposal) do |r| %>
+    <span>Proposed Rule:</span>
         Title: <%= r.text_field :title, :required=>'true' %>
     <% if @categories.count >= 1 %>
     
