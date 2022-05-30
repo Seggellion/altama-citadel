@@ -1,0 +1,39 @@
+<div draggable="true" class="guildstone-modal" 
+  <% if i > 0 %>
+    style="transform: translate(
+      calc(-50% + <%= i + 1.5 %>%),calc(-30% + <%= i + 2 %>%));
+      z-index: <%= i %>"
+  <%end%> 
+ >
+  <div class="section-window-header">
+    Rules
+    <%= link_to "", close_rules_window_path(window: "Rules"), class:'close-btn windowed' %> 
+  </div>
+
+  <div class="position-body">
+                <div class="position-applications">                
+                    <div class="header-title">
+                        <span>
+                        Rule
+                        </span>
+                        <span>
+                        Action
+                        </span>
+                    </div>
+          <div class="application-table">
+                        <% @rule_proposals.each do | rule_proposal | %>
+                            <span><%= rule_proposal.title %></span>
+                                <% unless rule_proposal.user.id == current_user.id %>
+                                <% if rule_proposal.already_voted?(current_user) %>
+                                    <%= link_to "UnVote", unvote_path(user: current_user, rule_proposal: rule_proposal) %>
+                                <% else %>
+                                    <%= link_to "Vote", vote_path(user: current_user, rule_proposal: rule_proposal) %>
+                                <% end %>
+                            <% end %>
+                        <% end %>
+                    </div>
+    </div>
+    </div>
+
+</div>
+  

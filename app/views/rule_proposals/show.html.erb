@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @rule_proposal %>
+
+<div>
+  <%= link_to "Edit this rule proposal", edit_rule_proposal_path(@rule_proposal) %> |
+  <%= link_to "Back to rule proposals", rule_proposals_path %>
+
+  <%= button_to "Destroy this rule proposal", rule_proposal_path(@rule_proposal), method: :delete %>
+</div>
