@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_29_223150) do
+ActiveRecord::Schema.define(version: 2022_05_29_235806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,6 +234,20 @@ ActiveRecord::Schema.define(version: 2022_05_29_223150) do
     t.string "link"
   end
 
+  create_table "rule_proposals", force: :cascade do |t|
+    t.string "title"
+    t.integer "guildstone_id"
+    t.integer "position_id"
+    t.integer "proposer_id"
+    t.string "description"
+    t.integer "term_length_days"
+    t.integer "department_id"
+    t.boolean "code_enforced"
+    t.string "category"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "rules", force: :cascade do |t|
     t.integer "guildstone_id"
     t.integer "position_id"
@@ -403,7 +417,7 @@ ActiveRecord::Schema.define(version: 2022_05_29_223150) do
     t.boolean "vote"
     t.integer "user_id"
     t.integer "position_id"
-    t.integer "rule_id"
+    t.integer "rule_proposal_id"
     t.integer "position_nomination_id"
     t.string "feedback"
     t.integer "guildstone_id"

@@ -24,7 +24,7 @@
         <%= render 'department', department: department %>
       <% end %>
 
-
+    <div>
       <%= link_to state_user_positions_path, class: 'desktop-icon', method: :post do %>
              View All User Positions
              <% end %>
@@ -38,7 +38,22 @@
             <% else %>
              
             <% end %>
+</div>
+<div>
+             <%= link_to state_rules_path, class: 'desktop-icon', method: :post do %>
+             View All Rules
+             <% end %>
 
+            <% if @rules_windows.present? %>
+              <%  @rules_windows.each_with_index do |window, i | %>
+  
+                    <%= render 'modal_rules', i: i %>
+
+              <% end %>
+            <% else %>
+             
+            <% end %>
+</div>
     </div>
   </div>
 </div>
