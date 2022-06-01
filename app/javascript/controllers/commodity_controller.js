@@ -10,7 +10,6 @@ static targets = ["total_field", "mkt_price", "total_discount", "aec_field"]
 
 total_amount(event){
 
-
 //    let commodity = String(event.currentTarget.name.match(/[^[\]]+(?=])/g));
 
     let market_container =  event.currentTarget.parentNode.nextElementSibling;

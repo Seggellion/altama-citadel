@@ -1,11 +1,7 @@
 <div>
 <span id="rangeValue"><%= @rfa.servicefee %>%</span>
-
-
 <%= form.range_field :servicefee, data:{ 'action' => 'change->rfa#service_fee mousemove->rfa#service_fee'},
  class:'range', :value => @rfa.servicefee, :step=>0.1, :min=>0, :max => 100 %>
-
-
 </div>
 
 

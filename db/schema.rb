@@ -161,6 +161,17 @@ ActiveRecord::Schema.define(version: 2022_05_29_235806) do
     t.string "logo"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "sender_id"
+    t.string "task_id"
+    t.text "content"
+    t.boolean "read", default: false
+    t.string "subject"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "position_nominations", force: :cascade do |t|
     t.integer "position_id"
     t.integer "nominee_id"
@@ -170,6 +181,7 @@ ActiveRecord::Schema.define(version: 2022_05_29_235806) do
     t.integer "guildstone_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "approved"
   end
 
   create_table "positions", force: :cascade do |t|

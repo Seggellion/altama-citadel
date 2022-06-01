@@ -21,8 +21,8 @@ export default class extends Controller {
     "total_charge", "commodityCustomerRate","appsPane"]
 
     connect(){
-       this.prices =  Array.from(document.querySelectorAll('[id*="-price"]'));
-      this.all_commodities = Array.from(document.querySelectorAll('[id*="-price"]'));
+       this.prices =  Array.from(document.querySelectorAll('[id*="-market-price"]'));
+      this.all_commodities = Array.from(document.querySelectorAll('[id*="-market-price"]'));
 
       if(this.all_commodities.length > 0){
 
@@ -66,13 +66,18 @@ this.total_discounted_amount = 0;
 
 for (var i = 0; i < this.all_commodities.length; i++) {
   let current_commodity = this.all_commodities[i].getAttribute('data-commodity');
+  console.log('current_commodity:',this.all_commodities[i]);
 
   // let commodity_total_price_field = document.getElementById(`rfa_${current_commodity}-total`);
   let current_customer_commodity = document.querySelector(`[data-customercommodity="${current_commodity}"]`);
 
   let commodity_quantity = parseFloat(document.getElementById(`rfa_${current_commodity}`).value);
-  if (commodity_quantity > 0){
-    let market_price = parseFloat(document.getElementById(`rfa_${current_commodity}-price`).value);
+  
+  
+  let selling_price = parseFloat(document.getElementById(`rfa_${current_commodity}-selling-price`).value);
+  if (commodity_quantity > 0 && selling_price > 0){
+    
+    let market_price = parseFloat(document.getElementById(`rfa_${current_commodity}-market-price`).value);
     let commodity_total = document.getElementById(`rfa_${current_commodity}-total`);
     total_fees = (service_fee / 10) * market_price;
     fees_sum += total_fees * commodity_quantity;
@@ -91,7 +96,8 @@ this.total_service_feesTarget.value = fees_sum;
 
   } 
 }
-  document.getElementById('rangeValue').innerHTML = (service_fee ) + '%';
+  
+document.getElementById('rangeValue').innerHTML = (service_fee ) + '%';
 
   let all_totals = document.getElementsByClassName('totals');
 
