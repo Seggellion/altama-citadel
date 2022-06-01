@@ -136,7 +136,6 @@ let new_total = this.total_charged_amount;
   }
 
   free_fuel(event){
-    this.target.classList.add('selected');
     Turbo.navigator.submitForm(this.formTarget);
   }
 
