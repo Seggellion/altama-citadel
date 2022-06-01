@@ -10,14 +10,13 @@ static targets = ["total_field", "mkt_price", "total_discount", "aec_field"]
 
 total_amount(event){
 
-
 //    let commodity = String(event.currentTarget.name.match(/[^[\]]+(?=])/g));
 
     let market_container =  event.currentTarget.parentNode.nextElementSibling;
     let total_fees_container = document.getElementById('total_service_fees');
    // let market_price = market_container.querySelector('input').value;
     let current_commodity = event.currentTarget.id.slice(-3).toUpperCase();
-    let market_price = parseFloat(document.getElementById(`rfa_${current_commodity}-price`).value);
+    let market_price = parseFloat(document.getElementById(`rfa_${current_commodity}-market-price`).value);
     let discount_amount = parseFloat(document.querySelectorAll('[data-amt]')[0].dataset.amt);
     let discount = discount_amount  /100.00;
     let discounted_market_price = market_price - (market_price * discount);

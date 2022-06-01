@@ -117,9 +117,9 @@ class RfasController < ApplicationController
     discounts = user.discounts / 100.00
     discount_price = market_price - (market_price * discounts) 
     selling_price = (discount_price + service_fee_total ) * amount
-
+if Reward.find_by(title:'aec')
     @aec = @aec + (selling_price * (Reward.apply('aec')/100.00)).ceil
-   
+end
    if @rfa.commodities.find_by_id(commodity)
     
     rfa_product = RfaProduct.find_by(rfa_id: @rfa.id,commodity_id: commodity.id)

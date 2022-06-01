@@ -64,15 +64,15 @@ class UserPositionsController < ApplicationController
   end
 
   def create
-    @my_user_position_histories = UserPositionHistory.where(user_id: current_user.id)
-    @my_user_positions = UserPosition.where(user_id: current_user.id)
+    @my_user_position_histories = UserPositionHistory.where(user_id: user_position_params[:user_id])
+    @my_user_positions = UserPosition.where(user_id: user_position_params[:user_id])
     @my_user_positions.destroy_all
     @user_position_history = UserPositionHistory.new(user_position_params)
     @guildstone = Guildstone.first
     @user_position_history.update(guildstone_id: @guildstone.id)
     @user_position = UserPosition.new(user_position_params)
     @user_position.update(guildstone_id: @guildstone.id)
-    @user_position.update(user_id: current_user.id)
+    @user_position.update(user_id: user_position_params[:user_id])
     @my_user_position_histories.update_all(active: false)
     @user_position_history.update(active: true)
    

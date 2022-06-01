@@ -34,6 +34,7 @@ end
   def create
     @position_nomination = PositionNomination.new(position_nomination_params)
     user_id = position_nomination_params[:nominee_id].to_i
+    
     @guildstone = Guildstone.first
     @position_nomination.update(nominator_id: current_user.id)
     @position_nomination.update(guildstone_id: @guildstone.id)

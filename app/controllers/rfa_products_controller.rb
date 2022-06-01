@@ -3,7 +3,7 @@ class RfaProductsController < ApplicationController
   
   def create
       @rfa_product = RfaProduct.new(rfa_product_params)
-      
+      binding.break
   
       respond_to do |format|
         if @rfa_product.save
@@ -19,17 +19,37 @@ class RfaProductsController < ApplicationController
 
     def update
       @rfa = Rfa.find_by_id(@rfa_product.rfa_id)
+  
       
+      unless @rfa_product.selling_price == 0
       respond_to do |format|
           if @rfa_product.update(rfa_product_params)
               format.html { redirect_to edit_rfa_path(@rfa), notice: "Rfa was successfully updated." }
           end
       end
+    else
+      service_fee =  (@rfa.servicefee.to_f / 10.00).round(2)
+      market_price = @rfa_product.market_price 
+      service_fee_total = market_price * service_fee
+      selling_price = market_price
+      if discounts = @rfa.user.discounts / 100.00      
+      discount_price = market_price - (market_price * discounts) 
+      
+      selling_price = (discount_price + service_fee_total )
+      end
+      
+      params[:rfa_product][:selling_price] = selling_price
+      respond_to do |format|
+        if @rfa_product.update(rfa_product_params)
+            format.html { redirect_to edit_rfa_path(@rfa), notice: "Rfa was successfully updated." }
+        end
+    end
+    end
   end
 
   
     def destroy
-  
+  binding.break
       
       @rfa_product.destroy
       respond_to do |format|
