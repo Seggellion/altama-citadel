@@ -43,9 +43,9 @@
   <%= form_with(model: @rfa.get_product(commodity)) do |product| %>
     <%= product.hidden_field :selling_price, :value => 0 %>
     <%= product.hidden_field :commodity_id, :value => commodity.id %>
-  <button data-action="click->rfa#free_fuel" <% if @rfa.get_product(commodity).selling_price == 0 %> class="free-fuel"<%end%> ><h2><%= commodity.symbol %>
+  <button data-action="click->rfa#free_fuel" <% if !@rfa.get_product(commodity).nil? && @rfa.get_product(commodity).selling_price == 0 %> class="free-fuel"<%end%> ><h2><%= commodity.symbol %>
     <span data-rfa-target="commodityCustomerRate" data-customercommodity="<%= commodity.symbol %>" >
-    <% unless @rfa.get_product(commodity).selling_price == 0 %>
+    <% unless !@rfa.get_product(commodity).nil? && @rfa.get_product(commodity).selling_price == 0 %>
     <%= commodity.selling_price_discounted(@rfa) || commodity.price %>
     <% else %>
       Free
