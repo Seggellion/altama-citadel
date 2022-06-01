@@ -46,7 +46,6 @@ $rfa_border: #272321;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     height:100vh;
     overflow: hidden;
-    
     a, a:visited{
         color:$orange;
         text-decoration:none;
@@ -1100,6 +1099,9 @@ $rfa_border: #272321;
         width:100%;
         flex-direction:row;
         justify-content: space-evenly;
+        .free-fuel{
+            border-color: $orange;
+        }
         button{
         width:70px;
         }
