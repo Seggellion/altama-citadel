@@ -60,8 +60,4 @@ class PositionsController < ApplicationController
     params.require(:position).permit(:guildstone_id, :title, :description, :department_id, :compensation, :parent_position_id)
   end
 
-  
-
-  
-
 end

@@ -5,7 +5,7 @@ class Messages < ActiveRecord::Migration[7.0]
       t.integer :sender_id
       t.string :task_id
       t.text :content
-      t.boolean :read
+      t.boolean :read, :default => false
       t.string :subject
       t.timestamps
     end

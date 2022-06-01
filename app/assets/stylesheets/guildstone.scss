@@ -18,16 +18,22 @@
     }
     .gotmail{
         position:relative;
-        &:after{
-            background-color:red;
-            border-radius:20px;
-            display:block;
-            position:absolute;
-            width:10px;
-            height:10px;
-            bottom:0px;
-            right:-0px;
-            content:'';
+ 
+        .unread-messages{
+            position: absolute;
+            z-index: 9001;
+            color: white;
+            bottom: -2px;
+            right: 2px;
+            font-size: 0.6rem;
+            font-family: arial;
+            font-weight: 900;
+            background-color: red;
+            border-radius: 20px;
+            display: block;
+            padding: 2px;
+            width: 10px;
+            text-align: center;
         }
     }
     .window-form{

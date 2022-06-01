@@ -13,6 +13,24 @@ class PositionNominationsController < ApplicationController
     @position_nomination = PositionNomination.new
   end
 
+def accept
+  
+  @guildstone = Guildstone.first
+  position = Position.find_by_id(params[:position])
+  nomination = PositionNomination.find_by(position_id: position.id, nominee_id:current_user.id)
+  nomination.update(approved:true)
+  redirect_to @guildstone
+end
+
+  def reject
+    @guildstone = Guildstone.first
+    position = Position.find_by_id(params[:position])
+    nomination = PositionNomination.find_by(position_id: position.id, nominee_id:current_user.id)
+    
+    nomination.destroy
+    redirect_to @guildstone
+  end
+
   def create
     @position_nomination = PositionNomination.new(position_nomination_params)
     user_id = position_nomination_params[:nominee_id].to_i
@@ -24,13 +42,9 @@ class PositionNominationsController < ApplicationController
     respond_to do |format|
       if @position_nomination.save
         if current_user.id != user_id 
-          
-          Message.create(user_id: user_id, task_name: "Guildstone", content:"You've been nominated for a role!")
-          
+          Message.create(user_id: user_id, task_id: "Guildstone", content:"You've been nominated for a role! Click below to accept / deny, RoleID: #{position_nomination_params[:position_id]}", subject:"Altama Posititon Nomination")
         end
-
         format.html { redirect_to @guildstone, notice: "Position Nomination was successfully created." }
-       
       else
         format.html { redirect_to @guildstone, notice: "Error." }
     

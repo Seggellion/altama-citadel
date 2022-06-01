@@ -38,6 +38,7 @@ end
 def close_state_window
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
+
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
@@ -46,9 +47,9 @@ def close_state_window
   end
   states_string = @window_states.join(',')
   task.update(state:states_string)
-  respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "closed window" }
-    end
+  
+    redirect_to(request.env['HTTP_REFERER'])
+
 end
 
 def start_rfa_manager
@@ -184,6 +185,87 @@ end
     end
   end
 
+  def state_asl_message_next
+    
+    current_message = current_user.my_messages.find_by_id(params[:current_message])
+    #next_message = current_user.my_messages.next_created(current_message.created_at).first
+    next_message = current_message.next_created
+    
+    sender = current_message.sender
+    
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
+    @window_states =  []
+    state_name = "message-#{sender}"
+    curr_message = "|#{current_message.id}"
+    nxt_message = "|#{next_message.id}"
+    window_state_csv = task.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+      message_states = window_state_csv.split('|')
+    end  
+    unless @window_states.include?(state_name + nxt_message)
+      @window_states = @window_states - Array[state_name + curr_message]
+      @window_states = @window_states + Array[state_name + nxt_message]
+      
+    end
+    
+    states_string = @window_states.join(',')
+    
+    task.update(state:states_string)
+    redirect_to(request.env['HTTP_REFERER'])
+
+  end
+
+
+  def state_asl_message_prev
+    current_message = current_user.my_messages.find_by_id(params[:current_message])
+    sender = current_message.sender
+    #previous_message = current_user.my_messages.previous_created(current_message.created_at).first
+    previous_message = current_message.prev_created
+    
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
+    @window_states =  []
+    state_name = "message-#{sender}"
+    curr_message = "|#{current_message.id}"
+    prev_message = "|#{previous_message.id}"
+    window_state_csv = task.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+      message_states = window_state_csv.split('|')
+    end  
+    unless @window_states.include?(state_name + prev_message)
+      @window_states = @window_states - Array[state_name + curr_message]
+      @window_states = @window_states + Array[state_name + prev_message]
+      
+    end
+    
+    states_string = @window_states.join(',')
+    
+    task.update(state:states_string)
+    redirect_to(request.env['HTTP_REFERER'])
+  end
+
+  def state_asl_message
+    sender = params[:sender]
+    @messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
+    @window_states =  []
+    state_name = "message-#{sender}"
+    last_message = "|#{@messages.id}"
+    window_state_csv = task.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+    end  
+    unless @window_states.include?(state_name  + last_message)
+      @window_states = @window_states + Array[state_name + last_message]
+    end
+    states_string = @window_states.join(',')
+  
+    task.update(state:states_string)
+    redirect_to(request.env['HTTP_REFERER'])
+  end
+
+
   def state_discord_users
     task_manager = TaskManager.find_by(user_id: current_user)
     task = @all_tasks.find_by(task_manager_id: task_manager.id, name: "User Manager")
@@ -197,14 +279,14 @@ end
   def properties
     task_manager = TaskManager.find_by(user_id: current_user)
    @task =  Task.new(name: 'System Properties',task_manager_id: task_manager.id, view: 'window')
-   respond_to do |format|
-    if @task.save
-      format.html { redirect_to desktop_path, notice: "Task started." }
-      format.json { render :index, status: :created, task: @task }
-    else
-      format.html { render :index, status: :unprocessable_entity }
-      format.json { render json: @task.errors, status: :unprocessable_entity }
-    end
+    respond_to do |format|
+      if @task.save
+        format.html { redirect_to desktop_path, notice: "Task started." }
+        format.json { render :index, status: :created, task: @task }
+      else
+        format.html { render :index, status: :unprocessable_entity }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
+      end
   end
   end
 

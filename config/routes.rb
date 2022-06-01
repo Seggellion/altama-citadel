@@ -83,6 +83,9 @@ Rails.application.routes.draw do
   get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'state_positions', to: 'tasks#state_positions'
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
+  get 'state_asl_message', to: 'tasks#state_asl_message'
+  get 'next_message', to: 'tasks#state_asl_message_next'
+  get 'prev_message', to: 'tasks#state_asl_message_prev'
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'close_state_window', to: 'tasks#close_state_window'
   get 'properties', to: 'tasks#properties'
@@ -93,6 +96,8 @@ Rails.application.routes.draw do
   
   get 'vote', to: 'guildstones#vote'
   get 'unvote', to: 'guildstones#unvote'
+  get 'accept_nomination', to: 'position_nominations#accept'
+  get 'reject_nomination', to: 'position_nominations#reject'
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
