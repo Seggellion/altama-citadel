@@ -1,0 +1,61 @@
+<div draggable="true"  class="window message-window">
+    
+    <div class="section-window-header"><%= show_svg('asl') %>ASL-Message <%= message.sender %>
+    
+    <%= link_to "", close_state_window_path(window: "message-#{message.sender}|#{message.id}", task: task.id), class:'close-btn windowed' %>
+    
+    </div>
+    <% message.make_read %>
+    <div class="asl-container" data-controller="asl" >
+        <div class="message-content">
+        <div class="content-header">
+        
+        <input placeholder="<%= message.id %>" disabled>
+            Message Text:
+        </div>
+        <div class="message-body">
+        <textarea id="message" name="content"><%= message.content %></textarea>
+        
+        <% if message.nomination? %>
+        <div class="message-nomination control-buttons">
+            <% if message.already_accepted? or message.rejected? %>
+
+            <%= link_to 'Accept', "/", class:'button disabled' %>
+            <%= link_to 'Reject', "/", class:'button disabled' %>
+ 
+            <% else %>
+            
+            <%= link_to 'Accept', accept_nomination_path(position: message.position), class:'button' %>
+            <%= link_to 'Reject', reject_nomination_path(position: message.position), class:'button' %>
+
+            <% end %>
+        </div>
+        <% end %>
+
+        </div>
+        <div class="message-footer control-buttons">
+            <button class="disabled">
+                Cancel
+            </button>
+            <button class="disabled">
+                Preferences
+            </button>
+            
+            <% if message.prev_created.created_at < message.created_at %>
+            <%= link_to 'Prev', prev_message_path(current_message: message, task: task), class:'button' %>
+            <% else %>
+            <%= link_to 'Prev', "#", class:'button disabled' %>
+            <% end %>
+            
+            <% if message.next_created  %>
+            <%= link_to 'Next', next_message_path(current_message: message, task: task), class:'button' %>
+            <% else %>
+            <%= link_to 'Next', "#", class:'button disabled' %>
+            <% end %>
+            <button class="disabled pull-right">
+                Send
+            </button>
+        </div>
+        </div>
+    </div>
+</div>

@@ -162,6 +162,34 @@ end
     end
   end
   
+  def guildstone_messages
+    self.my_messages.where(read:false, task_id:"Guildstone").count
+  end
+
+  def my_messages
+    Message.where(user_id: self.id)
+  end
+
+
+  def past_messages_users
+    #self.my_messages.select(:sender_id).distinct
+#    self.my_messages.pluck(:task_id).uniq
+
+  #  unique_messages = self.my_messages.group_by(&:task_id).each_with_object({}) do |messages, hash|
+  #    messages[0] = messages[1].max_by{|v| v.created_at}
+  #  end
+  #  unique_messages
+
+
+    
+      subquery = self.my_messages.select('MAX(id) as id').group(:task_id)
+      self.my_messages.where(id: subquery)
+        
+    
+
+
+
+  end
 
   def total_reviews
     Review.where(reviewee_id: self.id).count

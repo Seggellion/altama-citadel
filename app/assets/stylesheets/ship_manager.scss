@@ -151,23 +151,6 @@
     }
 }
 
-.control-buttons{
-    padding-top:5px;
-    display: flex;
-    button{
-        width:90px;
-        height:28px;
-        margin-right:10px;
-        display:flex;
-        justify-content: center;
-        align-items: center;
-        background-color: $light_grey;
-        border-top:$highlight_border;
-        border-left:$highlight_border;
-        border-right:$shadow_border;
-        border-bottom:$shadow_border;
-    }
-}
 .popup input[type="submit"], .popup .btn{
     color:black;
     text-decoration:none;

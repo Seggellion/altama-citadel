@@ -50,12 +50,10 @@
     </div>
 
     <div style="display:none" data-ship-manager-target="manufacturer"  class="content-body manufacturer">
- <div style="display:none" data-ship-manager-target="manufacturer_new_popup" class="popup window">
- <%= render '/desktop/window-frame', app1: 'Add Manufacturer' %>
-
- <%= render '/manufacturers/form', manufacturer: @manufacturer %>
- </div>
-
+        <div style="display:none" data-ship-manager-target="manufacturer_new_popup" class="popup window">
+            <%= render '/desktop/window-frame', app1: 'Add Manufacturer' %>
+            <%= render '/manufacturers/form', manufacturer: @manufacturer %>
+        </div>
     <div class="label" style="margin-top:77px;">
         Available manufacturers:
     </div>

@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 2022_05_23_004528) do
     t.integer "sender_id"
     t.string "task_id"
     t.text "content"
-    t.boolean "read"
+    t.boolean "read", default: false
     t.string "subject"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -13,6 +13,56 @@ class UserPositionsController < ApplicationController
     @user_position = UserPosition.new
   end
 
+  # this may be useless
+  def reject_nomination
+    @guildstone = Guildstone.first
+    position = Position.find_by_id(params[:position])
+    nomination = PositionNomination.find_by(position_id: position.id, nominee_id:current_user.id)
+    nomination.destroy
+    redirect_to @guildstone
+  end
+  # this may be useless
+  def accept_nomination
+    @guildstone = Guildstone.first
+    @my_user_position_histories = UserPositionHistory.where(user_id: current_user.id)
+    @my_user_positions = UserPosition.where(user_id: current_user.id)
+    position = Position.find_by_id(params[:position])
+
+    nomination = PositionNomination.find_by(position_id: position.id, nominee_id:current_user.id)
+    @my_user_position_histories = UserPositionHistory.where(user_id: current_user.id)
+    @my_user_positions = UserPosition.where(user_id: current_user.id)
+    @my_user_positions.destroy_all
+    @my_user_position_histories.update_all(active: false)
+    @user_position_history = UserPositionHistory.new(
+      user_id: current_user.id,
+      title: position.title,
+      department_id: position.department_id,
+      guildstone_id: @guildstone.id,
+      nomination_id: nomination.id,
+      active: true,
+      position_id: position.id
+    )
+    @user_position = UserPosition.new(
+      user_id: current_user.id,
+      title: position.title,
+      department_id: position.department_id,
+      guildstone_id: @guildstone.id,
+      nomination_id: nomination.id,
+      position_id: position.id
+    )
+
+    respond_to do |format|
+      if @user_position.save
+        @user_position_history.save
+        format.html { redirect_to @guildstone, notice: "Nomination was successfully Accepted." }     
+      else
+        format.html { redirect_to @guildstone, notice: "Error." }
+        
+      end
+    end
+
+  end
+
   def create
     @my_user_position_histories = UserPositionHistory.where(user_id: current_user.id)
     @my_user_positions = UserPosition.where(user_id: current_user.id)
