@@ -7,5 +7,7 @@
     <div class="field"><label>
     <%= commodity.symbol %> total price:</label> 
     <%= form.number_field "#{commodity.symbol}-total", readonly:true, value: "#{@rfa.line_item_price(commodity) }", class:'totals', data:{ 'commodity-target' => 'total_field'} %></div>
-    <%= form.hidden_field "#{commodity.symbol}-selling-price", readonly:true, value: "#{@rfa.get_product(commodity).selling_price }", data:{ 'commodity-target' => 'selling_price'  } %>
+    <% if @rfa.get_product(commodity) %>
+        <%= form.hidden_field "#{commodity.symbol}-selling-price", readonly:true, value: "#{@rfa.get_product(commodity).selling_price }", data:{ 'commodity-target' => 'selling_price'  } %>
+    <% end %>
     </div>
