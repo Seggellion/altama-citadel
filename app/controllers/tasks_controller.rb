@@ -35,6 +35,42 @@ respond_to do |format|
 
 end
 
+def close_user_position_window
+  window = params[:window]
+  window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+  @window_states =  []
+
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+  end  
+  if @window_states.include?(window)
+    @window_states = @window_states - Array(window)
+  end
+  states_string = @window_states.join(',')
+  @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
+  respond_to do |format|
+    format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    end
+end
+
+def close_rules_window
+  window = params[:window]
+  window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+  @window_states =  []
+
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+  end  
+  if @window_states.include?(window)
+    @window_states = @window_states - Array(window)
+  end
+  states_string = @window_states.join(',')
+  @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
+  respond_to do |format|
+    format.html { redirect_to guildstone_path(0), notice: "opened rules" }
+    end
+end
+
 def close_state_window
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
@@ -162,6 +198,51 @@ end
     
     respond_to do |format|
     format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    end
+  end
+
+  def state_user_positions
+    @user_position_histories = UserPositionHistory.all
+    @my_user_position_histories = UserPositionHistory.where(user_id: current_user.id)
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
+    @window_states =  []
+    state_name = "UserPositions"
+    window_state_csv = task.state
+    
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+      
+    end  
+    unless @window_states.include?(state_name)
+      @window_states = @window_states + Array[state_name]
+    end
+    states_string = @window_states.join(',')
+    task.update(state:states_string)
+    
+    respond_to do |format|
+    format.html { redirect_to guildstone_path(0), notice: "opened all positions list" }
+    end
+  end
+
+  def state_rules
+    @rules = Rule.all
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
+    @window_states =  []
+    state_name = "Rules"
+    window_state_csv = task.state
+    
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+      
+    end  
+    unless @window_states.include?(state_name)
+      @window_states = @window_states + Array[state_name]
+    end
+    states_string = @window_states.join(',')
+    task.update(state:states_string)
+    
+    respond_to do |format|
+    format.html { redirect_to guildstone_path(0), notice: "opened all rules list" }
     end
   end
 

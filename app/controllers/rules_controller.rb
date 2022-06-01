@@ -57,7 +57,7 @@ class RulesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def rule_params
-    params.require(:rule).permit(:user_id, :guildstone_id, :description, :title)
+    params.require(:rule).permit(:user_id, :guildstone_id, :description, :title, :category, :department_id, :position_id)
   end
 
   

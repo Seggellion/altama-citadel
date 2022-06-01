@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :rule_proposals
+  resources :categories
   mount ActionCable.server => "/cable"
 
   constraints subdomain: "sos" do
@@ -31,7 +33,8 @@ Rails.application.routes.draw do
   resources :rewards
   resources :control_points
   resources :badges
-  
+  resources :categories
+  resources :rule_proposals
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -82,12 +85,16 @@ Rails.application.routes.draw do
   get 'root_user_list', to: 'tasks#state_root_users'
   get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'state_positions', to: 'tasks#state_positions'
+  get 'state_user_positions', to: 'tasks#state_user_positions'
+  get 'state_rules', to: 'tasks#state_rules'
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
   get 'state_asl_message', to: 'tasks#state_asl_message'
   get 'next_message', to: 'tasks#state_asl_message_next'
   get 'prev_message', to: 'tasks#state_asl_message_prev'
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'close_state_window', to: 'tasks#close_state_window'
+  get 'close_rules_window', to: 'tasks#close_rules_window'
+  get 'close_user_position_window', to: 'tasks#close_user_position_window'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
   get 'rsi_activate', to: 'tasks#rsi_activate'
