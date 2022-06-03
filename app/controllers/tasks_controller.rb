@@ -17,9 +17,46 @@ before_action :task_manager
       end
   end
 
+def start_my_hangar
+  unless @all_tasks.find_by(name:'My Hangar').present?
+    @task =  Task.create(name: 'My Hangar',task_manager_id: @task_manager.id, view: 'full')
+    end  
+
+    respond_to do |format|
+      format.html { redirect_to my_hangar_path, notice: "task started" }
+    end
+end
+
+def state_ship_modal
+  usership = params[:ship]
+
+  #@messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
+  task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "My Hangar")
+
+  @window_states =  []
+  state_name = "modal-#{usership}"
+ # last_message = "|#{@messages.id}"
+  window_state_csv = task.state
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+  end  
+  unless @window_states.include?(state_name)
+    @window_states = @window_states + Array[state_name]
+  end
+  states_string = @window_states.join(',')
+
+  task.update(state:states_string)
+
+
+  redirect_to(request.env['HTTP_REFERER'])
+end
+
 def close_position_window
   window = params[:window]
-  window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+  task_name = params[:window]
+  task = @all_tasks.find_by(name: task_name)
+
+  window_state_csv = task.state
   @window_states =  []
   unless window_state_csv.nil?
     @window_states = window_state_csv.split(',')
@@ -28,11 +65,9 @@ def close_position_window
     @window_states = @window_states - Array(window)
   end
   states_string = @window_states.join(',')
-  @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
-respond_to do |format|
-  format.html { redirect_to guildstone_path(0), notice: "opened position" }
-  end
-
+  # @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
+  task.update(state:states_string)
+  redirect_to(request.env['HTTP_REFERER'])
 end
 
 def close_user_position_window

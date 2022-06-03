@@ -34,6 +34,19 @@ $mobile: 625px;
     src: font-url('m42.ttf') format('truetype');
   }
 
+  @font-face {
+    font-family: 'suprrg';
+    font-style: normal;
+    font-weight: 400;
+    src: font-url('suprrg.ttf') format('truetype');
+  }
+
+  @font-face {
+    font-family: 'continuum-bold';
+    font-style: normal;
+    font-weight: 400;
+    src: font-url('continuum-bold.ttf') format('truetype');
+  }
 
   i{
     width:50px;

@@ -6,19 +6,18 @@
         <div class="fleet-prototype">
             <div class="ship-layer">
                 <% @myships.each do | usership | %>
-                    <div class="usership-block">
-                    <div class="info-box"><%= usership.ship.model %></div>
-
-                    <%= image_tag(usership.ship.image_topdown) if usership.ship.image_topdown.present? %>
-                    </div>
-                <% end %> 
+                    <% unless @current_task.state.nil? %>
+                        <%= render 'ship_modal', usership: usership %>
+                    <% end %>
+                    <%= link_to initiate_ship_modal_path(ship: usership), class: 'usership-block' do %>
+                        <div class="info-box"><%= usership.ship.model %></div>
+                         <%= image_tag(usership.ship.ship_image_primary) if File.file?('app/assets/images/' + usership.ship.ship_image_primary) %>
+                    <% end %>
+                       
+                <% end %>
             </div>
             <canvas id="starfield" width=750 height=500 ></canvas>
         </div>
-
-    
-
-
 </div>
 
 <script>

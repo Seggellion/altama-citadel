@@ -30,9 +30,9 @@ class UsershipsController < ApplicationController
     respond_to do |format|
      # if @usership.save
         #flash[:notice] = "Post has been saved successfully."
-        if @usership.save 
-          format.html { redirect_to request.referrer, notice: "Usership was successfully created." }
-          format.json { render :show, status: :created, location: @usership }
+      if @usership.save 
+        format.html { redirect_to request.referrer, notice: "Usership was successfully created." }
+        format.json { render :show, status: :created, location: @usership }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @usership.errors, status: :unprocessable_entity }
@@ -80,6 +80,7 @@ class UsershipsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def usership_params
-      params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint, :primary)
+      #params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint, :primary)
+      params.require(:usership).permit(:user_id, :ship_id, :ship_name, :ship_serial, :pledge_id, :pledge_name, :pledge_date, :lti, :warbond)
     end
 end
