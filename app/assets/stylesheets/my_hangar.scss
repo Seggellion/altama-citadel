@@ -206,7 +206,27 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
 }
 
 #view_ships{
-
+    #ship_modal{
+        width: 100vw;
+        background: black;
+        height: 100vh;
+        position: absolute;
+        z-index: 9001;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .ship-modal-container{
+            text-align: center;
+        }
+        .ship-modal-header{
+            font-family: 'suprrg';
+            color:white;
+        }
+        .ship-modal-subheader{
+            font-family: 'continuum-bold';
+            color:white;
+        }
+    }
     .container {
         overflow: hidden;
       }
@@ -244,23 +264,32 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
             display:flex;
             justify-content: space-evenly;
             align-items: center;
+            flex-wrap: wrap;
             .usership-block{
                 width:100px;
                // position:absolute;
                // top:1%;
                // right:1%;
+               display: flex;
+               align-items: center;
+               height: 100px;
                position:relative;
                 cursor:pointer;
                 img{
-                 width:100%;
+                 height: auto;
+                 width: 100%;
+                 box-sizing: unset;
+                 display: block;
+
                 }
                 .info-box{
-                    width:100px;
+                    top:83px;
+                    width:90px;
                     position:absolute;
-                    right:100px;
                     color:white;
-                    opacity:0;
-                    border:2px solid green;
+                    opacity:0.5;
+                    text-align:center;
+        
                     border-radius:5px;
                     transition: all 1s;
                 }

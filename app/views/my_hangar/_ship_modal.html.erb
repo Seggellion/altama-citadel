@@ -1,0 +1,10 @@
+<div id="ship_modal" class="">
+    <div class="ship-modal-container">
+    <h2 class="ship-modal-header"><%= usership.ship_name %></h2>
+    <h3 class="ship-modal-subheader"><%= usership.ship.manufacturer.name %> - <%= usership.ship.model %></h3>
+
+             <%= image_tag(usership.ship.ship_image_primary) if File.file?('app/assets/images/' + usership.ship.ship_image_primary) %>
+
+                <%= link_to "", close_position_window_path(window: @current_task.name), class:'close-btn windowed' %>
+    </div>
+</div>

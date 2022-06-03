@@ -62,10 +62,13 @@ Rails.application.routes.draw do
   get 'cargo_manifest', to: 'cargo_manifest#welcome', :constraints => { :subdomain => "ctd" }
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
+  get 'start_my_hangar', to: 'tasks#start_my_hangar'
+  get 'my_hangar_import', to: 'hangardump#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_badges', to: 'badges#index'
 
   get 'my_hangar_view', to: 'my_hangar#view'
+  get 'fleet_view', to: 'my_hangar#fleet_view'
   get 'users', to: 'desktop#users'
   get 'roadside_assistance', to: 'web#roadside_assistance'
   get 'current_review', to: 'web#current_review'
@@ -85,6 +88,7 @@ Rails.application.routes.draw do
   get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'state_positions', to: 'tasks#state_positions'
   get 'state_user_positions', to: 'tasks#state_user_positions'
+  get 'initiate_ship_modal', to: 'tasks#state_ship_modal'
   get 'state_rules', to: 'tasks#state_rules'
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
   get 'state_location_edit', to: 'tasks#state_location_edit'
@@ -102,6 +106,7 @@ Rails.application.routes.draw do
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
+  post 'hangardump', to: 'hangardumps#create', as: :hangardump
   post 'activate', to: 'users#activate', as: :activate
   
   
