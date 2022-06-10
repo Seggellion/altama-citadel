@@ -90,6 +90,7 @@ Rails.application.routes.draw do
   get 'state_user_positions', to: 'tasks#state_user_positions'
   get 'initiate_ship_modal', to: 'tasks#state_ship_modal'
   get 'state_rules', to: 'tasks#state_rules'
+  get 'filter_state', to: 'tasks#filter_state'
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'close_state_window', to: 'tasks#close_state_window'

@@ -9,6 +9,7 @@ class MyHangarController < ApplicationController
 def view
 @current_task = @all_tasks.where(name: 'My Hangar').first
     @myships = Usership.where(user_id: current_user.id)
+    @myships_origin = Usership.where(user_id: current_user.id)
 end
 
 def fleet_view
