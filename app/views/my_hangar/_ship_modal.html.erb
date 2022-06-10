@@ -5,6 +5,9 @@
 
              <%= image_tag(usership.ship.ship_image_primary) if File.file?('app/assets/images/' + usership.ship.ship_image_primary) %>
 
-                <%= link_to "", close_position_window_path(window: @current_task.name), class:'close-btn windowed' %>
+                <%= link_to "", close_state_window_path(window: "modal-#{usership.id}" , task: @current_task), class:'close-btn windowed' %>
     </div>
 </div>
+<script>
+document.getElementsByClassName('fleet-name')[0].style.display = "none";
+</script>

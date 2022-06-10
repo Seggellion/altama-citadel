@@ -107,6 +107,7 @@ def close_rules_window
 end
 
 def close_state_window
+
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
   unless task.state.nil?
@@ -115,11 +116,14 @@ def close_state_window
   if @window_states.include?(window)
     @window_states = @window_states - Array(window)
   end
+ 
   states_string = @window_states.join(',')
+
   task.update(state:states_string)
-  respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "closed window" }
-    end
+  redirect_to(request.env['HTTP_REFERER'])
+  #respond_to do |format|
+  #  format.html { redirect_to desktop_path, notice: "closed window" }
+   # end
 end
 
 def start_rfa_manager
@@ -131,6 +135,47 @@ def start_rfa_manager
   format.html { redirect_to rfas_path, notice: "location manager" }
   end
 end
+
+def filter_state
+
+window = params[:filter_type]
+task = @all_tasks.find_by_id(params[:task])
+
+#@new_ships =  @myships.joins("INNER JOIN ships ON ships.manufacturer_id = manufacturers.id AND manufacturers.id = 1")
+#@myships.joins(ships: :manufacturer).where('manufacturers.id' => 1)
+@myships = Usership.where(user_id: current_user.id)
+@myships.joins(ships: :manufacturers).where('manufacturers.id' => 1)
+binding.break
+
+
+window_state_csv = task.state
+unless window_state_csv.nil?
+  @window_states = window_state_csv.split(',')
+  message_states = window_state_csv.split('|')
+end  
+unless @window_states.include?(state_name + nxt_message)
+  @window_states = @window_states - Array[state_name + curr_message]
+  @window_states = @window_states + Array[state_name + nxt_message]
+  
+end
+
+
+unless task.state.nil?
+  @window_states = task.state.split(',')
+end  
+if @window_states.include?(window)
+  @window_states = @window_states - Array(window)
+end
+
+states_string = @window_states.join(',')
+
+task.update(state:states_string)
+redirect_to(request.env['HTTP_REFERER'])
+
+
+end
+
+
 
 def start_ship_manager
 
