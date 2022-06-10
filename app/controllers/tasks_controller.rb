@@ -144,7 +144,12 @@ task = @all_tasks.find_by_id(params[:task])
 #@new_ships =  @myships.joins("INNER JOIN ships ON ships.manufacturer_id = manufacturers.id AND manufacturers.id = 1")
 #@myships.joins(ships: :manufacturer).where('manufacturers.id' => 1)
 @myships = Usership.where(user_id: current_user.id)
-@myships.joins(ships: :manufacturers).where('manufacturers.id' => 1)
+@myships = Usership.joins(ship: :manufacturer).where('manufacturers.id' => 1)
+
+@myships.each do |thisship|
+  puts(thisship.ship_name)
+end
+#@myships = Usership.joins(:ships).where(ships: {ship: Ship.where(manufacturer: Manufacturer.find_by(id: 1))})
 binding.break
 
 
