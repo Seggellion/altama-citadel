@@ -67,35 +67,51 @@ class GuildstonesController < ApplicationController
         total_votes = Vote.where(rule_proposal_id: rule_proposal.id).count
         #remove the two -- for testing only
         consensus = (total_members * 0.66666) - 2
-        term_end = Time.now + 3.months
+        #term_end = Time.now + 3.months
+        
 
       if total_votes > consensus
-        Rule.create(user_id: rule_proposal.proposer_id, guildstone_id: guildstone.id, position_id: rule_proposal.position_id,
+        @new_rule = Rule.create(user_id: rule_proposal.proposer_id, guildstone_id: guildstone.id, position_id: rule_proposal.position_id,
           description: rule_proposal.description, title: rule_proposal.title, department_id: rule_proposal.department_id,
           category: rule_proposal.category, code_enforced: rule_proposal.code_enforced
         )
+        term_length = @new_rule.term_length_days.to_s + 'd'
+
+         # destroy rule in term_length_days, send user a message that their rule's term has ended.
+      Rufus::Scheduler.singleton.in term_length do
+        Message.create(user_id: rule_proposal.proposer_id, task_id: "Guildstone", content:"Your rule's term has ended, RuleID: #{@new_rule[:id]}", subject:"Altama Rule Term End")
+        @new_rule.destroy
       end
       #binding.break
     end
 
     if PositionNomination.find_by_id(params[:nomination])
    
-      nomination = PositionNomination.find_by_id(params[:nomination])
-      @users_user_position_histories = UserPositionHistory.where(user_id: nomination.user.id)
-      position = Position.find_by_id(nomination.position_id)
-      
-      @vote = Vote.new(position_nomination_id: nomination.id, guildstone_id: guildstone.id,
-      user_id: current_user.id, position_id: position.id, vote:true)
-      total_members = User.where("user_type < ?", 100).count
-      total_votes = Vote.where(position_id: nomination.id).count
-      #remove the two -- for testing only
-      consensus = (total_members * 0.66666) - 2
-      term_end = Time.now + 3.months
-  
+    nomination = PositionNomination.find_by_id(params[:nomination])
+    @users_user_position_histories = UserPositionHistory.where(user_id: nomination.user.id)
+    position = Position.find_by_id(nomination.position_id)
+    
+    @vote = Vote.new(position_nomination_id: nomination.id, guildstone_id: guildstone.id,
+    user_id: current_user.id, position_id: position.id, vote:true,  )
+    total_members = User.where("user_type < ?", 100).count
+    total_votes = Vote.where(position_id: nomination.id).count
+    #remove the two -- for testing only
+    consensus = (total_members * 0.66666) - 2
+    #term_end = Time.now + 3.months
+    term_length = position.term_length_days.to_s + 'd'
+
     if total_votes > consensus
-      UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_end: term_end, 
+     @new_user_position =  UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_end: term_end, 
       department_id: position.department_id, guildstone_id: Guildstone.first.id, nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation)
       @users_user_position_histories.update_all(active: false)
+      
+      # destroy user_position in term_length_days, send user a message that their term has ended.
+      Rufus::Scheduler.singleton.in term_length do
+        Message.create(user_id: nomination.user.id, task_id: "Guildstone", content:"Your term has ended, RoleID: #{@new_user_position[:position_id]}", subject:"Altama Posititon Term End")
+        @new_user_position.destroy
+       
+      end
+      
       UserPositionHistory.create(
         user_id: nomination.user.id, position_id: position.id, term_end: term_end, 
         department_id: position.department_id, guildstone_id: Guildstone.first.id,
@@ -157,9 +173,11 @@ class GuildstonesController < ApplicationController
     end  
     
     unless @window_states.include?(state_name)
-
+      if last_message
         @window_states = @window_states + Array[state_name + last_message.id.to_s]
-  
+      else 
+        @window_states = @window_states + Array[state_name]
+      end
     end
     states_string = @window_states.join(',')
     
