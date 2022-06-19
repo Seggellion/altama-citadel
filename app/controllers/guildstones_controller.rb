@@ -85,14 +85,18 @@ class GuildstonesController < ApplicationController
     total_votes = Vote.where(position_id: nomination.id).count
     #remove the two -- for testing only
     consensus = (total_members * 0.66666) - 2
-    term_end = Time.now + 3.months
-  
+    #term_end = Time.now + 3.months
+    term_length = position.term_length_days.to_s + 'd'
+
     if total_votes > consensus
-      UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_end: term_end, 
+     @new_user_position =  UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_end: term_end, 
       department_id: position.department_id, guildstone_id: Guildstone.first.id, nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation)
      
       @users_user_position_histories.update_all(active: false)
       
+      Rufus::Scheduler.singleton.in term_length do
+        @new_user_position.destroy
+      end
       
       UserPositionHistory.create(
         user_id: nomination.user.id, position_id: position.id, term_end: term_end, 

@@ -222,7 +222,7 @@ end
     @window_states =  []
     state_name = "Rules"
     window_state_csv = task.state
-    
+ 
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
       

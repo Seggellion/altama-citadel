@@ -25,6 +25,7 @@ class UserPositionsController < ApplicationController
     @user_position.update(user_id: user_position_params[:user_id])
     @my_user_position_histories.update_all(active: false)
     @user_position_history.update(active: true)
+    
    
     respond_to do |format|
       if @user_position.save
@@ -32,7 +33,6 @@ class UserPositionsController < ApplicationController
         format.html { redirect_to @guildstone, notice: "Position was successfully Assigned." }     
       else
         format.html { redirect_to @guildstone, notice: "Error." }
-        
       end
     end
   end
