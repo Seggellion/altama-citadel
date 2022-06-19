@@ -65,6 +65,8 @@ gem 'omniauth-rails_csrf_protection'
 gem 'google-cloud-storage'
 gem 'discord-notifier'
 
+gem 'ruby-clock'
+
 
 group :development, :test do
   # See https://edgeguides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
