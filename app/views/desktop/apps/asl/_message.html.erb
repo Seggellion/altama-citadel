@@ -42,15 +42,15 @@
             </button>
             
             <% if message.prev_created.created_at < message.created_at %>
-            <%= link_to 'Prev', prev_message_path(current_message: message, task: task), class:'button' %>
+            <%= link_to 'Prev', prev_message_path(current_message: message, task: task), class:'button previous' %>
             <% else %>
-            <%= link_to 'Prev', "#", class:'button disabled' %>
+            <%= link_to 'Prev', "#", class:'button disabled previous' %>
             <% end %>
             
             <% if message.next_created  %>
-            <%= link_to 'Next', next_message_path(current_message: message, task: task), class:'button' %>
+            <%= link_to 'Next', next_message_path(current_message: message, task: task), class:'button next' %>
             <% else %>
-            <%= link_to 'Next', "#", class:'button disabled' %>
+            <%= link_to 'Next', "#", class:'button disabled next' %>
             <% end %>
             <button class="disabled pull-right">
                 Send

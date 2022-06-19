@@ -29,8 +29,8 @@ def close_position_window
   end
   states_string = @window_states.join(',')
   @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
-respond_to do |format|
-  format.html { redirect_to guildstone_path(0), notice: "opened position" }
+  respond_to do |format|
+    format.html { redirect_to guildstone_path(0), notice: "opened position" }
   end
 
 end
@@ -74,14 +74,15 @@ end
 def close_state_window
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
-
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
   if @window_states.include?(window)
     @window_states = @window_states - Array(window)
   end
+  
   states_string = @window_states.join(',')
+  
   task.update(state:states_string)
   
     redirect_to(request.env['HTTP_REFERER'])
@@ -98,7 +99,6 @@ def start_rfa_manager
 end
 
 def start_asl
-  
   unless @all_tasks.find_by(name:'ASL').present?
     @task =  Task.create(name: 'ASL',task_manager_id: @task_manager.id, view: 'window')
     end  
@@ -233,7 +233,6 @@ end
     
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
-      
     end  
     unless @window_states.include?(state_name)
       @window_states = @window_states + Array[state_name]
@@ -242,7 +241,7 @@ end
     task.update(state:states_string)
     
     respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened all rules list" }
+      format.html { redirect_to guildstone_path(0), notice: "opened all rules list" }
     end
   end
 
@@ -282,20 +281,17 @@ end
     window_state_csv = task.state
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
-      message_states = window_state_csv.split('|')
+      @window_states = window_state_csv.split('|')
     end  
     unless @window_states.include?(state_name + nxt_message)
       @window_states = @window_states - Array[state_name + curr_message]
-      @window_states = @window_states + Array[state_name + nxt_message]
-      
-    end
-    
-    states_string = @window_states.join(',')
-    
+      @window_states = @window_states + Array[state_name + nxt_message]      
+    end    
+    states_string = @window_states.join(',')    
     task.update(state:states_string)
     redirect_to(request.env['HTTP_REFERER'])
-
   end
+
 
 
   def state_asl_message_prev
@@ -303,8 +299,10 @@ end
     sender = current_message.sender
     #previous_message = current_user.my_messages.previous_created(current_message.created_at).first
     previous_message = current_message.prev_created
-    
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
+    unless  task
+      task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
+    end
     @window_states =  []
     state_name = "message-#{sender}"
     curr_message = "|#{current_message.id}"
