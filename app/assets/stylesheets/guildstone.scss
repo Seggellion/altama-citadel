@@ -7,6 +7,16 @@
     background-color: #c0c0c0;
     height: calc(100% - 6px);
     box-sizing: border-box;
+    .message-window{
+        right: 30%;
+        top: 20%;
+    }
+    .button.previous,.button.next{
+        display:none !important;
+    }
+    .unread-messages{
+        pointer-events: none;
+    }
     .window-container{
         margin-top:40px;
         height:100%;

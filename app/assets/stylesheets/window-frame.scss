@@ -1,5 +1,26 @@
 @import 'mixins';
 
+.message-window{
+    min-height: 340px;
+    max-height: 400px;
+    width: 469px;
+    z-index:9001;
+    svg{
+        width:21px;
+    }
+    @include close_btn;
+
+    .message-content{
+        margin-top: 80px;
+        padding-right: 20px;
+        padding-left: 6px;
+        textarea{
+            height:170px;
+            width:100%;
+        }
+    }
+}
+
 #window_frame{
     width: 100%;
     position: fixed;

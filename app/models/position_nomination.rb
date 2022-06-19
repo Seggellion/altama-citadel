@@ -8,6 +8,9 @@ class PositionNomination < ApplicationRecord
     #@position_nomination = PositionNomination.where(nominee_id: current_user, position_id: self.id)
   
   end
+  def nominee
+    User.find_by_id(self.nominee_id)
+  end
 
 
 

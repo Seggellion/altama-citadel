@@ -129,10 +129,10 @@ end
     end
   end
 
-def ship_count(ship)
-  all_ships = Usership.where(user_id: self.id, ship_id: ship.id)
-  all_ships.count
-end
+  def ship_count(ship)
+    all_ships = Usership.where(user_id: self.id, ship_id: ship.id)
+    all_ships.count
+  end
 
 
     def self.from_omniauth(auth, params)

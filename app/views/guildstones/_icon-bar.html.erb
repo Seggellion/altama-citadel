@@ -47,10 +47,10 @@
     <div class="shortcut-icon-container <%# if @current_task.mail(current_user).present? %>gotmail<%# end %>" 
         title="Check messages" 
         data-action="click->guildstone#allApplications" >
-        <%= link_to start_asl_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("all_icons.png", class: "mail") %>
+        <%= link_to guildstone_start_asl_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("all_icons.png", class: "mail") %>
         <% end %>
-
+        
         <div class="unread-messages">
             <%=  current_user.guildstone_messages %>
         </div>
