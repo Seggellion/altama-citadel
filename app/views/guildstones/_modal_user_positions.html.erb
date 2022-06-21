@@ -18,6 +18,13 @@
          <%= positions.title %> 
           <% if positions.active %>
             || Current Position
+            <%# if NonConfidence.where(user_position_id: @up.user_id)%>
+            <%= form_with(model: NonConfidence) do |form| %>
+                <%= form.hidden_field :user_position_id, :value => positions.id %>
+                <%= form.hidden_field :originator_id, :value => current_user.id%>
+                <%= form.submit 'Apply' %>
+            <%# end %>
+            <% end %>
           <% end %>
           
           </div>

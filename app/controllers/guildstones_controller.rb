@@ -59,6 +59,27 @@ class GuildstonesController < ApplicationController
 
   def vote
     guildstone = Guildstone.first
+
+    # voting non-confidence
+    if NonConfidence.find_by_id(params[:non_confidence])
+      non_confidence = NonConfidence.find_by_id(params[:non_confidence])
+      @vote = Vote.new(non_confidence_id: non_confidence.id, position_id: non_confidence.user_position_id, rule_id: non_confidence.rule_id,
+         guildstone_id: guildstone.id, user_id: current_user.id, vote:true)
+        total_members = User.where("user_type < ?", 100).count
+        total_votes = Vote.where(non_confidence_id: non_confidence.id).count
+        #remove the two -- for testing only
+        consensus = (total_members * 0.66666) - 2
+        
+      if total_votes > consensus
+        if non_confidence.rule_id
+          Rule.where(id: non_confidence.rule_id).destroy
+        elsif non_confidence.user_position_id
+          UserPosition.where(id: non_confidence.user_position_id).destroy
+        end
+      end
+    end
+
+    # voting on rules
     if RuleProposal.find_by_id(params[:rule_proposal])
       rule_proposal = RuleProposal.find_by_id(params[:rule_proposal])
       @vote = Vote.new(rule_proposal_id: rule_proposal.id, position_id: rule_proposal.position_id,  guildstone_id: guildstone.id,
@@ -67,9 +88,7 @@ class GuildstonesController < ApplicationController
         total_votes = Vote.where(rule_proposal_id: rule_proposal.id).count
         #remove the two -- for testing only
         consensus = (total_members * 0.66666) - 2
-        #term_end = Time.now + 3.months
         
-
       if total_votes > consensus
         @new_rule = Rule.create(user_id: rule_proposal.proposer_id, guildstone_id: guildstone.id, position_id: rule_proposal.position_id,
           description: rule_proposal.description, title: rule_proposal.title, department_id: rule_proposal.department_id,
@@ -82,14 +101,16 @@ class GuildstonesController < ApplicationController
         Message.create(user_id: rule_proposal.proposer_id, task_id: "Guildstone", content:"Your rule's term has ended, RuleID: #{@new_rule[:id]}", subject:"Altama Rule Term End")
         @new_rule.destroy
       end
-      #binding.break
+      end
     end
 
+    #voting on position nominations
     if PositionNomination.find_by_id(params[:nomination])
    
     nomination = PositionNomination.find_by_id(params[:nomination])
     @users_user_position_histories = UserPositionHistory.where(user_id: nomination.user.id)
     position = Position.find_by_id(nomination.position_id)
+    existing_user_position = UserPosition.where(user_id: nomination.user.id)
     
     @vote = Vote.new(position_nomination_id: nomination.id, guildstone_id: guildstone.id,
     user_id: current_user.id, position_id: position.id, vote:true,  )
@@ -100,8 +121,8 @@ class GuildstonesController < ApplicationController
     #term_end = Time.now + 3.months
     term_length = position.term_length_days.to_s + 'd'
 
-    if total_votes > consensus
-     @new_user_position =  UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_end: term_end, 
+    if total_votes > consensus && !existing_user_position
+     @new_user_position =  UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_length_days: position.term_length_days, 
       department_id: position.department_id, guildstone_id: Guildstone.first.id, nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation)
       @users_user_position_histories.update_all(active: false)
       
@@ -109,16 +130,18 @@ class GuildstonesController < ApplicationController
       Rufus::Scheduler.singleton.in term_length do
         Message.create(user_id: nomination.user.id, task_id: "Guildstone", content:"Your term has ended, RoleID: #{@new_user_position[:position_id]}", subject:"Altama Posititon Term End")
         @new_user_position.destroy
-       
       end
       
       UserPositionHistory.create(
-        user_id: nomination.user.id, position_id: position.id, term_end: term_end, 
+        user_id: nomination.user.id, position_id: position.id, term_length_days: position.term_length_days, 
         department_id: position.department_id, guildstone_id: Guildstone.first.id,
         nomination_id: nomination.id, title: position.title, description: position.description, compensation: position.compensation, active: true
       )
+    elsif total_votes > consensus && existing_user_position
+      puts "stuff"
     end
   end
+  
     respond_to do |format|
       if @vote.save
         format.html { redirect_to guildstone, notice: "Vote cast." }
