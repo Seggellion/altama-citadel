@@ -1,0 +1,17 @@
+<%= form_with(model: non_confidence) do |form| %>
+  <% if non_confidence.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(non_confidence.errors.count, "error") %> prohibited this non_confidence from being saved:</h2>
+
+      <ul>
+        <% non_confidence.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

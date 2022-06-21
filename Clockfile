@@ -2,6 +2,7 @@ def schedule.on_error(job, error)
   raise error
 end
 
+=begin 
 schedule.every('2 seconds') do
   puts "hello from a ruby-clock job"
 end
@@ -9,3 +10,4 @@ end
 #schedule.every('2 seconds') do
   #shell 'say hello'
 #end
+=end

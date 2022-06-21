@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @non_confidence %>
+
+<div>
+  <%= link_to "Edit this non confidence", edit_non_confidence_path(@non_confidence) %> |
+  <%= link_to "Back to non confidences", non_confidences_path %>
+
+  <%= button_to "Destroy this non confidence", non_confidence_path(@non_confidence), method: :delete %>
+</div>
