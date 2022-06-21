@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2022_05_23_004528) do
-=======
-ActiveRecord::Schema.define(version: 2022_05_29_235806) do
->>>>>>> main
+ActiveRecord::Schema.define(version: 2022_06_19_235705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +84,8 @@ ActiveRecord::Schema.define(version: 2022_05_29_235806) do
     t.integer "parent_department_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "department_type"
+    t.integer "order"
   end
 
   create_table "discord_users", force: :cascade do |t|

@@ -1,75 +1,79 @@
+
 <div draggable="true" class="guildstone-modal org_chart" 
-<% if i > 0 %>
-style="transform: translate(
-    calc(-50% + <%= i + 1.5 %>%),calc(-30% + <%= i + 2 %>%));
-    z-index: <%= i %>"
-<%end%> >
-<div class="section-window-header"><%= position.title %> 
-    
-    <%= link_to "", close_position_window_path(window: position.title), class:'close-btn windowed' %>
-    
-    </div>
-    <div class="position-container">
-        <div class="position-header">
-         <% if  position.user_position  %> <%= position.position_username  %><% else %> Apply today for <%= position.title %><% end %> 
+    <% if i > 0 %>
+    style="transform: translate(
+        calc(-50% + <%= i + 1.5 %>%),calc(-30% + <%= i + 2 %>%));
+        z-index: <%= i %>"
+    <%end%> >
+        <div class="section-window-header">    
+        Altama Energy Org Chart
+            <%= link_to "", close_state_window_path(window: 'orgChart-Guildstone', task: @current_task.id), class:'close-btn windowed' %>
         </div>
-        <div class="position-body">
-            <div class="position-action">
-            <% if  position.user_position  %> 
-                <div class="position-row">Employee ID:  </div>
-                <div class="position-row">Last Name:   First Name:</div>
-                <div class="position-row">Title:  </div>
-                <div class="position-row">Extension:  </div>
-                <div class="position-row">Hire Date:  <%= position.user_position.created_at  %> </div>
-                <% end %>
-                <hr />
-                <div class="buttons">
-                    <% unless position.user_position || position.nomination(current_user.id)  %>
-                        <%= form_with(model: PositionNomination) do |form| %>
-                            <%= form.hidden_field :position_id, :value => position.id %>
-                            <%= form.hidden_field :nominee_id, :value => current_user.id%>
-                            <%= form.label :campaign_description, "Campaign Description: " %>
-                            <%= form.text_field :campaign_description %>
-                            <%= form.label :resume, "Resume: " %>
-                            <%= form.text_field :resume %>
-                            <%= form.submit 'Apply' %>
-                        <% end %>
-                    <% end %>
-                    <% if position.user_position?(current_user.id) %>
-                        This is already your current position!
-                    <% elsif position.nomination(current_user.id) %>
-                        You have already applied/been nominated for this position!
-                        <br>
-                        <a href="btn">Cancel Nomination/Application</a>
-                    <% end %>
+        <div class="modal-container">
+            <div class="position-header">
+            Altama Energy Org Chart
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <div class="chart-container">
+                    <span class="whitebackground">Partners</span>
+                    <div class="chart-body">
+                        <div class="executive">
+                            <% @executive_departments.each do |department| %>
+                            <div class="exec-department circle">
+                                <%= department.title %>
+                            </div>
+                            <% end %>
+                            <div class="governing">
+                                <div class="exec-department rounded">
+                                   Top Senior Executives
+                                </div>
+                                <div class="exec-department">
+                                    CEO
+                                </div>
+                            </div>
+                            <div class="exec-department">
+                                Audit Council
+                            </div>
+
+                        </div>
+
+                        <div class="directors">
+                            <div class="director-department">
+                                Director
+                            </div>
+                            <div class="director-department">
+                                Director
+                            </div>
+                            <div class="director-department">
+                                Director
+                            </div>
+                            <div class="director-department">
+                                Director
+                            </div>
+                        </div>
+                        <div class="flightcrews">
+                            <div class="flightcrew_department">
+                                Flight Crews
+                            </div>
+                            <div class="flightcrew_department">
+                                Flight Crews
+                            </div>
+                            <div class="flightcrew_department">
+                                Flight Crews
+                            </div>
+                            <div class="flightcrew_department">
+                                Flight Crews
+                            </div>
+                     </div>
+
+                    </div>
+                    <span class="whitebackground">Member Owners</span>
                 </div>
             </div>
-            <% unless  position.user_position  %>
-                <div class="position-applications">                
-                    <div class="header-title">
-                        <span>
-                        Applicant
-                        </span>
-                        <span>
-                        Action
-                        </span>
-                    </div>
-                    <div class="application-table">
-                    
-                        <% position.applications.each do | application | %>
-                            
-                            <span><%= application.nominee.username %></span>
-                                <% unless application.user.id == current_user.id %>
-                                <% if position.already_voted?(current_user) %>
-                                    <%= link_to "UnVote", unvote_path(user: current_user, nomination: application) %>
-                                <% else %>
-                                    <%= link_to "Vote", vote_path(user: current_user, nomination: application) %>
-                                <% end %>
-                            <% end %>
-                        <% end %>
-                    </div>
-                </div>
-            <% end %>
         </div>
     </div>
 </div>

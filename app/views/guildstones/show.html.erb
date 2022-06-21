@@ -39,11 +39,15 @@
                     <%= render 'modal_rules', i: i %>
               <% end %>
             <% end %>
+
+            <% if @orgchart_windows.present? %>
+            <%  @orgchart_windows.each_with_index do |window, i | %>
+                  <%= render 'modal-org_chart', i: i %>
+            <% end %>
+          <% end %>
             
-            <% if @message_windows.present? %>
-              <% @guildstone_messages.each_with_index do |message, i | %>
-                <%= render '/desktop/apps/asl/message', message:message, task: @current_task  %>
-              <% end %>
+            <% if @message_windows.present? %>              
+                <%= render '/desktop/apps/asl/message', message:@guildstone_message, task: @current_task  %>              
             <% end %>
       </div>
     </div>

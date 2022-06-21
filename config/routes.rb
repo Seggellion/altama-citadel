@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   get 'killall', to:'tasks#killall'
   get 'start_guildstone', to:'tasks#start_guildstone'
   get 'guildstone_start_asl', to: 'guildstones#guildstone_start_asl'
+  get 'guildstone_org_chart', to: 'guildstones#open_org_chart'
   get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
   get 'start_location_manager', to:'tasks#start_location_manager'
   get 'start_ship_manager', to:'tasks#start_ship_manager'
