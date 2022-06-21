@@ -77,15 +77,15 @@ def close_state_window
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
-  if @window_states.include?(window)
-    @window_states = @window_states - Array(window)
-  end
   
+  if @window_states.include?(window)
+    
+    @window_states = @window_states - Array(window)
+  end 
   states_string = @window_states.join(',')
   
   task.update(state:states_string)
-  
-    redirect_to(request.env['HTTP_REFERER'])
+  redirect_to(request.env['HTTP_REFERER'])
 
 end
 

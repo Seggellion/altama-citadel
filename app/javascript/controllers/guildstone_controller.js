@@ -84,5 +84,17 @@ export default class extends Controller {
       button.classList.toggle("click");
     },100);
   }
+
+  buttonClicked(event){
+    var button =  event.currentTarget;
+    button.classList.add("click");
+    setTimeout(function(){
+      button.classList.remove("click");
+    },100);
+    setTimeout(function(){
+    },200);
+
+  }
+
   
 }
