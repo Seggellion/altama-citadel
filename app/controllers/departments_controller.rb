@@ -16,12 +16,10 @@ class DepartmentsController < ApplicationController
   end
 
   def create
-     
-    @guildstone = Guildstone.first
+     @guildstone = Guildstone.first
     @department.update(guildstone_id: @guildstone.id)
-
     Department.create(department_params)
-        redirect_to(request.env['HTTP_REFERER'])
+   redirect_to(request.env['HTTP_REFERER'])
    end
   end
 
