@@ -300,9 +300,10 @@ end
     current_message = current_user.my_messages.find_by_id(params[:current_message])
     #next_message = current_user.my_messages.next_created(current_message.created_at).first
     next_message = current_message.next_created
-    
+    sender =''
+    if current_message
     sender = current_message.sender
-    
+    end
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
     state_name = "message-#{sender}"
@@ -326,7 +327,11 @@ end
 
   def state_asl_message_prev
     current_message = current_user.my_messages.find_by_id(params[:current_message])
-    sender = current_message.sender
+
+    sender =''
+    if current_message
+      sender = current_message.sender
+    end
     #previous_message = current_user.my_messages.previous_created(current_message.created_at).first
     previous_message = current_message.prev_created
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
