@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
 
- static targets = ["mainmenu", "createPosition", "createDepartment", "createNomination", "createRule", "assignRole"]
+ static targets = ["mainmenu", "createPosition", "createDepartment", "createNomination", "createRule", "createNonConfidence", "assignRole", "userPositionField"]
 
   close(event) {
 //event.target.
@@ -84,5 +84,31 @@ export default class extends Controller {
       button.classList.toggle("click");
     },100);
   }
+
+  createNonConfidence(event){
+    var button =  event.currentTarget;
+    button.classList.toggle("click");
+    var active_elements = document.querySelectorAll('.active');
+    active_elements.forEach(el => {
+      el.classList.remove('active');
+    });
+    this.createNonConfidenceTarget.classList.toggle("active");
+    
+    setTimeout(function(){
+      button.classList.toggle("click");
+    },100);
+  }
+
+  userPositionUpdate(event){
+    // console.log("working");
+    this.userPositionFieldTarget.addEventListener("change", function(e) {
+       // console.log("working");
+         var userPositionId = this.options[this.selectedIndex].getAttribute('user_id');
+         var positionId = this.options[this.selectedIndex].getAttribute('position_id');
+         // alert(userPositionId);
+          document.getElementById("position_user").value = userPositionId;
+          document.getElementById("position_id").value = positionId;
+       });
+ }
   
 }
