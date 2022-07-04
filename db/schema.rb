@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_19_230031) do
+ActiveRecord::Schema.define(version: 2022_07_03_230954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,12 +173,14 @@ ActiveRecord::Schema.define(version: 2022_06_19_230031) do
   end
 
   create_table "non_confidences", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.integer "guildstone_id"
     t.integer "user_position_id"
     t.integer "rule_id"
     t.integer "originator_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "position_user_id"
+    t.integer "position_id"
   end
 
   create_table "position_nominations", force: :cascade do |t|
@@ -446,6 +448,7 @@ ActiveRecord::Schema.define(version: 2022_06_19_230031) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "non_confidence_id"
+    t.integer "user_position_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

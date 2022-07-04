@@ -42,12 +42,27 @@
     <% end %>
     <span class="category-trigger" data-action="click->guildstone#show">Add new category</span>
     Description: <%= r.text_field :description, :required=>'true' %>
-     <%= r.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select Position (if applicable)'%>
-     <%= r.select :department_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select Department (if applicable)'%>
+     <%= r.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select Position (if position rule)'%>
+     <%= r.select :department_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select Department (if department rule)'%>
     <%= r.submit 'Add', id: 'submit' %>
     
   <% end %>
   </div>
+  
+  <div class="window-form" data-guildstone-target="createNonConfidence">
+<%= form_with(model: NonConfidence) do |n| %>
+   <%= n.select :user_position_id, options_for_select(@user_positions.collect{ |u| [u.title, u.id, {:user_id=>u.user_id, :position_id=>u.position_id}]}), {:include_blank => 'Select UserPosition'}, {data:{'guildstone-target' => 'userPositionField', 'action' => 'click->guildstone#userPositionUpdate'}} %>
+   <%= n.hidden_field :position_user_id, :value => 1, :id => 'position_user'  %>
+   <%= n.hidden_field :position_id, :value => 1, :id => 'position_id' %>
+   <%= n.hidden_field :originator_id, :value => current_user.id %>
+   <%= n.submit 'Add', id: 'submit' %>  
+<% end %>
+</div>
+
+
 
 </div>
+
+
+
 
