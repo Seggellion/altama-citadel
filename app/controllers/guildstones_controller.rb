@@ -30,14 +30,22 @@ class GuildstonesController < ApplicationController
     @rule_proposals = RuleProposal.all
     @positions = Position.all
     @position_nominations = PositionNomination.all
-    
+    @worker_departments = Department.where(department_type:"worker")
+    @director_departments = Department.where(department_type:"director")
     @executive_departments = Department.where(department_type:"executive")
-    
+    @executive_departments += Department.where(department_type:"governing")
+    @executive_departments += Department.where(department_type:"faculty")
+    @executive_departments += Department.where(department_type:"audit")
+    @audit_departments = Department.where(department_type:"audit")
+    @faculty_departments = Department.where(department_type:"faculty")
+    @governing_departments = Department.where(department_type:"governing")
+
     if @window_states
       @user_position_windows = @window_states.select { |s| s == "UserPositions" }
       @rules_windows = @window_states.select { |s| s == "Rules" }
       @message_windows = @window_states.select { |s| s.include?("message") }
       @orgchart_windows = @window_states.select { |s| s.include?("orgChart") }
+      @modals = @window_states.select { |s| s.include?("modal") }
       @guildstone_message =  Message.where(task_id: "Guildstone", user_id: current_user.id).last
       
     end
