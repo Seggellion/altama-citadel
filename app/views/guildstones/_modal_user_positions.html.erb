@@ -16,17 +16,29 @@
       <% for positions in UserPositionHistory.where(user_id: users.id).where.not(title: nil) %>
         <div class="item">
          <%= positions.title %> 
-          <% if positions.active %>
-            || Current Position
-          <% end %>
-          
-          </div>
-
-
+         <% if positions.active %>
+         || Current Position 
+         <% end %>
+         <% for nonconfs in NonConfidence.where(user_position_id: positions.id) %>
+         <br>
+         <small>
+         There is a proposal for Non Confidence for this user's position. You can vote to pass the non-confidence vote here.
+        </small>
+        <br>
+         <% if nonconfs.already_voted?(current_user) %>
+         <small>
+         You have already voted to pass this non-confidence vote. You can un-vote here.
+         <br>
+         <%= link_to "UnVote", unvote_path(user: current_user, non_confidence: nonconfs) %>
+         <% else %>
+         <%= link_to "Vote", vote_path(user: current_user, non_confidence: nonconfs) %>
+         <% end %>
+         <% end %>
+        </div>
       <% end%>
       </div>
   <% end %>
     
 
 </div>
-  
+

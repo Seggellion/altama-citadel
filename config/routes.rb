@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :non_confidences
   resources :rule_proposals
   resources :categories
   mount ActionCable.server => "/cable"
