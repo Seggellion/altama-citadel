@@ -128,8 +128,10 @@
         border-left:1px solid black;
         border-right:1px solid white;
         border-right:1px solid white;
+        color:black;
         a{
             font-size: 0.8rem;
+            color:black;
         }
     }
     .window-icon-bar{
@@ -154,7 +156,7 @@
     }
 
     .section-window{
-        height: 198px;
+        height: 200px;
         width: 200px;
         overflow:hidden;
         margin: 9px 4px 0px 4px;
