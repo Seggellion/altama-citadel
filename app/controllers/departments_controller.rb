@@ -21,8 +21,8 @@ class DepartmentsController < ApplicationController
     @department.update(guildstone_id: @guildstone.id)
     respond_to do |format|
       if @department.save
-        format.html { redirect_to @department, notice: "Department was successfully created." }
-        format.json { render :show, status: :created, location: @department }
+        redirect_to(request.env['HTTP_REFERER'])
+        
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @department.errors, status: :unprocessable_entity }
@@ -32,8 +32,9 @@ class DepartmentsController < ApplicationController
 
   def destroy
     @department.destroy
+    
     respond_to do |format|
-      format.html { redirect_to departments_url, notice: "Department was successfully destroyed." }
+      redirect_to(request.env['HTTP_REFERER'])
       format.json { head :no_content }
     end
   end
@@ -58,7 +59,7 @@ class DepartmentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def department_params
-    params.require(:department).permit(:guildstone_id, :title, :description, :parent_department_id)
+    params.require(:department).permit(:guildstone_id, :title, :description, :parent_department_id, :department_type)
   end
 
 

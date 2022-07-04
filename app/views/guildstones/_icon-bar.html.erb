@@ -34,16 +34,34 @@
         <%= image_tag("all_icons.png", class: "all-applications") %>
     </div>
 
- 
+    <div class="shortcut-icon-container"><a href="#"></a></div>
 
 
-    <div class="shortcut-icon-container"><a title="Create new rule" href="#"></a></div>
-    <div class="shortcut-icon-container"><a title="Create new nomination" href="#"></a></div>
-    <div class="shortcut-icon-container"><a title="View index" href="#"></a></div>
+    <div class="shortcut-icon-container" 
+    title="Show org chart" 
+    data-action="click->guildstone#buttonClicked" >
+    <%= link_to guildstone_org_chart_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("all_icons.png", class: "org-chart") %>
+        <% end %>
+    </div>
 
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
-    <div class="shortcut-icon-container"><a href="#"></a></div>
+    <div class="shortcut-icon-container" 
+    title="All positions" 
+    data-action="click->guildstone#buttonClicked" >
+    <%= link_to  state_modals_path(task_id: @current_task),  class: 'desktop-icon', method: :post do %>
+    <%#= link_to all_state_positions_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("all_icons.png", class: "all-positions") %>
+        <% end %>
+    </div>
+    <div class="shortcut-icon-container" 
+    title="All rules" 
+    data-action="click->guildstone#buttonClicked" >
+    <%= link_to state_rules_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("all_icons.png", class: "all-rules") %>
+        <% end %>
+    </div>
+
+
     <div class="shortcut-icon-container"><a href="#"></a></div>
     <div class="shortcut-icon-container"><a href="#"></a></div>
     <div class="shortcut-icon-container"><a href="#"></a></div>
@@ -51,9 +69,8 @@
     <div class="shortcut-icon-container"><a href="#"></a></div>
     
     <div class="shortcut-icon-container <%# if @current_task.mail(current_user).present? %>gotmail<%# end %>" 
-        title="Check messages" 
-        data-action="click->guildstone#allApplications" >
-        <%= link_to guildstone_start_asl_path, class: 'desktop-icon', method: :post do %>
+        title="Check messages" >
+        <%= link_to guildstone_start_asl_path, class: 'desktop-icon',data:{ 'web-target' => 'shipSelectorField', 'action' => 'click->guildstone#buttonClicked' }, method: :post do %>
             <%= image_tag("all_icons.png", class: "mail") %>
         <% end %>
         

@@ -15,6 +15,7 @@ style="transform: translate(
         </div>
         <div class="position-body">
             <div class="position-action">
+            Department: <%=position.department.title %>
             <% if  position.user_position  %> 
                 <div class="position-row">Employee ID:  </div>
                 <div class="position-row">Last Name:   First Name:</div>
@@ -28,10 +29,14 @@ style="transform: translate(
                         <%= form_with(model: PositionNomination) do |form| %>
                             <%= form.hidden_field :position_id, :value => position.id %>
                             <%= form.hidden_field :nominee_id, :value => current_user.id%>
-                            <%= form.label :campaign_description, "Campaign Description: " %>
-                            <%= form.text_field :campaign_description %>
+                            <%= form.label :campaign_description, "Campaign Description:" %>
+                            <br/>
+                            <%= form.text_area :campaign_description %>
+                            <br/>
                             <%= form.label :resume, "Resume: " %>
-                            <%= form.text_field :resume %>
+                            <br/>
+                            <%= form.text_area :resume %>
+                            <br/>
                             <%= form.submit 'Apply' %>
                         <% end %>
                     <% end %>

@@ -31,12 +31,23 @@ class GuildstonesController < ApplicationController
     @rule_proposals = RuleProposal.all
     @positions = Position.all
     @position_nominations = PositionNomination.all
-    
+    @worker_departments = Department.where(department_type:"worker")
+    @director_departments = Department.where(department_type:"director")
+    @executive_departments = Department.where(department_type:"executive")
+    @executive_departments += Department.where(department_type:"governing")
+    @executive_departments += Department.where(department_type:"faculty")
+    @executive_departments += Department.where(department_type:"audit")
+    @audit_departments = Department.where(department_type:"audit")
+    @faculty_departments = Department.where(department_type:"faculty")
+    @governing_departments = Department.where(department_type:"governing")
+
     if @window_states
       @user_position_windows = @window_states.select { |s| s == "UserPositions" }
       @rules_windows = @window_states.select { |s| s == "Rules" }
       @message_windows = @window_states.select { |s| s.include?("message") }
-      @guildstone_messages = Message.where(task_id: 'Guildstone')
+      @orgchart_windows = @window_states.select { |s| s.include?("orgChart") }
+      @modals = @window_states.select { |s| s.include?("modal") }
+      @guildstone_message =  Message.where(task_id: "Guildstone", user_id: current_user.id).last
       
     end
   end
@@ -186,7 +197,6 @@ class GuildstonesController < ApplicationController
     end
   end
 
-
   def guildstone_start_asl
     @window_states =  []
     unless @all_tasks.find_by(name: "Guildstone" ).present?
@@ -218,6 +228,32 @@ class GuildstonesController < ApplicationController
   # GET /guildstones/new
   def new
     @guildstone = Guildstone.new
+  end
+
+  def open_org_chart
+ @window_states =  []
+    unless @all_tasks.find_by(name: "Guildstone" ).present?
+      @window_states = @window_states + Array[state_name]
+    end
+    
+    task = @all_tasks.find_by(name: "Guildstone" )
+    window_state_csv = task.state
+    state_name = "orgChart-Guildstone"
+    
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+      message_states = window_state_csv.split('|')
+    end  
+    
+    unless @window_states.include?(state_name)
+
+        @window_states = @window_states + Array[state_name]
+  
+    end
+    states_string = @window_states.join(',')
+    
+    task.update(state:states_string)
+    redirect_to(request.env['HTTP_REFERER'])
   end
 
   # GET /guildstones/1/edit
