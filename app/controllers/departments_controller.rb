@@ -16,18 +16,13 @@ class DepartmentsController < ApplicationController
   end
 
   def create
-    @department = Department.new(department_params)
+     
     @guildstone = Guildstone.first
     @department.update(guildstone_id: @guildstone.id)
-    respond_to do |format|
-      if @department.save
+
+    Department.create(department_params)
         redirect_to(request.env['HTTP_REFERER'])
-        
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @department.errors, status: :unprocessable_entity }
-      end
-    end
+   end
   end
 
   def destroy
