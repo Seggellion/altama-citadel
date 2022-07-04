@@ -64,6 +64,6 @@ class NonConfidencesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def non_confidence_params
-      params.require(:non_confidence).permit(:guildstone_id, :user_position_id, :rule_id, :originator_id)
+      params.require(:non_confidence).permit(:guildstone_id, :position_user_id, :position_id, :user_position_id, :rule_id, :originator_id)
     end
 end
