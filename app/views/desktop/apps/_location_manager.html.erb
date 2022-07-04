@@ -26,7 +26,7 @@
 
             <% @locations.each do |location| %>
                 <%= link_to state_location_edit_path(state: "edit-location-#{location.id}"), class: 'desktop-icon', method: :post do %>
-                    <%= image_tag( "all_icons.png", class: "location #{location.location_type}")  %> 
+                    <%= image_tag( "all_icons.png", class: "location #{location.type}")  %> 
                     <%= location.name %>
                 <% end %>
             <% if !task.state.nil? && task.state["edit-location-#{location.id}"] %>
