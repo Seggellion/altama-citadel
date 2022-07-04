@@ -92,7 +92,7 @@ class GuildstonesController < ApplicationController
         total_votes = Vote.where(rule_proposal_id: rule_proposal.id).count
         #remove the two -- for testing only
         consensus = (total_members * 0.66666) - 2
-        
+
       if total_votes > consensus
         @new_rule = Rule.create(user_id: rule_proposal.proposer_id, guildstone_id: guildstone.id, position_id: rule_proposal.position_id,
           description: rule_proposal.description, title: rule_proposal.title, department_id: rule_proposal.department_id,
@@ -101,6 +101,7 @@ class GuildstonesController < ApplicationController
         term_length = @new_rule.term_length_days.to_s + 'd'
 
          # destroy rule in term_length_days, send user a message that their rule's term has ended.
+
       Rufus::Scheduler.singleton.in term_length do
         Message.create(user_id: rule_proposal.proposer_id, task_id: "Guildstone", content:"Your rule's term has ended, RuleID: #{@new_rule[:id]}", subject:"Altama Rule Term End")
         @new_rule.destroy
