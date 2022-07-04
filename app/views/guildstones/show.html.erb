@@ -14,15 +14,16 @@
   <%= render 'form_section' %>
      <%= render "rule_category_form", category: @category%>
       <div class="window-section-body-container">
+      <div class="section-header"><%= @guildstone.title %></div>
         <div class="window-section-body">
-          <div class="section-header"><%= @guildstone.title %></div>
+    
           <% @departments.each do |department| %>
-            <%= render 'department', department: department %>
+            <%= render 'main_department', department: department %>
           <% end %>
         <div>
-            <%= link_to state_user_positions_path, class: 'desktop-icon', method: :post do %>
-              View All User Positions
-            <% end %>
+
+
+
             <% if @user_position_windows.present? %>
               <%  @user_position_windows.each_with_index do |window, i | %>
                 <%= render 'modal_user_positions', i: i %>
@@ -31,9 +32,7 @@
             <% end %>
             </div>
             <div>
-            <%= link_to state_rules_path, class: 'desktop-icon', method: :post do %>
-              View All Rules
-            <% end %>
+
             <% if @rules_windows.present? %>
               <%  @rules_windows.each_with_index do |window, i | %>
                     <%= render 'modal_rules', i: i %>
@@ -49,6 +48,14 @@
             <% if @message_windows.present? %>              
                 <%= render '/desktop/apps/asl/message', message:@guildstone_message, task: @current_task  %>              
             <% end %>
+
+            <% if @modals.present? %> 
+              <% @modals.each_with_index do |window, i |  %>       
+                  
+                  <%= render 'modal', window: window, task: @current_task, i: i   %>              
+              <% end %>
+            <% end %>
+
       </div>
     </div>
   </div>

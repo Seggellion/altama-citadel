@@ -14,60 +14,60 @@
             Altama Energy Org Chart
             </div>
             <div class="modal-body">
-
-
-
-
                 <div class="chart-container">
                     <span class="whitebackground">Partners</span>
                     <div class="chart-body">
                         <div class="executive">
                             <% @executive_departments.each do |department| %>
-                            <div class="exec-department circle">
-                                <%= department.title %>
-                            </div>
+                                
+                                <% if department.department_type == "faculty"  %>
+                                    <div class="exec-department circle">
+                                        <%= department.title %>
+                                    </div>
+                                <% end %>
                             <% end %>
+
                             <div class="governing">
-                                <div class="exec-department rounded">
-                                   Top Senior Executives
+                                <% @governing_departments.each do |department| %>
+                                    
+                                        <% unless department.title == "CEO"  %>
+                                        <div class="exec-department rounded">
+                                            <%= department.title %>
+                                        </div>
+                                        <% else %>
+                                            <div class="exec-department">
+                                                <%= department.title %>
+                                            </div>
+                                        <% end %>                                    
+                                <% end %>
                                 </div>
+
+                                
+                            <% @audit_departments.each do |department| %>                            
                                 <div class="exec-department">
-                                    CEO
+                                    <%= department.title %>
                                 </div>
-                            </div>
-                            <div class="exec-department">
-                                Audit Council
-                            </div>
+                            <% end %>
+                            
+
+       
 
                         </div>
 
                         <div class="directors">
-                            <div class="director-department">
-                                Director
-                            </div>
-                            <div class="director-department">
-                                Director
-                            </div>
-                            <div class="director-department">
-                                Director
-                            </div>
-                            <div class="director-department">
-                                Director
-                            </div>
+                        <% @director_departments.each do |department| %>
+                                <div class="director-department">
+                                <%= department.title %>
+                                </div>
+                            <% end %>
                         </div>
                         <div class="flightcrews">
+                        <% @worker_departments.each do |department| %>
                             <div class="flightcrew_department">
-                                Flight Crews
+                            <%= department.title %>
                             </div>
-                            <div class="flightcrew_department">
-                                Flight Crews
-                            </div>
-                            <div class="flightcrew_department">
-                                Flight Crews
-                            </div>
-                            <div class="flightcrew_department">
-                                Flight Crews
-                            </div>
+     
+                        <% end %>
                      </div>
 
                     </div>

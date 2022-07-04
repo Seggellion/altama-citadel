@@ -74,6 +74,7 @@ end
 def close_state_window
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
+  
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
@@ -200,6 +201,35 @@ end
     format.html { redirect_to guildstone_path(0), notice: "opened position" }
     end
   end
+
+def state_modals
+  state_name = ""
+  if params[:department_id].present?
+    state_name = "modal-#{params[:department_id]}"
+    modal_type = "|department"
+  elsif  params[:task_id].present?
+    state_name = "modal-allposition"
+    modal_type = ""
+    #state_name = "modal-#{params[:task_id]}"
+   # modal_type = "|allposition"
+  end
+
+  task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
+  @window_states =  []
+  window_state_csv = task.state
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+    @window_states = window_state_csv.split('|')
+  end  
+  unless @window_states.include?(state_name + modal_type)
+    @window_states = @window_states + Array[state_name + modal_type]      
+  end    
+  states_string = @window_states.join(',')    
+  
+  task.update(state:states_string)
+  redirect_to(request.env['HTTP_REFERER'])
+end
+
 
   def state_user_positions
     @user_position_histories = UserPositionHistory.all
