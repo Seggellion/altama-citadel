@@ -32,6 +32,8 @@ def type
        "Surface Outpost"
      when 6
        "Point of interest"
+      when 7
+        "Orbital marker"
      end
  end
 

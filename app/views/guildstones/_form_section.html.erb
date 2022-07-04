@@ -5,6 +5,8 @@
       <span>Department:</span>
       Title: <%= form.text_field :title, :required=>'true' %>
       
+      Type: <%= form.select :department_type, ['worker', 'executive', 'director', 'audit', 'faculty', 'governing'] %>
+
       <%= form.submit 'Add' %>
     <% end %>
   </div>

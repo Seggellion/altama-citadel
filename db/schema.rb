@@ -84,6 +84,8 @@ ActiveRecord::Schema.define(version: 2022_07_03_230954) do
     t.integer "parent_department_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "department_type"
+    t.integer "order"
   end
 
   create_table "discord_users", force: :cascade do |t|

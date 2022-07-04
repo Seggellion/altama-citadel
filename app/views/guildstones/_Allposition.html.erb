@@ -1,0 +1,21 @@
+<div class="position-container">
+
+<div class="position-body">
+
+
+
+<div class="position-list">
+    List of all positions:
+    <table>
+    
+    <% Position.all.each do |position|  %>
+        <tr>
+        <td><%= position.title %></td>
+        </tr>
+    <% end %>
+</table>
+
+</div>
+
+</div>
+</div>

@@ -110,5 +110,17 @@ export default class extends Controller {
           document.getElementById("position_id").value = positionId;
        });
  }
+ 
+  buttonClicked(event){
+    var button =  event.currentTarget;
+    button.classList.add("click");
+    setTimeout(function(){
+      button.classList.remove("click");
+    },100);
+    setTimeout(function(){
+    },200);
+
+  }
+
   
 }

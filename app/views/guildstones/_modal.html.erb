@@ -1,0 +1,25 @@
+
+<div draggable="true" class="guildstone-modal org_chart" 
+    <% if i > 0 %>
+    style="transform: translate(
+        calc(-50% + <%= i + 1.5 %>%),calc(-30% + <%= i + 2 %>%));
+        z-index: <%= i %>"
+    <%end%> >
+    <div class="section-window-header">   
+    <%= @current_task.getModalType %> : <%= @current_task.getModalTitle %> 
+    
+    
+    
+        <%= link_to "", close_state_window_path(window:  "#{@current_task.getModalAttribute(window)}", task: @current_task.id), class:'close-btn windowed' %>
+    </div>
+    <div class="modal-container">
+        <div class="position-header">
+        <%= @current_task.getModalTitle %> 
+        </div>
+        <div class="modal-body">
+
+        <%= render @current_task.getModalType, attribute: @current_task.getModalId, i:i %>
+
+        </div>
+    </div>
+</div>

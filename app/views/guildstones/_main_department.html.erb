@@ -1,0 +1,31 @@
+<div class="section-window">
+    <div class="section-window-header">
+    <%= link_to department.title, state_modals_path(department_id: department.id),  class: 'department-title', method: :post %>
+    </div>
+    <div class="position-list">
+        <% if department.positions %>
+        <% department.positions.each do |position|  %>
+            
+            <%= link_to state_positions_path(position: position.title), class: 'desktop-icon', method: :post do %>
+            <% if position.user_position %>  <% end %> <%= position.title %>
+             <%= position.position_username || ' - Apply' %>
+            <% end %>
+            <br>
+            <% if @window_states.present? %>
+            <% @window_states.each_with_index do |window, i | %>
+                <% if position.title == window %>
+                <%= render 'modal-position', position: position, i: i %>
+                <% end %>
+            <% end %>
+            <% end %>
+            
+        <% end %>
+        
+        <% else %>
+        No positions
+        <% end %>
+    </div>
+    <% if current_user.isAdmin? %>
+    <%= button_to "Delete", department_path(department), method: :delete %>
+    <% end %>
+</div>
