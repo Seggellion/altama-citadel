@@ -1,0 +1,10 @@
+<h1>Hangardump#index</h1>
+<% if !flash[:notice].blank? %>
+   <div class = "alert alert-info">
+      <%= flash[:notice] %>
+   </div>
+<% end %>
+
+<br />
+
+<%= link_to "New Hangardump", new_hangardump_path, class: "btn btn-primary" %>

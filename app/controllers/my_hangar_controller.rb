@@ -1,14 +1,28 @@
 class MyHangarController < ApplicationController
   before_action :set_usership, only: %i[ show edit update destroy ]
-
+  before_action :task_manager
   # GET /userships or /userships.json
   def index
     @userships = Usership.all
   end
 
 def view
-
+@current_task = @all_tasks.where(name: 'My Hangar').first
     @myships = Usership.where(user_id: current_user.id)
+    @myships_origin = Usership.where(user_id: current_user.id)
+end
+
+def fleet_view
+  org_users = User.where("user_type < ?", 42) 
+ # Usership.joins(:user).where(user: { user_id: org_users })
+  usership = []
+
+  org_users.each do | user | 
+    usership << Array[Usership.find_by(user: user.id)]
+
+  end
+
+  @allships = Usership.where(user_id: current_user.id)
 end
 
   # GET /userships/1 or /userships/1.json
@@ -25,7 +39,7 @@ end
   # GET /userships/1/edit
   def edit
   end
-
+ 
   # POST /userships or /userships.json
   def create
     @usership = Usership.new(usership_params)

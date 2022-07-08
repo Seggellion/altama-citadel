@@ -24,7 +24,7 @@ class ShipsTest < ApplicationSystemTestCase
     fill_in "Msrp", with: @ship.msrp
     fill_in "Quantum", with: @ship.quantum
     fill_in "Scu", with: @ship.scu
-    fill_in "Weight", with: @ship.weight
+    fill_in "Weight", with: @ship.mass
     click_on "Create Ship"
 
     assert_text "Ship was successfully created"
@@ -45,7 +45,7 @@ class ShipsTest < ApplicationSystemTestCase
     fill_in "Msrp", with: @ship.msrp
     fill_in "Quantum", with: @ship.quantum
     fill_in "Scu", with: @ship.scu
-    fill_in "Weight", with: @ship.weight
+    fill_in "Weight", with: @ship.mass
     click_on "Update Ship"
 
     assert_text "Ship was successfully updated"

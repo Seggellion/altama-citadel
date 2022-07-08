@@ -327,6 +327,7 @@ ActiveRecord::Schema.define(version: 2022_07_03_230954) do
     t.integer "capacitor_crew_regen"
     t.integer "capacitor_turret_load"
     t.integer "capacitor_turret_regen"
+    t.string "alt_ship_name"
   end
 
   create_table "task_managers", force: :cascade do |t|
@@ -435,8 +436,16 @@ ActiveRecord::Schema.define(version: 2022_07_03_230954) do
     t.boolean "primary"
     t.boolean "fleetship"
     t.string "paint"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
+    t.string "ship_serial"
+    t.integer "pledge_id"
+    t.string "pledge_name"
+    t.date "pledge_date"
+    t.string "pledge_cost"
+    t.boolean "lti"
+    t.boolean "warbond"
+    t.string "source", default: "manual"
   end
 
   create_table "votes", force: :cascade do |t|
