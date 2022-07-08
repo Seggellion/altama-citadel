@@ -17,9 +17,46 @@ before_action :task_manager
       end
   end
 
+def start_my_hangar
+  unless @all_tasks.find_by(name:'My Hangar').present?
+    @task =  Task.create(name: 'My Hangar',task_manager_id: @task_manager.id, view: 'full')
+    end  
+
+    respond_to do |format|
+      format.html { redirect_to my_hangar_path, notice: "task started" }
+    end
+end
+
+def state_ship_modal
+  usership = params[:ship]
+
+  #@messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
+  task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "My Hangar")
+
+  @window_states =  []
+  state_name = "modal-#{usership}"
+ # last_message = "|#{@messages.id}"
+  window_state_csv = task.state
+  unless window_state_csv.nil?
+    @window_states = window_state_csv.split(',')
+  end  
+  unless @window_states.include?(state_name)
+    @window_states = @window_states + Array[state_name]
+  end
+  states_string = @window_states.join(',')
+
+  task.update(state:states_string)
+
+
+  redirect_to(request.env['HTTP_REFERER'])
+end
+
 def close_position_window
   window = params[:window]
-  window_state_csv = @all_tasks.where(name: 'Guildstone').first.state
+  task_name = params[:window]
+  task = @all_tasks.find_by(name: task_name)
+
+  window_state_csv = task.state
   @window_states =  []
   unless window_state_csv.nil?
     @window_states = window_state_csv.split(',')
@@ -72,6 +109,7 @@ def close_rules_window
 end
 
 def close_state_window
+
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
   
@@ -82,12 +120,15 @@ def close_state_window
   if @window_states.include?(window)
     
     @window_states = @window_states - Array(window)
-  end 
+  end
+ 
   states_string = @window_states.join(',')
-  
+
   task.update(state:states_string)
   redirect_to(request.env['HTTP_REFERER'])
-
+ # respond_to do |format|
+ #   format.html { redirect_to desktop_path, notice: "closed window" }
+ #   end
 end
 
 def start_rfa_manager
@@ -105,6 +146,52 @@ def start_asl
     end  
     redirect_to(request.env['HTTP_REFERER'])
 end
+
+def filter_state
+
+window = params[:filter_type]
+task = @all_tasks.find_by_id(params[:task])
+
+#@new_ships =  @myships.joins("INNER JOIN ships ON ships.manufacturer_id = manufacturers.id AND manufacturers.id = 1")
+#@myships.joins(ships: :manufacturer).where('manufacturers.id' => 1)
+@myships = Usership.where(user_id: current_user.id)
+@myships = Usership.joins(ship: :manufacturer).where('manufacturers.id' => 1)
+
+@myships.each do |thisship|
+  puts(thisship.ship_name)
+end
+#@myships = Usership.joins(:ships).where(ships: {ship: Ship.where(manufacturer: Manufacturer.find_by(id: 1))})
+binding.break
+
+
+window_state_csv = task.state
+unless window_state_csv.nil?
+  @window_states = window_state_csv.split(',')
+  message_states = window_state_csv.split('|')
+end  
+unless @window_states.include?(state_name + nxt_message)
+  @window_states = @window_states - Array[state_name + curr_message]
+  @window_states = @window_states + Array[state_name + nxt_message]
+  
+end
+
+
+unless task.state.nil?
+  @window_states = task.state.split(',')
+end  
+if @window_states.include?(window)
+  @window_states = @window_states - Array(window)
+end
+
+states_string = @window_states.join(',')
+
+task.update(state:states_string)
+redirect_to(request.env['HTTP_REFERER'])
+
+
+end
+
+
 
 def start_ship_manager
 
