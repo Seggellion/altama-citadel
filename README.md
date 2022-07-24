@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+#install for macos
 
-Things you may want to cover:
+Install ruby 3
 
-* Ruby version
+sudo gem install rails
 
-* System dependencies
+(may have to restart terminal)
 
-* Configuration
+bundle install
 
-* Database creation
+rails db:create:migrate
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+rails db:seed
