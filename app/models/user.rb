@@ -88,11 +88,13 @@ end
     if self.user_type == 0
       p 'Administrator'
     elsif self.user_type == 10
-      p 'Members of the Board'
+      p 'Board Member'
     elsif self.user_type == 15
       p 'Executive'
     elsif self.user_type == 20
       p 'Partner'
+    elsif self.user_type == 25
+      p 'Flight Crew'
     elsif self.user_type == 30
       p 'Worker Owner'
     elsif self.user_type == 42
