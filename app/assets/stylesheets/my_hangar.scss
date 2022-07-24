@@ -7,7 +7,6 @@ $hangar_light_grey_shadow: $dark_grey;
 $hangar_highlight_border: 2px solid $hangar_light_grey_highlight;
 $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
 
-
 #my_hangar{
   margin:0px;
   height:100vh;
@@ -74,14 +73,19 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
         display:flex;
         justify-content: center;
         align-items: center;
+        .well{
+            display:none;
+        }
         .hangar-actions{
             display: flex;
             justify-content: space-around;
             flex-direction: column;
             height: 100%;
             margin-left: 70px;
-            
-            button{
+            .hangar-button::after{
+                content:'Import Fleetview';
+            }
+            button, .hangar-button{
                 background-color:black;
                 padding:40px 60px;
                 display: flex;

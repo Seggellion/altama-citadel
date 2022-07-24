@@ -8,7 +8,7 @@ export default class extends Controller {
     
 
     var selected = document.querySelectorAll('[data-selected="true"]')[0].getElementsByTagName('form')[0];
-    console.log('hi', selected);
+  
 
     selected.submit();
 
@@ -44,10 +44,12 @@ edit(event){
     }else{
       event.currentTarget.classList.add("selected");
       event.currentTarget.dataset.selected = true;
-
     }
-
-
   }
+
+  import_ships(){
+    document.getElementById('upload_button').click();
+  }
+
 
 }
