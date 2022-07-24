@@ -52,9 +52,11 @@ def state_ship_modal
 end
 
 def close_position_window
+  #byebug
   window = params[:window]
   task_name = params[:window]
-  task = @all_tasks.find_by(name: task_name)
+  #magic number
+  task = @all_tasks.where(name: 'Guildstone').first
 
   window_state_csv = task.state
   @window_states =  []

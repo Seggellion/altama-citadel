@@ -1,9 +1,10 @@
 <div draggable="true"  class="window message-window">
     
-    <div class="section-window-header"><%= show_svg('asl') %>ASL-Message <%= message.sender %>
-    
+    <div class="section-window-header"><%= show_svg('asl') %>ASL-Message 
+    <%= message.sender %>
+  
     <%= link_to "", close_state_window_path(window: "message-#{message.sender}|#{message.id}", task: task.id), class:'close-btn windowed' %>
-    
+   
     </div>
     <% message.make_read %>
     <div class="asl-container" data-controller="asl" >
