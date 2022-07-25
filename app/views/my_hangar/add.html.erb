@@ -31,7 +31,7 @@
     <% end %>
   </div>
     <div class="hangar-actions">
-    <%= link_to "My Hangar", my_hangar_path %>
+    <%= link_to "Back", my_hangar_path, class:"hangar-button" %>
       <button id="importfleet_button"  data-action="click->usership#import_ships">Import <small>Fleetview</small></button>
       <div class="well">
       <%= form_with url: hangardump_path do |f| %>

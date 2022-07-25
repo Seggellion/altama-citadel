@@ -1,17 +1,40 @@
 <%= render '/desktop/window-frame', app1: 'My Hangar' %>
 <div class="my-hangar-window">
-<h4>Primary: CNOU Mustang</h4>
-<%= link_to "Add ship", my_hangar_add_path %>
-<%= link_to "View fleet", my_hangar_view_path %>
-<a href="#">Manage Ships</a>
-<hr>
-<%= link_to "View Altama fleet", fleet_view_path %>
+  <div class="hangar-container">
+  <div class="hangar-menu">
+    <h4>Primary: <%= current_user.primary_ship %></h4>
+    <%= link_to "Add ship", my_hangar_add_path %>
+      <%= link_to "View fleet", my_hangar_view_path %>
+    <a href="#">Manage Ships</a>
+    <% if current_user.user_type <= 42 %>
+      <%= link_to "View Altama fleet", fleet_view_path %>
+    <% else %>
+      <a href="#" class="disabled">View Altama fleet</a>
+    <% end %>
+    </div>
+    <div id="hero-image">
+    <h1>  
+    My Altama Hangar
+    </h1>
+    <h2>
+      The Mother of All Hangars
+    </h2>
 
-<div id="userships">
-  <%#= render @userships %>
-</div>
+    <h3>
+      Registered Version
+    </h3>
+    </div>
 
+    <div class="hangar-footer">
+      <span>
+      Version 0.5
+      </span>
+      <span>
+      Copyright 2008-2022 Altama Systems
+      </span>
+    </div>
 
+  </div>
 </div>
 
 <%= render '/desktop/taskbar', app1: 'My Hangar' %>

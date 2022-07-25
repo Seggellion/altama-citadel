@@ -18,7 +18,7 @@
   <%#= turbo_frame_tag dom_id(usership) do %>
     <%# end %>
 
-    <a class="btn" data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >Edit</a>
+    
 
     <turbo-stream action="append" target="userships">
     <template>
@@ -28,14 +28,8 @@
     </template>
   </turbo-stream>
 
-    <%= turbo_frame_tag usership do %>
-      
-    
-      <%#= link_to 'Edit this usership', edit_usership_path(usership) %>
-    <% end %>
-
+  <a class="btn" data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >
     <%= render "userships/usership_details", usership: usership %>
-
-
+    </a>
   <% end %>
 </div>

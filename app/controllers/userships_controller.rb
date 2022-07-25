@@ -43,6 +43,14 @@ class UsershipsController < ApplicationController
   # PATCH/PUT /userships/1 or /userships/1.json
   def update
     respond_to do |format|
+
+      
+      if usership_params[:primary] == "1"
+        
+      primary_userships = Usership.find_by(user_id: current_user.id, primary: 1)
+      primary_userships.update(primary:0)
+      end
+
       if @usership.update(usership_params)
       #  format.turbo_stream { render turbo_stream: turbo_stream.update(@usership) }
       format.turbo_stream do
@@ -81,6 +89,7 @@ class UsershipsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def usership_params
       #params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint, :primary)
-      params.require(:usership).permit(:user_id, :ship_id, :ship_name, :ship_serial, :pledge_id, :pledge_name, :pledge_date, :lti, :warbond)
+      params.require(:usership).permit(:user_id, :ship_id, :ship_name, :ship_serial, :pledge_id, 
+      :pledge_name, :pledge_date, :lti, :warbond, :year_purchased, :description, :paint, :primary)
     end
 end

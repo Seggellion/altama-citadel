@@ -27,16 +27,18 @@
     <%= form.text_field :description %>
   </div>
 
-
-
-
   <div>
     <%= form.label :paint %>
     <%= form.text_field :paint %>
   </div>
 
   <div>
-    <%= form.submit %>
+  <%= form.label :primary %>
+  <%= form.check_box :primary %>
+  </div>
+
+  <div>
+    <%= form.submit 'Update' %>
   </div>
 <% end %>
 
