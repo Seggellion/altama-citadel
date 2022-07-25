@@ -19,10 +19,9 @@ def fleet_view
 
   org_users.each do | user | 
     usership << Array[Usership.find_by(user: user.id)]
-
   end
 
-  @allships = Usership.where(user_id: current_user.id)
+  @allships = Usership.all
 end
 
   # GET /userships/1 or /userships/1.json
