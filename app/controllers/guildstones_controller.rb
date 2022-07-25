@@ -52,23 +52,6 @@ class GuildstonesController < ApplicationController
     end
   end
 
-  def apply_role
-    role = OrgRole.find_by_id(params[:role])
-    guildstone = Guildstone.find_by_id(role.guildstone_id)
-    @apply = OrgRoleNomination.new(org_role_id: role.id, user_id: current_user)
-
-    respond_to do |format|
-      if @apply.save
-        format.html { redirect_to guildstone, notice: "Guildstone was successfully created." }
-        format.json { render :show, status: :created, location: guildstone }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: guildstone.errors, status: :unprocessable_entity }
-      end
-    end
-
-  end
-
   def vote
     guildstone = Guildstone.first
 
@@ -86,7 +69,6 @@ class GuildstonesController < ApplicationController
         if @non_confidence.rule_id
           Rule.where(id: @non_confidence.rule_id).destroy
         elsif @non_confidence.user_position_id
-          binding.break
           UserPositionHistory.where(position_id: @non_confidence.position_id, user_id: @non_confidence.position_user_id).update(active: false)
           UserPosition.find_by(id: @non_confidence.user_position_id).destroy
           @non_confidence.destroy
@@ -161,6 +143,7 @@ class GuildstonesController < ApplicationController
   end
   
   redirect_to guildstone
+  flash.notice = "You voted."
 
   end
 
@@ -191,6 +174,7 @@ class GuildstonesController < ApplicationController
         format.html { redirect_to guildstone, notice: "unvoted." }
         format.json { render :show, status: :created, location: guildstone }
       else
+        flash.alert = "Unable to unvote"
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: guildstone.errors, status: :unprocessable_entity }
       end

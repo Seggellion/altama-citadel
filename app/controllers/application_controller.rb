@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+
+  add_flash_types :info, :error, :warning
+
     def require_login
         unless current_user
           redirect_to root_url

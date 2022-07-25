@@ -7,8 +7,7 @@ Rails.application.routes.draw do
   constraints subdomain: "sos" do
     get "/" => "web#roadside_assistance"
    end
-
-
+   
   resources :departments
   resources :positions
   resources :rules
@@ -119,6 +118,5 @@ Rails.application.routes.draw do
   post 'verify', to: 'users#verify', as: :verify
   post 'hangardump', to: 'hangardumps#create', as: :hangardump
   post 'activate', to: 'users#activate', as: :activate
-  
-  
+
 end

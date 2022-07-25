@@ -10,6 +10,7 @@
      dragenter->desktop#dragenter
       drop->desktop#drop
        dragend->desktop#dragend" >
+  <%= render 'layouts/notices' %>
     <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
     <div class="icon">
     <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> 
@@ -22,7 +23,9 @@
     <%= app1 %>
      </div>
     <% end %>
+ 
 <div class="control-buttons">
+
 
     <% if defined?(task) && task.view == "window" %>
         <%= form_with(model: task) do |form| %>

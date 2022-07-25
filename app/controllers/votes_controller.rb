@@ -43,7 +43,7 @@ class VotesController < ApplicationController
         format.html { redirect_to @vote, notice: "Vote was successfully updated." }
         format.json { render :show, status: :ok, location: @vote }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity, notice: "Unable to update vote" }
         format.json { render json: @vote.errors, status: :unprocessable_entity }
       end
     end

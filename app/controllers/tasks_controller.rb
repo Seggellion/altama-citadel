@@ -23,7 +23,7 @@ def start_my_hangar
     end  
 
     respond_to do |format|
-      format.html { redirect_to my_hangar_path, notice: "task started" }
+      format.html { redirect_to my_hangar_path }
     end
 end
 
@@ -52,7 +52,6 @@ def state_ship_modal
 end
 
 def close_position_window
-  #byebug
   window = params[:window]
   task_name = params[:window]
   #magic number
@@ -69,7 +68,7 @@ def close_position_window
   states_string = @window_states.join(',')
   @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
   respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    format.html { redirect_to guildstone_path(0)}
   end
 
 end
@@ -88,7 +87,7 @@ def close_user_position_window
   states_string = @window_states.join(',')
   @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
   respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    format.html { redirect_to guildstone_path(0) }
     end
 end
 
@@ -106,7 +105,7 @@ def close_rules_window
   states_string = @window_states.join(',')
   @all_tasks.where(name: 'Guildstone').first.update(state:states_string)
   respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened rules" }
+    format.html { redirect_to guildstone_path(0) }
     end
 end
 
@@ -138,7 +137,7 @@ def start_rfa_manager
   @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'full')
   end  
   respond_to do |format|
-  format.html { redirect_to rfas_path, notice: "location manager" }
+  format.html { redirect_to rfas_path }
   end
 end
 
@@ -201,7 +200,7 @@ unless @all_tasks.find_by(name:'Ship Manager').present?
   @task =  Task.create(name: 'Ship Manager',task_manager_id: @task_manager.id, view: 'window')
   end  
   respond_to do |format|
-  format.html { redirect_to desktop_path, notice: "task started" }
+  format.html { redirect_to desktop_path }
   end
 
 end
@@ -213,7 +212,7 @@ def start_location_manager
   @task =  Task.create(name: 'Location Manager',task_manager_id: @task_manager.id, view: 'window')
   end  
   respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "location manager" }
+    format.html { redirect_to desktop_path }
     end
 end
 
@@ -233,7 +232,7 @@ def state_location_wizard
   states_string = @window_states.join(',')
   task.update(state:states_string)
   respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "location manager" }
+    format.html { redirect_to desktop_path }
     end
 end
 
@@ -254,7 +253,7 @@ def state_location_edit
   states_string = @window_states.join(',')
   task.update(state:states_string)
   respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "location manager" }
+    format.html { redirect_to desktop_path }
     end
 end
 
@@ -265,7 +264,7 @@ def start_guildstone
     @task =  Task.create(name: 'Guildstone',task_manager_id: @task_manager.id, view: 'full')
   end
   respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    format.html { redirect_to guildstone_path(0) }
     end
 
 end
@@ -287,7 +286,7 @@ end
     task.update(state:states_string)
     
     respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    format.html { redirect_to guildstone_path(0) }
     end
   end
 
@@ -339,7 +338,7 @@ end
     task.update(state:states_string)
     
     respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened all positions list" }
+    format.html { redirect_to guildstone_path(0) }
     end
   end
 
@@ -360,7 +359,7 @@ end
     task.update(state:states_string)
     
     respond_to do |format|
-      format.html { redirect_to guildstone_path(0), notice: "opened all rules list" }
+      format.html { redirect_to guildstone_path(0)}
     end
   end
 
@@ -370,7 +369,7 @@ end
     task.update(state:"all_users")
 
     respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "All users" }
+    format.html { redirect_to desktop_path }
     end
   end
 
@@ -380,7 +379,7 @@ end
     task.update(state:"root_users")
     
     respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "Root users" }
+    format.html { redirect_to desktop_path }
     end
   end
 
@@ -475,7 +474,7 @@ end
     task.update(state:"discord_users")
     
     respond_to do |format|
-    format.html { redirect_to desktop_path, notice: "Discord users" }
+    format.html { redirect_to desktop_path }
     end
   end
 
@@ -484,7 +483,7 @@ end
    @task =  Task.new(name: 'System Properties',task_manager_id: task_manager.id, view: 'window')
     respond_to do |format|
       if @task.save
-        format.html { redirect_to desktop_path, notice: "Task started." }
+        format.html { redirect_to desktop_path }
         format.json { render :index, status: :created, task: @task }
       else
         format.html { render :index, status: :unprocessable_entity }
@@ -499,7 +498,7 @@ end
       @task =  Task.create(name: 'User profile',task_manager_id: @task_manager.id, view: 'window')
     end
     respond_to do |format|
-      format.html { redirect_to desktop_path, notice: "Task started." }
+      format.html { redirect_to desktop_path }
       end
 
   end
@@ -509,7 +508,7 @@ end
     @task =  Task.new(name: 'RSI Activate',task_manager_id: task_manager.id, view: 'window')
     respond_to do |format|
      if @task.save
-       format.html { redirect_to desktop_path, notice: "Task started." }
+       format.html { redirect_to desktop_path }
        format.json { render :index, status: :created, task: @task }
      else
        format.html { render :index, status: :unprocessable_entity }
