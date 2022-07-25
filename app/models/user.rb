@@ -136,6 +136,10 @@ end
     all_ships.count
   end
 
+  def primary_ship
+    primary_ship = Usership.find_by(user_id: self.id, primary:1)
+    primary_ship.ship.model
+  end
 
     def self.from_omniauth(auth, params)
       

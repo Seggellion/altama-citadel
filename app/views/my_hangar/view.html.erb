@@ -1,7 +1,7 @@
 <div id="view_ships">
 <div class="fleet-name"><%= @current_user.username %>'s Fleet | <%=@myships.length %></div>
 
-<div class="fleet-toolbar"><%= link_to filter_state_path(filter_type:'manufacturer', filter_option:'origin') do %> <%= image_tag('manufacturer/origin.webp') %> <% end %></div>
+<div class="fleet-toolbar" style="display:none;"><%= link_to filter_state_path(filter_type:'manufacturer', filter_option:'origin') do %> <%= image_tag('manufacturer/origin.webp') %> <% end %></div>
 
         <div id="container">
         <div class="sliding-background"></div>

@@ -250,6 +250,7 @@ i.error-icon{
 }
 
 
+
 @mixin close_btn{
   .close-btn{
   cursor: pointer;
@@ -292,4 +293,17 @@ i.error-icon{
   border-style: outset;
   border-image: initial;
   }
+}
+
+@mixin bevelled($thickness: 20px, $light_grey_highlight: $light_grey_highlight){
+  border-top: $thickness solid $light_grey_highlight;
+  border-left:$thickness solid $light_grey_highlight;
+  border-bottom:$thickness solid $light_grey_shadow;
+  border-right:$thickness solid $light_grey_shadow;
+}
+@mixin embossed($thickness: 20px){
+  border-bottom: $thickness solid $light_grey_highlight;
+  border-right:$thickness solid $light_grey_highlight;
+  border-top:$thickness solid $light_grey_shadow;
+  border-left:$thickness solid $light_grey_shadow;
 }

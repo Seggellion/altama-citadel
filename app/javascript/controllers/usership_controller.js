@@ -18,6 +18,11 @@ export default class extends Controller {
 edit(event){
   var ship_id =  event.currentTarget.dataset.ship;
   var edit_container = document.getElementById('container-' + ship_id);
+  var all_showing_elements = document.getElementsByClassName('show');
+
+  for (let i = 0; i < all_showing_elements.length; i++) {
+    all_showing_elements[i].classList.remove('show');
+  }
   
     if (edit_container.classList.contains('show')){
       edit_container.classList.remove('show');

@@ -9,9 +9,14 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
 
 #my_hangar{
   margin:0px;
-  height:100vh;
+  
+  height: calc(100% - 33px);
   width:100vw;
   background-color:black;
+  .add-ship-window{
+    height:100%;
+  }
+
   .edit-ship{
       width:100%;
       height:50vh;
@@ -49,6 +54,9 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
         padding: 5px 5px 0px 5px;
         font-size:0.8rem;
       }
+      input[type='Submit']{
+        cursor:pointer;
+      }
       label{
         font-family:'m42';
         font-size:0.8rem;
@@ -67,7 +75,10 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
     }
 }
     .hangar{
-        height:50vh;
+        
+        
+            height: calc(50vh - 33px);
+        
         width:100%;
         background-color: $dark_grey;
         display:flex;
@@ -82,17 +93,15 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
             flex-direction: column;
             height: 100%;
             margin-left: 70px;
-            .hangar-button::after{
-                content:'Import Fleetview';
-            }
+
             button, .hangar-button{
                 background-color:black;
-                padding:40px 60px;
+               
                 display: flex;
                 flex-wrap:wrap;
                 width:220px;
                 font-family:'m42';
-                height:115px;
+                height:95px;
                 justify-content: center;
                 align-items: center;
                 color:white;
@@ -102,13 +111,14 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
                 border-right:$hangar_shadow_border;
                 border-bottom:$hangar_shadow_border;
                 cursor:pointer;
+                small{
+                    margin-top:-10px;
+                }
                 &:hover{
                     background-color:white;
                     color:black;
                 }
-                &:last-child{
-                    transform: translateY(-17px);
-                }
+
             }
         }
         .ship-list{
@@ -178,10 +188,88 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
         }
 
     }
-
+    .hangar-container{
+        @include bevelled(5px);
+        background-color: $light_grey;
+        height: calc(100vh - 33px);
+        display:flex;
+        flex-direction:row;
+        flex-wrap:wrap;
+        
+        .hangar-footer{
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin-left: 34%;
+            font-size: 0.8rem;
+            margin-top: -40px;
+            justify-content: space-around;
+        }
+        .hangar-menu{
+            width: 274px;
+            padding: 0px 15px 0px 18px;
+            display: inline-flex;
+            flex-direction: column;
+            a{
+                @include bevelled(5px);
+                display:flex;
+                align-items: center;
+                justify-content: center;
+                padding:5px;
+                margin:10px 0px;
+                width:auto;
+                max-width:265px;
+                text-align: center;
+                font-size:0.9rem;
+                height:50px;
+                line-height:20px;
+                &:hover{
+                    background-color: $dark_grey;
+                    color:white;
+                }
+                &.disabled{
+                    cursor:initial;
+                    color:#828282;
+                    background-color:#646464;
+                    &:hover{
+                        content:'insufficient privs';
+                    }
+                }
+            }
+        }
+    }
+#hero-image{
+    @include embossed(5px);
+    text-align: center;
+    height:510px;
+    align-items: center;
+    flex-direction:column;
+    justify-content: flex-start;
+    background-size: cover;
+    background-position: center;
+    background-image: image-url('hangar.png');
+    display: inline-flex;
+    width: 696px;
+    h1,h2,h3,h4{
+        color:white;
+    }
+    h1{
+        font-size:1.6rem;
+text-shadow: -4px -4px 0px #00e6e6,
+                 -8px -8px 0px #01cccc,
+                 -12px -12px 0px #00bdbd;
+    }
+    h2{
+        font-size:0.9rem;
+    }
+    h3{
+        font-size:0.7rem;
+    }
+}
 
     .my-hangar-window{
-        background-image: image-url('hangar.png');
+        background-color: black;
         margin-top:50px;
         font-family:'m42';
         height: 100%;
@@ -192,12 +280,11 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-left:100px;
+        padding:0px 130px;
 
         a, a:visited{
             color:black;
-            display:block;
-            width:100%;
+        
             text-decoration: none;
             &:hover{
                 color:white;
@@ -208,7 +295,52 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
         }
     }
 
+    .owned-ships{ 
+        .btn{
+            display:block;
+            cursor:pointer;
+            padding:20px 10px;
+        }
+        .btn:hover{
+            background-color: #646464;
+            color:white;
+            
+        }
+        .primary-ship{
+            color:red;
+            display:block;
+        }
+    }
+
+    .edit-pane{
+         input[type="checkbox"]{
+            width:25px;
+            height:25px;
+            background-color:black;
+            color:green;
+            filter: invert(100%) hue-rotate(62deg) brightness(1.6);
+            border:1px solid green;
+        }
+        form > div {
+            width:100%;
+        }
+    }
+    .fleet-view{
+        td{
+        font-size:0.6rem;
+        }
+        .hangar-container{
+            overflow:scroll;
+            padding:20px;
+        }
+    }
 }
+
+
+
+
+
+
 
 #view_ships{
     .fleet-toolbar{
@@ -341,4 +473,6 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
         }
 
     }
+  
 }
+

@@ -36,11 +36,15 @@
     <%= form.number_field :user_id %>
   </div>
 
+  
   <div>
     <%= form.label :paint, style: "display: block" %>
     <%= form.text_field :paint %>
   </div>
-
+  <div>
+  <%= form.label :primary, style: "display: block" %>
+  <%= form.check_box :primary %>
+  </div>
   <div>
     <%= form.submit %>
   </div>
