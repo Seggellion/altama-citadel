@@ -21,18 +21,27 @@ def clear_ships
   end
 end
 
+def all_fleet
+  @myships = Usership.where(user_id: current_user.id)
+  @myships.update_all(show_information: 1)
+  respond_to do |format|
+    format.html { redirect_to my_hangar_manage_path, notice: "Records clear." }
+    format.json { head :no_content }
+  end
+end
+
 def fleet_view
   org_users = User.where("user_type < ?", 42) 
- # Usership.joins(:user).where(user: { user_id: org_users })
-  @usership = []
+ # Usership.joins(:user).where(user: { user_id: org_users })  
   org_ships = Usership.where(show_information:1)
-  
-  org_users.each do | user | 
-    @usership << org_ships.find_by(user: user.id)
-
+  unless org_ships.blank?
+    @usership = []
+    org_users.each do | user | 
+      @usership << org_ships.find_by(user: user.id)
+    end
   end
 
-  @allships = @usership
+  @allships = @usership || nil
   
 end
 

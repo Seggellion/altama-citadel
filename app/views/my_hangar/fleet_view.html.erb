@@ -6,12 +6,14 @@
   <div class="hangar-container">
  
   <table>
-  <tr>
+  <tr class="fleet-heading">
 <td>Manufacturer</td>
 <td>Model</td>
 <td>Year purchased</td>
 <td>Owner</td>
   </tr>
+  <% unless @allships.nil? %>
+  
   <% @allships.each do | usership | %>
     <tr>
     <td><%= usership.ship.manufacturer.name %></td>
@@ -20,6 +22,9 @@
     <td><%= usership.user.username %></td>
         
     </tr>
+<% end %>
+<% else %>
+No Records
 <% end %>
 </table>
 

@@ -356,6 +356,11 @@ text-shadow: -4px -4px 0px #00e6e6,
         .hangar-container{
             overflow:scroll;
             padding:20px;
+            flex-direction:column;
+        }
+        .fleet-heading td{
+            border-bottom:1px solid grey;
+            padding-bottom:8px;
         }
     }
 }

@@ -32,17 +32,10 @@
   </div>
     <div class="hangar-actions">
     <%= link_to "Back", my_hangar_path, class:"hangar-button" %>
-      <button id="importfleet_button"  data-action="click->usership#import_ships">Import <small>Fleetview</small></button>
-      <div class="well">
-      <%= form_with url: hangardump_path do |f| %>
+    <%= link_to "Add all to fleet", my_hangar_all_fleet_path, class:"hangar-button" %>
+      
 
-
-
-      <%= f.file_field :attachment, :onChange=>"javascript: this.form.submit();", id:'upload_button', direct_upload: true %>
-      <%= f.submit "Save", class: "btn btn-primary" %>
-      <% end %>
-      </div>
-      <button id="usership_button"  data-action="click->usership#submit" >Add To Hangar</button>
+     
     </div>
   </div>
 </div>
