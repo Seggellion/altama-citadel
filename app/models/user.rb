@@ -138,7 +138,12 @@ end
 
   def primary_ship
     primary_ship = Usership.find_by(user_id: self.id, primary:1)
-    primary_ship.ship.model
+   if primary_ship
+    return primary_ship.ship.model
+  else
+    return false
+  end
+
   end
 
     def self.from_omniauth(auth, params)
