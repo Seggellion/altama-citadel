@@ -12,17 +12,28 @@ def view
     @myships_origin = Usership.where(user_id: current_user.id)
 end
 
+def clear_ships
+  @myships = Usership.where(user_id: current_user.id)
+  @myships.destroy_all
+  respond_to do |format|
+    format.html { redirect_to my_hangar_add_path, notice: "Records clear." }
+    format.json { head :no_content }
+  end
+end
+
 def fleet_view
   org_users = User.where("user_type < ?", 42) 
  # Usership.joins(:user).where(user: { user_id: org_users })
-  usership = []
-
+  @usership = []
+  org_ships = Usership.where(show_information:1)
+  
   org_users.each do | user | 
-    usership << Array[Usership.find_by(user: user.id)]
+    @usership << org_ships.find_by(user: user.id)
 
   end
 
-  @allships = Usership.where(user_id: current_user.id)
+  @allships = @usership
+  
 end
 
   # GET /userships/1 or /userships/1.json
@@ -31,6 +42,12 @@ end
 
   # GET /userships/new
   def add
+    @usership = Usership.new
+    @alluserships = Usership.where(user_id: current_user.id)
+    @allships = Ship.all
+  end
+
+  def manage
     @usership = Usership.new
     @alluserships = Usership.where(user_id: current_user.id)
     @allships = Ship.all

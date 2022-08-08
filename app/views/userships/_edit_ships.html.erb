@@ -1,9 +1,10 @@
+<%= link_to "Remove ship", usership_path(usership), class: 'btn', 'data-turbo-method': :delete  %>
+
 <%= turbo_frame_tag usership do %>
 <%= form_with(model: usership) do |form| %>
   <% if usership.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(usership.errors.count, "error") %> prohibited this usership from being saved:</h2>
-
       <ul>
         <% usership.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -18,7 +19,7 @@
   </div>
 
   <div>
-    <%= form.label :year_purchased %>
+    <%= form.label :year %>
     <%= form.number_field :year_purchased %>
   </div>
 
@@ -27,14 +28,16 @@
     <%= form.text_field :description %>
   </div>
 
-  <div>
-    <%= form.label :paint %>
-    <%= form.text_field :paint %>
-  </div>
+  <div class="input-group">
+    <div>
+      <%= form.label :primary %>
+      <%= form.check_box :primary %>
+    </div>
 
-  <div>
-  <%= form.label :primary %>
-  <%= form.check_box :primary %>
+    <div>
+      <%= form.label :altama_fleet %>
+      <%= form.check_box :show_information %>
+    </div>
   </div>
 
   <div>
