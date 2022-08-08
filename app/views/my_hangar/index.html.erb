@@ -2,7 +2,9 @@
 <div class="my-hangar-window">
   <div class="hangar-container">
   <div class="hangar-menu">
+  <% if current_user.primary_ship %>
     <h4>Primary: <%= current_user.primary_ship %></h4>
+  <% end %>
     <%= link_to "Add ship", my_hangar_add_path %>
       <%= link_to "View fleet", my_hangar_view_path %>
       <%= link_to "Manage ships", my_hangar_manage_path %>

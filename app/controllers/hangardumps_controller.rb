@@ -28,7 +28,7 @@ class HangardumpsController < ApplicationController
 
 
   def create
-    del = "delete from public.userships where user_id = " + current_user.id.to_s + " and source = 'imported'"
+    del = "delete from public.userships where user_id = " + current_user.id.to_s
     delresult = ActiveRecord::Base.connection.execute(del)
 
     data_hash = JSON.parse(File.read(params[:attachment].tempfile))
