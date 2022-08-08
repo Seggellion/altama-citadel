@@ -59,6 +59,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 
 gem 'devise', git: 'https://github.com/heartcombo/devise', branch: 'main'
 gem 'byebug'
+
 gem 'omniauth-discord'
 gem 'omniauth-rails_csrf_protection'
 

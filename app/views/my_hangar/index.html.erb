@@ -5,7 +5,8 @@
     <h4>Primary: <%= current_user.primary_ship %></h4>
     <%= link_to "Add ship", my_hangar_add_path %>
       <%= link_to "View fleet", my_hangar_view_path %>
-    <a href="#">Manage Ships</a>
+      <%= link_to "Manage ships", my_hangar_manage_path %>
+    
     <% if current_user.user_type <= 42 %>
       <%= link_to "View Altama fleet", fleet_view_path %>
     <% else %>
