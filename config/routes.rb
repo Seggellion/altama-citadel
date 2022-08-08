@@ -67,6 +67,7 @@ Rails.application.routes.draw do
   get 'my_hangar_import', to: 'hangardump#index'
   get 'my_hangar_add', to: 'my_hangar#add'
   get 'my_hangar_manage', to: 'my_hangar#manage'
+  get 'my_hangar_all_fleet', to: 'my_hangar#all_fleet'
   get 'my_hangar_destroy', to: 'my_hangar#clear_ships'
   get 'my_badges', to: 'badges#index'
 
