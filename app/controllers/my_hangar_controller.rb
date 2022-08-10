@@ -35,13 +35,13 @@ def fleet_view
  # Usership.joins(:user).where(user: { user_id: org_users })  
   org_ships = Usership.where(show_information:1)
   unless org_ships.blank?
-    @usership = []
+    @allships = []
     org_users.each do | user | 
-      @usership << org_ships.find_by(user: user.id)
+      @allships << org_ships.find_by(user: user.id)
     end
   end
 
-  @allships = @usership || nil
+
   
 end
 
