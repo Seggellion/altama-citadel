@@ -34,15 +34,15 @@ def fleet_view
   org_users = User.where("user_type < ?", 42) 
  # Usership.joins(:user).where(user: { user_id: org_users })  
   org_ships = Usership.where(show_information:1)
+  @allships = []
   unless org_ships.blank?
-    @allships = []
+    
     org_users.each do | user | 
-      @allships << org_ships.find_by(user: user.id)
+      org_ships_match = org_ships.where(user_id: user.id)
+      @allships = @allships + org_ships_match
+      
     end
-  end
-
-
-  
+  end  
 end
 
   # GET /userships/1 or /userships/1.json
