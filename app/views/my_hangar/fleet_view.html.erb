@@ -16,7 +16,16 @@
   <% unless @allships.nil? %>
   
   <% @allships.each do | usership | %>
-    <% puts 'data: ', usership %> 
+    
+    <tr>
+    <td><%= usership.id %></td>
+    <% if usership.ship %>
+    <td><%= usership.ship.manufacturer.name || 'no data' %></td>
+    <td><%= usership.ship.model || 'no data' %></td>
+    <td></td>
+    <td><%= usership.user.username || 'no data' %></td>        
+    <% end %>
+    </tr>    
   <% end %>
 <% else %>
 No Records
