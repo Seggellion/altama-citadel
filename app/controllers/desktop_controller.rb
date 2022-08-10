@@ -46,7 +46,7 @@ redirect_to desktop_path
 end
 def discord_user_list
   users = DiscordUser.write
-redirect_to desktop_path
+  redirect_to desktop_path
 end
 
 def bootup

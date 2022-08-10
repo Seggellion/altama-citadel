@@ -109,6 +109,7 @@ Rails.application.routes.draw do
   get 'close_user_position_window', to: 'tasks#close_user_position_window'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
+  get 'help', to: 'tasks#help'
   get 'rsi_activate', to: 'tasks#rsi_activate'
   get 'bsod', to: 'desktop#bsod'
   get 'close_position_window', to: 'tasks#close_position_window'

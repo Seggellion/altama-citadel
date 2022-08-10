@@ -501,7 +501,15 @@ end
     respond_to do |format|
       format.html { redirect_to desktop_path, notice: "Task started." }
       end
+  end
 
+  def help
+      unless @all_tasks.find_by(name:'Help').present?
+        @task =  Task.create(name: 'Help',task_manager_id: @task_manager.id, view: 'window')
+      end  
+        respond_to do |format|
+          format.html { redirect_to desktop_path, notice: "help started" }
+        end
   end
 
   def rsi_activate
