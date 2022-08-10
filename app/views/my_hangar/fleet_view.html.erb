@@ -16,10 +16,10 @@
   
   <% @allships.each do | usership | %>
     <tr>
-    <td><%= usership.ship.manufacturer.name %></td>
-    <td><%= usership.ship.model %></td>
+    <td><%= usership.ship.manufacturer.name || 'no data' %></td>
+    <td><%= usership.ship.model || 'no data' %></td>
     <td></td>
-    <td><%= usership.user.username %></td>
+    <td><%= usership.user.username || 'no data' %></td>
         
     </tr>
 <% end %>
