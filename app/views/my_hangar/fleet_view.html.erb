@@ -7,7 +7,8 @@
  
   <table>
   <tr class="fleet-heading">
-<td>Manufacturer</td>
+  <td>Id</td>
+  <td>Manufacturer</td>
 <td>Model</td>
 <td>Year purchased</td>
 <td>Owner</td>
@@ -15,14 +16,17 @@
   <% unless @allships.nil? %>
   
   <% @allships.each do | usership | %>
+    
     <tr>
+    <td><%= usership.id %></td>
+    <% if usership.ship %>
     <td><%= usership.ship.manufacturer.name || 'no data' %></td>
     <td><%= usership.ship.model || 'no data' %></td>
     <td></td>
-    <td><%= usership.user.username || 'no data' %></td>
-        
-    </tr>
-<% end %>
+    <td><%= usership.user.username || 'no data' %></td>        
+    <% end %>
+    </tr>    
+  <% end %>
 <% else %>
 No Records
 <% end %>
