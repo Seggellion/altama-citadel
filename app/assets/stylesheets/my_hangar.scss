@@ -385,19 +385,67 @@ text-shadow: -4px -4px 0px #00e6e6,
             width:100%;
         }
     }
-    .fleet-name{
+    .fleet-view-header{
+        position:absolute;
+        display:flex;
+        width:100%;
+        height: 84px;
+    }
+    .back-container{
+        cursor:pointer;
+        position:relative;
+        small{
+            font-size: 0.4rem;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+        }
+        &:hover{
+            background-color:green;
+            transition: background-color 0.2s ease-in-out;
+            a{
+                color:white;
+                transition: color 0.2s ease-in-out;
+            }
+            small{
+                background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                animation: rainbow_animation 0.2s ease-in-out infinite;
+                background-size: 400% 100%;
+            }
+        }
+        arrow{
+            font-size: 3rem;
+            display: block;
+            line-height: 41px;
+        }
+    }
+    .fleet-name, .back-container{
         background-color: transparent;
         border: 2px solid green;
         color:green;
         padding:20px;
         font-size:2rem;
         font-weight:100;
-        position:absolute;
-        top:10px;
-        left:10px;
+        margin: 10px 20px;
+        display: flex;
+        align-items: center;
+       // position:absolute;
+       // top:10px;
+      //  left:10px;
         font-family: 'suprrg';
         z-index:9001;
+        text-align: right;
         border-radius: 20px;
+        a{
+            text-decoration: none;
+            text-align: right;
+            color:green;
+            margin-top:-10px;
+            font-size:0.9rem;
+        }
     }
     #ship_modal{
         width: 100%;
@@ -473,7 +521,7 @@ text-shadow: -4px -4px 0px #00e6e6,
            // flex-direction: row;
            overflow: scroll;
            text-align: center;
-            padding: 120px 0px;
+            padding: 152px 0px;
             margin:0px auto;
             .usership-block{
                width:auto;
@@ -527,3 +575,12 @@ text-shadow: -4px -4px 0px #00e6e6,
   
 }
 
+@keyframes rainbow_animation {
+    0%,100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+}
