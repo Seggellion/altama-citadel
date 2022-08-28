@@ -438,7 +438,7 @@ DEPENDENCIES
   tzinfo-data
   watir-rails
   web-console (>= 4.1.0)
-  webdrivers (~> 5.0)
+  webdrivers
 
 RUBY VERSION
    ruby 3.0.0p0
