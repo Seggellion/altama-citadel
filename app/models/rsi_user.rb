@@ -130,54 +130,33 @@ end
       browser.ul(id: 'members-data').wait_until(&:present?)
       target = browser.lis(class: 'member-item').last
       target.scroll.to
-      sleep 2
-      script = <<-JAVASCRIPT
-      var membercards = document.getElementsByClassName('member-item');
-      var css = '.member-item { border: 1px solid red; height:0px !important; width:0px !important;}',
-      container = document.getElementById('members-data'),
-      style = document.createElement('style');
-      style.type = 'text/css';
-      style.appendChild(document.createTextNode(css));
 
 
-      container.style.height ='0px';
-      container.appendChild(style);
-
-      for (let i = 0; i <= membercards.length; i++) {
-        if (typeof membercards[i] !== 'undefined' ){
-        membercards[i].style.width ='0px';
-        membercards[i].style.height ='0px';
-        membercards[i].style.border ='1px solid red'
-        }
-      }
-    JAVASCRIPT
-    
-    sleep 2
-       browser.execute_script script
-       
-       sleep 1
+       sleep 2
        target2 = browser.div(:id => 'organization')
        target2.scroll.to
 
-       sleep 1
+       sleep 2
        target3 = browser.lis(:class => 'member-item').last
        target3.scroll.to
        
-       sleep 1
+       sleep 2
        target2 = browser.div(:id => 'organization')
        target2.scroll.to
 
-       sleep 1
+       sleep 2
        target3 = browser.lis(:class => 'member-item').last
        target3.scroll.to
 
-       sleep 1
+       sleep 2
        target2 = browser.div(:id => 'organization')
        target2.scroll.to
 
-       sleep 1
+       sleep 2
        target3 = browser.lis(:class => 'member-item').last
        target3.scroll.to
+
+       sleep 2
 
 
       parser =  Nokogiri::HTML.parse(browser.html)
