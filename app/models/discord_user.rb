@@ -1,16 +1,15 @@
 
 class DiscordUser < ApplicationRecord
 
-
 def authenticate(hash, user, discord_name)
-discord_auth(hash, user, discord_name)
+    discord_auth(hash, user, discord_name)
 end
 
 
-def write  
+    def write  
     load_with_watir
    # food_trucks
-  end
+    end
 
   private
 
@@ -233,10 +232,6 @@ end
   def doc
     Nokogiri::HTML(URI.open(URL).read)
   end
-end
-
-
-
 
 
 end
