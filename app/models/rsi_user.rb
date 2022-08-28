@@ -2,14 +2,13 @@
 class RsiUser < ApplicationRecord
   class << self
 
-def authenticate(hash, user, rsi_name)
-  
-rsi_auth(hash, user, rsi_name)
-end
+    def authenticate(hash, user, rsi_name)
+      rsi_auth(hash, user, rsi_name)
+    end
 
     def write  
       load_with_watir
-     # food_trucks
+      #food_trucks
     end
 
     private
@@ -24,15 +23,11 @@ end
     def rsi_auth(hash, user, rsi_name)
       profile_url = "https://robertsspaceindustries.com/citizens/#{rsi_name}"
 
-      
-
       begin
         doc =  Nokogiri::HTML(URI.open(profile_url).read)
       rescue Exception => ex
-
         return
       end
-      
 
       user = User.find_by_id(user)    
       
@@ -119,14 +114,10 @@ end
 
     def load_with_watir
       RsiUser.destroy_all
-       # browser = Watir::Browser.start URL
-
-       browser = Watir::Browser.new :chrome, headless:true
+      args = ['--disable-dev-shm-usage', '--headless']
+       browser = Watir::Browser.new :chrome, options: {args: args}
        browser.goto(URL)
-      #browser = Watir::Browser.new(:chrome)
-      
-      #browser.members-data
-      # document.getElementById('members-data').style.height ='0px';
+
       browser.ul(id: 'members-data').wait_until(&:present?)
       target = browser.lis(class: 'member-item').last
       target.scroll.to
