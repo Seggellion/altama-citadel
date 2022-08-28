@@ -1,10 +1,6 @@
-require 'webdrivers'
 
 class RsiUser < ApplicationRecord
   class << self
-
-    driver = Selenium::WebDriver.for :chrome
-
 
 def authenticate(hash, user, rsi_name)
   
