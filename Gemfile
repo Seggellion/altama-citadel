@@ -68,6 +68,8 @@ gem 'discord-notifier'
 
 gem 'ruby-clock'
 
+gem 'webdrivers', '~> 5.0'
+
 
 group :development, :test do
   # See https://edgeguides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -89,5 +91,5 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara", ">= 3.26"
   gem "selenium-webdriver", ">= 4.0.0"
-  gem "webdrivers"
+  gem "webdrivers", "~> 5.0"
 end
