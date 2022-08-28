@@ -70,7 +70,7 @@ Rails.application.routes.draw do
   get 'my_hangar_all_fleet', to: 'my_hangar#all_fleet'
   get 'my_hangar_destroy', to: 'my_hangar#clear_ships'
   get 'my_badges', to: 'badges#index'
-
+  get 'clear_memos', to: 'tasks#clear_memos'
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'fleet_view', to: 'my_hangar#fleet_view'
   get 'users', to: 'desktop#users'

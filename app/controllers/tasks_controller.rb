@@ -110,6 +110,14 @@ def close_rules_window
     end
 end
 
+def clear_memos
+  @task_manager = TaskManager.find_by(user_id: current_user)
+  @all_tasks = Task.where(task_manager_id: @task_manager.id)
+  @memos = @all_tasks.where.not(memo_type: [nil, ""])
+  @memos.destroy_all
+  redirect_to root_path
+end
+
 def close_state_window
 
   window = params[:window]
@@ -264,8 +272,12 @@ def start_guildstone
   unless @all_tasks.find_by(name:'Guildstone').present?
     @task =  Task.create(name: 'Guildstone',task_manager_id: @task_manager.id, view: 'full')
   end
+  
   respond_to do |format|
-    format.html { redirect_to guildstone_path(0), notice: "opened position" }
+    @task = Task.last
+    @task.memo(memo_type: "error", memo_text:"Error! NOT! LOL")
+    format.html { redirect_to guildstone_path(0), notice: "success" }
+
     end
 
 end
