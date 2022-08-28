@@ -60,6 +60,30 @@ class Task < ApplicationRecord
 
     end
 
+    def self.any_memos(user)
+        @task_manager = TaskManager.find_by(user_id: user)
+        @all_tasks = Task.where(task_manager_id: @task_manager.id)
+        @memos = @all_tasks.where.not(memo_type: [nil, ""])
+        if @memos.empty?
+            return false
+        else
+            return true
+        end
+
+    end
+
+    
+    def memo(data)
+        task = Task.find_by_id(self.id)
+        
+        task.update(memo_type: data[:memo_type], memo_text: data[:memo_text])
+    #    byebug
+     #   task.memo(type:, message:, task_name:)
+     #   task.memo(type:, message:, task_name:)
+     #   task.update()
+
+    end
+
     def getModalTitle
         task = self
         @window_states =  []

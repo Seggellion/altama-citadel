@@ -21,6 +21,10 @@
   </head>
 
   <body id="<%= controller.controller_name %>">
+    <% if Task.any_memos(current_user.id) %> 
+      <%= render '/layouts/error' %>
+    <% end %>
+
     <%= yield %>
 <%= render '/layouts/task_manager' %>
   </body>
