@@ -115,39 +115,39 @@ class RsiUser < ApplicationRecord
     def load_with_watir
       RsiUser.destroy_all
       args = ['--disable-dev-shm-usage', '--headless']
-       browser = Watir::Browser.new :chrome, options: {args: args}
-       browser.goto(URL)
+      browser = Watir::Browser.new :chrome, options: {args: args}
+      browser.goto(URL)
 
       browser.ul(id: 'members-data').wait_until(&:present?)
       target = browser.lis(class: 'member-item').last
       target.scroll.to
 
 
-       sleep 2
+       sleep 1
        target2 = browser.div(:id => 'organization')
        target2.scroll.to
 
-       sleep 2
+       sleep 1
        target3 = browser.lis(:class => 'member-item').last
        target3.scroll.to
        
-       sleep 2
+       sleep 1
        target2 = browser.div(:id => 'organization')
        target2.scroll.to
 
-       sleep 2
+       sleep 1
        target3 = browser.lis(:class => 'member-item').last
        target3.scroll.to
 
-       sleep 2
+       sleep 1
        target2 = browser.div(:id => 'organization')
        target2.scroll.to
 
-       sleep 2
+       sleep 1
        target3 = browser.lis(:class => 'member-item').last
        target3.scroll.to
 
-       sleep 2
+       sleep 1
 
 
       parser =  Nokogiri::HTML.parse(browser.html)
