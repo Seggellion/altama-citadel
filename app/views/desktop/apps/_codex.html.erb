@@ -1,0 +1,19 @@
+<div  id="codex" class="full <%=  task.state  %>" data-controller="codex">
+    <%= render '/desktop/window-frame', app1: 'Codex', task: task %>
+        <div class="codex-container">
+        <% unless task.state == 'timeline' %>
+            <%= render '/codex/article'%>
+            <% else %>
+            <%= render '/codex/timeline'%>
+        <% end %>
+
+
+        </div>
+</div>
+
+<script>
+    var close_button = document.getElementsByClassName('close-btn')[0];
+    close_button.addEventListener('click', () => {
+        localStorage.clear();
+    });
+</script>

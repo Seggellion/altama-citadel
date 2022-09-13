@@ -1,0 +1,95 @@
+@import 'mixins';
+
+#shell{
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0px;
+    left:0px;
+    background-color:black;
+    #command_entry{
+        opacity: 0;
+    }
+    #prompt{
+        color:green;
+        font-size:1.2rem;
+        font-family: dos;
+
+    }
+    #command{
+        color:green;
+        font-family: dos;
+        font-size:1.2rem;
+    }
+    .shell-container{
+        margin-top:40px;
+        padding:10px;
+        input{
+            background-color:black;
+            font-size:1.2rem;
+            border:0px;
+            color:white;
+            font-family: dos;
+        }
+        label{
+            font-size:1.2rem;
+            color:white;
+            font-family: dos;
+        }
+    }
+
+
+
+
+
+#input {
+    display: inline;
+    outline: none;
+    visibility: visible;
+  }
+
+  #history{
+    color:green;
+  }
+  
+  /*
+    If you press the Insert key, the vertical line caret will automatically
+    be replaced by a one-character selection.
+  */
+  #input::selection {
+    color: #000;
+    background: #0F0;
+  }
+  
+  #input:empty::before {
+    content: ' ';
+  }
+  
+  @keyframes blink {
+    to {
+      visibility: hidden;
+    }
+  }
+  
+  #input:focus + #caret {
+    animation: blink 1s steps(5, start) infinite;
+  }
+  
+  #input.noCaret + #caret {
+    visibility: hidden;
+  }
+  
+  #caret {
+    border: 0;
+    padding: 0;
+    outline: none;
+    background-color: #0F0;
+    display: inline-block;
+    font-family: monospace;
+  }
+
+
+
+
+
+}

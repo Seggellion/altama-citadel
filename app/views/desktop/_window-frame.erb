@@ -28,6 +28,10 @@
         <%= form_with(model: task) do |form| %>
             <%= button_to "", task, class:'close-btn windowed', method: :delete  %>
         <% end %>
+        <% elsif defined?(task) && task.view == "full" %>
+        <%= form_with(model: task) do |form| %>
+            <%= button_to "", task, class:'close-btn full', method: :delete  %>
+        <% end %>
         <% elsif app1 == "Memo" %>
         <%=link_to "", clear_memos_path, class: 'close-btn' %>
         

@@ -1,0 +1,33 @@
+<div  id="shell" class="full">
+    <%= render '/desktop/window-frame', app1: 'Altama Shell', task: task %>
+        <div class="shell-container">
+        <div id="prompt">
+
+        </div>
+        <% unless task.state == 'vim' %>
+            <div id="command" data-controller="shell">
+                <form action="/command" id="command_entry" method="get" accept-charset="UTF-8" >
+                <label for="query">C:\</label>
+                <input id="query" name="query" type="text" />
+                <input name="commit" type="submit" id="" value="" data-disable-with="Search" />
+                </form>
+                <div id="history" data-response="<%= task.response %>"></div>
+
+                C:\ 
+                <div id="input" contenteditable="true"></div>
+                <button id="caret" for="input">&nbsp;</button>
+            </div> 
+
+            <% else %>
+            <%= render '/desktop/apps/shell_apps/vim' %>s
+        <% end %>
+        </div>
+</div>
+
+<script>
+    var close_button = document.getElementsByClassName('close-btn')[0];
+   // const close_button = document.querySelectorAll('.close-btn.full');
+    close_button.addEventListener('click', () => {
+        localStorage.clear();
+    });
+</script>

@@ -1,0 +1,54 @@
+<div class="event-details" data-timeline-target="event_popup" data-id="<%=event.id%>" hidden>
+    <div id="timeline_header">
+        <span>|<%= event.title %> </span>
+        <a href="#" data-action="click->timeline#close_event_popup">| Close</a>
+    </div>
+    <div class="event-date">
+    <%= event.start_date.to_formatted_s(:short)  %>
+    
+    </div>
+    <% if event.event_series_id %>
+    <div class="event-series">
+        Series name: <%= event.series_title %>
+    </div>
+    <% end %>
+    <div class="event-description">
+        The daymar rally is the filthiest race in the verse
+        <div class="event-requirements">
+        Requirements
+        <ul>
+            <li>Requires 1 fleet starfarer</li>
+            <li>Must attend all events to receive merits</li>
+        </ul>
+    </div>
+    <div class="event-merits">
+        Event Merits
+        <ul>
+            <li>Event flight badge</li>
+            <li>2M AUEC</li>
+        </ul>
+    </div>
+
+    </div>
+
+    <div class="event-attendees">
+        Attendees
+        <table>  <tr><td>SHIP-ID</td><td>Captain</td></tr>
+        <tr><td>ALT-133T-ENTERPRIZE</td><td>Anonymous Guy</td></tr>
+        <% EventUser.where(event_id:event.id).each do |event| %>                              
+        <tr><td>ALT-133T-someship</td><td><%= event.user.username %></td></tr>
+        <% end %>
+        </table>
+    </div>
+    <div class="action-buttons">
+        <% unless event.joined?(current_user.id) %>
+            <%= form_with(model: EventUser) do |f| %>
+                <%= f.select :usership_id, options_for_select(@myfleetships.collect{ |u| [u.ship_name, u.id] }  ), :include_blank => 'Select Ship'%>
+                <%= f.hidden_field :event_id, :value => event.id %>
+                <%= f.submit 'Join' %>
+            <% end %>
+        <% else %>
+            <%= link_to 'Leave', leave_event_path(event_id: event.id) %>
+        <% end %>
+    </div>
+</div>

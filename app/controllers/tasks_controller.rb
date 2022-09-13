@@ -19,7 +19,7 @@ before_action :task_manager
 
 def start_my_hangar
   unless @all_tasks.find_by(name:'My Hangar').present?
-    @task =  Task.create(name: 'My Hangar',task_manager_id: @task_manager.id, view: 'full')
+    @task =  Task.create(name: 'My Hangar',task_manager_id: @task_manager.id, view: 'fullscreen')
     end  
 
     respond_to do |format|
@@ -52,9 +52,9 @@ def state_ship_modal
 end
 
 def close_position_window
-  #byebug
   window = params[:window]
   task_name = params[:window]
+  
   #magic number
   task = @all_tasks.where(name: 'Guildstone').first
 
@@ -122,7 +122,6 @@ def close_state_window
 
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
-  
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
@@ -139,6 +138,24 @@ def close_state_window
  # respond_to do |format|
  #   format.html { redirect_to desktop_path, notice: "closed window" }
  #   end
+end
+
+def start_shell
+  unless @all_tasks.find_by(name:'Altama Shell').present?
+    @task =  Task.create(name: 'Altama Shell',task_manager_id: @task_manager.id, view: 'full')
+    end  
+    respond_to do |format|
+    format.html { redirect_to root_path, notice: "Loaded shell" }
+    end
+end
+
+def start_codex
+  unless @all_tasks.find_by(name:'Codex').present?
+    @task =  Task.create(name: 'Codex',task_manager_id: @task_manager.id, view: 'full')
+    end  
+    respond_to do |format|
+    format.html { redirect_to root_path, notice: "Loaded codex" }
+    end
 end
 
 def start_rfa_manager
@@ -482,7 +499,20 @@ end
 
 
   def state_discord_users
+    
     task_manager = TaskManager.find_by(user_id: current_user)
+    
+    @widget = "https://discord.com/api/guilds/355082120034779136/widget.json"
+   data_json = RestClient::Request.execute(
+    method:  :get, 
+    url:     @widget,
+    payload: '{ "username"}',
+    headers: { content_type: 'application/json', accept: 'application/json'}
+  )
+
+
+    bot = Discordrb::Commands::CommandBot.new token: "#{ENV['TOKEN']}", prefix: '!', intents: [:server_members]
+
     task = @all_tasks.find_by(task_manager_id: task_manager.id, name: "User Manager")
     task.update(state:"discord_users")
     

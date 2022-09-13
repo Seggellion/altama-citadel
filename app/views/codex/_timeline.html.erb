@@ -1,0 +1,19 @@
+<%= render '/codex/timeline_header' %>
+
+
+<div class="timeline-main">
+
+    <% @all_events.each do |event| %>
+        <%= render '/codex/timeline_card', event:event %>
+    <% end %>
+    
+</div>
+
+<div class="timeline-footer">
+<div class="timeline-button-container">
+    <a href="#" class="timeline-button"  data-action="click->codex#timeline_popup">
+        Create new event
+    </a>
+</div>
+
+<%= render '/codex/popup_forms' %>

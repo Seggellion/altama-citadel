@@ -49,13 +49,36 @@
         Guildstone
     <% end %>
 <% end %>
-    
+
+<% if current_user.user_type <= 42 %>
+    <%= link_to start_shell_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("altama_shell_icon.png") %>
+        Altama Shell
+    <% end %>
+<% end %>
+
+<% if current_user.user_type <= 42 %>
+    <%= link_to start_codex_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("codex_icon.png") %>
+        Codex 95
+    <% end %>
+<% end %>
+
 </div>
+
+<% if current_user && @fullscreen_tasks.present? %>
+    <% @fullscreen_tasks.each do | task |  %>
+    <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
+    <% end %>
+<% end %>
 
 <% if current_user && @windowed_tasks.present? %>
     <% @windowed_tasks.each do | task |  %>
     <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
     <% end %>
 <% end %>
-
-<%= render '/desktop/taskbar'%>
+<% unless @all_tasks.last.present? %>
+<%= render '/desktop/taskbar' %>
+<% else %>
+<%= render '/desktop/taskbar', app1: @all_tasks.last.name %>
+<% end %>

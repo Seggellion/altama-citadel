@@ -1,0 +1,37 @@
+<div id="codex_header">
+
+    <div class="codex-home-button">
+
+    </div>
+    <div class="codex-category">
+        Geography
+    </div>
+
+    <div class="codex-subcategory">
+        Mountain Ranges, Peaks, & Landforms
+    </div>
+    <div class="codex-action-bars">
+        <div class="action-button">
+            Find
+        </div>
+        <div class="action-button">
+            Go Back
+        </div>
+        <div class="action-button" data-codex-target="features" data-action="click->codex#submenu click@window->codex#hide">
+            Features
+            <ul class="sub-menu" data-codex-target="submenu" hidden>
+                <li>Atlas</li>
+                <li>Media Gallery</li>
+                <li><%= link_to "Historical Events", codex_timeline_path %></li>
+                <li>Mindmaze</li>
+            </ul>
+        </div>
+        <div class="action-button">
+            Tools
+        </div>
+        <div class="action-button">
+            i
+        </div>
+    </div>
+
+</div>

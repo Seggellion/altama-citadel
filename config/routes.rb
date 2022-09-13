@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   resources :manufacturers
   resources :event_records
   resources :event_teams
+  resources :event_users
+  resources :event_series
   resources :teams
   resources :events
   resources :ships
@@ -86,6 +88,13 @@ Rails.application.routes.draw do
   get 'guildstone_start_asl', to: 'guildstones#guildstone_start_asl'
   get 'guildstone_org_chart', to: 'guildstones#open_org_chart'
   get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
+  get 'start_shell', to: 'tasks#start_shell'
+  get 'start_codex', to: 'tasks#start_codex'
+  get 'codex_timeline', to: 'codex#timeline'
+  get 'close_codex_window', to: 'codex#close_window'
+  get 'join_event', to: 'event_users#join'
+  get 'leave_event', to: 'event_users#leave'
+  get 'command', to: 'shell#command_entry'
   get 'start_location_manager', to:'tasks#start_location_manager'
   get 'start_ship_manager', to:'tasks#start_ship_manager'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
@@ -123,6 +132,6 @@ Rails.application.routes.draw do
   post 'verify', to: 'users#verify', as: :verify
   post 'hangardump', to: 'hangardumps#create', as: :hangardump
   post 'activate', to: 'users#activate', as: :activate
-  
+  post 'vim_command', to: 'vim#vim_command'
   
 end
