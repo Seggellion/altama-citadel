@@ -9,6 +9,7 @@ def index
   redirect_to bsod_path && return if @task_manager.nil?
 if @all_tasks
   @windowed_tasks = @all_tasks.where(view:'window')
+  @fullscreen_tasks = @all_tasks.where(view:'full')
 end
 
   @all_users = User.all + DiscordUser.all + RsiUser.all
@@ -29,6 +30,8 @@ end
   @all_commodities = Commodity.all  
   @user_manager = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
+  @myfleetships = current_user.userships.where(show_information:true)
+  @all_events = Event.all
   current_user.desktop
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end

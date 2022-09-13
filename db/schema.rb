@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_28_192015) do
+ActiveRecord::Schema.define(version: 2022_09_12_171702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,12 +109,41 @@ ActiveRecord::Schema.define(version: 2022_08_28_192015) do
     t.string "action"
   end
 
+  create_table "event_series", force: :cascade do |t|
+    t.integer "event_id"
+    t.string "title"
+    t.boolean "must_join_all"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "event_ships", force: :cascade do |t|
+    t.integer "usership_id"
+    t.integer "event_user_id"
+    t.integer "event_id"
+    t.integer "ship_fid"
+    t.string "ship_name"
+    t.integer "ship_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "event_teams", force: :cascade do |t|
     t.integer "event_id"
     t.integer "team_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["team_id", "event_id"], name: "one_team_per_event", unique: true
+  end
+
+  create_table "event_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "event_series_id"
+    t.integer "event_id"
+    t.integer "ship_fid"
+    t.integer "usership_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -128,6 +157,9 @@ ActiveRecord::Schema.define(version: 2022_08_28_192015) do
     t.datetime "updated_at", precision: 6, null: false
     t.float "capture_limit"
     t.string "staff_code"
+    t.integer "maximum_attendees"
+    t.string "keyword_required"
+    t.integer "event_series_id"
   end
 
   create_table "guildstones", force: :cascade do |t|

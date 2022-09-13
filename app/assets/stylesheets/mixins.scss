@@ -228,6 +228,15 @@ i.error-icon{
           left:7px;
         }
       }
+      &.full{
+        width: 19px;
+        height: 17px;
+        right: -3px;
+        &:before, &:after {
+          top:0px;
+          left:7px;
+        }
+      }
       &:hover {
         opacity: 1;
       }

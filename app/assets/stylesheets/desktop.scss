@@ -44,6 +44,7 @@ html{
     flex-direction: column;
     align-items: center;
     padding-bottom:40px;
+    padding-right: 20px;
     border:1px dashed transparent;
     &:hover{
         border:1px dashed black;
@@ -63,10 +64,14 @@ html{
     cursor: image-url('arrow.png');
     overflow:hidden;
     .live-desktop{
-        height:100%;
+        height: calc(100% - 15px);
         padding:20px;
         display:flex;
         flex-direction:column;
+        justify-content: start;
+        align-content: baseline;
+        flex-wrap: wrap;
+        overflow: hidden;
     }
 
     .bootup{
@@ -96,7 +101,7 @@ html{
         position:fixed;
         right:0px;
         bottom:10px;
-    }
+    }    
 }
 .hidden{
     display:none;

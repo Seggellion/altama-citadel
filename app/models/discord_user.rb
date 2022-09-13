@@ -13,7 +13,7 @@ end
 
   private
 
-  URL = "https://robertsspaceindustries.com/orgs/ALTAMA/members"
+  URL = "https://discord.com/api/guilds/355082120034779136/widget.json"
 
   def food_trucks
     @@food_trucks ||= load_from_document
@@ -22,6 +22,19 @@ end
 
   def discord_auth(hash, user, discord_name)
     profile_url = "https://robertsspaceindustries.com/citizens/#{discord_name}"
+
+
+    resp = RestClient.get("https://discord.com/api/guilds/355082120034779136/widget.json")
+
+   data_json = RestClient::Request.execute(
+        method:  :get, 
+        url:     URL,
+        payload: '{ "username"}',
+        headers: { content_type: 'application/json', accept: 'application/json'}
+      )
+
+html = JSON.parse(resp.body)['Data']
+doc = Nokogiri::HTML.parse(html)
 
     
 

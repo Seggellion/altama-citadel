@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
+  before_action :task_manager
 
   # GET /events or /events.json
   def index
@@ -24,12 +25,18 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     staff_code =  (0...5).map { ('a'..'z').to_a[rand(26)] }.join
     
+    @current_task = @all_tasks.find_by(name: "Conquest" )
     @event.update(owner_id:current_user.id)
     @event.update(staff_code:staff_code)
     respond_to do |format|
       if @event.save
-        format.html { redirect_to conquest_event_path(id: @event), notice: "Event Record was successfully created." }
+        unless @current_task.nil?
+        format.html { redirect_to conquest_event_path(id: @event), notice: "Event was successfully created." }
+        else
+          format.html { redirect_to root_path, notice: "Event created." }
+        end
         format.json { render :show, status: :created, location: @event }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @event.errors, status: :unprocessable_entity }

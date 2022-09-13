@@ -1,9 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 
-
-
-
-
 function amount(item){
   return parseFloat(item.value);
 }
@@ -11,7 +7,6 @@ function amount(item){
 function sum(prev, next){
   return prev + next;
 }
-
 
 export default class extends Controller {
   static targets = ["form", "status_field", 
@@ -91,9 +86,8 @@ for (var i = 0; i < this.all_commodities.length; i++) {
   //  this.total_discounted_amount = this.total_discounted_amount + (market_price * discount);
     current_customer_commodity.innerHTML = discounted_market_price + total_fees;
     this.total_charged_amount += parseFloat((discounted_market_price + total_fees) * commodity_quantity);
-this.total_service_feesTarget.value = fees_sum;
+    this.total_service_feesTarget.value = fees_sum;
     commodity_total.value =  ((discounted_market_price * commodity_quantity) + total_fees).toFixed(2);
-
   } 
 }
   

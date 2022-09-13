@@ -1,0 +1,8 @@
+<div class="event" data-controller="timeline">
+    <div class="event-thumbnail" data-action="click->timeline#event_popup" data-id="<%=event.id%>">
+        <%= image_tag("guildstone_icon.png") %>
+    </div>
+    <span><%= event.title %></span>
+    <%= render '/codex/timeline_event_popup', event:event %>
+       
+</div>

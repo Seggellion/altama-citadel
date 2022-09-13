@@ -1,0 +1,320 @@
+@import 'mixins';
+
+#codex{
+    width:100%;
+    height: calc(100vh - 37px);
+    position:absolute;
+    top:0px;
+    left:0px;
+    background-color: white;
+    &.timeline{
+      background-color: #494339;
+    }
+    .form-container{
+      display:flex;
+      flex-direction:row;
+      align-items: center;
+      height: calc(100% - 40px);
+      margin: 10px 20px;
+      .form-multiple{
+        height:100%;
+        overflow-y: scroll;
+      }
+      .form-multiple, .form-single{
+        width:50%;
+      }
+    }
+    #timeline_header{
+      height:10px;
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color:#6472b4;
+      padding:5px 10px;
+      font-size:0.8rem;
+      overflow:hidden;
+      span{
+        color:white;
+        letter-spacing: 8px;
+        margin-top:0px;
+      }
+      a{
+        font-size:0.6rem;
+        color: #d9d6c5;
+        &:hover{
+        border:1px solid #9f9683;
+        background-color: black;
+      }
+        border:1px solid transparent;
+        display:inline-block;
+        text-decoration:none;
+        
+        padding:4px;
+      }
+    }
+    .codex-container{
+      margin-top:30px;
+        padding:0px;
+        height:calc(100% - 30px);
+
+        position:relative;
+        &.popup:before{
+          display:block;
+          position:absolute;
+          background-color:black;
+          opacity:0.8;
+          width:100%;
+          height:100%;
+          content:'';
+          z-index:2;
+        }
+    }
+    &.timeline .codex-container{
+      
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .timeline-footer{
+      height: 100px;
+      text-align: right;
+      margin: 0px 20px;
+    }
+    .timeline-event-form-popup{
+      position: absolute;
+      padding: 0px;
+      background-color: #585858;
+      width: 550px;
+      height: 400px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index:9001;
+      .form-single{
+        padding:10px;
+      }
+    }
+    .timeline-button{
+      padding:5px;
+      border:1px solid #9f9683;
+      background-color: black;
+      color: #d9d6c5;
+      display:inline-block;
+      font-size:0.8rem;
+      text-decoration: none;
+    }
+    .timeline-main{
+      padding:40px;
+      background-color: white;
+      margin: 12px;
+      height: 100%;
+      display:flex;
+      .event-description, .event-attendees{
+        padding:10px;
+      }
+      input{
+        color:black;
+        background-color:white;
+        border:1px solid black;
+        border-radius:0px;
+        font-family:'sans-serif';
+      }
+      input[type="datetime-local"]{
+        font-family:'sans-serif';
+      }
+      .event{       
+        font-size:0.8rem;
+        position:relative;
+        z-index:1;
+        span{
+          margin-top: 6px;
+          font-weight: 900;
+          display: block;
+        }
+        .event-thumbnail{
+          cursor:pointer;
+          width:75px;
+          height:75px;
+          border:1px solid black;
+          -webkit-box-shadow: 5px 5px 7px -3px #000000; 
+          box-shadow: 5px 5px 7px -3px #000000;
+          img{
+            max-width: 75px;
+            height:100%;
+          }
+        }
+        .event-details{
+          position:absolute;
+          padding: 0px;
+          width:330px;
+          top:10px;
+          left:10px;
+          z-index:9001;
+          border:1px solid black;
+          color:white;
+          background-color:#494339;
+        }
+      }
+    }
+    .sub-menu.hide, .sub-menu[hidden]{
+      display:none;
+    }
+    .sub-menu{
+      position:absolute;
+      top:3px;
+      left:0px;
+      width:200px;
+      
+padding:10px;
+
+    display: block;
+    z-index: 9001;
+    background-color: #809cc4;
+    
+      list-style: none;
+    li{
+      padding:5px;
+      cursor:pointer;
+      border-bottom:2px solid black;
+      a{
+        color:black;
+        text-decoration:none;
+        &:hover{
+          color:white;
+        }
+      }
+      &:last-child{
+        border-bottom:2px solid transparent;
+      }
+      &:hover{
+        background-color:black;
+        color:white;
+      }
+    }
+    }
+    #codex_body{
+      display:flex;
+      height:100%;
+      width:100vw;
+    }
+    #codex_header{
+      height:20px;
+      display:flex;
+      flex-direction: row;
+      align-items: center;
+      background-color: #828fa2;
+      >div{
+        padding:0px 10px;
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+      }
+      .codex-action-bars{
+        display: flex;
+        padding:0px;
+        border:none;
+        >div{
+          padding:0px 10px;
+          border-left: 2px solid black;
+          border-right: 2px solid black;
+        }
+        .action-button{
+          cursor:pointer;
+          position:relative;
+        }
+      }
+    }
+    #codex_body{
+      margin: 9px 0px;
+      height:76vh;
+    }
+    .codex-left-viewport{
+      width: 275px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 0px 17px;
+      justify-content: space-between;
+    }
+    #codex_title{
+      background-color:black;
+      color:white;
+      height:54px;
+      display:flex;
+      align-items: center;
+      h1{
+        margin: 0px;
+        margin-left: 11px;
+        font-size: 1.8rem;
+        font-weight: 11;
+        letter-spacing: 1.3px;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+      }
+    }
+    #command_entry{
+        opacity: 0;
+    }
+    #prompt{
+        color:green;
+        font-size:1.2rem;
+        font-family: dos;
+
+    }
+    #command{
+        color:green;
+        font-family: dos;
+        font-size:1.2rem;
+    }
+
+
+
+#input {
+    display: inline;
+    outline: none;
+    visibility: visible;
+  }
+
+  #history{
+    color:green;
+  }
+  
+  /*
+    If you press the Insert key, the vertical line caret will automatically
+    be replaced by a one-character selection.
+  */
+  #input::selection {
+    color: #000;
+    background: #0F0;
+  }
+  
+  #input:empty::before {
+    content: ' ';
+  }
+  
+  @keyframes blink {
+    to {
+      visibility: hidden;
+    }
+  }
+  
+  #input:focus + #caret {
+    animation: blink 1s steps(5, start) infinite;
+  }
+  
+  #input.noCaret + #caret {
+    visibility: hidden;
+  }
+  
+  #caret {
+    border: 0;
+    padding: 0;
+    outline: none;
+    background-color: #0F0;
+    display: inline-block;
+    font-family: monospace;
+  }
+
+
+
+
+
+}

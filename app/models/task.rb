@@ -105,5 +105,9 @@ class Task < ApplicationRecord
         @title.gsub(/.*?(?:[.?!]\s+|\z)/, &:capitalize)
     end
 
+    def response
+    self.state
+    end
+
 
 end

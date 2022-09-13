@@ -1,0 +1,51 @@
+#vim_text textarea{
+height: calc(100vh - 125px);
+width:100%;
+color:green;
+background-color:black;
+outline: none;
+font-family: dos;
+border:0px;
+font-size:1.2rem;
+    &:focus{
+        outline: none;
+    }
+}
+
+#vim_query{
+    border:none;
+    outline:none;
+    &:focus{
+        outline: none;
+    }
+}
+
+#shell #vim_command label{
+    color:black;
+}
+#vim_command{    
+    width:100%;
+    padding:7px;
+    position:absolute;
+    bottom:37px;
+    left:0px;
+    font-family: dos;
+    height:25px;
+    align-items: center;
+    h2{
+        display:none;
+    }
+    &.insert{
+        display:flex;
+        background-color:white;
+        h2{
+            display:block;
+        }
+        #vim_command_prompt{
+            display:none;
+        }
+    }
+}
+
+
+

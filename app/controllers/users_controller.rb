@@ -16,6 +16,7 @@ def activate
 end
 
 def discord_populate
+  byebug
   information = request.raw_post
   data_parsed = JSON.parse(information)
 
