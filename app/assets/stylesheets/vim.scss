@@ -11,6 +11,33 @@ font-size:1.2rem;
         outline: none;
     }
 }
+#vim_command_prompt_container{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    #vim_text{
+        width:100%;
+        display: flex;
+        flex-direction: row;
+    }
+}
+#vim_text .line-numbers{
+    width:35px;
+    height:100vh;
+    margin-top: 2px;
+    &.no-insert-mode .line-number{
+        opacity:0;
+    }
+    .line-number{
+        opacity:1;
+        display:block;
+        width:100%;
+        text-align: left;
+        color:green;
+        font-family: dos;
+        font-size: 1.2rem;
+    }
+}
 
 #vim_query{
     border:none;

@@ -1,13 +1,19 @@
 <div data-controller="vim" id="vim" >
 
-    <form action="/vim_command" id="vim_command_prompt" method="post" accept-charset="UTF-8" >
+    <form action="/vim_command" id="vim_command_prompt_container" method="post" accept-charset="UTF-8" >
         <div id="vim_text">
-            <textarea id="text_entry" name="query[text_entry]"  rows="20"></textarea>    
+            <div class="line-numbers scroll" id="line-numbers" data-vim-target="linenumbers">
+            <% for i in 0..99 %>
+                    <span class="line-number"><%= i %></span>
+                <% end %>
+            </div>
+
+            <textarea id="text_entry" name="text_entry"  rows="20" class="scroll"></textarea>    
         </div>
         <div id="vim_command" class="insert">
             <h2>--INSERT--</h2>
                 <div id="vim_command_prompt">
-                    <input id="vim_query" name="query[query]" type="text" />
+                    <input id="vim_query" name="query" type="text" />
                     <input name="commit" type="submit" id="" value="" />
                 </div>
         </div>
