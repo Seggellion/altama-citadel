@@ -8,6 +8,7 @@ class VimController < ApplicationController
 
     case command
         when "q"
+
             @task.update(state:'exit')
         when "w"
             byebug
