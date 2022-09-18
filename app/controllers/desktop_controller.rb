@@ -32,6 +32,7 @@ end
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   @myfleetships = current_user.userships.where(show_information:true)
   @all_events = Event.all
+  @timeline_events = Event.where.not(event_type:1)
   current_user.desktop
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
