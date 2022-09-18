@@ -1,5 +1,3 @@
-<%= link_to "Remove ship", usership_path(usership), class: 'btn', 'data-turbo-method': :delete  %>
-
 <%= turbo_frame_tag usership do %>
 <%= form_with(model: usership) do |form| %>
   <% if usership.errors.any? %>
@@ -29,19 +27,36 @@
   </div>
 
   <div class="input-group">
-    <div>
+    <div class="primary-ship-container">
       <%= form.label :primary %>
       <%= form.check_box :primary %>
     </div>
 
+    <div class="altama-fleet-actions">
     <div>
       <%= form.label :altama_fleet %>
-      <%= form.check_box :show_information %>
+      <%= form.check_box :show_information, 'data-action': "click->hangarEditor#clickedFID" %>
     </div>
+      <div class="fleet-id-field <% unless usership.show_information %>hide<%end%>" data-hangarEditor-target="fid">
+      <span class="fleet-id-label">FleetID:</span>
+      <% if usership.fid %>
+      <% @fid_01 = usership.fid.split('-').first[-4..-1] %>
+      <% @fid_02 = usership.fid.split('-').last[-4..-1] %>
+      <% else %>
+      <% @fid_01 = '' %>
+      <% @fid_02 = '' %>
+      <% end %>
+      <%= form.text_field :fid_01, maxlength: 4, id:'field01', :value => "#{@fid_01}" %>-<%= form.text_field :fid_02, maxlength: 10, :value => "#{@fid_02}" %>
+    </div>
+
+    </div>
+
   </div>
 
   <div>
     <%= form.submit 'Update' %>
+
+    <%= link_to "Remove ship", usership_path(usership), class: 'btn red', 'data-turbo-method': :delete  %>
   </div>
 <% end %>
 

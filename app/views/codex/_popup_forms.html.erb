@@ -3,9 +3,17 @@
 <span>|Create New</span>
     <a href="#" data-action="click->codex#close_popup">| Close</a>
 </div>
+<div class="form-tabs">
+    <div  data-action="click->codex#single_event" data-codex-target="FormSingleTab" class="form-tab first-tab">
+    Single Event
+    </div>
+    <div  data-action="click->codex#multiple_event" data-codex-target="FormMultipleTab" class="form-tab last-tab selected">
+    Multiple Event
+    </div>
+</div>
 
 <div class="form-container">
-    <div class="form-single">
+    <div  data-codex-target="FormSingle" class="form-single" hidden>
     Single Event
         <%= form_with(model: Event) do |g| %>
             <div class="input-row">
@@ -20,47 +28,70 @@
 
             <div class="input-row">
                 <%= g.label :description, style: "display: block" %>
-                <%= g.text_field :description %>
+                <%= g.text_area :description %>
             </div>
 
             <div class="input-row">
                 <%= g.label :start_date, style: "display: block" %>
                 <%= g.datetime_field :start_date %>
             </div>
-        <%#= f.select :usership_id, options_for_select(@myfleetships.collect{ |u| [u.ship_name, u.id] }  ), :include_blank => 'Select Ship'%>
+
+          
             <%= g.submit 'Create' %>
         <% end %>
+
     </div>
 
-        <div class="form-multiple">
-        Event Series
+        <div  data-codex-target="FormMultiple" class="form-multiple">
+        Multiple Events (Series)
             <%= form_with(model: EventSeries) do |f| %>
+            <div class="event-series">
+                <div class="input-row">
+                    <%= f.label :title, style: "display: block" %>
+                    <%= f.text_field :title, :required=>'true'  %>
+                </div>
 
-            <div class="input-row">
-                <%= f.label :title, style: "display: block" %>
-                <%= f.text_field :title, :required=>'true'  %>
+                <div class="input-row">
+                    <%= f.label :maximum_attendees, style: "display: block" %>
+                    <%= f.number_field :maximum_attendees %>
+                </div>
+
+                <div class="input-row">
+                <%= f.label :must_join_all_events, style: "display: block" %>
+                <%= f.check_box :must_join_all %>
+                </div>
+
+                <div class="input-row">
+                    <%= f.label :description, style: "display: block" %>
+                    <%= f.text_area :description %>
+                </div>
+
+                <div class="input-row">
+                    <%= f.label :keyword_required, style: "display: block" %>
+                    <%= f.text_field :keyword_required %>
+                </div>
+
             </div>
+            <div class="multiple-events">
+                <% for i in 0..5 %>
+                    <div class="event-row" hidden>
+                        <div id="event-date-<%= i %>" class="input-row">
+                            <%= f.label :start_date, style: "display: block" %>
+                            <%= f.datetime_field  "start_date_#{i}".to_sym %>
+                            <%#= f.datetime_field :start_date_#{i} %>
+                        </div>
 
-            <div class="input-row">
-                <%= f.label :maximum_attendees, style: "display: block" %>
-                <%= f.number_field :maximum_attendees %>
+                        <div id="event-title-<%= i %>" class="input-row">
+                            <%= f.label :title, style: "display: block" %>
+                            <%= f.text_field  "title_#{i}".to_sym %>            
+                        </div>
+                    </div>
+                <% end %>
+                <a href="#" data-action="click->codex#add_event_option">Add event</a>
             </div>
+          
 
-            <div class="input-row">
-                <%= f.label :description, style: "display: block" %>
-                <%= f.text_field :description %>
-            </div>
-
-            <% for i in 0..5 %>
-            <div id="event-date- <%= i %>" class="input-row event-date" hidden>
-                <%= f.label :start_date, style: "display: block" %>
-                <%= f.datetime_field  "start_date_#{i}".to_sym %>
-                <%#= f.datetime_field :start_date_#{i} %>
-            </div>
-            <% end %>
-            <a href="#" data-action="click->codex#add_event_option">Add event</a>
-
-                <%= f.submit 'Create' %>
+                <%= f.submit 'Create Series' %>
             <% end %>
         </div>
     </div>

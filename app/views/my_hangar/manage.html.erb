@@ -8,7 +8,7 @@
   <div class="edit-pane">
   <% @allships.each do | ship | %>
     <% ship.expandedships(current_user).each do | usership | %>
-      <div id="container-<%= dom_id(usership) %>" class="edit-ship ">
+      <div id="container-<%= dom_id(usership) %>" class="edit-ship" data-controller="hangarEditor">
       <div class="edit-image">
       <%= image_tag ship.image_topdown if ship.image_topdown.attached? %>
       </div>
@@ -24,9 +24,9 @@
 </div>
 <div class="hangar" data-controller="usership">
   <div id="ship_list" class="ship-list" >
-    <% @alluserships.each do | usership | %>
+    <% @alluserships_models.each do | usership | %>
 
-      <%= render "hangar_ships", usership: @usership, ship: usership.ship %>
+      <%= render "hangar_ships", usership: @usership, ship: usership %>
 
     <% end %>
   </div>

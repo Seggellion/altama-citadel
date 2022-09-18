@@ -324,6 +324,9 @@ text-shadow: -4px -4px 0px #00e6e6,
             color:red;
             display:block;
         }
+        .selected{
+            background-color:#e5e5e5;
+        }
     }
 
     .edit-pane{
@@ -334,6 +337,24 @@ text-shadow: -4px -4px 0px #00e6e6,
             color:green;
             filter: invert(100%) hue-rotate(62deg) brightness(1.6);
             border:1px solid green;
+            cursor:pointer;
+        }
+        .primary-ship-container{
+            display:flex;
+            height:43px;
+        }
+        .altama-fleet-actions{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .fleet-id-label{
+                font-family: 'm42';
+                font-size: 0.8rem;
+                color: white;
+            }
+        }
+        [hidden], .hide{
+            display:none !important;
         }
         form > div {
             width:100%;

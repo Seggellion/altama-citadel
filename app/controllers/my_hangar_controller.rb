@@ -59,6 +59,9 @@ end
   def manage
     @usership = Usership.new
     @alluserships = Usership.where(user_id: current_user.id)
+    
+    @alluserships_models = current_user.ships.group(:id)
+    #@alluserships_models = Usership.where(user_id: current_user.id).group(:ship_id)
     @allships = Ship.all
   end
 
@@ -83,6 +86,7 @@ end
 
   # PATCH/PUT /userships/1 or /userships/1.json
   def update
+    
     respond_to do |format|
       if @usership.update(usership_params)
         format.html { redirect_to @usership, notice: "Usership was successfully updated." }

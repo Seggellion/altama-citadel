@@ -1,5 +1,5 @@
 <div class="event" data-controller="timeline">
-    <div class="event-thumbnail" data-action="click->timeline#event_popup" data-id="<%=event.id%>">
+    <div class="event-thumbnail  <% if event.event_series_id %>series-<%=event.event_series_id%><%end%>" data-action="click->timeline#event_popup" data-id="<%=event.id%>">
         <%= image_tag("guildstone_icon.png") %>
     </div>
     <span><%= event.title %></span>

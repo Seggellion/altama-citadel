@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2022_09_12_171702) do
     t.integer "usership_id"
     t.integer "event_user_id"
     t.integer "event_id"
-    t.integer "ship_fid"
+    t.string "ship_fid"
     t.string "ship_name"
     t.integer "ship_id"
     t.datetime "created_at", precision: 6, null: false
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2022_09_12_171702) do
     t.integer "user_id"
     t.integer "event_series_id"
     t.integer "event_id"
-    t.integer "ship_fid"
+    t.string "ship_fid"
     t.integer "usership_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -480,6 +480,7 @@ ActiveRecord::Schema.define(version: 2022_09_12_171702) do
     t.boolean "lti"
     t.boolean "warbond"
     t.string "source", default: "manual"
+    t.string "fid"
   end
 
   create_table "votes", force: :cascade do |t|

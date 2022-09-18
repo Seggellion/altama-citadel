@@ -42,13 +42,25 @@ class UsershipsController < ApplicationController
 
   # PATCH/PUT /userships/1 or /userships/1.json
   def update
+    
+    
+    usership = Usership.find_by_id(params[:id])
+  #  usership_params[:fid] = usership.fid_processor(usership_params[:fid_01],usership_params[:fid_02])
+  #param_1 = usership_params[:fid_01]
+  
+  param_1 = params[:usership][:fid_01].to_s
+  param_2 =params[:usership][:fid_02].to_s
+  
+   
+    
     respond_to do |format|
       if usership_params[:primary] == "1"
         primary_userships = Usership.find_by(user_id: current_user.id, primary: 1)
         primary_userships.update(primary:0)
       end
 
-      if @usership.update(usership_params)
+      if @usership.update(usership_params.except(:fid_01, :fid_02).merge(fid: usership.fid_processor(param_1,param_2)))
+        
       #  format.turbo_stream { render turbo_stream: turbo_stream.update(@usership) }
       format.turbo_stream do
         render turbo_stream: turbo_stream.append(:userships, partial: "userships/usership_details",
@@ -78,15 +90,14 @@ class UsershipsController < ApplicationController
   def redirect_cancel
     redirect_to request.referrer if params[:cancel]
   end
-    # Use callbacks to share common setup or constraints between actions.
+    
     def set_usership
       @usership = Usership.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
-    def usership_params
-      #params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint, :primary)
+    
+    def usership_params      
       params.require(:usership).permit(:user_id, :ship_id, :ship_name, :ship_serial, :pledge_id, :show_information,
-      :pledge_name, :pledge_date, :lti, :warbond, :year_purchased, :description, :paint, :primary)
+      :pledge_name, :pledge_date, :lti, :warbond, :year_purchased, :description, :paint, :primary, :fid, :fid_01,:fid_02)
     end
 end
