@@ -1,4 +1,7 @@
 <div id="<%= dom_id usership %>">
-<% if usership.primary %><span class="primary-ship">Primary ship</span><% end %>
-<h5>Ship name: <%= usership.ship_name || 'unnamed' %></h5>
+    <% if usership.primary %><span class="primary-ship">Primary ship</span><% end %>
+        <h5>Ship name: <%= usership.ship_name || 'unnamed' %></h5>
+    <% if usership.fid %>
+        <h5>Fleet ID:ALT-<%= usership.fid %></h5>
+    <% end %>
 </div>

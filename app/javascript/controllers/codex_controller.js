@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "submenu","features", "form_popup", "event_popup"]
+  static targets = [ "submenu","features", "form_popup", "event_popup", "FormSingleTab",
+   "FormMultipleTab", "FormSingle", "FormMultiple"]
 
   connect() {
 console.log('loaded');
@@ -25,7 +26,7 @@ console.log('loaded');
 
   add_event_option(event){
     event.preventDefault();
-    document.querySelectorAll('.event-date[hidden]')[0].removeAttribute("hidden");
+    document.querySelectorAll('.event-row[hidden]')[0].removeAttribute("hidden");
    // document.getElementsByClassName('event-date').last.removeAttribute("hidden");
   }
 
@@ -39,6 +40,20 @@ console.log('loaded');
   close_popup(event){
     this.form_popupTarget.hidden = true;
     document.querySelectorAll('.codex-container')[0].classList.remove('popup');
+  }
+
+  single_event(event){
+    this.FormMultipleTabTarget.classList.remove('selected');
+    this.FormSingleTabTarget.classList.add('selected');
+    this.FormSingleTarget.hidden = false;
+    this.FormMultipleTarget.hidden = true;
+  }
+
+  multiple_event(event){
+  this.FormMultipleTabTarget.classList.add('selected');
+  this.FormSingleTabTarget.classList.remove('selected');
+  this.FormSingleTarget.hidden = true;
+  this.FormMultipleTarget.hidden = false;
   }
 
   hide(event){

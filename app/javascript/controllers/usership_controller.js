@@ -2,7 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
 
- static targets = ["form", "ownedships"]
+ static targets = ["form", "ownedships", "ownedshipbutton"]
+
+
+
 
   submit(event) {
     
@@ -19,15 +22,26 @@ edit(event){
   var ship_id =  event.currentTarget.dataset.ship;
   var edit_container = document.getElementById('container-' + ship_id);
   var all_showing_elements = document.getElementsByClassName('show');
-
+  
   for (let i = 0; i < all_showing_elements.length; i++) {
     all_showing_elements[i].classList.remove('show');
   }
+console.log(this.ownedshipbuttonTarget);
+  if(event.currentTarget.classList.contains('selected')){
+    this.ownedshipbuttonTarget.classList.remove('selected');
+  }else{
+    this.ownedshipbuttonTarget.classList.add('selected');
+  }
+
+
+  
   
     if (edit_container.classList.contains('show')){
       edit_container.classList.remove('show');
+      
     }else{
       edit_container.classList.add('show');
+      
     }
 
 
@@ -51,6 +65,8 @@ edit(event){
       event.currentTarget.dataset.selected = true;
     }
   }
+
+
 
   import_ships(){
     document.getElementById('upload_button').click();

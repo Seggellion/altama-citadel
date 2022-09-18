@@ -32,23 +32,41 @@
     </div>
 
     <div class="event-attendees">
-        Attendees
-        <table>  <tr><td>SHIP-ID</td><td>Captain</td></tr>
-        <tr><td>ALT-133T-ENTERPRIZE</td><td>Anonymous Guy</td></tr>
-        <% EventUser.where(event_id:event.id).each do |event| %>                              
-        <tr><td>ALT-133T-someship</td><td><%= event.user.username %></td></tr>
+        Attendees <span class="attendee-counter"><%= event.event_users.length %> / <%= event.maximum_attendees %></span>
+        <table>
+        <% unless EventUser.where(event_id:event.id).empty? %>
+        <tr><td>SHIP-ID</td><td>Captain</td></tr>
+        <% end %>
+        <% EventUser.where(event_id:event.id).each do |eventuser| %> 
+                
+            <tr><td>ALT-<%= eventuser.ship_fid || '' %></td><td><%= eventuser.user.username %></td></tr>
         <% end %>
         </table>
     </div>
     <div class="action-buttons">
         <% unless event.joined?(current_user.id) %>
-            <%= form_with(model: EventUser) do |f| %>
-                <%= f.select :usership_id, options_for_select(@myfleetships.collect{ |u| [u.ship_name, u.id] }  ), :include_blank => 'Select Ship'%>
+        <% if @myfleetships.nil? %>
+            <span>No ships assigned to fleet</span>
+            <% else %>
+            <% if event.filteredFleet(current_user) &&  event.filteredFleet(current_user).count > 0 %>
+
+            <%= form_with(model: EventUser) do |f| %> 
+                <%= f.select :usership_id, options_for_select(event.filteredFleet(current_user).collect{ |u| [u.fid, u.id] }  ), :include_blank => 'Select Ship'%>
                 <%= f.hidden_field :event_id, :value => event.id %>
                 <%= f.submit 'Join' %>
             <% end %>
+
+                <% else %>
+                Applicable ships do not exist within your hangar
+            <% end %>
+
+
+            <% end %>
         <% else %>
-            <%= link_to 'Leave', leave_event_path(event_id: event.id) %>
+            <%= link_to 'Leave event', leave_event_path(event_id: event.id), class:'leave-event-button' %>
+        <% end %>
+        <% if event.owner_id == current_user.id %>
+        <%= button_to "DEL", event_path(event), method: :delete %>
         <% end %>
     </div>
 </div>

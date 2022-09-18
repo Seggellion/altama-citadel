@@ -8,6 +8,7 @@
   <div class="<% if current_user.ship_count(ship) > 0 %>owned<% end %>  ship-info">
     <h4><%= ship.model %></h4>
 
+
   </div>
 
 </div>
@@ -28,7 +29,7 @@
     </template>
   </turbo-stream>
 
-  <a class="btn" data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >
+  <a class="btn" data-usership-target="ownedshipbutton"  data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >
     <%= render "userships/usership_details", usership: usership %>
     </a>
   <% end %>

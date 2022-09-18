@@ -21,7 +21,12 @@
         overflow-y: scroll;
       }
       .form-multiple, .form-single{
-        width:50%;
+        width:100%;
+        text-align: center;
+        form{
+          display:flex;
+          flex-wrap: wrap;
+        }
       }
     }
     #timeline_header{
@@ -35,7 +40,7 @@
       overflow:hidden;
       span{
         color:white;
-        letter-spacing: 8px;
+        letter-spacing: 6px;
         margin-top:0px;
       }
       a{
@@ -82,6 +87,7 @@
     }
     .timeline-event-form-popup{
       position: absolute;
+      color:white;
       padding: 0px;
       background-color: #585858;
       width: 550px;
@@ -90,6 +96,29 @@
       top: 50%;
       transform: translate(-50%, -50%);
       z-index:9001;
+      a{
+        color:white;
+        text-decoration:none;
+      }
+      .form-tabs{
+        display:flex;
+        flex-direction:row;
+      }
+      .form-tab{
+        color:#9f9683;
+        width:50%;
+        padding: 10px 0px;
+        text-align: center;
+        background-color: #585858;
+        cursor:pointer;
+      }
+      .selected{
+        background-color:black;
+        color:white;
+      }
+      .multiple-events, .single-events{
+        width:50%;
+      }
       .form-single{
         padding:10px;
       }
@@ -108,9 +137,19 @@
       background-color: white;
       margin: 12px;
       height: 100%;
-      display:flex;
+      display: flex;
+    flex-direction: row;
+    justify-content: right;
       .event-description, .event-attendees{
         padding:10px;
+      }
+      .event .attendee-counter{
+        margin-left:8px;
+        font-size:0.8rem;
+        font-weight:bold;
+        color:#05c905;
+        margin-bottom:5px;
+        display:inline-block;
       }
       input{
         color:black;
@@ -131,6 +170,25 @@
           font-weight: 900;
           display: block;
         }
+        .event-date,.event-series{
+          padding:6px;
+        }
+        .action-buttons{
+          padding:6px;
+          .leave-event-button{
+            background-color:red;
+            display:block;
+            text-align: center;
+            color:white;
+            text-transform:uppercase;
+            padding:10px;
+            text-decoration: none;
+            &:hover{
+              background-color:white;
+              color:black;
+            }
+          }
+        }
         .event-thumbnail{
           cursor:pointer;
           width:75px;
@@ -148,7 +206,7 @@
           padding: 0px;
           width:330px;
           top:10px;
-          left:10px;
+          right:10px;
           z-index:9001;
           border:1px solid black;
           color:white;

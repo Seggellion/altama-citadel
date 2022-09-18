@@ -4,6 +4,21 @@ class Usership < ApplicationRecord
     has_one_attached :attachment
     include ActiveModel::Serializers::JSON
 
+    def fid_processor(id1, id2)
+        
+        ship_model= self.ship.model
+        ship = ''
+        if ship_model.include?("Starfarer") 
+            ship = 'SF'  
+        elsif ship_model.include?("MPUV Cargo")
+            ship = 'UC'
+        elsif ship_model.include?("MPUV Personnel")
+            ship = 'UP'
+        end
+        fid = ship + id1.to_s.upcase + '-' + id2.to_s.upcase
+        fid
+    end
+
     def filter
 
 

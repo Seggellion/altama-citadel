@@ -24,10 +24,11 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     staff_code =  (0...5).map { ('a'..'z').to_a[rand(26)] }.join
-    
+    )
     @current_task = @all_tasks.find_by(name: "Conquest" )
     @event.update(owner_id:current_user.id)
     @event.update(staff_code:staff_code)
+
     respond_to do |format|
       if @event.save
         unless @current_task.nil?
@@ -59,9 +60,10 @@ class EventsController < ApplicationController
 
   # DELETE /events/1 or /events/1.json
   def destroy
+    
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: "Event was successfully destroyed." }
+      format.html { redirect_to root_path, notice: "Event was successfully destroyed." }
       format.json { head :no_content }
     end
   end

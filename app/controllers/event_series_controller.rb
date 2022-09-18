@@ -24,16 +24,24 @@ class EventSeriesController < ApplicationController
 
       total_events = 0
       if !params[:event_series][:start_date_9].blank?
-        total_events = 10
+        total_events = 9
       elsif !params[:event_series][:start_date_8].blank?
-      
+        total_events = 8
       elsif !params[:event_series][:start_date_7].blank?
-      
-      elsif !params[:event_series][:start_date_1].blank?
-        
+        total_events = 7  
+      elsif !params[:event_series][:start_date_6].blank?
+        total_events = 6
+      elsif !params[:event_series][:start_date_5].blank?
+        total_events = 5
+      elsif !params[:event_series][:start_date_4].blank?
+        total_events = 4
+      elsif !params[:event_series][:start_date_3].blank?
+        total_events = 3
+      elsif !params[:event_series][:start_date_2].blank?
+        total_events = 2
+      elsif !params[:event_series][:start_date_1].blank?        
         total_events = 1
-      elsif !params[:event_series][:start_date_0].blank?
-        
+      elsif !params[:event_series][:start_date_0].blank?        
         total_events = 0
       end
 
@@ -45,15 +53,14 @@ class EventSeriesController < ApplicationController
        #   {params[:event_series][:start_date_2]}
         ]
         
-      @event_series = EventSeries.new(title:event_series_params[:title])
+      @event_series = EventSeries.new(title:event_series_params[:title], must_join_all: event_series_params[:must_join_all])
       
       respond_to do |format|
         if @event_series.save
 
           for i in 0..total_events
-byebug
-            Event.create(event_series_id: EventSeries.last.id ,title: 'multi-event', 
-            maximum_attendees: params[:event_series][:maximum_attendees],
+            Event.create(event_series_id: EventSeries.last.id ,title: params[:event_series]["title_#{i}".to_sym], owner_id:current_user.id,
+            maximum_attendees: params[:event_series][:maximum_attendees],keyword_required:params[:event_series][:keyword_required],
             start_date:params[:event_series]["start_date_#{i}".to_sym])
       
             end
@@ -97,8 +104,9 @@ byebug
   
       # Only allow a list of trusted parameters through.
       def event_series_params
-        params.require(:event_series).permit(:event_id, :title, :maximum_attendees,:start_date_5,
-         :description, :start_date_0, :start_date_1, :start_date_2, :start_date_3, :start_date_4
+        params.require(:event_series).permit(:event_id, :title, :maximum_attendees, :must_join_all, :keyword_required, :description,         
+         :start_date_0, :start_date_1, :start_date_2, :start_date_3, :start_date_4, :start_date_5, :start_date_6, :start_date_7, :start_date_8, :start_date_9,
+         :title_0, :title_1, :title_2, :title_3, :title_4, :title_5, :title_6, :title_7, :title_8, :title_9
         )
       end
   end
