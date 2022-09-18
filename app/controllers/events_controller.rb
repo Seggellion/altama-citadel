@@ -24,7 +24,6 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
     staff_code =  (0...5).map { ('a'..'z').to_a[rand(26)] }.join
-    )
     @current_task = @all_tasks.find_by(name: "Conquest" )
     @event.update(owner_id:current_user.id)
     @event.update(staff_code:staff_code)
