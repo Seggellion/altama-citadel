@@ -1,6 +1,6 @@
 <div class="event" data-controller="timeline">
     <div class="event-thumbnail  <% if event.event_series_id %>series-<%=event.event_series_id%><%end%>" data-action="click->timeline#event_popup" data-id="<%=event.id%>">
-        <%= image_tag("guildstone_icon.png") %>
+        <%= image_tag("New_DaymarRallyLogo_Standard_Icon_Web.png") %>
     </div>
     <span><%= event.title %></span>
     <%= render '/codex/timeline_event_popup', event:event %>
