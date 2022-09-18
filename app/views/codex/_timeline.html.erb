@@ -3,8 +3,8 @@
 
 <div class="timeline-main">
 
-<% if @all_events.count > 0 %>
-    <% @all_events.each do |event| %>
+<% if @timeline_events.count > 0 %>
+    <% @timeline_events.each do |event| %>
         <%= render '/codex/timeline_card', event:event %>
     <% end %>
 <% end %>
