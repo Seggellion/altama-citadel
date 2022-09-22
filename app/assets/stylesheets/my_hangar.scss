@@ -16,7 +16,9 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
   .add-ship-window{
     height:100%;
   }
-
+  #window_frame{
+    z-index:9001;
+  }
 
 
   .edit-ship{
@@ -265,6 +267,7 @@ $hangar_shadow_border: 2px solid $hangar_light_grey_shadow;
     background-image: image-url('hangar.png');
     display: inline-flex;
     width: 696px;
+   
     h1,h2,h3,h4{
         color:white;
     }
@@ -393,6 +396,7 @@ text-shadow: -4px -4px 0px #00e6e6,
 
 
 #view_ships{
+    margin-top: 30px;
     .fleet-toolbar{
         width:40px;
         position: absolute;
