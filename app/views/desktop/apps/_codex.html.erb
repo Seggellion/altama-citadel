@@ -2,7 +2,7 @@
     <%= render '/desktop/window-frame', app1: 'Codex', task: task %>
         <div class="codex-container">
         <% unless task.state == 'timeline' %>
-            <%= render '/codex/article'%>
+            <%= render '/codex/start_screen'%>
             <% else %>
             <%= render '/codex/timeline'%>
         <% end %>

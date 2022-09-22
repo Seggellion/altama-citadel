@@ -1,17 +1,17 @@
 
-
+<%= render '/desktop/window-frame', app1: 'My Hangar' %>
 
 
 <div class="my-hangar-window fleet-view">
   <div class="hangar-container">
  
   <table>
-  <tr class="fleet-heading">
-  <td>Id</td>
-  <td>Manufacturer</td>
-<td>Model</td>
-<td>Year purchased</td>
-<td>Owner</td>
+    <tr class="fleet-heading">
+    <td>Id</td>
+    <td>Manufacturer</td>
+    <td>Model</td>
+    <td>Year purchased</td>
+    <td>Owner</td>
   </tr>
   <% unless @allships.nil? %>
   
