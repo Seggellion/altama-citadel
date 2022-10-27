@@ -21,6 +21,7 @@
   </head>
 
   <body id="<%= controller.controller_name %>">
+  
     <% if current_user && Task.any_memos(current_user.id) %> 
       <%= render '/layouts/error' %>
     <% end %>
