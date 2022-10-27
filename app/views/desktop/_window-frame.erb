@@ -23,8 +23,11 @@
      </div>
     <% end %>
 <div class="control-buttons">
+<% if app1 == "Memo" %>
 
-    <% if defined?(task) && task.view == "window" %>
+<%=link_to "", clear_memos_path, class: 'close-btn' %>
+
+    <% elsif defined?(task) && task.view == "window" %>
         <%= form_with(model: task) do |form| %>
             <%= button_to "", task, class:'close-btn windowed', method: :delete  %>
         <% end %>
@@ -32,9 +35,8 @@
         <%= form_with(model: task) do |form| %>
             <%= button_to "", task, class:'close-btn full', method: :delete  %>
         <% end %>
-        <% elsif app1 == "Memo" %>
-        <%=link_to "", clear_memos_path, class: 'close-btn' %>
-        
+
+     
     <% else %>
         <%=link_to "", root_url, class: 'close-btn' %>
     <% end%>
