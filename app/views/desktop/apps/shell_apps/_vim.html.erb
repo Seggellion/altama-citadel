@@ -7,16 +7,19 @@
                     <span class="line-number"><%= i %></span>
                 <% end %>
             </div>
-
-            <textarea id="text_entry" name="text_entry"  rows="20" class="scroll"></textarea>    
+            <%= text_area_tag "text_content", nil, size: "27x7", class:"scroll" %>
+           
+            
         </div>
         <div id="vim_command" class="insert">
             <h2>--INSERT--</h2>
                 <div id="vim_command_prompt">
                     <input id="vim_query" name="query" type="text" />
+                    <input id="file_text" name="text" type="text" />
                     <input name="commit" type="submit" id="" value="" />
                 </div>
         </div>
     </form>
+   
 </div>
 

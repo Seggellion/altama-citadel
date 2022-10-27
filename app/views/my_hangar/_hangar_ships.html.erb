@@ -5,6 +5,7 @@
   <% end %>
 
   <%= render "form", usership: usership, ship: ship %>
+  
   <div class="<% if current_user.ship_count(ship) > 0 %>owned<% end %>  ship-info">
     <h4><%= ship.model %></h4>
 
@@ -15,22 +16,24 @@
 
 <div data-usership-target="ownedships"  class="owned-ships">
 
+<%= turbo_stream_from "usership_details" %>
+
+<%= turbo_frame_tag "usership_details" do %>
 <% ship.expandedships(current_user).each do | usership | %>
-  <%#= turbo_frame_tag dom_id(usership) do %>
-    <%# end %>
 
-    
 
-    <turbo-stream action="append" target="userships">
-    <template>
-      <div id="message_1">
-        This div will be appended to the element with the DOM ID "messages".
-      </div>
-    </template>
-  </turbo-stream>
+    <div id="usership-#{dom_id(usership)}">      
+      <%= render  "my_hangar/usership_details", usership_details:usership %>    
+    </div>
+  
+    I believe that the entire forloop has to exist as a turbo_stream_frame, and not broken-up individually
 
-  <a class="btn" data-usership-target="ownedshipbutton"  data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >
+    <a class="btn" data-usership-target="ownedshipbutton"  data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >
     <%= render "userships/usership_details", usership: usership %>
     </a>
-  <% end %>
+    <% end %>
+
+  <% end %>  
+
+
 </div>

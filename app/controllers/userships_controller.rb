@@ -58,14 +58,20 @@ class UsershipsController < ApplicationController
         primary_userships = Usership.find_by(user_id: current_user.id, primary: 1)
         primary_userships.update(primary:0)
       end
+      if usership_params[:show_information] == "0"
+        @usership.update(usership_params.except(:fid_01, :fid_02).merge(show_information:nil, fid: nil))
+        return
+      end
 
       if @usership.update(usership_params.except(:fid_01, :fid_02).merge(fid: usership.fid_processor(param_1,param_2)))
         
       #  format.turbo_stream { render turbo_stream: turbo_stream.update(@usership) }
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.append(:userships, partial: "userships/usership_details",
-          locals: { usership: @usership })
-      end
+      #format.turbo_stream do
+      #  render turbo_stream: turbo_stream.append(:userships, partial: "userships/usership_details",
+      #    locals: { usership: @usership })
+      #end
+
+    # format.turbo_stream
       #  format.html { redirect_to @usership, notice: "Usership was successfully updated." }
       #  format.json { render :show, status: :ok, location: @usership }
      # render partial: 'usership'

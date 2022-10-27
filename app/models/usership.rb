@@ -3,21 +3,22 @@ class Usership < ApplicationRecord
     belongs_to :ship
     has_one_attached :attachment
     include ActiveModel::Serializers::JSON
+    after_update_commit {broadcast_replace_to 'usership_details', partial: '/my_hangar/usership_details', locals: { usership_details: self }}
 
     def fid_processor(id1, id2)
         
-        ship_model= self.ship.model
+        
         ship = ''
-        if ship_model.include?("Starfarer") 
-            ship = 'SF'  
-        elsif ship_model.include?("MPUV Cargo")
-            ship = 'UC'
-        elsif ship_model.include?("MPUV Personnel")
-            ship = 'UP'
-        end
-        fid = ship + id1.to_s.upcase + '-' + id2.to_s.upcase
+        code = self.ship.code
+        fid = code + id1.to_s.upcase + '-' + id2.to_s.upcase
         fid
     end
+
+    def generate_fid(digits)
+        SecureRandom.base64.delete('/+=')[0, digits]
+    end
+
+
 
     def filter
 

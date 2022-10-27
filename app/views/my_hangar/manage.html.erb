@@ -12,8 +12,8 @@
       <div class="edit-image">
       <%= image_tag ship.image_topdown if ship.image_topdown.attached? %>
       </div>
-      <div class="form">
-        <%= render "userships/edit_ships", usership: usership %>
+        <div class="form">
+          <%= render "userships/edit_ships", usership: usership %>
         </div>
         </div>
       <% end %>
@@ -31,9 +31,13 @@
     <% end %>
   </div>
     <div class="hangar-actions">
-    <%= link_to "Back", my_hangar_path, class:"hangar-button" %>
-    <%= link_to "Add all to fleet", my_hangar_all_fleet_path, class:"hangar-button" %>
-      
+    
+      <%= link_to "Back", my_hangar_path, class:"hangar-button" %>
+      <% if @alluserships.where(show_information:1).size == 0   %>
+        <%= link_to "Add all to fleet", my_hangar_all_fleet_path, class:"hangar-button" %>
+      <% else %>
+        <%= link_to "Remove all from fleet", my_hangar_all_fleet_remove_path, class:"hangar-button" %>
+      <% end %>
 
      
     </div>

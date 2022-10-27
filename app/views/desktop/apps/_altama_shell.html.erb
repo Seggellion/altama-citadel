@@ -7,15 +7,15 @@
         <% unless task.state == 'vim' %>
             <div id="command" data-controller="shell">
                 <form action="/command" id="command_entry" method="get" accept-charset="UTF-8" >
-                <label for="query">C:\</label>
-                <input id="query" name="query" type="text" />
+                
+                <input id="query" name="query" type="text"  />
                 <input name="commit" type="submit" id="" value="" data-disable-with="Search" />
                 </form>
                 <div id="history" data-response="<%= task.response %>"></div>
 
                 C:\ 
-                <div id="input" contenteditable="true"></div>
-                <button id="caret" for="input">&nbsp;</button>
+                <div id="input" contenteditable="true"></div><button id="caret" for="input">&nbsp;</button>
+              
             </div> 
 
             <% else %>
@@ -24,6 +24,9 @@
         </div>
 </div>
 
+<div id="input" contenteditable="true"></div><button id="caret" for="input">&nbsp;</button>
+
+
 <script>
     var close_button = document.getElementsByClassName('close-btn')[0];
    // const close_button = document.querySelectorAll('.close-btn.full');
@@ -31,3 +34,4 @@
         localStorage.clear();
     });
 </script>
+
