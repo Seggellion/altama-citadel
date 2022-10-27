@@ -48,7 +48,7 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event, notice: "Event was successfully updated." }
+        format.html { redirect_to root_path, notice: "Event updated." }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -75,6 +75,7 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:title, :owner_id, :start_date, :capture_limit, :tournament_id, :description, :event_type)
+      params.require(:event).permit(:title, :owner_id, :start_date, :capture_limit, :tournament_id,
+       :description, :event_type, :keyword_required, :maximum_attendees)
     end
 end

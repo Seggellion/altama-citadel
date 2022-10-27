@@ -40,11 +40,11 @@
       <div class="fleet-id-field <% unless usership.show_information %>hide<%end%>" data-hangarEditor-target="fid">
       <span class="fleet-id-label">FleetID:</span>
       <% if usership.fid %>
-      <% @fid_01 = usership.fid.split('-').first[-4..-1] %>
-      <% @fid_02 = usership.fid.split('-').last[-4..-1] %>
-      <% else %>
-      <% @fid_01 = '' %>
-      <% @fid_02 = '' %>
+          <% @fid_01 = usership.fid.split('-').first[-4..-1] %>
+          <% @fid_02 = usership.fid.split('-').last[-10..-1] %>
+        <% else %>
+          <% @fid_01 = usership.generate_fid(4) %>
+          <% @fid_02 = usership.generate_fid(10) %>
       <% end %>
       <%= form.text_field :fid_01, maxlength: 4, id:'field01', :value => "#{@fid_01}" %>-<%= form.text_field :fid_02, maxlength: 10, :value => "#{@fid_02}" %>
     </div>

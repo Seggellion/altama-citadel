@@ -11,7 +11,7 @@ export default class extends Controller {
 
        if (e.key == "Escape") {
         document.getElementById('vim_command').classList.remove('insert');
-        document.getElementById('text_entry').disabled = true;   
+        document.getElementById('text_content').readonly = true;   
         document.getElementById('vim_query').disabled = false;   
         document.getElementById('line-numbers').classList.add('no-insert-mode');
         insert_mode = false;
@@ -19,7 +19,7 @@ export default class extends Controller {
 
       if (insert_mode == false && e.key == "i") {
         document.getElementById('vim_command').classList.add('insert');        
-        document.getElementById('text_entry').disabled = false;
+        document.getElementById('text_content').readonly = false;
         document.getElementById('vim_query').disabled = true;
         document.getElementById('line-numbers').classList.remove('no-insert-mode');
         insert_mode = true;

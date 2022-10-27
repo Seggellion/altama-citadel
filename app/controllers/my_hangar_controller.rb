@@ -22,8 +22,26 @@ def clear_ships
 end
 
 def all_fleet
-  @myships = Usership.where(user_id: current_user.id)
-  @myships.update_all(show_information: 1)
+  @myships = Usership.where(user_id: current_user.id, show_information:nil)
+  @myships.each do |usership|    
+    id = usership.ship.code.upcase + SecureRandom.base64.delete('/+=')[0, 14].upcase
+    usership.update(show_information:1, fid: id)
+  end
+
+# @myships.update_all(show_information: 1, fid: id)
+
+  respond_to do |format|
+    format.html { redirect_to my_hangar_manage_path, notice: "Records clear." }
+    format.json { head :no_content }
+  end
+end
+
+def all_fleet_remove
+  @myships = Usership.where(user_id: current_user.id, show_information:1)
+  @myships.update_all(show_information:nil, fid: nil)
+
+# @myships.update_all(show_information: 1, fid: id)
+
   respond_to do |format|
     format.html { redirect_to my_hangar_manage_path, notice: "Records clear." }
     format.json { head :no_content }
@@ -60,9 +78,10 @@ end
     @usership = Usership.new
     @alluserships = Usership.where(user_id: current_user.id)
     
-    @alluserships_models = current_user.ships.group(:id)
+    @alluserships_models = current_user.ships.group(:id).order(model: :asc)
     #@alluserships_models = Usership.where(user_id: current_user.id).group(:ship_id)
-    @allships = Ship.all
+    
+    @allships = Ship.all.order(model: :asc)
   end
 
   # GET /userships/1/edit

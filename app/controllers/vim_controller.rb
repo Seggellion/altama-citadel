@@ -1,21 +1,25 @@
 class VimController < ApplicationController
 
     def vim_command
-    command = params[:query][1..-1]
+    command = params[:query][1]
     @task_manager = TaskManager.find_by(user_id: current_user)
     @all_tasks = Task.where(task_manager_id: @task_manager.id)
     @task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Altama Shell")
-
+    filename = params[:query][3..-1]
+    
     case command
+      
         when "q"
 
             @task.update(state:'exit')
         when "w"
-            byebug
             
-            out_file = File.new("app/views/desktop/apps/shell_apps/files/out.moo", "w")
+            unless filename
+              filename = "untitled"                   
+            end
             #...
-            out_file.puts("write your stuff here")
+            out_file = File.new("app/views/desktop/apps/shell_apps/files/#{filename}.moo", "w")
+            out_file.puts(params[:text_content])
             #...
 
 

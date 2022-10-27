@@ -3,9 +3,16 @@
         <span>|<%= event.title %> </span>
         <a href="#" data-action="click->timeline#close_event_popup">| Close</a>
     </div>
+
+
+
+    <%= render '/codex/editor_form', event:event %>
+    <div class="event-details-container" data-timeline-target="event_details">
+
     <div class="event-date">
+    <% if event.start_date %>
     <%= event.start_date.to_formatted_s(:short)  %>
-    
+    <% end %>
     </div>
     <% if event.event_series_id %>
     <div class="event-series">
@@ -65,8 +72,12 @@
         <% else %>
             <%= link_to 'Leave event', leave_event_path(event_id: event.id), class:'leave-event-button' %>
         <% end %>
-        <% if event.owner_id == current_user.id %>
-        <%= button_to "DEL", event_path(event), method: :delete %>
-        <% end %>
     </div>
+    </div>
+    <% if event.owner_id == current_user.id %>
+    <div class='event-management-buttons'>
+    <%= button_to "DEL", event_path(event), method: :delete %>
+    <button  data-action="click->timeline#toggle_edit">EDIT</button>
+    </div>
+    <% end %>
 </div>

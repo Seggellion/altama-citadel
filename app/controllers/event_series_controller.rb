@@ -46,7 +46,6 @@ class EventSeriesController < ApplicationController
       end
 
 
-
         new_events = [
        #   {params[:event_series][:start_date_0]},
       #    {params[:event_series][:start_date_1]},
@@ -56,7 +55,7 @@ class EventSeriesController < ApplicationController
       @event_series = EventSeries.new(title:event_series_params[:title], must_join_all: event_series_params[:must_join_all])
       
       respond_to do |format|
-        if @event_series.save
+        if @event_series.save && total_events > 0
 
           for i in 0..total_events
             Event.create(event_series_id: EventSeries.last.id ,title: params[:event_series]["title_#{i}".to_sym], owner_id:current_user.id,
