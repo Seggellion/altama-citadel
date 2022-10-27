@@ -114,7 +114,8 @@ def clear_memos
   @task_manager = TaskManager.find_by(user_id: current_user)
   @all_tasks = Task.where(task_manager_id: @task_manager.id)
   @memos = @all_tasks.where.not(memo_type: [nil, ""])
-  @memos.destroy_all
+  
+  @memos.update_all(memo_text: nil, memo_type:nil)
   redirect_to root_path
 end
 
