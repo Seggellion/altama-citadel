@@ -63,8 +63,10 @@ class Task < ApplicationRecord
     def self.any_memos(user)
         @task_manager = TaskManager.find_by(user_id: user)
         if @task_manager
+            
         @all_tasks = Task.where(task_manager_id: @task_manager.id)
         @memos = @all_tasks.where.not(memo_type: [nil, ""])
+        
         if @memos.empty?
             return false
         else
