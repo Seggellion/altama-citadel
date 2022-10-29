@@ -400,7 +400,7 @@ padding:10px;
   display: flex;
   flex-direction: row;
   height:100%;
-  align-items: center;
+  align-items: center;  
   .title{
     padding: 30px;
     font-size: 6rem;
@@ -459,6 +459,7 @@ padding:10px;
   }
   .codex-start-buttons{
     width:35%;
+    z-index:9001;
     h2,h3{
       margin:0px;
       padding:0px;
