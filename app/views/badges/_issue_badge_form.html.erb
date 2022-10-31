@@ -1,0 +1,25 @@
+<%= form_with(model: user_badge) do |form| %>
+
+  
+    <div class="field">
+      <%= form.collection_select :user_id, all_users, :id, :username %>
+    </div>
+
+    
+
+
+    <div class="field">
+
+
+    <%= form.hidden_field :badge_id, :value => badge.id %>
+
+  </div>
+
+  
+
+    <div class="actions">
+      <%= form.submit 'Assign badge' %>
+    </div>
+  <% end %>
+
+  <hr>

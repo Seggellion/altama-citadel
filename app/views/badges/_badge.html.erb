@@ -1,5 +1,22 @@
+<tr>
+
+
+<td>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-13.5 -15.5 26 18">
+<path d="<%= badge.badge_image %>" stroke="red" stroke-width="0.5" fill="#ffffff"/>
+</svg>
+</td>
+
+<td>
+<%= render 'issue_badge_form', badge: badge, user_badge: @user_badge, all_users: @altama_users %>
+<hr>
+</td>
+
+<td>
 <div id="<%= dom_id badge %>">
   <p>
     <%= link_to "Show this badge", badge %>
   </p>
 </div>
+</td>
+</tr>

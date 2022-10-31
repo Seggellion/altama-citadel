@@ -1,11 +1,18 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Badges</h1>
+<h1>All Badges</h1>
 
-<div id="badges">
+
+<%= render "/badges/form", badge: @badge %>
+<hr>
+
+
+<div id="badge_list" class="admin">
+<table>
   <%= render @badges %>
+  </table>
 </div>
-all_badges_path
+
 <div id="badges_container">
 <%= link_to "My Badges", my_badges_path %>
 <%= link_to "All Badges", badges_path %>

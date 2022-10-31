@@ -2,7 +2,6 @@
   <% if badge.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(badge.errors.count, "error") %> prohibited this badge from being saved:</h2>
-
       <ul>
         <% badge.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,6 +9,23 @@
       </ul>
     </div>
   <% end %>
+
+
+  <div>
+  <%= form.label :badge_name, style: "display: block" %>
+  <%= form.text_field :badge_name %>
+</div>
+
+<div>
+  <%= form.label :badge_description, style: "display: block" %>
+  <%= form.text_field :badge_description %>
+</div>
+
+<div>
+  <%= form.label :badge_image, style: "display: block" %>
+  <%= form.text_field :badge_image %>
+</div>
+
 
   <div>
     <%= form.submit %>

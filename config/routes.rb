@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :rewards
   resources :control_points
   resources :badges
+  resources :user_badges
   resources :categories
   resources :rule_proposals
 
@@ -72,7 +73,7 @@ Rails.application.routes.draw do
   get 'my_hangar_all_fleet', to: 'my_hangar#all_fleet'
   get 'my_hangar_all_fleet_remove', to: 'my_hangar#all_fleet_remove'
   get 'my_hangar_destroy', to: 'my_hangar#clear_ships'
-  get 'my_badges', to: 'badges#index'
+  get 'my_badges', to: 'badges#my_badges'
   get 'clear_memos', to: 'tasks#clear_memos'
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'fleet_view', to: 'my_hangar#fleet_view'
