@@ -1,0 +1,24 @@
+<p style="color: green"><%= notice %></p>
+<div class="badge-background"></div>
+<h1>My Badges</h1>
+
+<div id="badges">
+  <%#= render @my_badges %>
+
+<div class="chest-sash">
+  <div class="badge-row">
+    <% @my_badges.each do |userbadge| %>     
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-13.5 -15.5 26 18">
+      <path d="<%= userbadge.badge.badge_image %>" stroke="red" stroke-width="0.5" fill="#ffffff"/>
+    </svg>
+  <% end %>
+  </div>
+</div>
+
+</div>
+
+<div id="badges_container">
+<%= link_to "My Badges", my_badges_path %>
+<%= link_to "All Badges", badges_path %>
+<%= link_to "Exit To Desktop", desktop_path %>
+</div>

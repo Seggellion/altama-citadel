@@ -4,6 +4,9 @@ class BadgesController < ApplicationController
   # GET /badges or /badges.json
   def index
     @badges = Badge.all
+    @badge = Badge.new
+    @user_badge = UserBadge.new
+    @altama_users = User.where.not(org_title: [nil, ""])
   end
 
   # GET /badges/1 or /badges/1.json
@@ -11,7 +14,12 @@ class BadgesController < ApplicationController
   end
 
   def all_badges
+    
+  end
 
+  def my_badges
+    
+    @my_badges = UserBadge.where(user_id: current_user.id)
   end
 
   # GET /badges/new
@@ -68,6 +76,6 @@ class BadgesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def badge_params
-      params.fetch(:badge, {})
+      params.require(:badge).permit(:badge_description, :badge_image, :badge_title, :badge_color)
     end
 end
