@@ -25,9 +25,9 @@
     <div id="usership-#{dom_id(usership)}">      
       <%= render  "my_hangar/usership_details", usership_details:usership %>    
     </div>
-  
+  <% comment do %>
     I believe that the entire forloop has to exist as a turbo_stream_frame, and not broken-up individually
-
+<% end %>
     <a class="btn" data-usership-target="ownedshipbutton"  data-ship="<%= dom_id(usership) %>" data-action="click->usership#edit" >
     <%= render "userships/usership_details", usership: usership %>
     </a>

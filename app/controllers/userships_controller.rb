@@ -84,9 +84,10 @@ class UsershipsController < ApplicationController
 
   # DELETE /userships/1 or /userships/1.json
   def destroy
+    
     @usership.destroy
     respond_to do |format|
-      format.html { redirect_to userships_url, notice: "Usership was successfully destroyed." }
+      format.html { redirect_to my_hangar_manage_path, notice: "Usership was successfully destroyed." }
       format.json { head :no_content }
     end
   end
