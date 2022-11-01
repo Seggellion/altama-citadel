@@ -19,6 +19,8 @@
 
 <div id="badges_container">
 <%= link_to "My Badges", my_badges_path %>
+<% if current_user.user_type <= 0 %>
 <%= link_to "All Badges", badges_path %>
+<% end %>
 <%= link_to "Exit To Desktop", desktop_path %>
 </div>
