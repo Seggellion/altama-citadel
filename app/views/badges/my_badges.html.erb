@@ -5,15 +5,27 @@
 <div id="badges">
   <%#= render @my_badges %>
 
-<div class="chest-sash">
-  <div class="badge-row">
-    <% @my_badges.each do |userbadge| %>     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-13.5 -15.5 26 18">
-      <path d="<%= userbadge.badge.badge_image %>" stroke="red" stroke-width="0.5" fill="#ffffff"/>
-    </svg>
-  <% end %>
+  <div class="chest-sash">
+    <div class="badge-row">
+      <% @my_badges.each do |userbadge| %>     
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-13.5 -15.5 26 18">
+          <path d="<%= userbadge.badge.badge_image %>" stroke="red" stroke-width="0.5" fill="#ffffff"/>
+        </svg>
+      <% end %>
+    </div>
   </div>
-</div>
+
+  <div class="chest-ribbons">
+    <div class="badge-row">
+    <% if !@my_ribbons.nil? %>
+      <% @my_ribbons.each do |userbadge| %>     
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 38">
+          <%= raw userbadge.badge.badge_image %>
+        </svg>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
 
 </div>
 

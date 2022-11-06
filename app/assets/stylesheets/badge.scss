@@ -64,6 +64,25 @@ background-color: $light_grey;
   }
 }
 
-#badge_list svg{
-  width:50px;
+
+#badge_list .admin-badge-svg{
+  width:100px;
+}
+.chest-ribbons{
+  width: 460px;
+  position: absolute;
+  right: 170px;
+  bottom: 193px;
+}
+
+.chest-ribbons .badge-row{
+  height:25px;
+}
+
+.chest-ribbons .badge-row svg{
+  height: 100%;
+  &:hover{
+    border:1px solid yellow;
+    cursor:pointer;
+  }
 }
