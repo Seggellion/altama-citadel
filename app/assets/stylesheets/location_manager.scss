@@ -19,8 +19,10 @@
         }
     }
     .config_window{
-        right: 41%;
-        width: 573px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        width: 673px;
         height: 420px;
         input, select{
             border-bottom:$highlight_border;
