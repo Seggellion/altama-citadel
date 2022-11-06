@@ -15,13 +15,15 @@ export default class extends Controller {
         document.getElementById('prompt').innerHTML = '<ul><li>Altama Shell v1.0</li></ul>';
         
         const input = document.getElementById('input');
+        input.focus();
         const cursor = document.getElementById('cursor');
         const field_submission = document.getElementById('query');
     const command_lines = document.querySelectorAll('.command-line');
     const last_response = history.getAttribute('data-response');
     const last_line = document.createElement('DIV');      
     last_line.textContent = `> ${ last_response }`;
-
+    
+    
     // history_line.textContent = `C:\\ ${ command_history }`;
     console.log('last_response:', last_response)
     console.log('command_lines:', command_lines)
@@ -45,14 +47,19 @@ console.log('last_Response:',last_response);
     function focusAndMoveCursorToTheEnd(e) {  
       input.focus();
       
+
       const range = document.createRange();
-      const selection = window.getSelection();
+      // const selection = window.getSelection();
+      const selection = document.querySelector('#input');
       const { childNodes } = input;
       const lastChildNode = childNodes && childNodes.length - 1;
       
       range.selectNodeContents(lastChildNode === -1 ? input : childNodes[lastChildNode]);
       range.collapse(false);
-    
+      console.log('selection:', selection);
+      console.log('range:', range);
+
+
       selection.removeAllRanges();
       selection.addRange(range);
     }
@@ -78,16 +85,21 @@ console.log('last_Response:',last_response);
     document.addEventListener('selectionchange', () => {
       if (document.activeElement.id !== 'input') return;
       
+      /*
+      curious why this doesn't do anything?
+
       const range = window.getSelection().getRangeAt(0);
+      console.log('range-original', range);
       const start = range.startOffset;
       const end = range.endOffset;
       const length = input.textContent.length;
-      
+  
       if (end < length) {
         input.classList.add('noCaret');
       } else {
         input.classList.remove('noCaret');
       }
+          */
     });
     
     input.addEventListener('input', () => {    
@@ -100,8 +112,7 @@ console.log('last_Response:',last_response);
         for (let i = 0; i <= lines.length - 2; ++i) {
           handleCommand(lines[i]);
         }
-        input.textContent = lastLine;
-        
+        input.textContent = lastLine;                
         focusAndMoveCursorToTheEnd();
       }
       
@@ -114,6 +125,8 @@ console.log('last_Response:',last_response);
     document.addEventListener('keydown', (e) => {   
       // If some key is pressed outside the input, focus it and move the cursor
       // to the end:
+      console.log('etarget:',e.target);
+      console.log('input:',input);
       if (e.target !== input) focusAndMoveCursorToTheEnd();
     });
     
@@ -122,9 +135,13 @@ console.log('last_Response:',last_response);
       if (e.key === 'Enter') {
         e.preventDefault();
             
-        handleCommand(input.textContent);    
+        handleCommand(input.textContent);
+        console.log('input.textContent');
+        console.log('submit?');
         input.textContent = '';
-        focusAndMoveCursorToTheEnd();
+       // focusAndMoveCursorToTheEnd();
+        console.log('actualsubmit?');
+        var command_entry = document.querySelector('#command_entry');
         command_entry.submit();
       }
     });

@@ -1,4 +1,4 @@
-<%= form_with(model: badge) do |form| %>
+<%= form_with(model: badge)  do |form| %>
   <% if badge.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(badge.errors.count, "error") %> prohibited this badge from being saved:</h2>
@@ -23,7 +23,14 @@
 
 <div>
   <%= form.label :badge_image, style: "display: block" %>
-  <%= form.text_field :badge_image %>
+  <%= form.text_area :badge_image %>
+</div>
+<div>
+  <%= form.label :badge_type, style: "display: block" %>
+  <%= form.select(:badge_type, options_for_select([ "Flight Badge","Mission Badge", "Ribbon", "Medal", "Pin" ], "Ribbon")) %>
+
+  
+
 </div>
 
 

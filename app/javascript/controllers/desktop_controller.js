@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
+    
     var windowName = this.element.querySelectorAll('.app-bar')[0].dataset.appname;
     var leftPosition = window.sessionStorage.getItem(`window-${windowName}-left`);
     var topPosition = window.sessionStorage.getItem(`window-${windowName}-top`);
