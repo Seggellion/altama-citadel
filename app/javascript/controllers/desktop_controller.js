@@ -6,6 +6,7 @@ export default class extends Controller {
     var windowName = this.element.querySelectorAll('.app-bar')[0].dataset.appname;
     var leftPosition = window.sessionStorage.getItem(`window-${windowName}-left`);
     var topPosition = window.sessionStorage.getItem(`window-${windowName}-top`);
+    this.element.style.transform = "none";
     this.element.style.left = leftPosition;
     this.element.style.top = topPosition;
     console.log('leftPosition', leftPosition);
@@ -36,9 +37,9 @@ click(event){
 dragover(event) {
 
   event.target.style.cursor = "move";
-  this.element.style.left = event.pageX - event.target.offsetWidth / 2 + 'px';
-  this.element.style.top = event.pageY - event.target.offsetHeight / 2 + 'px';
-  
+  this.element.style.left = event.pageX - (event.target.offsetWidth / 2) + 'px';
+  this.element.style.top = event.pageY - (event.target.offsetHeight / 2) + 'px';
+  this.element.style.transform = "none";
 
   event.preventDefault()
 
@@ -117,7 +118,7 @@ local_users(event){
     
         this.element.style.left = event.pageX - event.target.offsetWidth / 2 + 'px';
         this.element.style.top = event.pageY - event.target.offsetHeight / 2 + 'px';
-
+        this.element.style.transform = "none";
       // centers the this.element at (pageX, pageY) coordinates
       function moveAt(pageX, pageY) {
         console.log('moveAt', this.element);

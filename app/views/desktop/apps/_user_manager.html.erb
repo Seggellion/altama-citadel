@@ -20,7 +20,8 @@
     </div>
 
         <div class="right-pane">
-        <div class="right-pane-header">
+        <div class="right-pane-header" style="display:none">
+        
         <span>
         Type
         </span>
@@ -50,7 +51,7 @@
 
 <% case @user_manager.state 
 when 'root_users' %>
-<%= render 'users/root_users'  %>
+<%= render 'users/root_users_table'  %>
 <% when 'all_users' %>
 <%= render 'users/all_users'  %>
 <% when 'rsi_users'  %>
