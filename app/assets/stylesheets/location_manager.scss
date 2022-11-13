@@ -8,7 +8,7 @@
         right:34%;
     }
     #new_location, #edit_location{
-        top:24%;
+        top:50%;
         
         .close-btn{
             right: 5px;
@@ -38,6 +38,13 @@
         #rsi_verification{
             display:block;
         }
+    }
+    .up-item{
+        background-position: top;
+        object-fit: contain;
+        transform: translateX(-147px) translateY(-436px);
+        width: 1624px;
+        height: auto;
     }
 }
 

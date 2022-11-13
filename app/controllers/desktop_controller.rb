@@ -10,6 +10,25 @@ def index
 if @all_tasks
   @windowed_tasks = @all_tasks.where(view:'window')
   @fullscreen_tasks = @all_tasks.where(view:'full')
+  @current_task = @all_tasks.first
+end
+
+
+
+if !@current_task.nil? and @current_task.name.downcase.include? "location"  
+  if  @current_task.state and @current_task.state.downcase.include? "subitem"
+    location = Location.find_by_id(@current_task.state.downcase.split(',')[0][-1])
+    if location.parent != nil
+    @locations = Location.where(parent:location.parent)
+    else
+      @locations = Location.where(parent:location.id)
+    end
+    
+  else    
+    @locations = Location.where(location_type:1)
+  end
+  
+  @location = Location.new
 end
 
   @all_users = User.all + DiscordUser.all + RsiUser.all
@@ -22,8 +41,7 @@ end
   @selected_ship = Ship.find_by_id(params[:ship_id])
   @manufacturers = Manufacturer.all
   @manufacturer = Manufacturer.new
-  @locations = Location.all
-  @location = Location.new
+
   @commodity = Commodity.new
   @reward  = Reward.new
   @all_rewards = Reward.all
@@ -34,6 +52,10 @@ end
   @all_events = Event.all
   @timeline_events = Event.where(event_type:nil)
   current_user.desktop
+
+
+
+  
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 

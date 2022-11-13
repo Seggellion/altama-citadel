@@ -26,7 +26,7 @@
             <% if app1 == "Memo" %>
                 <%=link_to "", clear_memos_path, class: 'close-btn' %>
             <% elsif defined?(task) && task.view == "window" %>
-                <%= form_with(model: task) do |form| %>
+                <%= turbo_frame_tag dom_id(task), target: :_top do %>
                     <%= button_to "", task, class:'close-btn windowed', method: :delete  %>
                 <% end %>
                 <% elsif defined?(task) && task.view == "full" %>        

@@ -24,7 +24,8 @@ case command
       text = "No file specified"
     end
     @task.update(state:text)
-
+  when "exit"
+    @task.destroy    
   else
     @task.update(state:'Bad command or file name')
   end

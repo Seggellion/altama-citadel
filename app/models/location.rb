@@ -8,6 +8,9 @@ def star
      Location.where("system = id")
 end
 
+def has_children?
+  return true if Location.where(parent: self.id).count > 0
+end
 
 def sublocations
      Location.where(parent: self.id).where.not(location_type: 3)

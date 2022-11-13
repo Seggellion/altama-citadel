@@ -115,6 +115,8 @@ Rails.application.routes.draw do
   get 'next_message', to: 'tasks#state_asl_message_next'
   get 'prev_message', to: 'tasks#state_asl_message_prev'
   get 'state_location_edit', to: 'tasks#state_location_edit'
+  get 'state_location_subitem', to:'tasks#state_location_subitem'
+  get 'state_location_mainitem', to:'tasks#state_location_mainitem'
   get 'close_state_window', to: 'tasks#close_state_window'
   get 'close_rules_window', to: 'tasks#close_rules_window'
   get 'close_user_position_window', to: 'tasks#close_user_position_window'
