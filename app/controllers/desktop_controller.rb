@@ -18,7 +18,7 @@ end
 if !@current_task.nil? and @current_task.name.downcase.include? "location"  
   if  @current_task.state and @current_task.state.downcase.include? "subitem"
     location = Location.find_by_id(@current_task.state.downcase.split(',')[0][-1])
-    if location.parent != nil
+    if location.present? and location.parent != nil
     @locations = Location.where(parent:location.parent)
     else
       @locations = Location.where(parent:location.id)
