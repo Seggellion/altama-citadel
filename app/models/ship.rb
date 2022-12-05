@@ -4,8 +4,6 @@ class Ship < ApplicationRecord
 
     def code
 
-
-
         if self.model.include?("Starfarer") 
             code = 'SF'  
         elsif self.model.include?("100i")
@@ -253,11 +251,6 @@ class Ship < ApplicationRecord
 
         end
     end
-
-
-
-
-
 
 
 

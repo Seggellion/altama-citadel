@@ -7,14 +7,16 @@ connect(){
 
 }
  event_popup(event){
-  console.log(this.event_popupTarget);
+  event.target.parentElement.parentElement.style.zIndex = "9001";
+  
 this.event_popupTarget.removeAttribute("hidden");
 this.event_popupTarget.hidden = false;
 }
 
-close_event_popup(event){
-  
+close_event_popup(event){  
   this.event_popupTarget.hidden = true;
+  this.event_popupTarget.style.zIndex = "1";
+  event.target.parentElement.parentElement.parentElement.style.zIndex = "1";
 }
 
 toggle_edit(event){

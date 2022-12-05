@@ -44,6 +44,26 @@ class EventsController < ApplicationController
     end
   end
 
+def open_event
+  event = Event.find_by_id(params[:event_id])
+#if event.open.nil? || event.open == false
+  
+ # event.update!(open:true)
+#else    
+  
+ # event.update!(open:false)
+#end
+event.toggle_open
+
+    respond_to do |format|        
+      format.html { redirect_to root_path, notice: "Event updated." }
+      format.json { render :show, status: :ok, location: event }
+    end
+
+
+
+end
+
   # PATCH/PUT /events/1 or /events/1.json
   def update
     respond_to do |format|
@@ -76,6 +96,6 @@ class EventsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_params
       params.require(:event).permit(:title, :owner_id, :start_date, :capture_limit, :tournament_id,
-       :description, :event_type, :keyword_required, :maximum_attendees)
+       :description, :event_type, :keyword_required, :maximum_attendees, :open)
     end
 end
