@@ -50,7 +50,9 @@
         <% end %>
         </table>
     </div>
-    <% if event.open %>
+    
+    <% unless  event.open == false || event.open.nil? %>
+
     <div class="action-buttons">
         <% unless event.joined?(current_user.id) %>
         <% if @myfleetships.nil? %>
