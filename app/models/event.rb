@@ -24,7 +24,8 @@ class Event < ApplicationRecord
                 end_date = date_ending.to_date.end_of_day
                 
                 
-                records = Event.where(:created_at => start_date..end_date)
+                records = Event.where(event_type:nil).order(start_date: :asc)
+                records = records.where(:created_at => start_date..end_date)
                 
             else
                 records = []
