@@ -1,36 +1,67 @@
 
 <%= render '/desktop/window-frame', app1: 'My Hangar' %>
 
+<style>
+.grid-container{
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+
+}
+.grid-card{
+  border:1px solid black;
+  padding:15px;
+    margin: 5px;
+  text-align:center;
+  display:flex;
+  align-items:center;
+  flex-direction:column;
+  justify-content:center;
+}
+</style>
 
 <div class="my-hangar-window fleet-view">
   <div class="hangar-container">
 
   <div class="back-container" style="width:100%;"><%= link_to my_hangar_path, class: 'hangar-back' do %>Back to hangar<% end %></div>
+
+<div class="grid-container">
+  <% @org_ships_sorted_count.each do | ship | %>
+<div class="grid-card">
+      
+      <span style="font-size:0.8rem;"> <%= ship[0] %>:</span>      
+      <span style="font-size:0.8rem;"><%= ship[1] %></span>
+</div>
+  <% end %>
+</div>
+
+    <hr>
   <table>
     <tr class="fleet-heading">
-    <td>Id</td>
-    <td>Manufacturer</td>
+    <td>FId</td>
     <td>Model</td>
     <td>Year purchased</td>
+    <% if current_user.user_type < 10 %>
     <td>Owner</td>
+    <% end %>
   </tr>
   <% unless @allships.nil? %>
   
   <% @allships.each do | usership | %>
     
     <tr>
-    <td><%= usership.id %></td>
+    <td><%= usership.fid %></td>
     <% if usership.ship %>
-    <td><%= usership.ship.manufacturer.name || 'no data' %></td>
     <td><%= usership.ship.model || 'no data' %></td>
     <td></td>
-    <td><%= usership.user.username || 'no data' %></td>        
+    <% if current_user.user_type < 10 %>
+    <td><%= usership.user.username || 'no data' %></td>   
+    <% end %>     
     <% end %>
     </tr>    
   <% end %>
-<% else %>
-No Records
-<% end %>
+  <% else %>
+    No Records
+  <% end %>
 </table>
 
   </div>

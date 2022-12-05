@@ -50,6 +50,7 @@
         <% end %>
         </table>
     </div>
+    <% if event.open %>
     <div class="action-buttons">
         <% unless event.joined?(current_user.id) %>
         <% if @myfleetships.nil? %>
@@ -73,11 +74,22 @@
             <%= link_to 'Leave event', leave_event_path(event_id: event.id), class:'leave-event-button' %>
         <% end %>
     </div>
+    <% end %>
     </div>
     <% if event.owner_id == current_user.id %>
     <div class='event-management-buttons'>
     <%= button_to "DEL", event_path(event), method: :delete %>
-    <button  data-action="click->timeline#toggle_edit">EDIT</button>
+    <button data-action="click->timeline#toggle_edit">EDIT</button>
+    
+    <% if event.open.nil? || event.open == false %>
+    <%= link_to 'Open', open_event_path(event_id: event.id), class:'btn leave-event-button open' %>    
+    <% else %>
+    <%= link_to 'Close', open_event_path(event_id: event.id), class:'btn leave-event-button close' %>
+    <% end %>
+
     </div>
     <% end %>
+
+
+    
 </div>

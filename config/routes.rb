@@ -96,6 +96,7 @@ Rails.application.routes.draw do
   get 'close_codex_window', to: 'codex#close_window'
   get 'join_event', to: 'event_users#join'
   get 'leave_event', to: 'event_users#leave'
+  get 'open_event', to: 'events#open_event'
   get 'command', to: 'shell#command_entry'
   get 'start_location_manager', to:'tasks#start_location_manager'
   get 'start_ship_manager', to:'tasks#start_ship_manager'

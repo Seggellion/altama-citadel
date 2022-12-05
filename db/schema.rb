@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_05_205615) do
+ActiveRecord::Schema.define(version: 2022_12_04_212030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,7 @@ ActiveRecord::Schema.define(version: 2022_11_05_205615) do
     t.integer "maximum_attendees"
     t.string "keyword_required"
     t.integer "event_series_id"
+    t.boolean "open"
   end
 
   create_table "guildstones", force: :cascade do |t|

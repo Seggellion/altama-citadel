@@ -14,6 +14,44 @@ class Event < ApplicationRecord
 
         end
 
+        def self.timeline_events(year)
+            year = year + 2010
+            if year >= 2942
+                year = year - 930
+                date_beginning = Date.new(year,1,1) 
+                date_ending = Date.new(year,12,31)
+                start_date = date_beginning.to_date.beginning_of_day
+                end_date = date_ending.to_date.end_of_day
+                
+                
+                records = Event.where(:created_at => start_date..end_date)
+                
+            else
+                records = []
+            end
+
+            records
+   
+        end
+
+def toggle_open
+    if self.open.nil? || self.open == false
+        self.update!(open:true)
+    else
+        self.update!(open:false)
+    end
+end
+
+        def self.totalYears
+            date_beginning = DateTime.new(2010,3,01)
+            
+            date_end = Event.all.order(start_date: :desc).last.start_date
+            
+            total_date = ((date_end.year + 931 ) - date_beginning.year)
+
+
+        end
+
         def filteredFleet(user)
             
             return false unless keyword = self.keyword_required

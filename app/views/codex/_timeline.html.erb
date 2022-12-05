@@ -1,21 +1,64 @@
 <%= render '/codex/timeline_header' %>
-
+<style>
+.timeline-header{
+    height:15px;
+    border-bottom:1px solid grey;
+}
+.timeline-grid td{
+    border-left:1px solid black;
+}
+.timeline-events{
+    height:70vh;
+}
+.timeline-grid{
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+</style>
 
 <div class="timeline-main">
+<%# array has to get the last event date to add to the timeline  %>
+<%# event has to match the current year to display all events in one column  %>
+<table class="timeline-grid">
+<tr>
+<% Event.totalYears.times do |i| %>
+<td>
+<div class="timeline-header">
+<%= i + 2010 %>
+</div>
+<div class="timeline-events">
 
-<% if @timeline_events.count > 0 %>
-    <% @timeline_events.each do |event| %>
+<% if Event.timeline_events(i).count > 0 %>
+
+    <% Event.timeline_events(i).each do |event| %>
         <%= render '/codex/timeline_card', event:event %>
     <% end %>
 <% end %>
+
+</div>
+</td>
+    <% end %>
+</tr>
+</table>
+
+
+
     
 </div>
 
 <div class="timeline-footer">
 <div class="timeline-button-container">
+<% if @current_user.isAdmin? %>
     <a href="#" class="timeline-button"  data-action="click->codex#timeline_popup">
         Create new event
     </a>
+<% end %>
 </div>
 
 <%= render '/codex/popup_forms' %>
+
+<script>
+var objDiv = document.getElementsByClassName("timeline-grid")[0];
+objDiv.scrollLeft = objDiv.scrollWidth;
+</script>
