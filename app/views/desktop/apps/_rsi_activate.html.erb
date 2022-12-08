@@ -22,8 +22,9 @@
                             <%= f.hidden_field :user, id: "user", value: current_user.id %>
                             <%= f.text_field :handle, id: "handle", value: current_user.username %>
                             <%= link_to "https://robertsspaceindustries.com/account/profile", target:"blank" do %>
-                            <%= image_tag("rsi_logo.png", class:"rsi-logo") %>
+                            <%= image_tag("rsi_logo.png", class:"rsi-logo") %>                            
                             <% end %>
+                            <div class="notice">This text must match your RSI Handle</div>
                         <%= f.submit "Verify", :class => 'hidden' %>
                         
                         <% end %>

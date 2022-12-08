@@ -51,8 +51,10 @@
         </table>
     </div>
     
-    <% unless  event.open == false || event.open.nil? %>
 
+    </div>
+
+    <% unless  event.open == false || event.open.nil? %>
     <div class="action-buttons">
         <% unless event.joined?(current_user.id) %>
         <% if @myfleetships.nil? %>
@@ -70,14 +72,13 @@
                 Applicable ships do not exist within your hangar
             <% end %>
 
-
             <% end %>
         <% else %>
             <%= link_to 'Leave event', leave_event_path(event_id: event.id), class:'leave-event-button' %>
         <% end %>
     </div>
-    <% end %>
-    </div>
+<% end %>
+
     <% if event.owner_id == current_user.id %>
     <div class='event-management-buttons'>
     <%= button_to "DEL", event_path(event), method: :delete %>

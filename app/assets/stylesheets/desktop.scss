@@ -134,6 +134,7 @@ html{
 
         .content{
             padding-left:20px;
+            padding-top:20px;
             input:disabled{
                 width:70px;
             }
@@ -144,12 +145,19 @@ html{
     }
     .sidebar-image{
         width: 225px;
-        height: 285px;
+        height: 355px;
         overflow: hidden;
         border: 1px solid black;
         img{
             height:100%;
         }
+    }
+    .notice{
+        
+        margin-top: 10px;
+        font-size: 0.6rem;
+        text-align: center;
+        width: 100%;
     }
 }
 
