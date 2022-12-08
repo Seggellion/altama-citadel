@@ -252,6 +252,10 @@
           color:white;
           background-color:#494339;
         }
+        .event-details-container{
+          height: 240px;
+          overflow: scroll;
+        }
       }
     }
     .sub-menu.hide, .sub-menu[hidden]{
