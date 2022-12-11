@@ -11,6 +11,61 @@ class RsiUser < ApplicationRecord
       #food_trucks
     end
 
+def match
+  
+rsi_users = RsiUser.where.not(username:"")
+matched_users = User.where(rsi_username: rsi_users.pluck(:username)).sort
+
+  matched_users.each do |matched_user|
+
+   # rsi_users.includes?(matched_user.username)
+    rsi_user = rsi_users.find_by_username(matched_user.rsi_username)
+    if matched_user.username == rsi_user.username
+      user_type = org_user_type_match(rsi_user.title)
+  matched_user.update(org_title: rsi_user.title, user_type: user_type )
+    end
+  end
+  
+#gets all users, and matches with rsi user
+#updates user with rsi_user data
+
+end
+
+def org_user_type_match(org_title)  
+  case org_title
+    when 'Board Member'
+      user_type = 12
+      #discord_user_check(discord_user, 'Board Member')
+    when 'Executive'
+      user_type = 15
+  #    discord_user_check(discord_user, 'Executive')
+    when 'Partner'
+      user_type = 20
+  #    discord_user_check(discord_user, 'Partner')
+    when 'Flight Crew'
+      user_type = 25
+   #   discord_user_check(discord_user, 'Flight Crew')
+    when 'Worker-Owner'
+      user_type = 30
+   #   discord_user_check(discord_user, 'Worker-Owner')
+    when 'Member-Owner'
+      user_type = 42
+   #   discord_user_check(discord_user, 'Member-Owner')
+    else
+     user_title = 'Plus'
+      user_type = 100
+      #   discord_user_check(discord_user, 'Altama Plus')
+    end
+ 
+
+end
+
+def discord_user_check(discord_user,role_name)
+  if discord_user.role != 'Member Owner'
+    user_error = 'Role Mismatch'
+  end
+end
+
     private
 
     URL = "https://robertsspaceindustries.com/orgs/ALTAMA/members"

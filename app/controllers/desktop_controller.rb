@@ -33,8 +33,10 @@ if !@current_task.nil? and @current_task.name.downcase.include? "location"
 end
 
   @all_users = User.all + DiscordUser.all + RsiUser.all
+  
   @local_users = User.all
-  @root_users = User.all.order(last_login: :desc)
+  @root_users = User.all.order('last_login DESC NULLS LAST').order(rsi_verify: :desc)
+  
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)
   @ships = Ship.all
@@ -66,6 +68,9 @@ end
 
 def rsi_user_list
   users = RsiUser.write
+RsiUser.match
+
+
   task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   task.update(state:"rsi_users")
 
