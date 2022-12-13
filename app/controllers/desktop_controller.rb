@@ -35,7 +35,7 @@ end
   @all_users = User.all + DiscordUser.all + RsiUser.all
   
   @local_users = User.all
-  @root_users = User.all.order('last_login DESC NULLS LAST').order(rsi_verify: :desc)
+  @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
   
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)

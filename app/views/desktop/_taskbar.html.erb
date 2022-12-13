@@ -31,13 +31,15 @@
 
 <% unless current_user.verified? %>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-    <%= javascript_include_tag "clippy.min.js" %>
+    <%= javascript_include_tag "clippy.js" %>
     <script type="text/javascript">
         clippy.load('Clippy', function(agent){
+            agent.animate();
             agent.speak("Hey listen! Don't forget to validate your profile with your RSI account!");    
             $( "#citadel_button" ).click(function() {
-                agent.animate();
+                
                 agent.speak("You can verify through the profile app");
+                agent.animate();
             });
         });
     </script>

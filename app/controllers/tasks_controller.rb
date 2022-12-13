@@ -554,7 +554,8 @@ end
    @task =  Task.new(name: 'System Properties',task_manager_id: task_manager.id, view: 'window')
     respond_to do |format|
       if @task.save
-        format.html { redirect_to desktop_path, notice: "Task started." }
+        format.html { redirect_to desktop_path }
+        #format.html { redirect_to desktop_path, notice: "Task started." }
         format.json { render :index, status: :created, task: @task }
       else
         format.html { render :index, status: :unprocessable_entity }
@@ -569,7 +570,7 @@ end
       @task =  Task.create(name: 'User profile',task_manager_id: @task_manager.id, view: 'window')
     end
     respond_to do |format|
-      format.html { redirect_to desktop_path, notice: "Task started." }
+      format.html { redirect_to desktop_path}
       end
   end
 
@@ -587,7 +588,7 @@ end
     @task =  Task.new(name: 'RSI Activate',task_manager_id: task_manager.id, view: 'window')
     respond_to do |format|
      if @task.save
-       format.html { redirect_to desktop_path, notice: "Task started." }
+       format.html { redirect_to desktop_path }
        format.json { render :index, status: :created, task: @task }
      else
        format.html { render :index, status: :unprocessable_entity }

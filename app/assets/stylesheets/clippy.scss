@@ -5,32 +5,38 @@
 }
 
 #desktop{
-    .clippy-balloon {
 
-        background: #FFC;
-        color: black;
-        padding: 8px;
-        border: 1px solid black;
-        border-radius: 5px;
+}
 
-        
-        left: 0px;
-        display: block;
-        position: fixed;
-        right: 0px;
-        left: auto !important;
-        bottom: 140px;
+.clippy-balloon {
+    background: #FFC;
+    color: black;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 5px;
+
+    
+    left: 0px;
+    display: block;
+    position: fixed;
+    right: 0px;
+    left: auto !important;
+    bottom: 140px;
+    top: auto !important;
+    .clippy-tip{
         top: auto !important;
-        .clippy-tip{
-            top: auto !important;
-            transform: rotateZ(180deg) !important;
-            bottom: -15px !important;
-            margin-top: -16px !important;
-            left: 0 !important;
-            margin-left: 50px !important ;
-            background-position: -10px -16px !important;
-        }
+        transform: rotateZ(180deg) !important;
+        bottom: -15px !important;
+        margin-top: -16px !important;
+        left: 0 !important;
+        margin-left: 50px !important ;
+        background-position: -10px -16px !important;
     }
+}
+
+#my_hangar .clippy{
+    right: 0px;
+    bottom: 20px;
 }
 .clippy-content {
     max-width: 200px;
