@@ -8,7 +8,8 @@ background-color: $light_grey;
   }
 }
 .badge-background{
-  background-image: image-url('my_badges_background.png');
+ /* background-image: image-url('my_badges_background.png');*/
+ background-color:black;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -17,6 +18,25 @@ background-color: $light_grey;
   top: 0px;
   left: 0px;
   z-index: -1;
+  #background{
+    transform: translateX(-10px);
+    .cls-1{fill:url(#linear-gradient-2);}
+    .cls-2{stroke:#232212;stroke-width:2px;}
+    .cls-2,.cls-3{fill:none;stroke-miterlimit:10;}
+    .cls-4{fill:#827d66;}
+    .cls-5{fill:#c7c3c3;}
+    .cls-6{fill:#18140e;}
+    .cls-7{fill:#1d190f;}
+    .cls-8{fill:#292414;}
+    .cls-9{fill:#040306;}
+    .cls-10{fill:#353420;}
+    .cls-3{stroke:#3f3f2a;}
+    .cls-11{fill:#6e4f23;}
+    .cls-12{fill:#1c180d;}
+    .cls-13{fill:url(#linear-gradient);}
+    .cls-14{fill:#3a3925;}
+  }
+
 }
 
 #badges_container{

@@ -21,7 +21,7 @@ matched_users = User.where(rsi_username: rsi_users.pluck(:username)).sort
    # rsi_users.includes?(matched_user.username)
     rsi_user = rsi_users.find_by_username(matched_user.rsi_username)
     if matched_user.username == rsi_user.username
-      user_type = org_user_type_match(rsi_user.title)
+      user_type = org_user_type_match(rsi_user)
   matched_user.update(org_title: rsi_user.title, user_type: user_type )
     end
   end
@@ -31,10 +31,14 @@ matched_users = User.where(rsi_username: rsi_users.pluck(:username)).sort
 
 end
 
-def org_user_type_match(org_title)  
+def org_user_type_match(rsi_user)  
+  org_title = rsi_user.org_title
   case org_title
     when 'Board Member'
       user_type = 12
+      if rsi_user.username == "Seggellion"
+        user_type = 0
+      end
       #discord_user_check(discord_user, 'Board Member')
     when 'Executive'
       user_type = 15
