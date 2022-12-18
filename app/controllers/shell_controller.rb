@@ -15,7 +15,6 @@ command = params[:query].split.first
 case command
   when "ls"
     
-  # directory = Dir["app/views/desktop/apps/shell_apps/files/*"]
   # directory = Dir["app/views/desktop/apps/shell_apps/files/*"].select { |f| File.file? File.join("your/folder", f) }
   #directory = Dir.glob('app/views/desktop/apps/shell_apps/files/*').select { |e| File.file? e }
   directory = Dir[ 'app/views/desktop/apps/shell_apps/files/*' ].select{ |f| File.file? f }.map{ |f| File.basename f }
