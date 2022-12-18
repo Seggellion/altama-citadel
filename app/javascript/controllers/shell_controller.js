@@ -2,16 +2,50 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
+    
     const history = document.getElementById('history');
-    const existingEntries = JSON.parse(localStorage.getItem("commands") || '[]');
+    const existingEntries = JSON.parse(localStorage.getItem("commands") || '[]');    
+    const last_response = history.getAttribute('data-response');    
+    const last_response_parsed = JSON.parse(last_response).slice(1);
+
+
+    let parsed_response = [];
     for (let i = 0; i < existingEntries.length; i++) {
-      var history_line = document.createElement('DIV');
-      history_line.classList.add('command-line');
-      history_line.textContent += `C:\\ ${ existingEntries[i] }`;
-      history.appendChild(history_line);
+      
+      var current_entry = existingEntries[i];
+      
+        if (current_entry !== "LS" && current_entry !== ''){
+          
+        var history_line = document.createElement('DIV');
+        history_line.classList.add('command-line');
+        history_line.textContent += `C:\\ ${ existingEntries[i] }`;
+        history.appendChild(history_line);
+
+      }else if(current_entry == "LS"){
+        
+        if (last_response){
+          parsed_response = JSON.parse(last_response);    
+        }
+        
+        var history_line = document.createElement('DIV');
+        history_line.classList.add('command-line');
+        history_line.textContent += `${ existingEntries[i] }`;
+
+       // history.appendChild(history_line);
+
+        const history_array = history_line.slice(0)
+
+        history_array.forEach(formatData);
+
+          function formatData(value, index, array) {
+            
+            history.appendChild(value);
+          }
+      }
+
     }
 
-    console.log('connect');
+    
         document.getElementById('prompt').innerHTML = '<ul><li>Altama Shell v1.0</li></ul>';
         
         const input = document.getElementById('input');
@@ -19,26 +53,39 @@ export default class extends Controller {
         const cursor = document.getElementById('cursor');
         const field_submission = document.getElementById('query');
     const command_lines = document.querySelectorAll('.command-line');
-    const last_response = history.getAttribute('data-response');
+
     const last_line = document.createElement('DIV');      
     last_line.textContent = `> ${ last_response }`;
-    
-    
+        
     // history_line.textContent = `C:\\ ${ command_history }`;
-    console.log('last_response:', last_response)
-    console.log('command_lines:', command_lines)
     if (last_response == 'clear' && command_lines.length > 0){
       console.log('clear:')
         localStorage.clear();        
         command_lines.forEach(e => e.remove());    
-    }
-console.log('(existingEntries.at(-1',existingEntries.at(-1));
-console.log('last_Response:',last_response);
+    }else if(parsed_response[0] == "LS" ){
+      
+      const file_array = parsed_response.slice(0)
+
+      file_array.forEach(formatData);
+
+      function formatData(value, index, array) {
+        console.log('list loaded')
+      //  history.appendChild(value);
+      }
+
+  }
     if (existingEntries.at(-1) != last_response){
-      console.log('load');
       existingEntries.push(last_response);
       localStorage.setItem("commands", JSON.stringify(existingEntries));
       history.appendChild(last_line);
+
+      // broken from airplane
+   // if JSON.parse(last_response)[0] == "TS"{
+  //  for (var i = 0; i < last_response_parsed.length; i++) {
+  //    history.appendChild(last_response_parsed[i]) + "<br />";
+  //    }
+  //  }
+
   }
    
 
