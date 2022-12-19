@@ -32,7 +32,7 @@ matched_users = User.where(rsi_username: rsi_users.pluck(:username)).sort
 end
 
 def org_user_type_match(rsi_user)  
-  org_title = rsi_user.org_title
+  org_title = rsi_user.title
   case org_title
     when 'Board Member'
       user_type = 12
