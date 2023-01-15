@@ -1,15 +1,43 @@
 @import 'mixins';
 
 #badges{
-background-color: $light_grey;
-  color:white;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  background-color: black;
+  h1{
+    padding-top: 12px;
+    padding-left: 12px;
+    margin: 0px;
+  }
   &.admin{
     background:none;
   }
 }
+.badge-details{
+  display:block;
+  position:absolute;
+  height:15px;
+  text-align:center;
+  padding:5px;
+  background-color:#ee9600;
+  transition: 0.5s all ease-in-out;
+}
+
+.badge-details.hide{
+  display:none;
+  height:0px;
+  overflow:hidden;
+  transition: 0.5s all ease-in-out;
+}
+
 .badge-background{
  /* background-image: image-url('my_badges_background.png');*/
- background-color:black;
+  background-color:black;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -62,19 +90,30 @@ background-color: $light_grey;
         color: grey;
       }
 }
+.trigger{
+  height:100%;
+}
 
 .chest-sash{
   width:500px;
   height:500px;
   position:absolute;
-  top:50%;
-  left:380px;
+  top: 160px;
+  left: 600px;
   .badge-row{
-    height:50px;
+    height:80px;
+
+    .first{
+      height:100%;
+     /* transform: skew(0.82turn, 4deg) scaleY(1);*/
+     svg{
+        transform: skew(0.82turn, 188deg) scaleY(0.8);
+      }
+    }
     svg{
       height: 100%;
       width: auto;
-      transform: skew(-0.11turn, 4deg) scaleY(0.9);
+      /*transform: skew(-0.11turn, 4deg) scaleY(0.9);*/
     margin-right: 15px;
     &:hover{
       border:1px solid yellow;
@@ -96,7 +135,11 @@ background-color: $light_grey;
 }
 
 .chest-ribbons .badge-row{
-  height:25px;
+  height:25px;  
+  display:flex;
+  .trigger{
+    width: 40px;
+  }
 }
 
 .chest-ribbons .badge-row svg{

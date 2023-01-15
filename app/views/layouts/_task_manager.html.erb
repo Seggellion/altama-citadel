@@ -1,6 +1,6 @@
 <div id="task_manager">
 
-<%= render '/desktop/window-frame', app1: 'Task Manager' %>
+<%= render '/desktop/window-frame', app1: 'Task Manager', task: @current_task %>
 
 <ul class="task-list">
 <% if @all_tasks.present? %>

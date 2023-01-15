@@ -143,7 +143,7 @@ end
 
 def start_shell
   unless @all_tasks.find_by(name:'Altama Shell').present?
-    @task =  Task.create(name: 'Altama Shell',task_manager_id: @task_manager.id, view: 'full')
+    @task =  Task.create(name: 'Altama Shell',task_manager_id: @task_manager.id, view: 'window')
     end  
 
       redirect_to root_path
@@ -152,7 +152,7 @@ end
 
 def start_codex
   unless @all_tasks.find_by(name:'Codex').present?
-    @task =  Task.create(name: 'Codex',task_manager_id: @task_manager.id, view: 'full')
+    @task =  Task.create(name: 'Codex',task_manager_id: @task_manager.id, view: 'fullscreen')
     end  
     respond_to do |format|
     format.html { redirect_to root_path, notice: "Loaded codex" }
@@ -161,7 +161,7 @@ end
 
 def start_rfa_manager
   unless @all_tasks.find_by(name:'RFA Manager').present?
-  @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'full')
+  @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'fullscreen')
   end  
   respond_to do |format|
   format.html { redirect_to rfas_path, notice: "location manager" }
@@ -315,7 +315,7 @@ end
 
 def start_guildstone
   unless @all_tasks.find_by(name:'Guildstone').present?
-    @task =  Task.create(name: 'Guildstone',task_manager_id: @task_manager.id, view: 'full')
+    @task =  Task.create(name: 'Guildstone',task_manager_id: @task_manager.id, view: 'fullscreen')
   end
   
   respond_to do |format|

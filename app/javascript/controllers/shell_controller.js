@@ -6,57 +6,72 @@ export default class extends Controller {
     const history = document.getElementById('history');
     const existingEntries = JSON.parse(localStorage.getItem("commands") || '[]');    
     const last_response = history.getAttribute('data-response');    
-    const last_response_parsed = JSON.parse(last_response).slice(1);
-
+    //const last_response_parsed = JSON.parse(last_response).slice(1);
 
     let parsed_response = [];
+    
     for (let i = 0; i < existingEntries.length; i++) {
       
-      var current_entry = existingEntries[i];
+      var current_entry = existingEntries[i].toLowerCase();
       
-        if (current_entry !== "LS" && current_entry !== ''){
-          
+      if (current_entry !== "ls" && current_entry !== ''){        
         var history_line = document.createElement('DIV');
         history_line.classList.add('command-line');
         history_line.textContent += `C:\\ ${ existingEntries[i] }`;
+        
         history.appendChild(history_line);
-
-      }else if(current_entry == "LS"){
+      }else if(current_entry.toLowerCase() == "ls"){
         
-        if (last_response){
-          parsed_response = JSON.parse(last_response);    
+        function IsJsonString(str) {
+          try {
+            var json = JSON.parse(str);
+            if(typeof json === 'object'){
+            return JSON.parse(str);
+          };
+          } catch (e) {
+            var new_string  =  JSON.stringify(str);
+            return new_string;
+          }
         }
+
+      parsed_response = IsJsonString(last_response);
         
+      //  if (last_response){
+     //     parsed_response = JSON.parse(last_response);    
+     //   }
+   
         var history_line = document.createElement('DIV');
         history_line.classList.add('command-line');
         history_line.textContent += `${ existingEntries[i] }`;
+        
+       history.appendChild(history_line);
 
-       // history.appendChild(history_line);
-
-        const history_array = history_line.slice(0)
-
+       if(typeof history_array === 'object'){
+        var history_array = IsJsonString(history.dataset.response);
+ 
         history_array.forEach(formatData);
 
-          function formatData(value, index, array) {
-            
-            history.appendChild(value);
+          function formatData(value, index, array) {            
+            let history_line_item = document.createElement('DIV');               
+            history_line_item.textContent = `${ value }`;            
+          //  history.innerHTML(history_line_item);
+           history.appendChild(history_line_item);            
           }
       }
-
     }
-
+    }
     
-        document.getElementById('prompt').innerHTML = '<ul><li>Altama Shell v1.0</li></ul>';
+    document.getElementById('prompt').innerHTML = '<ul><li>Altama Shell v1.0</li></ul>';
         
-        const input = document.getElementById('input');
-        input.focus();
-        const cursor = document.getElementById('cursor');
-        const field_submission = document.getElementById('query');
+    const input = document.getElementById('input');
+    input.focus();
+    const cursor = document.getElementById('cursor');
+    const field_submission = document.getElementById('query');
     const command_lines = document.querySelectorAll('.command-line');
 
     const last_line = document.createElement('DIV');      
     last_line.textContent = `> ${ last_response }`;
-        
+    
     // history_line.textContent = `C:\\ ${ command_history }`;
     if (last_response == 'clear' && command_lines.length > 0){
       console.log('clear:')
@@ -69,13 +84,16 @@ export default class extends Controller {
       file_array.forEach(formatData);
 
       function formatData(value, index, array) {
-        console.log('list loaded')
+        console.log('list loaded');
+        
+      //  let history_line_item = document.createElement('DIV');    
+       // history_line_item.textContent = `${ value }`;
       //  history.appendChild(value);
       }
 
   }
     if (existingEntries.at(-1) != last_response){
-      existingEntries.push(last_response);
+      existingEntries.push(last_response);      
       localStorage.setItem("commands", JSON.stringify(existingEntries));
       history.appendChild(last_line);
 
@@ -88,13 +106,10 @@ export default class extends Controller {
 
   }
    
-
-
  
     function focusAndMoveCursorToTheEnd(e) {  
       input.focus();
       
-
       const range = document.createRange();
       // const selection = window.getSelection();
       const selection = document.querySelector('#input');
@@ -105,8 +120,6 @@ export default class extends Controller {
       range.collapse(false);
       console.log('selection:', selection);
       console.log('range:', range);
-
-
       selection.removeAllRanges();
       selection.addRange(range);
     }

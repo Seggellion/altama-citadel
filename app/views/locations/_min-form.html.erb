@@ -1,5 +1,5 @@
 <%= form_with(model: location, data:{ 'desktop-target' => 'location_form'}) do |form| %>
-  <% if location.errors.any? %>
+  <% if location && location.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
 
@@ -47,8 +47,12 @@
 
 
   <div>
+  <% if @locations %>
     <%= form.label 'Select a parent:', style: "display: block" %>
     <%= form.select :parent, options_for_select(@locations.collect{ |u| [u.name, u.id] } , {:class => 'teamTag'} ) %>
+    <% else %>
+      No locations
+    <% end %>
   </div>
 
   <div style="display:none;">

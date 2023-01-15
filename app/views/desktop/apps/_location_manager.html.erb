@@ -37,33 +37,30 @@
 
                 <% end %>
             <% end %>
-            <% @locations.each do |location| %>
-                
-                <%# if !task.state.nil? && task.state["location-#{location.type}"] %>
-                
-                <% if location.has_children? %>
+            <% if @locations %>
+                <% @locations.each do |location| %>
+                    
+                    <%# if !task.state.nil? && task.state["location-#{location.type}"] %>
+                        
+                        <% if location.has_children? %>
+                            <%= link_to state_location_subitem_path(state: "location-subitem-#{location.id}"), class: 'desktop-icon', method: :post do %>
+                                <%= image_tag( "all_icons.png", class: "location #{location.type}")  %> 
+                                <%= location.name %>
+                            <% end %>            
+                        <% else %>
+                            <%= link_to state_location_edit_path(state: "edit-location-#{location.id}"), class: 'desktop-icon', method: :post do %>
+                                <%= image_tag( "all_icons.png", class: "location #{location.type}")  %> 
+                                <%= location.name %>
+                            <% end %>
 
-                <%= link_to state_location_subitem_path(state: "location-subitem-#{location.id}"), class: 'desktop-icon', method: :post do %>
-                    <%= image_tag( "all_icons.png", class: "location #{location.type}")  %> 
-                    <%= location.name %>
+                        <% end %>
+
+
+                        <% if !task.state.nil? && task.state["edit-location-#{location.id}"] %>
+                            <%= render '/locations/edit-location', task: task, location: location %>
+                        <% end %>
                 <% end %>
-            
-                <% else %>
-
-                <%= link_to state_location_edit_path(state: "edit-location-#{location.id}"), class: 'desktop-icon', method: :post do %>
-                    <%= image_tag( "all_icons.png", class: "location #{location.type}")  %> 
-                    <%= location.name %>
-                <% end %>
-
-                <% end %>
-
-
-
-            <% if !task.state.nil? && task.state["edit-location-#{location.id}"] %>
-                <%= render '/locations/edit-location', task: task, location: location %>
             <% end %>
-            <% end %>
-
             </div>
             <div class="status-bar">
                 <%= Location.all.size %> location(s)
@@ -71,5 +68,6 @@
         </div>
 </div>
 <% if !task.state.nil? && task.state["new-location"] %>
-    <%= render '/locations/new-location', task: task %>
+
+    <%= render '/locations/new-location', task: task, location: @location %>
 <% end %>

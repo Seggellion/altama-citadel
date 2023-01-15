@@ -4,6 +4,7 @@ class MyHangarController < ApplicationController
   # GET /userships or /userships.json
   def index
     @userships = Usership.all
+    @current_task = @all_tasks.where(name: 'My Hangar').first
   end
 
 def view

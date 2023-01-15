@@ -6,7 +6,8 @@ export default class extends Controller {
     var windowName = this.element.querySelectorAll('.app-bar')[0].dataset.appname;
     var leftPosition = window.sessionStorage.getItem(`window-${windowName}-left`);
     var topPosition = window.sessionStorage.getItem(`window-${windowName}-top`);
-    this.element.style.transform = "none";
+    // removed jan 12 2023 pineapple
+   // this.element.style.transform = "none";
     this.element.style.left = leftPosition;
     this.element.style.top = topPosition;
     console.log('leftPosition', leftPosition);

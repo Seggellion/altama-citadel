@@ -23,7 +23,7 @@ class LocationsController < ApplicationController
   # POST /locations or /locations.json
   def create
     
-
+    byebug
     @location = Location.new(location_params)
     if Location.all.exists?      
     @location.update(system: Location.last.id + 1)

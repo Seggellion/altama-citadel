@@ -45,8 +45,11 @@ end
 
         def self.totalYears
             date_beginning = DateTime.new(2010,3,01)
-            
+            if Event.first.present?
             date_end = Event.all.order(start_date: :desc).last.start_date
+            else
+            date_end = Date.today
+            end
             
             total_date = ((date_end.year + 931 ) - date_beginning.year)
 
