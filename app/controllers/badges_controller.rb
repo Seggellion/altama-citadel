@@ -21,7 +21,9 @@ class BadgesController < ApplicationController
   def my_badges
     @my_badges = UserBadge.where(user_id: current_user.id)
     ribbons = Badge.where(badge_type: 'Ribbon')
+    flight_badges = Badge.where(badge_type: 'Flight Badge')
     @my_ribbons = @my_badges.where(:badge_id => ribbons )
+    @flight_badges = @my_badges.where(:badge_id => flight_badges )
   end
 
   # GET /badges/new
@@ -36,13 +38,13 @@ class BadgesController < ApplicationController
   # POST /badges or /badges.json
   def create
     @badge = Badge.new(badge_params)
-      
+
     respond_to do |format|
       if @badge.save
         format.html { redirect_to @badge, notice: "Badge was successfully created." }
-        format.json { render :show, status: :created, location: @badge }
+        format.json { render :index, status: :created, location: @badge }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :index, status: :unprocessable_entity }
         format.json { render json: @badge.errors, status: :unprocessable_entity }
       end
     end
@@ -78,6 +80,6 @@ class BadgesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def badge_params
-      params.require(:badge).permit(:badge_description, :badge_image, :badge_title, :badge_color, :badge_type)
+      params.require(:badge).permit(:badge_description, :badge_image, :badge_title, :badge_color, :badge_type, :badge_name)
     end
 end

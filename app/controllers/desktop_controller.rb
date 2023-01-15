@@ -7,24 +7,24 @@ before_action :task_manager,  except: [:bsod]
 def index
   
   redirect_to bsod_path && return if @task_manager.nil?
-if @all_tasks
-  @windowed_tasks = @all_tasks.where(view:'window')
-  @fullscreen_tasks = @all_tasks.where(view:'full')
-  @current_task = @all_tasks.first
-end
+  if @all_tasks
+    @windowed_tasks = @all_tasks.where(view:'window')
+    @fullscreen_tasks = @all_tasks.where(view:'fullscreen')
+    @current_task = @all_tasks.first
+  end
 
-
+  
 
 if !@current_task.nil? and @current_task.name.downcase.include? "location"  
-  if  @current_task.state and @current_task.state.downcase.include? "subitem"
-    location = Location.find_by_id(@current_task.state.downcase.split(',')[0].split('-')[-1])
-    
+  
+  if @current_task.state and @current_task.state.downcase.include? "subitem"
+    location = Location.find_by_id(@current_task.state.downcase.split(',')[0].split('-')[-1])    
+
     if location.present? and location.parent != nil
     @locations = Location.where(parent:location.parent)
     else
       @locations = Location.where(parent:location.id)
-    end
-    
+    end    
   else    
     @locations = Location.where(location_type:1)
   end

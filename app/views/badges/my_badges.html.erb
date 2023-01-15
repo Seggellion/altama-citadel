@@ -3,27 +3,38 @@
 <div class="badge-background <%= current_user.org_title %>"><%= show_svg('uniform', id:"background" )%></div>
 <h1>My Badges</h1>
 
-<div id="badges">
+<div id="badge-images">
   <%#= render @my_badges %>
 
   <div class="chest-sash">
     <div class="badge-row">
-      <% @my_badges.each do |userbadge| %>     
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-13.5 -15.5 26 18">
-          <path d="<%= userbadge.badge.badge_image %>" stroke="red" stroke-width="0.5" fill="#ffffff"/>
-        </svg>
+      <% @flight_badges.each do |userbadge| %>
+        <div class="trigger" data-badgeId=<%= userbadge.id %> >  
+        <div class="first">        
+          <%= raw userbadge.badge.badge_image %>
+        </div>
+        <div class="badge-details hide" data-details-id=<%= userbadge.id %> >
+          <%= userbadge.badge.badge_name %><% if userbadge.badge.badge_description %>  -  <%= userbadge.badge.badge_description %> <% end %>
+        </div>
+        </div>
       <% end %>
     </div>
   </div>
 
   <div class="chest-ribbons">
     <div class="badge-row">
-    <% if !@my_ribbons.nil? %>
-      <% @my_ribbons.each do |userbadge| %>     
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 38">
-          <%= raw userbadge.badge.badge_image %>
-        </svg>
-      <% end %>
+      <% if !@my_ribbons.nil? %>
+        <% @my_ribbons.each do |userbadge| %> 
+          <div class="trigger" data-badgeId=<%= userbadge.id %> >  
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 38">
+              <%= raw userbadge.badge.badge_image %>
+            </svg>
+        
+            <div class="badge-details hide" data-details-id=<%= userbadge.id %> >
+              <%= userbadge.badge.badge_name %><% if userbadge.badge.badge_description %>  -  <%= userbadge.badge.badge_description %> <% end %>
+            </div>
+            </div>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -37,3 +48,25 @@
 <% end %>
 <%= link_to "Exit To Desktop", desktop_path %>
 </div>
+
+<script>
+
+let elementsArray = document.querySelectorAll(".trigger");
+
+elementsArray.forEach(function(elem) {
+    elem.addEventListener("mouseover", function() {
+      let all_hidden = document.querySelectorAll('.badge-details');
+
+      all_hidden.forEach(el => {
+        el.classList.add('hide');
+      });
+
+      let badgeId = elem.dataset.badgeid;
+      
+      let detailsText = document.querySelector(`[data-details-id="${badgeId}"]`)
+      
+        detailsText.classList.toggle('hide');
+    });
+});
+
+</script>

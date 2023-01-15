@@ -1,14 +1,17 @@
 
-
+<% if all_users && all_users.count > 0 %>
 <%= form_with(model: user_badge) do |form| %>
   
   
     <div class="field">
-    <% if all_users && all_users.count > 0 %>
+    
       <%= form.collection_select :user_id, all_users, :id, :username %>
-      <% end %>
+      
     </div>
 
+    <div class="field">
+      Name:<%= badge.badge_name %>
+    </div>
     <div class="field">
       Type:<%= badge.badge_type %>
     </div>
@@ -26,5 +29,7 @@
       <%= form.submit 'Assign badge' %>
     </div>
   <% end %>
-
+  <% else %>
+  no @altama_users
+  <% end %>
   <hr>
