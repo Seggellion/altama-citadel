@@ -46,7 +46,7 @@
         <% end %>
         <% EventUser.where(event_id:event.id).each do |eventuser| %> 
                 
-            <tr><td>ALT-<%= eventuser.ship_fid || '' %></td><td><%= eventuser.user.username %></td></tr>
+            <tr><td>ALT-<%= eventuser.ship_fid || '' %></td><% if eventuser.user.rsi_username %><td><%= eventuser.user.rsi_username %></td><% end %></tr>
         <% end %>
         </table>
     </div>
