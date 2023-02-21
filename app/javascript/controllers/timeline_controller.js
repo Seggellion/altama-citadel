@@ -5,15 +5,18 @@ export default class extends Controller {
  static targets = ["event_popup", "event_editor", "event_details"]
 connect(){
 
+
 }
  event_popup(event){
   event.target.parentElement.parentElement.style.zIndex = "9001";
   
 this.event_popupTarget.removeAttribute("hidden");
 this.event_popupTarget.hidden = false;
+localStorage.setItem("scrollPositon", document.querySelector(".timeline-grid").scrollLeft);
 }
 
 close_event_popup(event){  
+  localStorage.setItem("scrollPositon", document.querySelector(".timeline-grid").scrollLeft);
   this.event_popupTarget.hidden = true;
   this.event_popupTarget.style.zIndex = "1";
   event.target.parentElement.parentElement.parentElement.style.zIndex = "1";

@@ -26,8 +26,9 @@ case command
     @task.update(state:'clear')
   when "vim"    
     @task.update(state:'vim')
-  when "moonstone"  
-    
+  when "acu"
+    @task.update(state:'acu')
+  when "moonstone"      
     if filename    
       file_content = File.read("app/views/desktop/apps/shell_apps/files/#{filename}")
       Moonstone.compile(file_content)

@@ -12,6 +12,7 @@
     <div class="event-date">
     <% if event.start_date %>
     <%= event.start_date.to_formatted_s(:short)  %>
+    <%= event.start_date  %>
     <% end %>
     </div>
     <% if event.event_series_id %>
@@ -79,7 +80,7 @@
     </div>
 <% end %>
 
-    <% if event.owner_id == current_user.id %>
+    <% if event.owner_id == current_user.id && !event.started? %>
     <div class='event-management-buttons'>
     <%= button_to "DEL", event_path(event), method: :delete %>
     <button data-action="click->timeline#toggle_edit">EDIT</button>

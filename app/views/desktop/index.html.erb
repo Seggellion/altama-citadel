@@ -68,6 +68,7 @@
 </div>
 
 <% if current_user && @fullscreen_tasks.present? %>
+
     <% @fullscreen_tasks.each do | task |  %>
     <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
     <% end %>

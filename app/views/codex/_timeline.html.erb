@@ -61,4 +61,14 @@
 <script>
 var objDiv = document.getElementsByClassName("timeline-grid")[0];
 objDiv.scrollLeft = objDiv.scrollWidth;
+
+window.addEventListener("beforeunload", () => {
+    localStorage.setItem("scrollPositon", document.querySelector(".timeline-grid").scrollLeft);
+});
+  
+
+    document.querySelector(".timeline-grid").scrollLeft = localStorage.getItem("scrollPositon") || 0;
+
+
 </script>
+
