@@ -63,9 +63,7 @@ class RfasController < ApplicationController
         end
         
         
-        Discord::Notifier.message(embed)
-    
-
+        Discord::Notifier.message(embed)    
         format.html { redirect_to rfa_location_path(location: @location), notice: "Rfa was successfully created." }
         #format.json { render :show, status: :created, location: @rfa }
       else

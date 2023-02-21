@@ -637,6 +637,7 @@ end
 
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
+    
     @task.destroy
     respond_to do |format|
       format.html { redirect_to desktop_path, notice: "Task closed." }
@@ -647,6 +648,7 @@ end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
+       
       @task = Task.find(params[:id])
     end
 

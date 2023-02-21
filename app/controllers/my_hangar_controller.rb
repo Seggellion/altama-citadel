@@ -23,6 +23,7 @@ def clear_ships
 end
 
 def all_fleet
+  @current_task = @all_tasks.where(name: 'My Hangar').first
   @myships = Usership.where(user_id: current_user.id, show_information:nil)
   @myships.each do |usership|    
     id = usership.ship.code.upcase + SecureRandom.base64.delete('/+=')[0, 14].upcase
@@ -53,7 +54,7 @@ def fleet_view
   org_users = User.where("user_type < ?", 42) 
  # Usership.joins(:user).where(user: { user_id: org_users })  
   org_ships = Usership.where(show_information:1)
-  
+  @current_task = @all_tasks.where(name: 'My Hangar').first
   @allships = []
   unless org_ships.blank?    
     org_users.each do | user | 
@@ -77,12 +78,13 @@ end
     @usership = Usership.new
     @alluserships = Usership.where(user_id: current_user.id)
     @allships = Ship.all
+    @current_task = @all_tasks.where(name: 'My Hangar').first
   end
 
   def manage
     @usership = Usership.new
     @alluserships = Usership.where(user_id: current_user.id)
-    
+    @current_task = @all_tasks.where(name: 'My Hangar').first
     @alluserships_models = current_user.ships.group(:id).order(model: :asc)
     #@alluserships_models = Usership.where(user_id: current_user.id).group(:ship_id)
     

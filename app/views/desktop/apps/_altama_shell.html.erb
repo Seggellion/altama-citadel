@@ -4,23 +4,26 @@
         <div id="prompt">
 
         </div>
-        <% unless task.state == 'vim' %>
-            <div id="command" data-controller="shell">
-                <form action="/command" id="command_entry" method="get" accept-charset="UTF-8" >
-                
-                <input id="query" name="query" type="text"  />
-                <input name="commit" type="submit" id="" value="" data-disable-with="Search" />
-                </form>
-                <div id="history" data-response="<%= task.response %>"></div>
-
-                C:\ 
-                <div id="input" contenteditable="true"></div><button id="caret" for="input">&nbsp;</button>
-              
-            </div> 
-
+        
+            <% if task.state == 'vim' %>
+                <%= render '/desktop/apps/shell_apps/vim' %>
+            <% elsif task.state.include? 'acu' %>
+                <%= render '/desktop/apps/shell_apps/acu' %>
             <% else %>
-            <%= render '/desktop/apps/shell_apps/vim' %>s
-        <% end %>
+            <div id="command" data-controller="shell">
+            <form action="/command" id="command_entry" method="get" accept-charset="UTF-8" >
+            
+            <input id="query" name="query" type="text"  />
+            <input name="commit" type="submit" id="" value="" data-disable-with="Search" />
+            </form>
+            <div id="history" data-response="<%= task.response %>"></div>
+
+            C:\ 
+            <div id="input" contenteditable="true"></div><button id="caret" for="input">&nbsp;</button>
+          
+        </div> 
+                
+            <% end %>
         </div>
 </div>
 

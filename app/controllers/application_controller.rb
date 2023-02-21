@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
 
       def task_manager
-
+        
         @current_user = current_user
         @task_manager = TaskManager.find_by(user_id: current_user)
         
@@ -30,6 +30,7 @@ class ApplicationController < ActionController::Base
           redirect_to bsod_path 
           return
         end
+        
         @all_tasks = Task.where(task_manager_id: @task_manager.id)
         
     end

@@ -22,6 +22,27 @@
     </div>
     <div class="rfa-list">
     <div class="rfa-summary">
+    <% comment do %>
+    <% javascript_include_tag "ansilove.js" %>
+    <% #ANS FILE VIEWER JAvascrip %>
+<script>
+var controller, retina;
+
+retina = window.devicePixelRatio > 1;
+
+AnsiLove.render("cl!-al02.ans", function (canvas, sauce) {
+  document.getElementsByClassName('rfa-summary')[0].appendChild(canvas);
+    
+}, {"bits": "9", "2x": (retina ? 1 : 0)});
+
+controller = AnsiLove.animate("<%= image_path('ansi/CITADEL6.ANS') %> ", function (canvas, sauce) {
+  document.getElementsByClassName('rfa-summary')[0].appendChild(canvas);
+    controller.play(2800);
+}, {"bits": "9", "2x": (retina ? 1 : 0)});
+
+</script>
+<% end %>
+
     Altama Energy Queue
     </div>
       <div id="rfa_index">

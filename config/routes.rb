@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  jsonapi_resources :rfa
+
   resources :non_confidences
   resources :rule_proposals
   resources :categories
+  
   mount ActionCable.server => "/cable"
 
   constraints subdomain: "sos" do
