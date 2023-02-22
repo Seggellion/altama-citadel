@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_04_212030) do
+ActiveRecord::Schema.define(version: 2023_02_22_040852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -273,7 +273,7 @@ ActiveRecord::Schema.define(version: 2022_12_04_212030) do
   create_table "rfas", force: :cascade do |t|
     t.string "title"
     t.string "rsi_username"
-    t.string "description"
+    t.string "last_message"
     t.integer "user_id"
     t.integer "status_id"
     t.integer "location_id"
@@ -285,6 +285,7 @@ ActiveRecord::Schema.define(version: 2022_12_04_212030) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "usership_id"
     t.float "servicefee", default: 0.0
+    t.boolean "users_online"
   end
 
   create_table "rsi_users", force: :cascade do |t|
@@ -457,6 +458,7 @@ ActiveRecord::Schema.define(version: 2022_12_04_212030) do
     t.string "crew_title"
     t.string "error"
     t.integer "background_style"
+    t.string "online_status"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
   end
