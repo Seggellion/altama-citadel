@@ -93,6 +93,7 @@ Rails.application.routes.draw do
   get 'guildstone_start_asl', to: 'guildstones#guildstone_start_asl'
   get 'guildstone_org_chart', to: 'guildstones#open_org_chart'
   get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
+  get 'rfas_online', to: 'rfas#online'
   get 'start_shell', to: 'tasks#start_shell'
   get 'start_codex', to: 'tasks#start_codex'
   get 'codex_timeline', to: 'codex#timeline'

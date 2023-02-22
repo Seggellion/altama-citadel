@@ -1,13 +1,21 @@
 <%= render '/desktop/window-frame', app1: 'Roadside Assistance', task: @current_task %>
 
-<section id="rfa_index">
+<section id="rfa_index" <% unless  current_user.online_status == "rfa_online"  %> class="offline" <% end %> >
 
   <div class="topbar">
 
     <%= link_to "New rfa", new_rfa_path %>
   </div>
   <div class="rfa-main" data-controller="rfa" >
+
     <div id="sidebar" class="views-panel">
+    <%= link_to  rfas_online_path do %>  
+  <label class="switch">
+  <input type="checkbox" <% if current_user.online_status == "rfa_online" %>checked<% end %> >
+  <span class="slider"></span>
+</label>
+<% end %>
+
     <h2>Views</h2>
     
       <ul>
@@ -60,7 +68,6 @@ controller = AnsiLove.animate("<%= image_path('ansi/CITADEL6.ANS') %> ", functio
         Escalated
         </div>
       </div>
-
 
       <div data-rfa-target="rfaAll" id="all_rfas" class="rfa-list-item show">
         <%= render @rfas %>

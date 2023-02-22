@@ -15,8 +15,44 @@ class RfasController < ApplicationController
     @current_task = Task.find_by(name: "RFA Manager")
   end
 
-  # GET /rfas/1 or /rfas/1.json
+  
+def online
+  
+  user = current_user
 
+#user.update()
+eligible_rfas = Rfa.where("status_id < ?", 2)
+if user.online_status == "rfa_online"
+  user.update(online_status: nil)
+  if User.where(online_status:"rfa_online").empty?
+    eligible_rfas.update_all(users_online:false)
+    end
+
+else
+  
+  
+  if User.where(online_status:"rfa_online").empty?
+    
+    
+    eligible_rfas.update_all(users_online:true)
+  #  Rfa.update_all(users_online:true)
+  
+  end
+  user.update(online_status: "rfa_online")
+end
+
+  respond_to do |format|
+    if user.online_status
+
+      format.html { redirect_to rfas_path, notice: "User is online" }
+      #format.json { render :show, status: :created, location: @rfa }
+    else
+      format.html { redirect_to rfas_path, notice: "User is offline" }
+      
+    end
+  end
+  
+end
 
   # GET /rfas/new
   def new
