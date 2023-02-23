@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_22_040852) do
+ActiveRecord::Schema.define(version: 2023_02_23_071225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2023_02_22_040852) do
     t.float "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "location_id"
   end
 
   create_table "control_points", force: :cascade do |t|
@@ -286,6 +287,9 @@ ActiveRecord::Schema.define(version: 2023_02_22_040852) do
     t.integer "usership_id"
     t.float "servicefee", default: 0.0
     t.boolean "users_online"
+    t.datetime "accepted_time", precision: 6
+    t.datetime "status_change_time", precision: 6
+    t.datetime "prescheduled_date", precision: 6
   end
 
   create_table "rsi_users", force: :cascade do |t|
