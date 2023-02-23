@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   jsonapi_resources :rfa
+  jsonapi_resources :location
+  jsonapi_resources :commodity
+  jsonapi_resources :online
 
   resources :non_confidences
   resources :rule_proposals
