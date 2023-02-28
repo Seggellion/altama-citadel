@@ -1,7 +1,8 @@
 <%= form_with(model: @rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
-  <div class="field"><label>Assigned to:<a href="#" data-action="click->rfa#takeit"   class="take">take it</a></label>
+  <div class="field"><label>Assigned to:<a href="#" data-action="click->rfa#takeit" class="take">take it</a></label>
   <%= form.select :user_assigned_id, options_for_select(@users.collect{ |u| [u.username, u.id] } , {:class => 'teamTag', selected: @rfa.user_assigned_id || nil, data:{ 'rfa-target' => 'assigned_to'}  }   ), :include_blank => 'Altama Support Queue'%>
   </div>
+
 <hr />
 
   <div class="field"><label>Priority:</label> <%= form.select :priority_id, ["Urgent","Hight","Norminal"] %></div>
@@ -20,12 +21,10 @@
         <%= render 'service-charge', form: form %>
         </div>
     </div>
-        <div class="field">
+    <div class="field">
         <label>Total service fees:</label> 
         <%= form.number_field :total_service_fees, readonly:true, value: @rfa.total_charge, id: 'total_service_fees', data:{ 'rfa-target' => 'total_service_fees'} %>
-        </div>
-
-
+    </div>
     <% @all_commodities.each do |commodity| %>    
         <% if @rfa.commodities.include? commodity  %>
         <%= commodity.name %>
@@ -34,7 +33,6 @@
         <%= render '/commodities/commodity_product_form', commodity: commodity, form: form, existing_total: 0 %>
         <% end %>
     <% end %>
-
     <div class="field">
         <label>Total charge:</label> 
         <%= form.number_field :total_charge, readonly:true, value: @rfa.total_charge,  data:{ 'rfa-target' => 'total_charge'} %>

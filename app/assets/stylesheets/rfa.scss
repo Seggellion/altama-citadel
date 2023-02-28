@@ -16,16 +16,20 @@
     background-color: #64c6ff;
     color:black;
 }
-.top-status-In.Progress{
+.top-status-Accepted{
     background-color: #00a8c5;
  //   background-color: #b34a19;
 }
-.top-status-On.Hold{
+.top-status-Travelling{
     background-color: #d0c6be;
     //background-color: blue;
 }
-.top-status-Pending{
+.top-status-FriendRequest{
     background-color: #c06b00;
+   // background-color:purple;
+}
+.top-status-Arrived{
+    background-color: #c000ba;
    // background-color:purple;
 }
 .top-status-Solved{

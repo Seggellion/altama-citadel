@@ -15,6 +15,26 @@ end
 
   URL = "https://discord.com/api/guilds/355082120034779136/widget.json"
 
+
+#ChatGPT User list
+
+token = ENV['DISCORD_TOKEN']
+client_id = ENV['DISCORD_CLIENT_ID']
+bot = Discordrb::Bot.new(token: token, client_id: client_id)
+
+# Get the server you want to get the user list for
+server = bot.server(server_id)
+
+# Get an array of all the members in the server
+members = server.members
+
+# Loop through each member and print their username
+members.each do |member|
+  puts member.username
+end
+
+# Thank you chatgpt
+  
   def food_trucks
     @@food_trucks ||= load_from_document
   end
