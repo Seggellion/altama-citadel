@@ -116,13 +116,75 @@ end
     # Discord::Notifier.message('!update user: <@'+ user.uid + '>' )
     status = Rfa.get_status(params[:rfa][:status_id].to_i) 
     service_fee =  (params[:rfa][:servicefee].to_f / 10.00).round(2)
-
+    
   #  assigned_user = User.find_by_id(rfa_params[:user_assigned_id])
   @aec = 0
-  
-    bot_url = "https://altama-energy-support.herokuapp.com/"
 
-    bot =  Nokogiri::HTML(URI.open(bot_url).read)
+   # bot_url = "https://altama-energy-support.herokuapp.com/"
+
+
+    ### discord bot start
+
+token = ENV['DISCORD_TOKEN']
+client_id = ENV['DISCORD_CLIENT_ID']
+
+channel_id = 959365343237799936
+
+
+
+  #  token = ENV['GOOGLE_APPLICATION_CREDENTIALS'] 
+    bot_cmd = Discordrb::Commands::CommandBot.new token: token, prefix: '!'
+    bot_cmd.command(:update) do |event, *args|
+      # This simply sends the bot's invite URL, without any specific permissions,
+      # to the channel.
+      # username = event.message.content.partition(':').last
+      # uid = username[3..-1]
+  
+      data = event.message.content.split(',')
+      uid = data[1]
+      status = data[2].to_s
+      #uid = uid.chomp('>')
+      puts uid
+      #user = await client.get_user_info(uid)
+    #  user = bot_cmd.user(uid)
+      message = %W{#{user.username}}
+      bot_user = bot.user(user.uid)
+
+# Send a DM to the user
+if bot_user
+  bot_user.send_message('Hello, this is a direct message!')
+end
+      #user.pm('Hey ' + user.username + ' It looks like your status is now set to: ' + status )
+      #await client.send_message(me, "Hello!")
+  
+      #event.bot.invite_url
+    end
+  
+
+    # From ChatGPT
+# Create a bot instance
+# bot = Discordrb::Bot.new(token: token, client_id: client_id)
+
+# Get the channel you want to send the message to
+# channel = bot.channel(channel_id)
+
+# Send a message to the channel
+# channel.send_message('Hello, world!')
+
+  #bot.users.fetch('Seggellion').then(dm => {
+  #    dm.send('Hello World')
+  #})
+  
+  # This method call has to be put at the end of your script, it is what makes the bot actually connect to Discord. If you
+  # leave it out (try it!) the script will simply stop and the bot will not appear online.
+  bot_cmd.run :async
+
+
+
+    ### discord bot end
+
+
+   # bot =  Nokogiri::HTML(URI.open(bot_url).read)
 
     if params[:rfa][:HYD].to_f > 0
       commodity = Commodity.find_by(symbol:"HYD")

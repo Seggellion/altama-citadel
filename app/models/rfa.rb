@@ -75,12 +75,14 @@ def status
     when 0
       "Unassigned"
     when 1
-      "In Progress"
+      "Accepted"
     when 2
-      "Pending"
+      "Travelling"
     when 3
-      "On Hold"
+      "FriendRequest"
     when 4
+      "Arrived"
+    when 5
       "Solved"
     end
 end
@@ -157,17 +159,20 @@ end
 
 def self.get_status(status_id)
     case status_id
-    when 0
-      "Unassigned"
-    when 1
-      "In Progress"
-    when 2
-      "Pending"
-    when 3
-      "On Hold"
-    when 4
-      "Solved"
-    end
+
+      when 0
+        "Unassigned"
+      when 1
+        "Accepted"
+      when 2
+        "Travelling"
+      when 3
+        "FriendRequest"
+      when 4
+        "Arrived"
+      when 5
+        "Solved"
+      end
 end
 
 def isSolved?
@@ -196,6 +201,23 @@ def ship_name
         p 'No ship listed'
     end
 end
+
+#for the API
+def location_name
+
+end
+def supplier_rating
+
+end
+
+def supplier_rating_comment
+
+end
+
+def commodities_requested
+
+end
+#end api stuff
 
     def self.all_tickets
         self.all.count

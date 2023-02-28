@@ -1,10 +1,16 @@
-class RfaController < JSONAPI::ResourceController
+class RfaapiController < JSONAPI::ResourceController
     skip_before_action :verify_authenticity_token
     
     def create
+        
         api_params =  params[:data][:attributes].as_json
         random_password = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
         users_online = User.where(online_status: "rfa_online")
+        ship_name = api_params['ship_name']
+        ship = Ship.find_by("lower(model) = ?", ship_name.downcase)
+        location_name = api_params['location_name']
+        location = Location.find_by("lower(name) = ?", location_name.downcase)
+        
 if users_online.empty?
     users_online_boolean = false
 else
@@ -12,21 +18,21 @@ else
 end
 
 
-unless user = User.find_by_rsi_username(api_params['rsi_username'])
-    User.create(rsi_username: api_params['rsi_username'], password: random_password )
- end
+    unless user = User.find_by_rsi_username(api_params['rsi_username'])
+        User.create(rsi_username: api_params['rsi_username'], password: random_password )
+    end
 
     user = User.find_by_rsi_username(api_params['rsi_username'])
     user_rfa = Rfa.find_by(user_id: user.id, status_id: 0)
     if user_rfa
-@rfa = user_rfa.update(
-    location_id: api_params['location_id'],  
-        ship_id: api_params['ship_id'], 
-        rsi_username: user.rsi_username,
-        user_id: user.id,
-        status_id: 0,
-        users_online:users_online_boolean
-)
+    @rfa = user_rfa.update(
+        location_id: location.id,  
+            ship_id: ship.id, 
+            rsi_username: user.rsi_username,
+            user_id: user.id,
+            status_id: 0,
+            users_online:users_online_boolean
+    )
     render json: user_rfa
     else
         @rfa = Rfa.new(location_id: api_params['location_id'],  
@@ -34,7 +40,8 @@ unless user = User.find_by_rsi_username(api_params['rsi_username'])
         rsi_username: user.rsi_username,
         user_id: user.id,
         status_id: 0,
-        users_online:users_online_boolean )     
+        users_online:users_online_boolean )
+        @rfa.save     
         render json: @rfa
     end
    
