@@ -20,18 +20,20 @@ end
 
 token = ENV['DISCORD_TOKEN']
 client_id = ENV['DISCORD_CLIENT_ID']
+server_id = 355082120034779136
+
 bot = Discordrb::Bot.new(token: token, client_id: client_id)
 
 # Get the server you want to get the user list for
 server = bot.server(server_id)
 
 # Get an array of all the members in the server
-members = server.members
+#members = server.members
 
 # Loop through each member and print their username
-members.each do |member|
-  puts member.username
-end
+#members.each do |member|
+ # puts member.username
+#end
 
 # Thank you chatgpt
   
