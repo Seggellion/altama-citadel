@@ -598,6 +598,15 @@ end
   end
   
 
+  def taskbar_button
+current_task = Task.find_by_id(params[:task])
+@all_tasks.update_all(view: '')
+    current_task.update(view:'fullscreen')
+    
+      redirect_to root_path
+    
+  end
+
   # GET /tasks/new
   def new
     @task = Task.new
@@ -637,7 +646,13 @@ end
 
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
-    
+    if @task.name == "RFA Manager" && current_user.online_status == "rfa_online"
+      current_user.update(online_status: nil)
+      eligible_rfas = Rfa.where("status_id < ?", 2)
+      if User.where(online_status:"rfa_online").empty?
+        eligible_rfas.update_all(users_online:false)
+      end
+    end
     @task.destroy
     respond_to do |format|
       format.html { redirect_to desktop_path, notice: "Task closed." }

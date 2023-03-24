@@ -15,21 +15,35 @@ class Event < ApplicationRecord
         end
 
         def self.timeline_events(year)
+           # return if year > 3
             year = year + 2010
-            if year >= 2942
-                year = year - 930
+
+
+      #      if year >= 2942
+       #         year = year - 930
+
+     #           date_beginning = Date.new(year,1,1) 
+     #           date_ending = Date.new(year,12,31)
+     #           start_date = date_beginning.to_date.beginning_of_day
+     #           end_date = date_ending.to_date.end_of_day
+                
+                
+      #          records = Event.where(event_type:nil).order(start_date: :asc)
+      #          records = records.where(:start_date => start_date..end_date)
+                
+      #          byebug
+
+     #       else
+
                 date_beginning = Date.new(year,1,1) 
                 date_ending = Date.new(year,12,31)
                 start_date = date_beginning.to_date.beginning_of_day
                 end_date = date_ending.to_date.end_of_day
-                
-                
+
                 records = Event.where(event_type:nil).order(start_date: :asc)
-                records = records.where(:created_at => start_date..end_date)
-                
-            else
-                records = []
-            end
+                records = records.where(:start_date => start_date..end_date)
+
+    #        end
 
             records
    
@@ -46,12 +60,12 @@ end
 def self.totalYears
     date_beginning = DateTime.new(2010,3,01)
     if Event.first.present?
-    date_end = Event.all.order(start_date: :desc).last.start_date
+    date_end = Event.all.order(start_date: :asc).last.start_date 
     else
     date_end = Date.today
     end
     
-    total_date = ((date_end.year + 931 ) - date_beginning.year)
+    total_date = (date_end.year - date_beginning.year) + 1
 end
 
 def started?

@@ -1,0 +1,8 @@
+<% if Task.asset_exists?("#{task.name.downcase.parameterize.underscore}_icon.png") %>
+<%= image_tag("#{task.name.downcase.parameterize.underscore}_icon.png")  %> <%= task.name %>
+<% else %>
+<div class="icon">
+    <%= image_tag( "all_icons.png", class: "invalid")  %>
+</div>
+<%= task.name %>
+<% end %>

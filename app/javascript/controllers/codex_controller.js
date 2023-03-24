@@ -7,20 +7,116 @@ export default class extends Controller {
   connect() {
 console.log('loaded');
 
+  document.addEventListener('mouseup', function(e) {
+      document.querySelectorAll('.sub-menu').forEach(function(el) {      
+        if (!el.contains(e.target)) {
+          const att = document.createAttribute("hidden");        
+          el.setAttributeNode(att);
+        }
+    });
+  });
+
   }
 
   submenu(event){
 
-    if(this.submenuTarget.hasAttribute('hidden')){
+    if(event.target.childNodes[1].hasAttribute('hidden')){
       
-      this.submenuTarget.removeAttribute("hidden");
+      event.target.childNodes[1].removeAttribute("hidden");
       
       
     }else{
-      this.submenuTarget.hidden = true;
+      event.target.childNodes[1].hidden = true;
     } 
     
   }
+
+
+article_type(event){
+  if (event.target.value === "location"){
+    document.querySelector("#article_location_id").classList.remove('hidden');
+    document.querySelector("#article_user_reference_id").classList.add('hidden');
+    document.querySelector("#article_reference_id").classList.add('hidden');
+    document.querySelector("#article_parent_location_id").classList.remove('hidden'); 
+    document.querySelector("#article_location_type").classList.remove('hidden');     
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
+  }else if(event.target.value === "dossier"){
+    document.querySelector("#article_user_reference_id").classList.remove('hidden');
+    document.querySelector("#article_reference_id").classList.add('hidden');
+
+    document.querySelector("#article_location_id").classList.add('hidden');
+    document.querySelector("#article_location_type").classList.add('hidden'); 
+    document.querySelector("#article_parent_location_id").classList.add('hidden'); 
+
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+  }else if(event.target.value === "event"){
+    
+    document.querySelector("#article_user_reference_id").classList.add('hidden');
+    document.querySelector("#article_reference_id").classList.remove('hidden');
+    
+    document.querySelector("#article_location_id").classList.add('hidden');
+    document.querySelector("#article_location_type").classList.add('hidden'); 
+    document.querySelector("#article_parent_location_id").classList.add('hidden'); 
+
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+  }else{
+    document.querySelector("#article_user_reference_id").classList.add('hidden');
+    document.querySelector("#article_reference_id").classList.add('hidden');
+    document.querySelector("#article_location_id").classList.add('hidden');
+    document.querySelector("#article_location_type").classList.add('hidden'); 
+    document.querySelector("#article_parent_location_id").classList.add('hidden'); 
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+  }
+}
+
+new_location(event){
+  if (event.target.value === ""){
+    document.querySelector("#article_parent_location_id").classList.remove('hidden');
+    document.querySelector("#article_location_type").classList.remove('hidden'); 
+ //   document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
+  }else{
+    document.querySelector("#article_parent_location_id").classList.add('hidden');
+    document.querySelector("#article_location_type").classList.add('hidden'); 
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+  }
+}
+
+require_location(event){
+  if (event.target.value === ""){
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
+  }else{
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+  }
+}
+select_parent(event){
+  if (event.target.value === ""){    
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
+  }else{    
+
+    if( document.querySelector("#article_location_type").value !== ""  ){
+      document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+    }else{
+      document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
+    }
+//    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+  }
+}
+
+location_type(event){
+  if (event.target.value === ""){    
+    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
+  }else{    
+
+    if( document.querySelector("#article_parent_location_id").value !== ""  ){
+      document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+    }else{
+      document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
+    }
+
+    
+  }
+}
+
 
 
 
@@ -57,10 +153,7 @@ console.log('loaded');
   }
 
   hide(event){
-    console.log('this.element', this.element);
-    console.log('event.target', event.target);
-    console.log('this.featuresTarget', this.featuresTarget);
-    console.log('this.element.contains(event.target)', this.element.contains(event.target));
+
     //if(this.element === event.target || this.element.contains(event.target)) return;
     if(this.submenuTarget == event.target || this.featuresTarget == event.target ){
       console.log('clicked menu');

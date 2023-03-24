@@ -1,0 +1,38 @@
+<div class="codex-center-viewport create">
+<%= form_with model: @article do |form| %>
+    <h1><%= current_user.username %></h1>
+
+    <%= label_tag(:name) %>
+    <%= form.text_field :title %>
+    
+    <%= form.hidden_field :article_type, value: "dossier" %>
+    <%= form.hidden_field :user_reference_id, value: current_user.id %>
+
+
+    <div class="input-row">
+    <%= form.label :birth_date, style: "display: block" %>
+    <%= form.datetime_field :reference_date_01 %>
+</div>
+
+
+<div class="input-row">
+<%= form.label :death_date, style: "display: block" %>
+<%= form.datetime_field :reference_date_02 %>
+</div>
+<div class="input-row">
+<%= label_tag(:homeworld) %>
+    <%= form.select :location_id, options_for_select(@all_locations.collect{ |u| [u.name, u.id] } ), {:include_blank => 'Select Homeworld'}, {  data: { action: 'change->codex#require_location' } } %>
+</div>
+
+<div class="input-row">
+<%= form.label :featured_image, style: "display: block" %>
+    <%= form.file_field :featured_image %>
+
+</div>
+    <%= label_tag(:introduction) %>
+    <%= form.text_area :introduction, size: "50x10" %>
+    <%= label_tag(:content) %>
+    <%= form.text_area :content, size: "50x10" %>
+    <%= form.submit "Create", class: 'hidden' %>
+<% end %>
+</div>

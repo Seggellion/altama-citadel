@@ -1,0 +1,30 @@
+<% @article = Article.find_by_id(article_id) %>
+<div class="codex-center-viewport show">
+
+
+<div class="media-content">
+<div class="codex-column-header">
+<small class="down-arrow-block">▼</small><%= @article.title %>
+</div>
+
+<% unless @article.featured_image.blank? %>
+<%= image_tag @article.featured_image %>
+<% end %>
+
+
+</div>
+
+<div class="text-content">
+<div class="codex-column-header">
+<small class="down-arrow-block">▼</small>Introduction
+</div>
+<% if @article.location %>
+<p>Parent: <%= @article.location_parent %></p>
+<p>System: <%= @article.location_system %></p>
+<p>Type: <%= @article.location_type %></p>
+<% end %>
+<p><%= @article.introduction %></p>
+<p><%= raw @article.content  %></p>
+</div>
+
+</div>

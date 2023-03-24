@@ -12,16 +12,24 @@
         <%= render 'desktop/taskbar/menu_items' %>       
     </div>
 
-    <% if defined?(app1) %>
-        <div class="app-bar">
-            <% if Task.asset_exists?("#{app1.downcase.parameterize.underscore}_icon.png") %>
-                <%= image_tag("#{app1.downcase.parameterize.underscore}_icon.png")  %> <%= app1 %>
-            <% else %>
-                <div class="icon">
-                    <%= image_tag( "all_icons.png", class: "invalid")  %> <%= app1 %>
-                </div>
-            <% end %>
-        </div>
+
+
+
+<% @all_tasks.each do | task|  %>
+
+    <div class="app-bar <% if task.view.blank? %>inactive<%end%>">
+    
+    <% if task.view.blank? %>
+        <%= link_to taskbar_button_path(task: task) do %>
+            <%= render 'desktop/taskbar/app_item', task: task %>
+        <% end %>
+
+        <% else %>
+            <%= render 'desktop/taskbar/app_item', task: task %>
+        <% end %>
+
+    </div>
+
     <% end %>
 
     <div id="clock">

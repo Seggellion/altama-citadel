@@ -17,6 +17,10 @@
             <h4>Title:<%= current_user.org_title %> </h4>
             <h4>User_Level: <%= current_user.user_type_text %> </h4>
             <h4>Fame:<%= current_user.fame | 0 %> </h4>
+            
+            <% unless Article.find_by(reference_id: current_user.id) %>
+            <h4><%= link_to "Create Dossier", codex_dossier_path, class:'new-item' %> </h4>
+            <% end %>
             <h4><%= link_to "My badges", my_badges_path %> </h4>
             <h4><%= link_to "RSI Verify", rsi_activate_path %> </h4>
             <h4>Change Background image</h4>

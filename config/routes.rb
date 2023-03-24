@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     get "/" => "web#roadside_assistance"
    end
 
-
+  resources :articles
   resources :departments
   resources :positions
   resources :rules
@@ -100,7 +100,16 @@ Rails.application.routes.draw do
   get 'start_shell', to: 'tasks#start_shell'
   get 'start_codex', to: 'tasks#start_codex'
   get 'codex_timeline', to: 'codex#timeline'
-  get 'close_codex_window', to: 'codex#close_window'
+  get 'codex_article', to: 'codex#article'
+  get 'codex_data_processor', to: 'codex#codex_data_processor'
+  get 'codex_create_article', to: 'codex#create_article'
+  get 'codex_edit_article', to: 'codex#edit_article'
+  get 'codex_show_article', to: 'codex#show_article'
+  get 'codex_back_article', to: 'codex#back_article'
+  get 'codex_find_article', to: 'codex#find_article'
+  get 'codex_dossier', to: 'codex#create_dossier'
+  get 'close_find_window', to: 'codex#close_find_window'
+  get 'close_codex_window', to: 'codex#close_codex_window'
   get 'join_event', to: 'event_users#join'
   get 'leave_event', to: 'event_users#leave'
   get 'open_event', to: 'events#open_event'
@@ -134,7 +143,11 @@ Rails.application.routes.draw do
   get 'rsi_activate', to: 'tasks#rsi_activate'
   get 'bsod', to: 'desktop#bsod'
   get 'close_position_window', to: 'tasks#close_position_window'
-  
+  get 'taskbar_button', to: 'tasks#taskbar_button'
+  get 'populate_commodity', to: 'codex#populate_commodity'
+  get 'destroy_commodity', to: 'codex#destroy_all_commodity'
+  get 'populate_locations', to: 'codex#populate_locations'
+
   get 'vote', to: 'guildstones#vote'
   get 'unvote', to: 'guildstones#unvote'
   get 'accept_nomination', to: 'position_nominations#accept'

@@ -6,7 +6,12 @@
 
     }
 }
-
+.new-item::after{
+    display:inline-block;
+    content:' New!';
+    color:red;
+    font-weight:900;
+}
 #user_profile{
     .window-image{
         width: 155px;

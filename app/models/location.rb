@@ -4,6 +4,10 @@ has_one_attached :image
 has_one_attached :starfarer_image
 
 
+
+#has_one :article, foreign_key: "article", primary_key: "name"
+
+
 def star
      Location.where("system = id")
 end
