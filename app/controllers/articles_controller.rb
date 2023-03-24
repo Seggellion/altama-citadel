@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show edit destroy ]
   before_action :task_manager
+  before_action :require_login
 
   # GET /Articles or /Articles.json
   def index
@@ -86,7 +87,7 @@ end
     @article = Article.find(params[:id])
     # you have to set the location parent ID here.
 
-    respond_to do |format|
+  
       if @article.update(article_params)
 
         if article_params[:article_type] == "location"
@@ -99,7 +100,7 @@ end
         task.update(state:state_name)
         redirect_to root_path
         
-      end
+
     end
   end
 

@@ -1,5 +1,6 @@
 class CodexController < ApplicationController
     before_action :task_manager
+    before_action :require_login
 
     def close_codex_window
         task = @all_tasks.find_by(name: "Codex" )        
@@ -25,13 +26,12 @@ class CodexController < ApplicationController
 
       task = @all_tasks.find_by(name: "Codex" )
       window_state_csv = task.state
-
-if Article.first
-      random_article = Article.order("RANDOM()").first
-      state_name = "article|" + random_article.id.to_s
-else
-  state_name = "article|"
-end
+        if Article.first
+          random_article = Article.order("RANDOM()").first
+          state_name = "article|" + random_article.id.to_s
+        else
+          state_name = "article|"
+        end
 
       
       unless window_state_csv.nil?
