@@ -1,7 +1,8 @@
 class ArticlesController < ApplicationController
+  before_action :require_login
   before_action :set_article, only: %i[ show edit destroy ]
   before_action :task_manager
-  before_action :require_login
+
 
   # GET /Articles or /Articles.json
   def index

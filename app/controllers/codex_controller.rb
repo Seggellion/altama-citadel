@@ -1,6 +1,7 @@
 class CodexController < ApplicationController
-    before_action :task_manager
-    before_action :require_login
+  before_action :require_login, except: [:find_article]  
+  before_action :task_manager
+    
 
     def close_codex_window
         task = @all_tasks.find_by(name: "Codex" )        
