@@ -1,5 +1,5 @@
 <%= form_with(model: @rfa, data:{ 'rfa-target' => 'form'}, id: "#{dom_id(@rfa)}_form") do |form| %>
-  <div class="field"><label>Assigned to:<a href="#" data-action="click->rfa#takeit" class="take">take it</a></label>
+  <div class="field"><label>Assigned to: <% unless @rfa.status_id == 5 %> <a href="#" data-action="click->rfa#takeit" class="take">take it</a> <% end %></label>
   <%= form.select :user_assigned_id, options_for_select(@users.collect{ |u| [u.username, u.id] } , {:class => 'teamTag', selected: @rfa.user_assigned_id || nil, data:{ 'rfa-target' => 'assigned_to'}  }   ), :include_blank => 'Altama Support Queue'%>
   </div>
 

@@ -1,0 +1,62 @@
+
+        <%= render '/codex/header'%>
+<%# @window_title = @current_task.state.split('|').last %>
+
+
+
+        <div id="codex_title"><h1>
+            Data Management
+           </h1>
+        </div>
+
+
+        <div id="codex_body" >
+        <div class="codex-left-viewport">       
+         
+            <div class="viewport-main">
+                <div class="codex-column-header">
+                    <small class="down-arrow-block">▼</small>
+                    Views
+                </div>                                                
+            </div>
+            <div class="viewport-footer">
+                Related Articles
+            </div>
+        
+        </div>
+
+        <% if @current_task.state.include?('find') %>
+        <%= render '/codex/find' %>
+        <% end %>
+
+
+        
+        <div class="codex-center-viewport show">
+
+
+
+
+<div class="text-content">
+<div class="codex-column-header">
+<small class="down-arrow-block">▼</small>Custom Data Managemeent
+</div>
+<p>
+Manage Data
+</p>
+<ul>
+    <li>
+        <%= link_to  "Connect to Gallog", populate_commodity_path %>
+    </li>
+    <li>
+        <%= link_to "Destroy all commodities", destroy_commodity_path %>
+    </li>
+    <li>
+        <%= link_to "Populate Locations", populate_locations_path %>
+    </li>
+</ul>
+</div>
+
+</div>
+
+        
+        </div>

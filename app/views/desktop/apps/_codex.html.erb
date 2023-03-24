@@ -1,10 +1,18 @@
+
 <div  id="codex" class="full <%=  task.state  %>" data-controller="codex">
-    <%= render '/desktop/window-frame', app1: 'Codex', task: task %>
+
+<%= render '/desktop/window-frame', app1: 'Codex', task: task %>
+    
         <div class="codex-container">
-        <% unless task.state == 'timeline' %>
+        <% if  task.state == 'timeline' %>
+            <%= render '/codex/timeline'%>            
+        <% elsif !task.state.nil? && task.state.include?('article') %>
+            <%= render '/codex/article'%>
+            <% elsif !task.state.nil? && task.state.include?('data') %>
+            <%= render '/codex/data'%>
+        <% else %>
+        
             <%= render '/codex/start_screen'%>
-            <% else %>
-            <%= render '/codex/timeline'%>
         <% end %>
 
 

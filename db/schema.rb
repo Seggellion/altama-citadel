@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_23_071225) do
+ActiveRecord::Schema.define(version: 2023_03_21_045640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,27 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "articles", force: :cascade do |t|
+    t.string "article_type"
+    t.integer "user_id"
+    t.integer "editor_id"
+    t.integer "reference_id"
+    t.string "featured_image"
+    t.string "thumbnail_image"
+    t.string "featured_media"
+    t.string "introduction"
+    t.string "content"
+    t.string "title"
+    t.datetime "last_updated", precision: 6
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "reference_type"
+    t.datetime "reference_date_01", precision: 6
+    t.datetime "reference_date_02", precision: 6
+    t.string "location"
+    t.index ["title"], name: "index_articles_on_title", unique: true
+  end
+
   create_table "badges", force: :cascade do |t|
     t.string "badge_name"
     t.string "badge_description"
@@ -63,10 +84,13 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
   create_table "commodities", force: :cascade do |t|
     t.string "symbol"
     t.string "name"
-    t.float "price"
+    t.float "sell"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "location_id"
+    t.float "buy"
+    t.integer "refreshPerMinute"
+    t.integer "maxInventory"
+    t.string "location"
   end
 
   create_table "control_points", force: :cascade do |t|
@@ -125,9 +149,9 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
     t.integer "event_id"
     t.string "ship_fid"
     t.string "ship_name"
-    t.integer "ship_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "ship"
   end
 
   create_table "event_teams", force: :cascade do |t|
@@ -174,12 +198,12 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
-    t.integer "location_type"
-    t.integer "parent"
+    t.string "location_type"
+    t.string "parent"
     t.boolean "trade_port"
     t.string "image"
     t.string "classification"
-    t.integer "system"
+    t.string "system"
     t.boolean "habitable"
     t.string "affiliation"
     t.datetime "created_at", precision: 6, null: false
@@ -187,6 +211,8 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
     t.string "starfarer_image"
     t.string "ocean_color"
     t.string "surface_color"
+    t.string "location_chart"
+    t.index ["name"], name: "index_locations_on_name", unique: true
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -277,8 +303,6 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
     t.string "last_message"
     t.integer "user_id"
     t.integer "status_id"
-    t.integer "location_id"
-    t.integer "ship_id"
     t.integer "priority_id"
     t.integer "aec_rewards"
     t.integer "user_assigned_id"
@@ -290,6 +314,9 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
     t.datetime "accepted_time", precision: 6
     t.datetime "status_change_time", precision: 6
     t.datetime "prescheduled_date", precision: 6
+    t.string "rfa_type"
+    t.string "location"
+    t.string "ship"
   end
 
   create_table "rsi_users", force: :cascade do |t|
@@ -472,7 +499,6 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
     t.string "ship_image"
     t.integer "year_purchased"
     t.string "description"
-    t.integer "ship_id"
     t.integer "user_id"
     t.boolean "show_information"
     t.boolean "primary"
@@ -489,6 +515,7 @@ ActiveRecord::Schema.define(version: 2023_02_23_071225) do
     t.boolean "warbond"
     t.string "source", default: "manual"
     t.string "fid"
+    t.string "ship"
   end
 
   create_table "votes", force: :cascade do |t|

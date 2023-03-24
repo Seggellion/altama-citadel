@@ -1,0 +1,39 @@
+<div class="codex-center-viewport create">
+<% @article = Article.find_by_id(article_id) %>
+<%= form_with model: @article, url: article_path(article_id), method: :patch, local: true do |form| %>
+
+<%#= form_with model: Article.find_by_id(article_id), method: patch, do |form| %>
+    <%= label_tag(:title) %>
+    <%= form.text_field :title %>
+    <%= label_tag(:article_type) %>
+    <%= form.select :article_type, ['lore','location', 'event', 'vehicle',  'dossier'],{}, { data: { action: 'change->codex#article_type' }}  %>
+    
+    <%#= form.select :ship_id, options_for_select(@userships.collect{ |u| [u.ship.model, u.ship.id,{:usership_id=>u.id}]}), {:include_blank => "Select Existing Ship"}, {data:{ 'web-target' => 'shipSelectorField', 'action' => 'click->web#usershipUpdate' }}%>
+    <%#= form.select :manufacturer_id, options_for_select(@manufacturers.collect{ |u| [u.name, u.id] } , {:class => 'teamTag', selected: ship.manufacturer_id || nil} ), :include_blank => 'Select...' %>
+   
+    
+<% if @article.location %>
+<%= label_tag(:location_parent) %>
+
+    <%= form.select :parent, options_for_select(@all_locations.collect{ |u| [u.name, u.name] }, @article.location_parent )%>
+
+    <%= form.select :location_type, ['sector','star', 'planet', 'moon',  'space station', 'point of interest', 'orbital marker'], {selected:@article.location_type} %>
+
+
+
+
+    <% end %>
+    <%= form.select :reference_id, options_for_select(@all_events.collect{ |u| [u.title, u.id] } ), {:include_blank => 'New Event'}, { class: 'hidden' } %>
+    <%= form.select :user_reference_id, options_for_select(@altama_users.collect{ |u| [u.username, u.id] } ), {:include_blank => 'New User'}, { class: 'hidden' } %>
+    <%#= form.text_field :reference_id %>
+
+    <%= form.file_field :featured_image %>
+
+
+    <%= label_tag(:introduction) %>
+    <%= form.text_area :introduction, size: "50x10" %>
+    <%= label_tag(:content) %>
+    <%= form.text_area :content, size: "50x10" %>
+    <%= form.submit "Save" %>
+<% end %>
+</div>

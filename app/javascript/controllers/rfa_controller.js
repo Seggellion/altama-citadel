@@ -116,17 +116,20 @@ let new_total = this.total_charged_amount;
     this.formTarget.submit();
   }
 
-  pending(event) {
+  travelling(event) {
 
     this.status_fieldTarget.value = 2;
     this.formTarget.submit();
   }
 
-  hold(event) {
-
+  friendrequest(event) {
     this.status_fieldTarget.value = 3;
     this.formTarget.submit();
-   // Turbo.navigator.submitForm(this.formTarget);
+  }
+
+  arrived(event) {
+    this.status_fieldTarget.value = 4;
+    this.formTarget.submit();
   }
 
   free_fuel(event){
@@ -159,7 +162,7 @@ let new_total = this.total_charged_amount;
   }
 
   solved(event) {
-    this.status_fieldTarget.value = 4;
+    this.status_fieldTarget.value = 5;
     this.formTarget.submit();
   }
 

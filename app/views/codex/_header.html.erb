@@ -1,7 +1,7 @@
 <div id="codex_header">
 
     <div class="codex-home-button">
-
+        <%= link_to "Home", close_codex_window_path, class: "action-button" %>
     </div>
     <div class="codex-category">
         Geography
@@ -12,12 +12,12 @@
     </div>
     <div class="codex-action-bars">
         <div class="action-button">
-            Find
+        <%= link_to "Find", codex_find_article_path, class: "action-button" %>
         </div>
         <div class="action-button">
-            Go Back
+            <%= link_to "Go Back", codex_back_article_path, class: "action-button" %>
         </div>
-        <div class="action-button" data-codex-target="features" data-action="click->codex#submenu click@window->codex#hide">
+        <div class="action-button" data-codex-target="features" data-action="click->codex#submenu">
             Features
             <ul class="sub-menu" data-codex-target="submenu" hidden>
                 <li>Atlas</li>
@@ -26,12 +26,17 @@
                 <li>Mindmaze</li>
             </ul>
         </div>
-        <div class="action-button">
+        <div class="action-button"  data-action="click->codex#submenu">
             Tools
+            <ul class="sub-menu" data-codex-target="submenu" hidden>
+            <li><%= link_to "Create Article", codex_create_article_path %></li>
+            <li>Dictionary</li>
+            <li>Notes</li>
+            <li><%= link_to "Data Processor", codex_data_processor_path %></li>
+        </ul>
         </div>
         <div class="action-button">
             i
+        </div>        
         </div>
-    </div>
-
 </div>

@@ -10,7 +10,7 @@ def index
   if @all_tasks
     @windowed_tasks = @all_tasks.where(view:'window')
     @fullscreen_tasks = @all_tasks.where(view:'fullscreen')
-    @current_task = @all_tasks.first
+   @current_task = @fullscreen_tasks.first
   end
 
   
@@ -36,7 +36,19 @@ end
   
   @local_users = User.all
   @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
+  @all_locations = Location.all
+  location_list = Article.where(article_type: "location")
+  location_ids = location_list.map { |location| location[:location_id] }
   
+  @all_locations_without_dossier  = @all_locations.where.not(id: location_ids)
+  @all_events = Event.all
+  @altama_users = User.where.not(org_title: [nil, ""])
+  dossier_list = Article.where(article_type: "dossier")
+  dossier_ids = dossier_list.map { |user| user[:reference_id] }
+  @altama_users_without_dossier = @altama_users.where.not(id: dossier_ids)
+
+
+
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)
   @ships = Ship.all
@@ -44,7 +56,7 @@ end
   @selected_ship = Ship.find_by_id(params[:ship_id])
   @manufacturers = Manufacturer.all
   @manufacturer = Manufacturer.new
-
+  @article = Article.new
   @commodity = Commodity.new
   @reward  = Reward.new
   @all_rewards = Reward.all
@@ -52,7 +64,7 @@ end
   @user_manager = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   @myfleetships = current_user.userships.where(show_information:true)
-  @all_events = Event.all
+  
   @timeline_events = Event.where(event_type:nil)
   current_user.desktop
 

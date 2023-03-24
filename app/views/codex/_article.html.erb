@@ -1,33 +1,75 @@
 
         <%= render '/codex/header'%>
+<% @window_title = @current_task.state.split('|').last %>
 
-        <div id="codex_title">
-            <h1>Appalachin Mountains </h1>
+<% @article_id= @current_task.state.split('#').last %>
+
+        <div id="codex_title"><h1>
+        <% if  @window_title.include? "create" %>
+            Create new article
+        <% elsif  @window_title.include? "edit" %>
+            Edit Article
+        <% elsif !@window_title[/\d/].nil? %>
+            <%= Article.find_title(@window_title) %>
+        <% end %>
+           </h1>
         </div>
 
 
         <div id="codex_body" >
-            <div class="codex-left-viewport">
-                <div class="viewport-main">
-                Views
-                </div>
-                <div class="viewport-footer">
+        <div class="codex-left-viewport">       
+        <% if  @window_title.include? "create" %>
+            Create new article
+        <% else %>            
+            <div class="viewport-main">
+            <div class="codex-column-header">
+<small class="down-arrow-block">▼</small>Views
+</div>
+                
+                <ul>
+
+                <% if current_user.isAdmin? %>
+                <% unless @window_title.include?('edit') %>
+                <li>
+                    <%= link_to "Edit Article", codex_edit_article_path(id: @window_title) %>
+                </li>
+                <% else %>
+                <li>
+                
+                <%= link_to "View Article", codex_show_article_path(id: @article_id)  %>
+                </li>
+                <li>
+                <%= button_to "Delete Article", article_path(Article.find_by_id(@article_id)), method: :delete %>
+                </li>
+                <% end %>
+
+                <% end %>
+                </ul>
+            </div>
+            <div class="viewport-footer">
                 Related Articles
-                </div>
             </div>
-            <div class="codex-center-viewport">
-            Daymar or Stanton 2b is a natural satellite of Crusader. It is named after one of the siblings from a tale called A Gift for Baba. The nearly circular orbit is said to represent 'his ease at getting lost in the story'. Darnell Ajay built the first permanent homestead on Daymar in 2906. [citation needed]
-            <br></br>
-            Daymar has a non-breathable nitrogen-methane atmosphere with trace amounts of hydrogen and is toxic to humans without breathing equipment. Dust storms are a frequent occurrence close to the surface, resulting in low-visibility conditions.
-                <table>
-                    <tr>
-                        <td>Height</td><td>	30,000 m</td>
-                    </tr>
-                    <tr><td>Surface pressure</td>	<td>0.54 atm</td></tr>
-                    <tr colspan="2"><td>Surface temperature range</td></tr>
-                    
-                    <tr><td>Day</td> <td>40 – 150 °C</td></tr>
-                    <tr><td>Night</td><td>-90 – 20 °C</td></tr>
-                </table>
-            </div>
+        <% end %>
+        </div>
+
+        <% if @current_task.state.include?('find') %>
+        <%= render '/codex/find' %>
+        <% end %>
+
+            <% if  @window_title.include? "create" %>
+                <%= render '/codex/create_article' %>
+                
+            <% elsif  @window_title.include? "makedossier" %>   
+            <%= render '/codex/create_dossier' %>
+            <% elsif  @window_title.include? "edit" %>          
+                <%= render '/codex/edit_article', article_id: @article_id  %>
+            <% elsif !@window_title[/\d/].nil? %>
+        <%= render '/codex/show_article', article_id: @window_title %>
+
+        
+<% else %>
+
+
+            <% end %>
+        
         </div>

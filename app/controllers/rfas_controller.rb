@@ -26,17 +26,10 @@ if user.online_status == "rfa_online"
   user.update(online_status: nil)
   if User.where(online_status:"rfa_online").empty?
     eligible_rfas.update_all(users_online:false)
-    end
-
-else
-  
-  
-  if User.where(online_status:"rfa_online").empty?
-    
-    
+  end
+else  
+  if User.where(online_status:"rfa_online").empty? 
     eligible_rfas.update_all(users_online:true)
-  #  Rfa.update_all(users_online:true)
-  
   end
   user.update(online_status: "rfa_online")
 end
@@ -245,7 +238,9 @@ end
     respond_to do |format|
       if @rfa.update(merge_params)
         unless rfa_params[:user_assigned_id].blank?
+          if user.uid
           Discord::Notifier.message('!update ,'+ user.uid + ',' + status)
+          end
         end
         
          #format.turbo_stream { render turbo_stream: turbo_stream.update(@rfa) }
