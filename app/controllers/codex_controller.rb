@@ -82,7 +82,11 @@ class CodexController < ApplicationController
       
       #state_name = "article|" 
       task.update(state:states_string)
-      redirect_to root_path
+
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        end
+      
     end
 
 def create_dossier
