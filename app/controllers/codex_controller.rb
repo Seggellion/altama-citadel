@@ -82,7 +82,7 @@ class CodexController < ApplicationController
       
       #state_name = "article|" 
       task.update(state:states_string)
-
+puts task
       respond_to do |format|
         format.html { redirect_to root_path }
         end
