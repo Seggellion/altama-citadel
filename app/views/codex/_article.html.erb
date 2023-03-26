@@ -1,5 +1,6 @@
 
         <%= render '/codex/header'%>
+        <%= @current_task.state %>
 <% @window_title = @current_task.state.split('|').last %>
 
 <% @article_id= @current_task.state.split('#').last %>

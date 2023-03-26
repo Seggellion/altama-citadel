@@ -76,9 +76,11 @@ class CodexController < ApplicationController
       split_state = existing_state.split('|')
       #added_state = Array["find"]
      # new_state = split_state + added_state
-     unless split_state.include?("find")
+     unless split_state.include?("find")      
       new_state = split_state.insert(1,"find")
       states_string = new_state.join('|')
+      puts states_string
+puts "********"
       task.update(state:states_string)
      end
 
@@ -91,7 +93,7 @@ puts "----------------"
 
       respond_to do |format|
         format.html { redirect_to root_path }
-        end
+      end
       
     end
 
