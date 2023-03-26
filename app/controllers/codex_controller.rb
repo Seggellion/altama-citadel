@@ -91,9 +91,9 @@ puts "********"
 puts task.state
 puts "----------------"
 
-      respond_to do |format|
-        format.html { redirect_to root_path }
-      end
+   #   respond_to do |format|
+     #   format.html { redirect_to root_path }
+    #  end
       
     end
 
