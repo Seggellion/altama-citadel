@@ -50,7 +50,7 @@ class CodexController < ApplicationController
     end
 
     def show_article
-      @all_tasks = Task.all
+    
   
       task = @all_tasks.find_by(name: "Codex" )
       article_id = params[:id]
@@ -62,7 +62,7 @@ class CodexController < ApplicationController
 
 
     def back_article
-      @all_tasks = Task.all
+    
       task = @all_tasks.find_by(name: "Codex" )
       state_name = "article|" 
       task.update(state:state_name)
@@ -70,7 +70,7 @@ class CodexController < ApplicationController
     end
 
     def find_article
-      @all_tasks = Task.all
+      
       task = @all_tasks.find_by(name: "Codex" )
       existing_state = task.state
       split_state = existing_state.split('|')
@@ -79,10 +79,9 @@ class CodexController < ApplicationController
      unless split_state.include?("find")      
       new_state = split_state.insert(1,"find")
       states_string = new_state.join('|')
-      puts states_string
-puts "********"
+
       task.update(state:states_string)
-      byebug
+      
      end
 
 
