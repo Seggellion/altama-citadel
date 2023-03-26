@@ -1,5 +1,5 @@
 class CodexController < ApplicationController
-  before_action :require_login, except: [:find_article]  
+  # before_action :require_login, except: [:find_article]  
   before_action :task_manager
     
 
@@ -76,13 +76,19 @@ class CodexController < ApplicationController
       split_state = existing_state.split('|')
       #added_state = Array["find"]
      # new_state = split_state + added_state
+     unless split_state.include?("find")
       new_state = split_state.insert(1,"find")
       states_string = new_state.join('|')
+      task.update(state:states_string)
+     end
+
 
       
       #state_name = "article|" 
-      task.update(state:states_string)
-puts task
+
+puts task.state
+puts "----------------"
+
       respond_to do |format|
         format.html { redirect_to root_path }
         end
