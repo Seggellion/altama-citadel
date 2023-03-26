@@ -82,6 +82,7 @@ class CodexController < ApplicationController
       puts states_string
 puts "********"
       task.update(state:states_string)
+      byebug
      end
 
 
@@ -91,9 +92,9 @@ puts "********"
 puts task.state
 puts "----------------"
 
-   #   respond_to do |format|
-     #   format.html { redirect_to root_path }
-    #  end
+      respond_to do |format|
+        format.html { redirect_to root_path }
+      end
       
     end
 
