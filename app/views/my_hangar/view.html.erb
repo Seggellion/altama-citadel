@@ -18,13 +18,18 @@
         
         <div class="fleet-prototype">
             <div class="ship-layer">
+            
                 <% @myships.each do | usership | %>
                     <% if !@current_task.state.nil? && @current_task.state == "modal-#{usership.id}" %>
                         <%= render 'ship_modal', usership: usership %>
                     <% end %>
                     <%= link_to initiate_ship_modal_path(ship: usership), class: 'usership-block', style:"width: calc(#{usership.ship.length} * 0.1vw);" do %>
                         <div class="info-box"><%= usership.ship.model %></div>
+
+<% if usership.ship.ship_image_primary.present? %>
+
                          <%= image_tag(usership.ship.ship_image_primary, style: "width: calc(#{usership.ship.length} * 0.1vw)")  if File.file?('app/assets/images/' + usership.ship.ship_image_primary)  %>
+                         <% end %>
                     <% end %>
                        
                 <% end %>

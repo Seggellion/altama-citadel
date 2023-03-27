@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_21_045640) do
+ActiveRecord::Schema.define(version: 2023_03_26_231909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -394,6 +394,7 @@ ActiveRecord::Schema.define(version: 2023_03_21_045640) do
     t.integer "capacitor_turret_load"
     t.integer "capacitor_turret_regen"
     t.string "alt_ship_name"
+    t.index ["model"], name: "index_ships_on_model", unique: true
   end
 
   create_table "task_managers", force: :cascade do |t|
@@ -515,7 +516,7 @@ ActiveRecord::Schema.define(version: 2023_03_21_045640) do
     t.boolean "warbond"
     t.string "source", default: "manual"
     t.string "fid"
-    t.string "ship"
+    t.string "model"
   end
 
   create_table "votes", force: :cascade do |t|

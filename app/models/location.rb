@@ -17,10 +17,12 @@ def has_children?
 end
 
 def sublocations
-     Location.where(parent: self.id).where.not(location_type: 3)
+     
+      Location.where(parent: self.name).where.not(location_type: ['planet', 'moon', 'star', 'sector'])
+
 end
 def moonchildren
-     Location.where(parent: self.id)
+     Location.where(parent: self.name)
 end
 
 def type
@@ -45,45 +47,59 @@ def type
  end
 
  def moons
-     Location.where(parent: self.id, location_type: 3)
+     Location.where(parent: self.name, location_type: "moon")
 end
 
 def self.all_planets
-     Location.where(location_type:2)
+     Location.where(location_type: "planet")
 end
 
 def planets
-     Location.where(parent: self.id, location_type: 2)
+     Location.where(parent: self.id, location_type: "planet")
 end
 
 def get_moon
-  Location.find_by(id: self.parent, location_type: 3)
+  Location.find_by(name: self.parent, location_type: "moon")
 end
 
 def get_planet
-  Location.find_by(id: self.parent, location_type: 2)
+  Location.find_by(name: self.parent, location_type: "planet")
 end
 
 def get_parent
-  Location.find_by(id:self.parent)
+  Location.find_by(name:self.parent)
 end
 
   def find_planet
-    if self.location_type > 2
-    parent = self.get_parent 
-    if parent.location_type == 2
-      parent
+    
+    if self.location_type == 'planet'
+    self
+    elsif self.location_type == 'moon'
+      self.get_parent
     else
-        grandparent = parent.get_parent
-        if grandparent.location_type == 2
-          grandparent
-        end
+      if self.get_parent.location_type == 'planet'
+        self.get_parent
+      else
+        parent = self.get_parent
+        parent.get_parent
       end
-    elsif self.location_type == 2
-      self
-    else
-      "Location is star"
     end
+
+   # if self.location_type > 2
+  #  parent = self.get_parent 
+   # if parent.location_type == 2
+ #     parent
+ #   else
+ #       grandparent = parent.get_parent
+  #      if grandparent.location_type == 2
+  #        grandparent
+  #      end
+  #    end
+  #  elsif self.location_type == 2
+  #    self
+  #  else
+  #    "Location is star"
+  #  end
   end
 
 def full_name

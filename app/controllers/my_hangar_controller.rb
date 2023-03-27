@@ -141,6 +141,6 @@ end
 
     # Only allow a list of trusted parameters through.
     def usership_params
-      params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint)
+      params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship, :user_id, :paint)
     end
 end

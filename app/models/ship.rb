@@ -1,7 +1,7 @@
 class Ship < ApplicationRecord
     belongs_to :manufacturer, optional: true
     has_one_attached :image_topdown
-
+    has_many :users, through: :userships
     def code
 
         if self.model.include?("Starfarer") 
@@ -256,7 +256,7 @@ class Ship < ApplicationRecord
 
     def expandedships(user) 
         
-        Usership.where(ship_id: self.id, user_id: user.id )
+        Usership.where(ship_name: self.model, user_id: user.id )
     end
 
 end

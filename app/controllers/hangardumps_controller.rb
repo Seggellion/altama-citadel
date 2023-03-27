@@ -35,15 +35,16 @@ class HangardumpsController < ApplicationController
 
     data_hash.each do |key, value|
       ##puts (key)
+      
       ship_hash = JSON.parse(JSON.dump(key))
       
       ship_hash.each do |k, v|
-        #create and save new usership
-        puts(k, v)
+        #create and save new usership        
         if k == "name"
+          
           @name = v          
         elsif k == "ship_name"
-          @shipname = v
+          @ship_name = v
         elsif k == "ship_serial"
           @shipserial = v
         elsif k == "pledge_id"
@@ -72,19 +73,35 @@ class HangardumpsController < ApplicationController
         #puts(k, v) # this is working - so now use these values to update the db for each ship
       end
       puts('hi')
+      
+   #  query = "SELECT id FROM public.ships where model = '" + @name + "' OR alt_ship_name = '" + @name + "'"
+    #  puts(query)
+   #   res = ActiveRecord::Base.connection.execute(query)
+   #   puts('res.cmd_tuples: ' + res.cmd_tuples.to_s)
+   #   if res.cmd_tuples > 0
+    #    ship_id = res.getvalue(0,0);
+   #     puts('ship id is: ' + res.getvalue(0,0).to_s )
+   #     puts('current_user.id: ' + current_user.id.to_s)
 
-      query = "SELECT id FROM public.ships where model = '" + @name + "' OR alt_ship_name = '" + @name + "'"
-      puts(query)
-      res = ActiveRecord::Base.connection.execute(query)
-      puts('res.cmd_tuples: ' + res.cmd_tuples.to_s)
-      if res.cmd_tuples > 0
-        ship_id = res.getvalue(0,0);
-        puts('ship id is: ' + res.getvalue(0,0).to_s )
-        puts('current_user.id: ' + current_user.id.to_s)
-        u = Usership.new(user_id: current_user.id, ship_id: ship_id, ship_name: @shipname, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond, source: 'imported')        
+        @model = key["name"]
+        @ship_model = Ship.where("model ILIKE ?", "%#{@model}%").first 
+
+          if Ship.where("model ILIKE ?", "%#{@model}%").size == 0
+            @model = key["name"].split(" ").first
+            @ship_model = Ship.where("model ILIKE ?", "%#{@model}%").first 
+            if Ship.where("model ILIKE ?", "%#{@model}%").size == 0              
+              @model = key["name"].split(" ").last
+              @ship_model = Ship.where("model ILIKE ?", "%#{@model}%").first 
+            end
+          end
+          
+
+
+        u = Usership.new(user_id: current_user.id, ship_name: @ship_name, model: @ship_model.model, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond, source: 'imported')        
+
         u.valid?
         u.save!
-      end
+   #   end
       #u.save!
     end
     
@@ -108,7 +125,7 @@ class HangardumpsController < ApplicationController
   #end
   def usership_params
     #params.require(:usership).permit(:ship_name, :year_purchased, :description, :ship_id, :user_id, :paint, :primary)
-    params.require(:usership).permit(:user_id, :ship_id, :ship_name, :ship_serial, :pledge_id, :pledge_name, :pledge_date, :lti, :warbond)
+    params.require(:usership).permit(:user_id, :ship_name, :ship_serial, :pledge_id, :pledge_name, :pledge_date, :lti, :warbond)
 =begin
     params.require(:ship).permit(
       :model,
