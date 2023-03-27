@@ -1,6 +1,8 @@
 class Usership < ApplicationRecord
     belongs_to :user
-    belongs_to :ship
+   # belongs_to :ship, foreign_key: :ship_name, primary_key: :model
+   belongs_to :ship, foreign_key: 'model', primary_key: 'model'
+
     has_one_attached :attachment
     include ActiveModel::Serializers::JSON
     after_update_commit {broadcast_replace_to 'usership_details', partial: '/my_hangar/usership_details', locals: { usership_details: self }}

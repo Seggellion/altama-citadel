@@ -5,7 +5,9 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable,
   :omniauthable, omniauth_providers: %i[discord]
   has_many :userships
-  has_many :ships, :through => :userships
+  #has_many :ships, :through => :userships
+  has_many :ships, through: :userships, source: :ship, foreign_key: 'model'
+
   has_one :task_manager
   has_many :rfas
   has_many :messages
@@ -132,7 +134,7 @@ end
   end
 
   def ship_count(ship)
-    all_ships = Usership.where(user_id: self.id, ship_id: ship.id)
+    all_ships = Usership.where(user_id: self.id, ship_name: ship.model)
     all_ships.count
   end
 

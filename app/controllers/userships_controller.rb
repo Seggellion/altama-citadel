@@ -104,7 +104,7 @@ class UsershipsController < ApplicationController
 
     
     def usership_params      
-      params.require(:usership).permit(:user_id, :ship_id, :ship_name, :ship_serial, :pledge_id, :show_information,
+      params.require(:usership).permit(:user_id, :ship_name, :ship_serial, :pledge_id, :show_information,
       :pledge_name, :pledge_date, :lti, :warbond, :year_purchased, :description, :paint, :primary, :fid, :fid_01,:fid_02)
     end
 end

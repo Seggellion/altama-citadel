@@ -1,6 +1,7 @@
 class RfasController < ApplicationController
   before_action :set_rfa, only: %i[edit update destroy ]
   before_action :require_login
+  before_action :task_manager
 
   # GET /rfas or /rfas.json
   def index

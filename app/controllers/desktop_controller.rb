@@ -10,7 +10,10 @@ def index
   if @all_tasks
     @windowed_tasks = @all_tasks.where(view:'window')
     @fullscreen_tasks = @all_tasks.where(view:'fullscreen')
-   @current_task = @fullscreen_tasks.first
+   
+   
+   @current_task = @fullscreen_tasks.first.present? ? @fullscreen_tasks.first : @windowed_tasks.first.present? ? @windowed_tasks.first : nil
+
   end
 
   
