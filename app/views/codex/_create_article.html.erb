@@ -9,7 +9,7 @@
     <%#= form.select :manufacturer_id, options_for_select(@manufacturers.collect{ |u| [u.name, u.id] } , {:class => 'teamTag', selected: ship.manufacturer_id || nil} ), :include_blank => 'Select...' %>
 
 
-    <%= form.select :location_id, options_for_select(@all_locations_without_dossier.collect{ |u| [u.name, u.id] } ), {:include_blank => 'New Location'}, { class: 'hidden', data: { action: 'change->codex#new_location' } } %>
+    <%= form.select :location, options_for_select(@all_locations_without_dossier.collect{ |u| [u.name, u.id] } ), {:include_blank => 'New Location'}, { class: 'hidden', data: { action: 'change->codex#new_location' } } %>
     <%= form.select :parent_location_id, options_for_select(@all_locations.collect{ |u| [u.name, u.id] } ), {:include_blank => 'Select Parent'}, { class: 'hidden', data: { action: 'change->codex#select_parent' } } %>
     
     <%= form.select :location_type, options_for_select([['Select Type','' ],['Star',1],['Planet',2], ['Moon',3], ['Space Station',4], ['Surface outpost',5], ['Point of interest',6], ['Orbital marker',7]]),{} ,{ class: 'hidden', data: { action: 'change->codex#location_type' } } %>

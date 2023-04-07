@@ -1,5 +1,9 @@
 class ShellController < ApplicationController
 
+def  acu_command
+byebug
+end
+
 def command_entry
   
   if params[:query].split.size > 1
