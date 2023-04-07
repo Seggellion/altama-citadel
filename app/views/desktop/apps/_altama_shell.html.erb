@@ -7,7 +7,7 @@
         
             <% if task.state == 'vim' %>
                 <%= render '/desktop/apps/shell_apps/vim' %>
-            <% elsif task.state.include? 'acu' %>
+            <% elsif task.state && task.state.include?('acu') %>
                 <%= render '/desktop/apps/shell_apps/acu' %>
             <% else %>
             <div id="command" data-controller="shell">

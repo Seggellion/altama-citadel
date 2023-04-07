@@ -15,8 +15,8 @@
         <div class="find-container">
         <% Article.all.sort_by(&:title).each do |article|  %>
 
-        <%= link_to codex_show_article_path(id: article.id), class:'article-select' do %>
-            <%= article.title %>
+        <%= link_to codex_show_article_path(id: article.id), class:'article-select', data: {category: article.article_type } do %>
+            <span data-category="<%= article.article_type %>"><%= article.title %></span>
         <% end %>
 
             <% end %>
@@ -24,7 +24,7 @@
     </div>
     <div class="codex-find-column">
         <div class="find-categories">
-            <a href="#">
+            <a id="find_people" data-action="click->codex#find_people" href="#">
                 <img src="">
                 People
             </a>

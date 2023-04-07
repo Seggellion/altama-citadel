@@ -117,6 +117,40 @@ location_type(event){
   }
 }
 
+find_people(event){
+  // if target has class?
+if (event.target.classList()){
+
+}else{
+  document.querySelector('.find_people').classList.add('active');   
+}
+
+var hidden_articles = document.querySelectorAll('.article-select');
+const filterValue = 'dossier';
+hidden_articles.forEach((element) => {
+  const dataAttributeValue = element.getAttribute('data-category'); // Replace with your data attribute name
+  if (dataAttributeValue !== filterValue) {
+   // filteredElements.push(element);
+   element.classList.add('hidden');  
+  }
+});
+ 
+
+}
+
+find_commodity(event){
+  var hidden_articles = document.querySelectorAll('.article-select');
+  const filterValue = 'commodity';
+  hidden_articles.forEach((element) => {
+    const dataAttributeValue = element.getAttribute('data-category'); // Replace with your data attribute name
+    if (dataAttributeValue !== filterValue) {
+     // filteredElements.push(element);
+     element.classList.add('hidden');  
+    }
+  });
+
+  document.querySelector('.find_commodity').classList.add('active');   
+}
 
 
 

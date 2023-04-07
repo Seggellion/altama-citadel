@@ -114,6 +114,7 @@ Rails.application.routes.draw do
   get 'leave_event', to: 'event_users#leave'
   get 'open_event', to: 'events#open_event'
   get 'command', to: 'shell#command_entry'
+  get 'acu_command', to: 'shell#acu_command_entry'
   get 'start_location_manager', to:'tasks#start_location_manager'
   get 'start_ship_manager', to:'tasks#start_ship_manager'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'

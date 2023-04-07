@@ -8,7 +8,7 @@ class RfaapiController < JSONAPI::ResourceController
         users_online = User.where(online_status: "rfa_online")
         ship_name = api_params['ship_name']
         ship = Ship.find_by("lower(model) = ?", ship_name.downcase)
-        location_name = api_params['location_name']
+        location_name = api_params['location']
         location = Location.find_by("lower(name) = ?", location_name.downcase)
         
 if users_online.empty?
@@ -35,7 +35,7 @@ end
     )
     render json: user_rfa
     else
-        @rfa = Rfa.new(location_id: api_params['location_id'],  
+        @rfa = Rfa.new(location_id: api_params['location_name'],  
         ship_id: api_params['ship_id'], 
         rsi_username: user.rsi_username,
         user_id: user.id,
@@ -77,7 +77,7 @@ end
     private
     def rfa_params
         params.require(:rfa).permit(:title, :description, :rsi_username, :status_id, 
-        :location_id, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
+        :location, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
         :aec_rewards, :user_assigned_id, :user_id, :usership_id, :servicefee,
         userships_attributes: [:ship_id, :user_id])      
     end

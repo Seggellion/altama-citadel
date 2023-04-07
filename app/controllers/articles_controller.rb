@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
 if  params[:article][:article_type] == "lore"
 
 elsif params[:article][:article_type] == "dossier"
-  
+  byebug
   if current_user.id == params[:article][:user_reference_id].to_i
     @article.update(reference_id: current_user.id)
 
