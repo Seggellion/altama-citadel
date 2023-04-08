@@ -1,7 +1,31 @@
 <div data-controller="acu" id="acu" style="background-color:'blue'">
 
     <div class="loading">
-        <div class="content" style="color:white; font-family:'dos'">
+    <% if @current_task.state.include?('welcome') || @current_task.state.include?('balance')  %>
+     
+
+
+
+
+    <div class="content" style="color:white; font-family:'dos'">        
+        
+    ---------- <br/>
+    | ALTAMA | <br/>
+    | ====== |<br/>
+    |________|<br/>
+    <br/><br/>
+    
+    <div class="slogan" style="color:white; font-family:'dos'">
+                
+    ALTAMA Credit Union - For What Matters
+                
+                </div>
+    ________________________________________________________________________________________________
+                
+            </div>
+
+        <% else %>
+        <div class="content" style="color:white; font-family:'dos'">        
         <pre>
             :::     :::    ::::::::::: :::     ::::    ::::      :::     <br/>
             :+: :+:   :+:        :+:   :+: :+:   +:+:+: :+:+:+   :+: :+:   <br/>
@@ -12,11 +36,68 @@
             ###     ### ########## ### ###     ### ###       ### ###     ### <br/>
             </pre>
         </div>
+
+        <% end %>
+
         <div class="action-bar">
+
+        <% if @current_task.state.include?('welcome') %>
+
+
+
+
+        <div class="button-group">
+
+        <div class="acu-button">
+        (1) Deposit
+        </div>
+        <div class="acu-button">
+        (2) Withdraw
+        </div>
+
+        <div class="acu-button">
+        (3) Transfer
+        </div>
+
+        <div class="acu-button">
+        (4) Balance
+        </div>
+
+    </div>
+
+        <% elsif @current_task.state.include?('balance')  %>
+
+        <div class="button-group">
+
+            <div class="acu-button">
+            (1) Twitch balance:
+            </div>
+            <div class="acu-button">
+            (2) AEC Balance:
+            </div>
+
+        </div>
+
+
+        <% else %>
         <a href="#" style="color:white; font-family:'dos'">
             Press enter to continue
             </a>
         </div>
+
+
+        <% end %>
+
+
+        <div>
+        Press M to go back to menu
+        </div>
+
+        <div>
+        Press Q to exit
+        </div>
+
+
         <form action="/acu_command" id="command_entry" method="get" accept-charset="UTF-8" >
         <input id="query" name="query" type="text"  />
         </form>
