@@ -24,6 +24,10 @@
     .shell-container{
         margin-top:40px;
         padding:10px;
+        .action-bar, a{
+          color:white;
+          font-family: dos;
+        }
         input{
             background-color:black;
             font-size:1.2rem;

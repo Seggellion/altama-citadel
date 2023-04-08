@@ -1,7 +1,26 @@
 class ShellController < ApplicationController
+  before_action :task_manager
 
-def  acu_command
-byebug
+def  acu_command_entry
+  @task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Altama Shell")
+  command = params[:query]
+
+  case command
+  when "Enter"
+    if @task.state == 'acu'
+      @task.update(state:'acu|welcome')
+    end
+  when "4"
+    if @task.state == 'acu|welcome'
+      @task.update(state:'acu|balance')
+    end
+  when "m"
+    @task.update(state:'acu|welcome')
+  when "q"
+    @task.update(state:nil)
+  end
+  redirect_to root_path
+
 end
 
 def command_entry
@@ -11,8 +30,7 @@ def command_entry
   end
 command = params[:query].split.first
 
-@task_manager = TaskManager.find_by(user_id: current_user)
-@all_tasks = Task.where(task_manager_id: @task_manager.id)
+
 @task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Altama Shell")
 
 
