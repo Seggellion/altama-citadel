@@ -128,13 +128,17 @@ def populate_commodity
     commodity_json = JSON.parse(commodity_response)
     
     commodity_json["data"]["buyLocations"].each do |location_key, location_value|  
-      Commodity.create(name: key["name"], sell: location_key["sell"], buy: location_key["buy"], location: location_key["name"], updated_at: location_key["timestamp"])
+      buy_price = location_key["buy"].to_f / 100.00
+      sell_price =  location_key["sell"].to_f / 100.00
+      Commodity.create(name: key["name"], sell:  sell_price, buy:  buy_price, location: location_key["name"], updated_at: location_key["timestamp"])
         unless Article.find_by_title(key["name"])
           Article.create(title:key["name"], article_type: 'commodity', user_id: current_user.id)
         end
     end
     commodity_json["data"]["sellLocations"].each do |location_key, location_value|  
-      Commodity.create(name: key["name"], sell: location_key["sell"], buy: location_key["buy"], location: location_key["name"], updated_at: location_key["timestamp"])
+      buy_price = location_key["buy"].to_f / 100.00
+      sell_price =  location_key["sell"].to_f / 100.00
+      Commodity.create(name: key["name"], sell: sell_price, buy: buy_price, location: location_key["name"], updated_at: location_key["timestamp"])
         unless Article.find_by_title(key["name"])
           Article.create(title:key["name"], article_type: 'commodity', user_id: current_user.id)
         end
@@ -171,7 +175,8 @@ redirect_to root_path
 end
 
 def destroy_all_commodity
-
+  Commodity.destroy_all
+  redirect_to root_path
 end
 
 def codex_data_processor

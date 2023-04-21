@@ -23,6 +23,22 @@ def  acu_command_entry
 
 end
 
+
+def traderun_command_entry
+  @task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Altama Shell")
+  command = params[:format]
+
+  case command
+  when "Enter"
+    
+      @task.update(state:'trade123')
+    
+  when "quit"
+    @task.update(state:nil)
+  end
+  redirect_to root_path
+end
+
 def command_entry
   
   if params[:query].split.size > 1
@@ -50,6 +66,8 @@ case command
     @task.update(state:'vim')
   when "acu"
     @task.update(state:'acu')
+  when "trade123"
+    @task.update(state:'trade123')
   when "moonstone"      
     if filename    
       file_content = File.read("app/views/desktop/apps/shell_apps/files/#{filename}")

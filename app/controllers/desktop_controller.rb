@@ -4,42 +4,32 @@ before_action :require_login
 before_action :task_manager,  except: [:bsod]
 
 
-def index
-  
+def index  
   redirect_to bsod_path && return if @task_manager.nil?
   if @all_tasks
     @windowed_tasks = @all_tasks.where(view:'window')
-    @fullscreen_tasks = @all_tasks.where(view:'fullscreen')
-   
-   
-   @current_task = @fullscreen_tasks.first.present? ? @fullscreen_tasks.first : @windowed_tasks.first.present? ? @windowed_tasks.first : nil
-
+    @fullscreen_tasks = @all_tasks.where(view:'fullscreen')   
+    @current_task = @fullscreen_tasks.first.present? ? @fullscreen_tasks.first : @windowed_tasks.first.present? ? @windowed_tasks.first : nil
   end
 
-  
-
-if !@current_task.nil? and @current_task.name.downcase.include? "location"  
-  
+if !@current_task.nil? and @current_task.name.downcase.include? "location"    
   if @current_task.state and @current_task.state.downcase.include? "subitem"
     location = Location.find_by_id(@current_task.state.downcase.split(',')[0].split('-')[-1])    
-
     if location.present? and location.parent != nil
-    @locations = Location.where(parent:location.parent)
+      @locations = Location.where(parent:location.parent)
     else
       @locations = Location.where(parent:location.id)
     end    
   else    
     @locations = Location.where(location_type:1)
   end
-  
   @location = Location.new
 end
 
-  @all_users = User.all + DiscordUser.all + RsiUser.all
-  
+  @all_users = User.all + DiscordUser.all + RsiUser.all  
   @local_users = User.all
   @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
-  @all_locations = Location.all
+  @all_locations = Location.all.order(name: :asc)
   location_list = Article.where(article_type: "location")
   location_ids = location_list.map { |location| location[:location_id] }
   
@@ -54,7 +44,8 @@ end
 
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)
-  @ships = Ship.all
+  @ships = Ship.all.order(model: :asc)
+  @cargo_ships = Ship.where("scu > ?", 50).order(model: :asc)
   @ship = Ship.new
   @selected_ship = Ship.find_by_id(params[:ship_id])
   @manufacturers = Manufacturer.all
@@ -63,11 +54,12 @@ end
   @commodity = Commodity.new
   @reward  = Reward.new
   @all_rewards = Reward.all
-  @all_commodities = Commodity.all  
+  @all_commodities = Commodity.all.order(name: :asc)
+  @readable_commodities = Commodity.select(:name).distinct.order(name: :asc)
   @user_manager = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   @myfleetships = current_user.userships.where(show_information:true)
-  
+  @traderun_new = TradeRun.new
   @timeline_events = Event.where(event_type:nil)
   current_user.desktop
 

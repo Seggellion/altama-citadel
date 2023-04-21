@@ -1,0 +1,5 @@
+class TradeRunSplit < ApplicationRecord
+
+
+
+end

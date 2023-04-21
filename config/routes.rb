@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :non_confidences
   resources :rule_proposals
   resources :categories
+  resources :trade_runs
   
   mount ActionCable.server => "/cable"
 
@@ -63,6 +64,7 @@ Rails.application.routes.draw do
   end
 
   post 'staff_code', to: 'conquest#staff_code',  as: :staff_code, :constraints => { :subdomain => "ctd" }
+  post 'shipments/json_request', to: 'shipments#json_request'
 
   get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
@@ -115,6 +117,7 @@ Rails.application.routes.draw do
   get 'open_event', to: 'events#open_event'
   get 'command', to: 'shell#command_entry'
   get 'acu_command', to: 'shell#acu_command_entry'
+  get 'traderun_command', to: 'shell#traderun_command_entry'
   get 'start_location_manager', to:'tasks#start_location_manager'
   get 'start_ship_manager', to:'tasks#start_ship_manager'
   get 'rsi_user_list', to: 'desktop#rsi_user_list'

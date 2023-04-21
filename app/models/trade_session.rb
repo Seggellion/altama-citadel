@@ -1,0 +1,5 @@
+class TradeSession < ApplicationRecord
+
+
+
+end
