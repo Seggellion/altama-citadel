@@ -162,15 +162,17 @@ export default class extends Controller {
   }
 
   onContentChange(event){
+    
     this.calculator();
+
   }
 
 calculator(){
-
+  
   let buyPriceElement = parseFloat(document.getElementById("buyPrice").innerHTML)  * 100.00;
   let sellPriceElement = parseFloat(document.getElementById("sellPrice").innerHTML)   * 100.00;
   let sellSCUElement = parseFloat(document.getElementById("sellSCU").innerHTML);
-  let buySCUElement = parseFloat(document.getElementById("sellSCU").innerHTML);
+  let buySCUElement = parseFloat(document.getElementById("buySCU").innerHTML);
   let capitalElement = document.getElementById("capital");
   let profitElement = document.getElementById("profit");
   let incomeElement = document.getElementById("income");
@@ -182,7 +184,8 @@ calculator(){
   let marketBuy = parseFloat(deltaElement.getAttribute("marketBuy")) * 100;
 
   let deltaCalculation = profitCalculation - ((marketBuy * sellSCUElement) - (marketSell * buySCUElement));
-  
+  console.log('profit:', profitCalculation);
+  console.log('buySCUElement:', buySCUElement);
   if (deltaCalculation){
     
     deltaElement.innerHTML = `${deltaCalculation}`;
