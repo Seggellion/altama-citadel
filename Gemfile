@@ -14,7 +14,7 @@ gem 'nokogiri-styles'
 gem "watir-rails"
 gem 'discordrb'
 gem 'twitch-api'
-
+gem 'rack-cors'
 
 
 
