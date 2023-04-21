@@ -218,10 +218,10 @@
         <td contenteditable="false">[  ]</td>
         <td contenteditable="true"><%= form.select :buy_commodity, options_for_select(@readable_commodities.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Select Commodity', :required=>"true"},  {data:{ action: 'change->traderun#buyCommodity'}} %></td>
         <td data-action="input->traderun#onContentChange" contenteditable="true" id="buyPrice"></td>
-        <td contenteditable="true" id="buySCU"></td>
+        <td contenteditable="true" data-action="input->traderun#onContentChange"  id="buySCU"></td>
         <td contenteditable="true"><%= form.select :sell_location, options_for_select(@all_locations.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Sell Location', :required=>"true"},  {data:{ action: 'change->traderun#sellLocation'}} %></td>
-        <td contenteditable="true" id="sellPrice"></td>
-        <td contenteditable="true" id="sellSCU"></td>
+        <td contenteditable="true" data-action="input->traderun#onContentChange"  id="sellPrice"></td>
+        <td contenteditable="true" data-action="input->traderun#onContentChange"  id="sellSCU"></td>
         <td contenteditable="false" id="capital"></td>
         <td contenteditable="false" id="income"></td>
         <td contenteditable="false" id="delta"></td>
