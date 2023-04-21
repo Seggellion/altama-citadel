@@ -9,6 +9,8 @@
                 <%= render '/desktop/apps/shell_apps/vim' %>
             <% elsif task.state && task.state.include?('acu') %>
                 <%= render '/desktop/apps/shell_apps/acu' %>
+                <% elsif task.state && task.state.include?('trade123') %>
+                <%= render '/desktop/apps/shell_apps/trade123' %>
             <% else %>
             <div id="command" data-controller="shell">
             <form action="/command" id="command_entry" method="get" accept-charset="UTF-8" >
@@ -28,6 +30,7 @@
 </div>
 
 <div id="input" contenteditable="true"></div><button id="caret" for="input">&nbsp;</button>
+
 
 
 <script>

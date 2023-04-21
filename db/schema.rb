@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_26_231909) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_04_15_200607) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,7 +19,7 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -33,7 +32,7 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -54,12 +53,12 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "introduction"
     t.string "content"
     t.string "title"
-    t.datetime "last_updated", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_updated"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "reference_type"
-    t.datetime "reference_date_01", precision: 6
-    t.datetime "reference_date_02", precision: 6
+    t.datetime "reference_date_01"
+    t.datetime "reference_date_02"
     t.string "location"
     t.index ["title"], name: "index_articles_on_title", unique: true
   end
@@ -69,15 +68,15 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "badge_description"
     t.string "badge_image"
     t.string "badge_color"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "badge_type"
   end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
@@ -85,8 +84,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "symbol"
     t.string "name"
     t.float "sell"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.float "buy"
     t.integer "refreshPerMinute"
     t.integer "maxInventory"
@@ -98,8 +97,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "description"
     t.integer "event_id"
     t.integer "location_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "capture_team_id"
   end
 
@@ -108,8 +107,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "description"
     t.integer "guildstone_id"
     t.integer "parent_department_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "department_type"
     t.integer "order"
   end
@@ -123,15 +122,15 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
   create_table "event_records", force: :cascade do |t|
     t.integer "event_type"
     t.integer "event_id"
-    t.datetime "start_time", precision: 6
-    t.datetime "end_time", precision: 6
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.integer "duration"
     t.integer "team_id"
     t.integer "control_point_id"
     t.integer "points"
     t.integer "rank_placement"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "action"
   end
 
@@ -139,8 +138,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "event_id"
     t.string "title"
     t.boolean "must_join_all"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "event_ships", force: :cascade do |t|
@@ -149,16 +148,16 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "event_id"
     t.string "ship_fid"
     t.string "ship_name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "ship"
   end
 
   create_table "event_teams", force: :cascade do |t|
     t.integer "event_id"
     t.integer "team_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["team_id", "event_id"], name: "one_team_per_event", unique: true
   end
 
@@ -168,19 +167,19 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "event_id"
     t.string "ship_fid"
     t.integer "usership_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.integer "owner_id"
-    t.datetime "start_date", precision: 6
+    t.datetime "start_date"
     t.integer "tournament_id"
     t.string "description"
     t.integer "event_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.float "capture_limit"
     t.string "staff_code"
     t.integer "maximum_attendees"
@@ -192,8 +191,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
   create_table "guildstones", force: :cascade do |t|
     t.string "charter"
     t.string "title"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -206,8 +205,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "system"
     t.boolean "habitable"
     t.string "affiliation"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "starfarer_image"
     t.string "ocean_color"
     t.string "surface_color"
@@ -219,8 +218,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "name"
     t.string "description"
     t.string "origin_location"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "logo"
   end
 
@@ -231,8 +230,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.text "content"
     t.boolean "read", default: false
     t.string "subject"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "non_confidences", force: :cascade do |t|
@@ -240,8 +239,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "user_position_id"
     t.integer "rule_id"
     t.integer "originator_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "position_user_id"
     t.integer "position_id"
   end
@@ -253,8 +252,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.text "resume"
     t.integer "nominator_id"
     t.integer "guildstone_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "approved"
   end
 
@@ -266,8 +265,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "term_length_days", default: 185
     t.float "compensation"
     t.integer "parent_position_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -276,8 +275,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "reviewee_id"
     t.integer "rating"
     t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id", "rfa_id"], name: "one_review_per_rfa", unique: true
   end
 
@@ -292,8 +291,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.float "amount"
     t.float "market_price"
     t.float "selling_price"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["rfa_id", "commodity_id"], name: "one_product_per_rfa", unique: true
   end
 
@@ -306,14 +305,14 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "priority_id"
     t.integer "aec_rewards"
     t.integer "user_assigned_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "usership_id"
     t.float "servicefee", default: 0.0
     t.boolean "users_online"
-    t.datetime "accepted_time", precision: 6
-    t.datetime "status_change_time", precision: 6
-    t.datetime "prescheduled_date", precision: 6
+    t.datetime "accepted_time"
+    t.datetime "status_change_time"
+    t.datetime "prescheduled_date"
     t.string "rfa_type"
     t.string "location"
     t.string "ship"
@@ -335,8 +334,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "department_id"
     t.boolean "code_enforced"
     t.string "category"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rules", force: :cascade do |t|
@@ -345,8 +344,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "user_id"
     t.string "description"
     t.integer "term_length_days", default: 185
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "title"
     t.integer "department_id"
     t.string "category"
@@ -362,8 +361,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "beam"
     t.integer "height"
     t.integer "msrp"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "year_introduced"
     t.string "ship_image_primary"
     t.string "ship_image_secondary"
@@ -400,8 +399,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
   create_table "task_managers", force: :cascade do |t|
     t.integer "user_id"
     t.string "task_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -409,8 +408,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.string "author"
     t.string "icon"
     t.integer "task_manager_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "state"
     t.string "view"
     t.string "memo_type"
@@ -424,16 +423,66 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "karma"
     t.integer "fame"
     t.string "website"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "team_color"
+  end
+
+  create_table "trade_run_splits", force: :cascade do |t|
+    t.integer "traderun_id"
+    t.integer "commodity_id"
+    t.integer "scu"
+    t.float "buy_price"
+    t.float "sell_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "trade_runs", force: :cascade do |t|
+    t.integer "tradesession_id"
+    t.string "username"
+    t.string "ship"
+    t.integer "usership_id"
+    t.boolean "split"
+    t.integer "commodity_id"
+    t.integer "scu"
+    t.boolean "locked"
+    t.string "buy_location"
+    t.string "sell_location"
+    t.float "buy_price"
+    t.float "sell_price"
+    t.boolean "payout_complete"
+    t.datetime "last_updated"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "trade_session_users", force: :cascade do |t|
+    t.string "username"
+    t.string "ships_used"
+    t.integer "tradesession_id"
+    t.integer "user_id"
+    t.integer "pay_amount"
+    t.integer "transaction_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "trade_sessions", force: :cascade do |t|
+    t.boolean "locked"
+    t.integer "profit_vector_pilots"
+    t.integer "profit_vector_security"
+    t.integer "profit_vector_corporation"
+    t.boolean "payout_complete"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_badges", force: :cascade do |t|
     t.integer "user_id"
     t.integer "badge_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id", "badge_id"], name: "one_badge_per_user", unique: true
   end
 
@@ -445,8 +494,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.date "term_end"
     t.float "compensation"
     t.integer "guildstone_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "nomination_id"
     t.boolean "active"
     t.integer "position_id"
@@ -461,8 +510,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.float "compensation"
     t.integer "position_id"
     t.integer "guildstone_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "nomination_id"
     t.integer "term_length_days"
   end
@@ -470,10 +519,10 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
   create_table "users", force: :cascade do |t|
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: 6
-    t.datetime "remember_created_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "username"
     t.integer "user_type", default: 100
     t.string "profile_image"
@@ -484,7 +533,7 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "aec", default: 0, null: false
     t.integer "fame", default: 0, null: false
     t.integer "karma", default: 0, null: false
-    t.datetime "last_login", precision: 6
+    t.datetime "last_login"
     t.string "desktop_background"
     t.string "org_title"
     t.string "crew_title"
@@ -505,8 +554,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.boolean "primary"
     t.boolean "fleetship"
     t.string "paint"
-    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
-    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.string "ship_serial"
     t.integer "pledge_id"
     t.string "pledge_name"
@@ -527,8 +576,8 @@ ActiveRecord::Schema.define(version: 2023_03_26_231909) do
     t.integer "position_nomination_id"
     t.string "feedback"
     t.integer "guildstone_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "non_confidence_id"
     t.integer "user_position_id"
   end
