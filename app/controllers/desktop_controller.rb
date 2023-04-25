@@ -30,6 +30,8 @@ end
   @local_users = User.all
   @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
   @all_locations = Location.all.order(name: :asc)
+  @tradeports = Location.where.not(location_type: ["moon", "star", "system", "planet"])
+@all_traderuns = TradeRun.all.order(created_at: :desc)
   location_list = Article.where(article_type: "location")
   location_ids = location_list.map { |location| location[:location_id] }
   
