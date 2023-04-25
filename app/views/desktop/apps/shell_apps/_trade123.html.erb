@@ -36,7 +36,9 @@
 
       }
 
-
+      .radio{
+        cursor:pointer;
+      }
       td{
         color: #b9b9b9;
         line-height: 1.1;                
@@ -187,6 +189,7 @@
           <th>M</th>
           <th>N</th>
           <th>O</th>
+          <th>P</th>
         </tr>
       </thead>
       <tbody  data-traderun-target="tbody">
@@ -207,26 +210,27 @@
           <td>Market delta</td>
           <td>Profit</td>
           <td>Payout</td>
-
+          <td>Action</td>
         </tr>
         <%= form_with(model: @traderun_new, :html => {:id => 'traderuns_form', :style => '' }) do |form| %>
         <tr>
         <td class="rownumber">2</td>
         <td contenteditable="true"> <%= form.select :username, options_for_select(@all_users.collect{ |u| [u.username, u.username] } ), {:include_blank => 'User', :required=>"true"},  {data:{ action: 'change->web#shipSelect'}} %> </td>
         <td contenteditable="true"> <%= form.select :ship, options_for_select(@cargo_ships.collect{ |u| [u.model, u.model] } ), {:include_blank => 'Select Ship', :required=>"true"},  {data:{ action: 'change->traderun#shipSelect'}} %> </td>
-        <td contenteditable="true"><%= form.select :buy_location, options_for_select(@all_locations.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Buy Location', :required=>"true"},  {data:{ action: 'change->traderun#buyLocation'}} %></td>
+        <td contenteditable="true"><%= form.select :buy_location, options_for_select(@tradeports.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Buy Location', :required=>"true"},  {data:{ action: 'change->traderun#buyLocation',  traderun_target: 'buyLocation'}} %></td>
         <td contenteditable="false">[  ]</td>
-        <td contenteditable="true"><%= form.select :buy_commodity, options_for_select(@readable_commodities.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Select Commodity', :required=>"true"},  {data:{ action: 'change->traderun#buyCommodity'}} %></td>
+        <td contenteditable="true"><%= form.select :buy_commodity, options_for_select(@readable_commodities.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Select Commodity', :required=>"true"},  {data:{ action: 'change->traderun#buyCommodity', traderun_target:'buyCommodity'}} %></td>
         <td data-action="input->traderun#onContentChange" contenteditable="true" id="buyPrice"></td>
         <td contenteditable="true" data-action="input->traderun#onContentChange"  id="buySCU"></td>
-        <td contenteditable="true"><%= form.select :sell_location, options_for_select(@all_locations.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Sell Location', :required=>"true"},  {data:{ action: 'change->traderun#sellLocation'}} %></td>
+        <td contenteditable="true"><%= form.select :sell_location, options_for_select(@tradeports.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Sell Location', :required=>"true"},  {data:{ action: 'change->traderun#sellLocation',  traderun_target: 'sellLocation'}} %></td>
         <td contenteditable="true" data-action="input->traderun#onContentChange"  id="sellPrice"></td>
-        <td contenteditable="true" data-action="input->traderun#onContentChange"  id="sellSCU"></td>
+        <td data-action="input->traderun#onContentChange"  contenteditable="true"  id="sellSCU"></td>
         <td contenteditable="false" id="capital"></td>
         <td contenteditable="false" id="income"></td>
         <td contenteditable="false" id="delta"></td>
         <td contenteditable="false" id="profit"></td>
         <td contenteditable="false" id="payout"></td>
+        <td contenteditable="false" class="radio" data-action="click->traderun#createRun">[  ]</td>
       </tr>
 
       <%= form.hidden_field :scu, id: "scu_input" %>
@@ -237,7 +241,7 @@
 
       <% end %>
 
-<% TradeRun.all.each_with_index do |trade_run, i | %>
+<% @all_traderuns.each_with_index do |trade_run, i | %>
   <%= form_with(model: trade_run, local: true) do |form| %>
 <tr class="existing runs">
 <td class="rownumber"><%= i + 3 %></td>
@@ -259,9 +263,33 @@
 <%= trade_run.commodity.name %>
 </td>
 
-<td data-action="input->traderun#onContentChange" contenteditable="true" >
+<td >
 <%= trade_run.buy_price %>
 </td>
+
+<td >
+<%= trade_run.scu %>
+</td>
+
+<td >
+<%= trade_run.sell_location %>
+</td>
+
+<td >
+<%= trade_run.sell_price %>
+</td>
+
+<td >
+<%= trade_run.scu %>
+</td>
+
+<td >
+<%# if trade_run.sell_price %>
+<%# capital = trade_run.sell_price.to_f * trade_run.scu %>
+<%#= capital %>
+<%# end >
+</td>
+
 
 </tr>
 <% end %>
@@ -316,15 +344,17 @@ document.addEventListener('keydown', (event) => {
 });
 </script>
 
-
-</div>
-
-
-<div id="data">
+<div id="data" >
 
 <%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu]) } do %><% end %>
-<%= content_tag :div, id: "commodities-data", class: "hidden", data: { commodities: @all_commodities.to_json(only: [:name, :buy, :sell, :location]) } do %><% end %>
+<%= content_tag :div, id: "commodities-data", class: "hidden", data: { traderun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:name, :buy, :sell, :location]) } do %><% end %>
 
 
 
 </div>
+
+
+
+</div>
+
+

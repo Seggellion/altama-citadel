@@ -4,6 +4,7 @@ class TradeRunsController < ApplicationController
     def create
         commodity_id =  Commodity.find_by(name: params[:trade_run][:buy_commodity],location: params[:trade_run][:buy_location]).id
         tradesession_id = 1
+        
             TradeRun.create(
                 tradesession_id: tradesession_id,
                 ship: params[:trade_run][:ship],
