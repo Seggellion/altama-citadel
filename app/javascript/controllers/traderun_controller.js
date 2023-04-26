@@ -134,6 +134,7 @@ export default class extends Controller {
     const locationData = document.getElementById("trade_run_sell_location").value;
     const selectedCommodityName = document.getElementById("trade_run_buy_commodity").value;
     // const selectedCommodityName = event.target.value    
+    console.log('sellLocation');
     const deltaElement = document.getElementById("delta");
     if (locationData) {
       const activeCommodity = commoditiesData.find(commodity => commodity.name === selectedCommodityName   && commodity.location === locationData)
@@ -160,6 +161,7 @@ export default class extends Controller {
 
       document.getElementById("scu_input").value = document.getElementById("sellSCU").innerHTML;
       document.getElementById("buy_price_input").value = document.getElementById("buyPrice").innerHTML;
+      document.getElementById("delta_input").value = document.getElementById("delta").innerHTML;
       document.getElementById("sell_price_input").value = document.getElementById("sellPrice").innerHTML;
 
 
@@ -197,68 +199,100 @@ export default class extends Controller {
 
 calculator(){
   
-  let buyPriceElement = parseFloat(document.getElementById("buyPrice").innerHTML)  * 100.00;
+  let buyingPrice = parseFloat(document.getElementById("buyPrice").innerHTML)  * 100.00;
   //let sellPriceElement = parseFloat(document.getElementById("sellPrice").innerHTML)   * 100.00;
-
-// calculate sale price
-let sellLocation = this.sellLocationTarget.value;
-let selectedCommodity = this.buyCommodityTarget.value;
-let commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
-let commodity = commoditiesData.find(commodity => commodity.name === selectedCommodity && commodity.location === sellLocation);
-  
+  let sellingPrice =  parseFloat(document.getElementById("sellPrice").innerHTML) * 100;
+  // calculate sale price
+  let sellLocation = this.sellLocationTarget.value;
+  let buyLocation = this.buyLocationTarget.value;
+  let selectedCommodity = this.buyCommodityTarget.value;
+  let commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
+  let buyCommodity = commoditiesData.find(commodity => commodity.name === selectedCommodity && commodity.location === buyLocation);
+  let sellCommodity = commoditiesData.find(commodity => commodity.name === selectedCommodity && commodity.location === sellLocation);  
   let buySCUElement = parseFloat(document.getElementById("buySCU").innerHTML);
   let capitalElement = document.getElementById("capital");
   let profitElement = document.getElementById("profit");
   let incomeElement = document.getElementById("income");
-  let capitalCalculation = buyPriceElement * buySCUElement;
+  let capitalCalculation = buyingPrice * buySCUElement;
   let deltaElement = document.getElementById("delta");
-  let sellingPrice = 0;
+  
   let marketBuy = 0;
+  let marketSell = 0;
+ console.log('buyCommodity', buyCommodity);
+ console.log('sellCommodity:', sellCommodity);
+if (sellCommodity){
+  marketSell = sellCommodity.buy;
+}
+if (buyCommodity){
+ marketBuy = buyCommodity.sell;
+}
+
+deltaElement.setAttribute("marketSell", marketSell);
+deltaElement.setAttribute("marketBuy", marketBuy);
 
 
-if (event.target.id !== 'sellPrice'){
-  if (commodity){
-    sellingPrice = parseFloat(commodity.buy)  * 100;
-    document.getElementById("sellPrice").innerHTML = commodity.buy;
-    deltaElement.setAttribute("marketBuy", commodity.sell);
-     marketBuy = sellingPrice;    
+if (event.target.id === 'buyPrice'){
+  console.log('buyPrice');
+  if (buyCommodity){
+    buyingPrice =  parseFloat(document.getElementById("sellPrice").innerHTML) * 100;
+   // sellingPrice = parseFloat(buyCommodity.buy)  * 100;
+    //document.getElementById("sellPrice").innerHTML = buyCommodity.buy;
+    // deltaElement.setAttribute("marketBuy", marketBuy);
+   //  marketBuy = sellingPrice;    
+  }else{
+    document.getElementById("sellPrice").innerHTML = "ERR"
+  }
+}else if(event.target.id === 'sellPrice'){
+  console.log('sellPrice');
+  if (sellCommodity){
+    sellingPrice =  parseFloat(document.getElementById("sellPrice").innerHTML) * 100;
+   // document.getElementById("sellPrice").innerHTML = buyCommodity.buy;
+  //  deltaElement.setAttribute("marketBuy", buyCommodity.sell);
+  //   marketBuy = sellingPrice;    
   }else{
     document.getElementById("sellPrice").innerHTML = "ERR"
   }
 }else{
-  sellingPrice = parseFloat(document.getElementById("sellPrice").innerHTML) * 100;
-  deltaElement.setAttribute("marketBuy", sellingPrice);
+  
+  document.getElementById("sellPrice").innerHTML = marketSell;
+  sellingPrice = parseFloat(marketSell)  * 100;
+  console.log('other', marketSell);
 }
-  deltaElement.setAttribute("marketSell", buyPriceElement);
 
-  let marketSell = buyPriceElement;
+if (event.target.id === 'sellPrice'){
+
+
+//sellingPrice = parseFloat(document.getElementById("sellPrice").innerHTML) * 100;
+//deltaElement.setAttribute("marketBuy", sellingPrice);
+
+}
+
+ // let marketSell = buyPriceElement;
 //  let marketBuy = parseFloat(deltaElement.getAttribute("marketBuy")) * 100;
   let sellSCUElement = parseFloat(document.getElementById("sellSCU").innerHTML);
-  console.log('sellingPrice:', sellingPrice);
-console.log('sellSCUElement:', sellSCUElement);
-console.log('capitalCalculation:', capitalCalculation);
-  let incomeCalculation = sellingPrice * sellSCUElement;
-  console.log('incomeCalculation:', incomeCalculation);
-  let profitCalculation = incomeCalculation - capitalCalculation;
-  let deltaCalculation = profitCalculation - ((marketBuy * sellSCUElement) - (marketSell * buySCUElement));
 
+  let incomeCalculation = sellingPrice * sellSCUElement;
+ 
+  let profitCalculation = (incomeCalculation - capitalCalculation);
+  
+  let deltaCalculation = profitCalculation - (((marketSell*100)  * buySCUElement) - ((marketBuy*100)  * sellSCUElement));
 
 
 
   if (deltaCalculation){    
-    deltaElement.innerHTML = `${deltaCalculation}`;
+    deltaElement.innerHTML = `${Math.round(deltaCalculation)}`;
   }
 
   if (capitalCalculation > 0){
-    capitalElement.innerHTML = `${capitalCalculation}`;
+    capitalElement.innerHTML = `${Math.round(capitalCalculation)}`;
   }
 
   if (incomeCalculation > 0){
-    incomeElement.innerHTML = `${incomeCalculation}`;
+    incomeElement.innerHTML = `${Math.round(incomeCalculation)}`;
   }
 
   if (profitCalculation > 0){
-    profitElement.innerHTML = `${profitCalculation}`;
+    profitElement.innerHTML = `${Math.round(profitCalculation)}`;
   }
 }
 

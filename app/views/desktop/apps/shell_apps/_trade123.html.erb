@@ -233,6 +233,7 @@
         <td contenteditable="false" class="radio" data-action="click->traderun#createRun">[  ]</td>
       </tr>
 
+      <%= form.hidden_field :delta, id: "delta_input" %>
       <%= form.hidden_field :scu, id: "scu_input" %>
       <%= form.hidden_field :buy_price, id: "buy_price_input" %>
       <%= form.hidden_field :sell_price, id: "sell_price_input" %>
@@ -243,55 +244,79 @@
 
 <% @all_traderuns.each_with_index do |trade_run, i | %>
   <%= form_with(model: trade_run, local: true) do |form| %>
-<tr class="existing runs">
-<td class="rownumber"><%= i + 3 %></td>
-<td>
-<%= trade_run.username %>
+  <tr class="existing runs">
+    <td class="rownumber"><%= i + 3 %></td>
+
+    <td>
+      <%= trade_run.username %>
+    </td>
+
+    <td>
+      <%= trade_run.ship %>
+    </td>
+
+    <td>
+      <%= trade_run.buy_location %>
+    </td>
+
+    <td>
+    [  ]
+    </td>
+
+    <td>
+      <%= trade_run.commodity.name %>
+    </td>
+
+    <td >
+      <%= trade_run.buy_price %>
+    </td>
+
+    <td >
+      <%= trade_run.scu %>
+    </td>
+
+    <td >
+      <%= trade_run.sell_location %>
+    </td>
+
+    <td >
+      <%= trade_run.sell_price %>
+    </td>
+
+    <td >
+      <%= trade_run.scu %>
+    </td>
+
+    <td>
+      <% if trade_run.buy_price %>      
+        <% capital = ( trade_run.buy_price.to_f * 100) * trade_run.scu %>
+        <%= capital %>
+      <% end %>
+    </td>
+
+    <td>
+      <% if trade_run.sell_price %>      
+        <% income = (trade_run.sell_price.to_f * 100)  * trade_run.scu %>
+        <%= income %>
+      <% end %>
+    </td>
+
+    <td>
+    <% if trade_run.sell_price %>      
+      <% delta = trade_run.delta %>
+      <%= delta %>
+    <% end %>
+  </td>
+
+  <td>
+  <% if trade_run.sell_price %>      
+    <% profit = income - capital %>
+    <%= profit %>
+  <% end %>
 </td>
 
-<td>
-<%= trade_run.ship %>
-</td>
 
-<td>
-<%= trade_run.buy_location %>
-</td>
-<td>
-[  ]
-</td>
-<td>
-<%= trade_run.commodity.name %>
-</td>
-
-<td >
-<%= trade_run.buy_price %>
-</td>
-
-<td >
-<%= trade_run.scu %>
-</td>
-
-<td >
-<%= trade_run.sell_location %>
-</td>
-
-<td >
-<%= trade_run.sell_price %>
-</td>
-
-<td >
-<%= trade_run.scu %>
-</td>
-
-<td >
-<%# if trade_run.sell_price %>
-<%# capital = trade_run.sell_price.to_f * trade_run.scu %>
-<%#= capital %>
-<%# end >
-</td>
-
-
-</tr>
+  </tr>
 <% end %>
 <% end %>
 

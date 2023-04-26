@@ -15,6 +15,7 @@ class TradeRunsController < ApplicationController
                 commodity_id: commodity_id,
                 scu: params[:trade_run][:scu],
                 locked: params[:trade_run][:locked],
+                delta: params[:trade_run][:delta],
                 buy_location: params[:trade_run][:buy_location],
                 sell_location: params[:trade_run][:sell_location],
                 buy_price: params[:trade_run][:buy_price],
