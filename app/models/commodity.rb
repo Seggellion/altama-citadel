@@ -1,6 +1,25 @@
 class Commodity < ApplicationRecord
 
 
+  def self.buy_by_location(location)
+    commodity_list = Commodity.where(location: location).where('buy > ?', 0).order(name: :desc)
+    commodity_list
+  end
+
+    def self.sell_by_location(location)
+      commodity_list = Commodity.where(location: location).where('sell > ?', 0).order(name: :desc)
+      commodity_list
+    end
+
+    def self.find_sell_locations(title)
+      commodity_list = Commodity.where(name: title).where('sell > ?', 0).order(location: :desc)
+      commodity_list
+    end
+
+    def self.find_buy_locations(title)
+      commodity_list = Commodity.where(name: title).where('buy > ?', 0).order(location: :desc)
+      commodity_list
+    end
 
     def selling_price_discounted(rfa)
 

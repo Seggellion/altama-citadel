@@ -15,16 +15,85 @@
 </div>
 
 <div class="text-content">
-<div class="codex-column-header">
-<small class="down-arrow-block">▼</small>Introduction
-</div>
-<% if @article.location %>
-<p>Parent: <%= @article.location_parent %></p>
-<p>System: <%= @article.location_system %></p>
-<p>Type: <%= @article.location_type %></p>
+    <div class="codex-column-header">
+        <small class="down-arrow-block">▼</small>Introduction
+    </div>
+    <% if @article.location %>
+        <p>Parent: <%= @article.location_parent %></p>
+        <p>System: <%= @article.location_system %></p>
+        <p>Type: <%= @article.location_type %></p>
+    <% end %>
+    <p><%= @article.introduction %></p>
+    <p><%= raw @article.content  %></p>
+
+    <% if @article.location %>
+        <div class="commodity-table">
+            <table>
+                <tr>
+                    <th>Commodity</th>
+                    <th></th>
+                </tr>
+                <tr>
+                <td>Buy</td>
+                </tr>
+                <% Commodity.buy_by_location(@article.location).each do |commodity| %>
+                    <tr>
+                        <td><%= commodity.name %></td>
+                        <td><%= commodity.buy %></td>
+                    </tr>
+                <% end %>
+
+                <tr>
+                    <td>Sell</td>
+                </tr>
+
+                <% Commodity.sell_by_location(@article.location).each do |commodity| %>
+                    <tr>
+                        <td><%= commodity.name %></td>
+                        <td><%= commodity.sell %></td>
+                    </tr>
+                <% end %>
+            </table>
+
+        </div>
+    <% end %>
+
+
+
+    <% if @article.article_type == "commodity" %>
+    <div class="commodity-table">
+        <table>
+            <tr>
+                <th>Locations</th>
+                <th></th>
+            </tr>
+            <tr>
+            <td>Buy</td>
+            </tr>
+            <% Commodity.find_buy_locations(@article.title).each do |commodity| %>
+                <tr>
+                    <td><%= commodity.location %></td>
+                    <td><%= commodity.buy %></td>
+                </tr>
+            <% end %>
+
+            <tr>
+                <td>Sell</td>
+            </tr>
+
+            <% Commodity.find_sell_locations(@article.title).each do |commodity| %>
+                <tr>
+                    <td><%= commodity.location %></td>
+                    <td><%= commodity.sell %></td>
+                </tr>
+            <% end %>
+        </table>
+
+    </div>
 <% end %>
-<p><%= @article.introduction %></p>
-<p><%= raw @article.content  %></p>
+
+
+
 </div>
 
 </div>
