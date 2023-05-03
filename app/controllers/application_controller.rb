@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   #error handler
   def handle_error(e)
-    redirect_to bsod_path 
+ #   redirect_to bsod_path 
     #code to send email and redirect to error page
   end
 
