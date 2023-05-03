@@ -1,0 +1,12 @@
+Existing Trade Sessions<br />
+________________________<br />
+<ul>
+<% @all_trade_sessions.each do |trade_session| %>
+
+    <li data-traderun-target="menuItem" >
+    <%= link_to trade_session.session_date, traderun_command_path("trade_session-#{trade_session.id}")  %>     
+</li>
+    <% end %>
+    </ul>
+
+    

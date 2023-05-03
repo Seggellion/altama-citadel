@@ -1,0 +1,106 @@
+<%= javascript_include_tag "ansilove.js" %>
+<div class="traderun-container">
+<div id="charContent"></div>
+
+<div id="greeting">
+
+    Press any key to continue
+</div>
+
+<div class="main-menu primary" data-traderun-target="mainMenu">
+    <ol>
+        <li data-traderun-target="menuItem" data-action="startNewTradeRun">
+        <a href="#">
+            New trade session
+            </a>
+        </li>
+        <li data-traderun-target="menuItem"  data-action="existingTradeSession">
+        <%#= link_to "Existing trade sessions", traderun_command_path("all_trade_sessions")  %>       
+        <a href="#">Existing trade sessions</a>
+        </li>
+        <li data-traderun-target="menuItem">
+            <%= link_to "Commodity list", traderun_command_path("commodities")  %>            
+        </li>
+    </ol>
+</div>
+
+    <div class="main-menu new-trade-session hidden" data-traderun-target="newTradeSession">
+        <%= render 'trade123/new_trade_session' %>
+    </div>
+
+    <div class="main-menu existing-trade-session hidden" data-traderun-target="existingTradeSession">
+        <%= render 'trade123/all_trade_sessions' %>
+    </div>
+
+    <%= render '/trade123/footer_menu' %>
+
+</div>
+<style>
+.main-menu.primary{
+background: #929292;
+    position: absolute;
+    right: 0px;
+    bottom: 10%;
+    width: 30%;    
+}
+.main-menu.new-trade-session, .main-menu.existing-trade-session{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    z-index: 2; 
+    background-color:#b3b3b3;
+    font-family: 'dos';
+    font-size:1.6rem;
+    box-shadow:
+    inset 0 0 0 2px #b3b3b3, /* Change #000 to your desired inner border color */
+    inset 0 0 0 4px black, /* Change #fff to match the background color */
+    inset 0 0 0 5px #b3b3b3,
+    inset 0 0 0 7px black; /* Change #fff to match the background color */
+    padding:14px 14px;
+}
+#shell .shell-container .main-menu.new-trade-session input{
+color:white;
+font-size:1.6rem;
+text-transform:uppercase;
+}
+.existing-trade-session ul{
+list-style:none;
+}
+
+#charContent{
+    width:100%;
+    height:100vh;
+    display:block;    
+    position:absolute;
+    color:darkblue;
+    font-family:monospace;
+top:0px;
+left:0px;
+z-index:0;
+}
+
+.main-menu.new-trade-session{
+
+}
+    </style>
+
+<script>
+    var controller = AnsiLove.animate(
+        "<%= image_path('ansi/trade123.ans') %> ",
+      function (canvas, sauce) {
+        document.getElementById('greeting').appendChild(canvas);
+        console.log(sauce);
+        controller.play(56000, function () {
+          console.log('Finished!');
+        });
+      },
+      { bits: '8', "2x": "1" }
+    );
+
+    
+
+
+
+</script>

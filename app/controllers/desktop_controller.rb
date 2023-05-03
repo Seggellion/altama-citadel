@@ -32,6 +32,9 @@ end
   @all_locations = Location.all.order(name: :asc)
   @tradeports = Location.where.not(location_type: ["moon", "star", "system", "planet"])
 @all_traderuns = TradeRun.all.order(created_at: :desc)
+    if @current_task.state
+      @viewing_traderuns = TradeRun.where(trade_session_id: @current_task.state.split("-").last).order(created_at: :desc)
+    end
   location_list = Article.where(article_type: "location")
   location_ids = location_list.map { |location| location[:location_id] }
   
@@ -62,7 +65,10 @@ end
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   @myfleetships = current_user.userships.where(show_information:true)
   @traderun_new = TradeRun.new
+  @tradesession_new = TradeSession.new
+  @all_trade_sessions = TradeSession.all.order(session_date: :desc)
   @timeline_events = Event.where(event_type:nil)
+  
   current_user.desktop
 
 

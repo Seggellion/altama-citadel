@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_26_063432) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_03_053428) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -439,7 +439,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_063432) do
   end
 
   create_table "trade_runs", force: :cascade do |t|
-    t.integer "tradesession_id"
+    t.integer "trade_session_id"
     t.string "username"
     t.string "ship"
     t.integer "usership_id"
@@ -461,7 +461,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_063432) do
   create_table "trade_session_users", force: :cascade do |t|
     t.string "username"
     t.string "ships_used"
-    t.integer "tradesession_id"
+    t.integer "trade_session_id"
     t.integer "user_id"
     t.integer "pay_amount"
     t.integer "transaction_id"
@@ -477,6 +477,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_26_063432) do
     t.boolean "payout_complete"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "session_date"
   end
 
   create_table "user_badges", force: :cascade do |t|

@@ -1,0 +1,35 @@
+<div id="traderun-menu" class="hidden">
+   <div class="menu-container">
+        <div class="menu-bar">
+            <ul>
+            <li data-traderun-target="menuItem">
+            
+            <%= link_to "TradeSession", traderun_command_path("trade_session-#{@current_task.state.split('-').last}")  %>    
+            
+            </li>
+            <li><a href="#">Range</a></li>
+            <li><a href="#">Copy</a></li>
+            <li><a href="#">Move</a></li>
+            <li><a href="#">File</a></li>
+            <li><a href="#">Print</a></li>
+            <li><a href="#">Graph</a></li>
+            <li><a href="#">Data</a></li>
+            <li data-traderun-target="menuItem">
+            <%= link_to "Quit", traderun_command_path("quit")  %>
+            </li>   
+            </ul>
+        </div>
+        <div class="menu-bar">
+            <ul>
+            <li><a href="#">Global</a></li>
+            <li><a href="#">Insert</a></li>
+            <li><a href="#">Delete</a></li>
+            <li><a href="#">Column-Width</a></li>
+            <li><a href="#">Erase</a></li>
+            <li><a href="#">Titles</a></li>
+            <li><a href="#">Window</a></li>
+            <li><a href="#">Status</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
