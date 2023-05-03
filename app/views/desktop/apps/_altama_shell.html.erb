@@ -10,7 +10,7 @@
             <% elsif task.state && task.state.include?('acu') %>
                 <%= render '/desktop/apps/shell_apps/acu' %>
                 <% elsif task.state && task.state.include?('trade123') %>
-                <%= render '/desktop/apps/shell_apps/trade123' %>
+                <%= render '/desktop/apps/shell_apps/trade123', task: task %>
             <% else %>
             <div id="command" data-controller="shell">
             <form action="/command" id="command_entry" method="get" accept-charset="UTF-8" >

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :rule_proposals
   resources :categories
   resources :trade_runs
+  resources :trade_sessions
   
   mount ActionCable.server => "/cable"
 

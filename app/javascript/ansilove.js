@@ -796,7 +796,8 @@ var AnsiLove = (function () {
             validatedOptions.bits = "8";
         }
         // "columns" setting, must be a number greater than 0. Defaults to 160.
-        validatedOptions.columns = ((typeof options.columns === "number") && options.columns > 0) ? options.columns : 160;
+        // PINEAPPLE CHANGED 160 TO 80
+        validatedOptions.columns = ((typeof options.columns === "number") && options.columns > 0) ? options.columns : 80;
         // "font" setting, must be a string, and be in the list of available presets. Defaults to "80x25".
         validatedOptions.font = ((typeof options.font === "string") && Font.has(options.font)) ? options.font : "80x25";
         // "thumnail", must be a number between and including 0 to 3. Defaults to 0.
@@ -806,7 +807,8 @@ var AnsiLove = (function () {
         // "imagedata", must be 0 or 1. Defaults to 0.
         validatedOptions.imagedata = ((typeof options.imagedata === "number") && options.imagedata >= 0 && options.imagedata <= 1) ? options.imagedata : 0;
         // "rows", must be a number greater than 0. Defaults to 26.
-        validatedOptions.rows = ((typeof options.rows === "number") && options.rows > 0) ? options.rows : 26;
+        // pineapple I changed to 40 from 26
+        validatedOptions.rows = ((typeof options.rows === "number") && options.rows > 0) ? options.rows : 40;
         // "2J", must be a number 0 or 1. Defaults to 1.
         validatedOptions["2J"] = ((typeof options["2J"] === "number") && options["2J"] >= 0 && options["2J"] <= 1) ? options["2J"] : 1;
         // "filetype", can be any string, since readBytes() defaults to the ANSI renderer if it is unrecognised.

@@ -27,12 +27,15 @@ end
 def traderun_command_entry
   @task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Altama Shell")
   command = params[:format]
-
   case command
-  when "Enter"
-    
-      @task.update(state:'trade123')
-    
+  when "Enter"    
+    @task.update(state:'trade123')
+  when ->(s) { s.include?('trade_run') }
+  @task.update(state:"trade123|#{command}")
+  when ->(s) { s.include?('trade_session') }
+    @task.update(state:"trade123|#{command}")
+  when "back"
+    @task.update(state:'trade123')
   when "quit"
     @task.update(state:nil)
   end
