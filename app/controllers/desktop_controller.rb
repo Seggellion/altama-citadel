@@ -32,7 +32,7 @@ end
   @all_locations = Location.all.order(name: :asc)
   @tradeports = Location.where.not(location_type: ["moon", "star", "system", "planet"])
 @all_traderuns = TradeRun.all.order(created_at: :desc)
-    if @current_task.state
+    if !@current_task.nil? and @current_task.state
       @viewing_traderuns = TradeRun.where(trade_session_id: @current_task.state.split("-").last).order(created_at: :desc)
     end
   location_list = Article.where(article_type: "location")
