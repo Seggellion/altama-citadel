@@ -1,4 +1,12 @@
 class Commodity < ApplicationRecord
+  include PgSearch::Model
+
+  pg_search_scope :search_by_name_and_location,
+                  against: [:name, :location],
+                  using: {
+                    tsearch: { prefix: true },
+                    trigram: { threshold: 0.9 }
+                  }
 
 
   def self.buy_by_location(location)

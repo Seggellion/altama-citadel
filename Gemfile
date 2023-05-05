@@ -15,7 +15,7 @@ gem "watir-rails"
 gem 'discordrb'
 gem 'twitch-api'
 gem 'rack-cors'
-
+gem 'pg_search'
 
 
 # Use postgresql as the database for Active Record
