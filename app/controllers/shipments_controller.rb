@@ -1,6 +1,6 @@
 class ShipmentsController < ApplicationController
-  #skip_before_action :verify_authenticity_token, only: [:json_request]
-  skip_before_action :require_login, only: [:json_request]
+  skip_before_action :verify_authenticity_token
+  #skip_before_action :require_login, only: [:json_request]
 
   
   
