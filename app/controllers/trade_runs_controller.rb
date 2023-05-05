@@ -6,7 +6,7 @@ class TradeRunsController < ApplicationController
         
         
             TradeRun.create(
-                trade_session_id: trade_session_id,
+                trade_session_id: params[:trade_run][:trade_session_id],
                 ship: params[:trade_run][:ship],
                 username: params[:trade_run][:username],
                 ship: params[:trade_run][:ship],

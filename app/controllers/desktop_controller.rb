@@ -26,8 +26,9 @@ if !@current_task.nil? and @current_task.name.downcase.include? "location"
   @location = Location.new
 end
 
-  @all_users = User.all + DiscordUser.all + RsiUser.all  
-  @local_users = User.all
+  @local_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
+  @all_users = @local_users + DiscordUser.all + RsiUser.all  
+  
   @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
   @all_locations = Location.all.order(name: :asc)
   @tradeports = Location.where.not(location_type: ["moon", "star", "system", "planet"])
@@ -50,7 +51,7 @@ end
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)
   @ships = Ship.all.order(model: :asc)
-  @cargo_ships = Ship.where("scu > ?", 50).order(model: :asc)
+  @cargo_ships = Ship.where("scu > ?", 45).order(model: :asc)
   @ship = Ship.new
   @selected_ship = Ship.find_by_id(params[:ship_id])
   @manufacturers = Manufacturer.all
