@@ -1,5 +1,5 @@
 class LocationResource < JSONAPI::Resource
-    attributes :name, :location_type
+    attributes :name, :location_type, :parent
   
   
 end
