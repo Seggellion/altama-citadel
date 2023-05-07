@@ -162,5 +162,5 @@ Rails.application.routes.draw do
   post 'hangardump', to: 'hangardumps#create', as: :hangardump
   post 'activate', to: 'users#activate', as: :activate
   post 'vim_command', to: 'vim#vim_command'
-  
+  post 'giveaways/signup', to: 'giveaways#signup'
 end
