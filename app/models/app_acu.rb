@@ -1,42 +1,53 @@
 class AppAcu < ApplicationRecord
 
     def self.twitchToken
+      client_id = '2xyrq957vyeyn97lswqifrdpneqjju'
+      client_secret = 'fp03b4lauayo5dkffven5u2ottwv7f'
+      redirect_uri = 'http://localhost:3000'
+      scopes = ["channel","read", "redemptions"] # Add any other scopes you need here
+      response_type = "code"
+      token_uri = URI.parse('https://id.twitch.tv/oauth2/token')
+      # Set the headers and parameters for the request
+      headers = {
+      'Content-Type' => 'application/x-www-form-urlencoded'
+      }
+      params = {
+      'client_id' => client_id,
+      'client_secret' => client_secret,
+      'grant_type' => 'client_credentials'
+      }
 
-        client_id = '2xyrq957vyeyn97lswqifrdpneqjju'
-        client_secret = 'xgeqj9r3xbswku1p6cyvcysjvxst2u'
-        redirect_uri = 'http://localhost:3000'
-        scopes = ["channel","read", "redemptions"] # Add any other scopes you need here
-        response_type = "code"
-        token_uri = URI.parse('https://id.twitch.tv/oauth2/token')
-        # Set the headers and parameters for the request
-        headers = {
-        'Content-Type' => 'application/x-www-form-urlencoded'
-        }
-        params = {
-        'client_id' => client_id,
-        'client_secret' => client_secret,
-        'grant_type' => 'client_credentials'
-        }
-
-        #uri = "https://id.twitch.tv/oauth2/token"
-
-
-        # Make the request and parse the response
-        response = Net::HTTP.post_form(token_uri, params)
-        response_json = JSON.parse(response.body)
-
-        # Extract the access token from the response
-        access_token = response_json['access_token']
-
-        return access_token
+      #uri = "https://id.twitch.tv/oauth2/token"
 
 
+      # Make the request and parse the response
+      response = Net::HTTP.post_form(token_uri, params)
+      response_json = JSON.parse(response.body)
 
+      # Extract the access token from the response
+      access_token = response_json['access_token']
 
+      return access_token
     end
 
 
+    def get_user_id(twitch_username)
+      params = {
+        'login' => twitch_username
+      }
+      headers = {
+        'Content-Type' => 'application/json',
+        'Authorization' => "Bearer #{AppAcu.twitchToken}"
+      }
+      # Make the request and parse the response
+      response = Net::HTTP.get_response(URI.parse("https://api.twitch.tv/helix/users?#{params.to_query}"), headers)
+      response_json = JSON.parse(response.body)
 
+      # Extract the user's ID from the response
+      user_id = response_json['data'][0]['id']
+
+      return user_id
+    end
 
     def self.getTokens
 
@@ -46,7 +57,7 @@ class AppAcu < ApplicationRecord
 
         # Set your Twitch API credentials and channel ID
         client_id = '2xyrq957vyeyn97lswqifrdpneqjju'
-        client_secret = 'xgeqj9r3xbswku1p6cyvcysjvxst2u'
+        client_secret = 'fp03b4lauayo5dkffven5u2ottwv7f'
         channel_id = '136591885'
         scopes = ['channel','read','redemptions']
         string_scope = 'channel:read:redemptions'

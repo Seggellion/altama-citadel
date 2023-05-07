@@ -204,6 +204,56 @@ end
 
   end
 
+  def fetch_user_currency(twitch_username)
+    params = {
+      'broadcaster_id' => get_user_id(AppAcu.get_user_id(twitch_username)),
+      'only_manageable_rewards' => true
+    }
+    headers = {
+      'Content-Type' => 'application/x-www-form-urlencoded',
+      'Authorization' => "Bearer #{AppAcu.twitchToken}"
+    }
+    # Make the request and parse the response
+    response = Net::HTTP.get_response(URI.parse("https://api.twitch.tv/helix/channel_points/custom_rewards?#{params.to_query}"), headers)
+    response_json = JSON.parse(response.body)
+
+    # Find the user's custom reward with the code '!aec'
+    reward = response_json['data'].find { |reward| reward['cost'] == 1 && reward['title'] == '!aec' }
+
+    if reward
+      # Return the user's balance for the '!aec' reward
+      return reward['default_image']['url'], reward['max_per_stream_user'] - reward['user_input_count']
+    else
+      # The user hasn't redeemed the '!aec' reward yet
+      return nil
+    end
+  end
+
+  def fetch_stream_details(channel_name)
+    # Set up the API request URL
+    url = URI("https://api.twitch.tv/helix/streams?user_login=#{channel_name}")
+
+    # Set up the headers with the required Authorization header
+    headers = {
+      'Client-ID' => 'your_client_id',
+      'Authorization' => "Bearer #{your_access_token}"
+    }
+
+    # Make the request to the Twitch API
+    response = Net::HTTP.start(url.host, url.port, use_ssl: true) do |http|
+      request = Net::HTTP::Get.new(url)
+      headers.each do |key, value|
+        request[key] = value
+      end
+      http.request(request)
+    end
+
+    # Parse the response JSON and return the stream details
+    response_json = JSON.parse(response.body)
+    stream_details = response_json['data'][0]
+    return stream_details
+  end
+
   def total_reviews
     Review.where(reviewee_id: self.id).count
   end
