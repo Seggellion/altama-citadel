@@ -33,40 +33,25 @@ console.log('loaded');
 
 
 article_type(event){
-  if (event.target.value === "location"){
-    document.querySelector("#article_location_id").classList.remove('hidden');
-    document.querySelector("#article_user_reference_id").classList.add('hidden');
-    document.querySelector("#article_reference_id").classList.add('hidden');
-    document.querySelector("#article_parent_location_id").classList.remove('hidden'); 
-    document.querySelector("#article_location_type").classList.remove('hidden');     
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
-  }else if(event.target.value === "dossier"){
-    document.querySelector("#article_user_reference_id").classList.remove('hidden');
-    document.querySelector("#article_reference_id").classList.add('hidden');
+  const selectors = {
+    common: ['.codex-center-viewport input[type="submit"]'],
+    location: ["#article_location_id", "#article_parent_location_id", "#article_location_type"],
+    dossier: ["#article_user_reference_id"],
+    event: ["#article_reference_id"],
+    none: ["#article_user_reference_id", "#article_reference_id", "#article_location_id", "#article_location_type", "#article_parent_location_id"]
+  };
 
-    document.querySelector("#article_location_id").classList.add('hidden');
-    document.querySelector("#article_location_type").classList.add('hidden'); 
-    document.querySelector("#article_parent_location_id").classList.add('hidden'); 
+  const removeHiddenClasses = selectors[event.target.value] || [];
+  const addHiddenClasses = selectors['none'].filter(selector => !removeHiddenClasses.includes(selector));
 
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
-  }else if(event.target.value === "event"){
-    
-    document.querySelector("#article_user_reference_id").classList.add('hidden');
-    document.querySelector("#article_reference_id").classList.remove('hidden');
-    
-    document.querySelector("#article_location_id").classList.add('hidden');
-    document.querySelector("#article_location_type").classList.add('hidden'); 
-    document.querySelector("#article_parent_location_id").classList.add('hidden'); 
-
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
-  }else{
-    document.querySelector("#article_user_reference_id").classList.add('hidden');
-    document.querySelector("#article_reference_id").classList.add('hidden');
-    document.querySelector("#article_location_id").classList.add('hidden');
-    document.querySelector("#article_location_type").classList.add('hidden'); 
-    document.querySelector("#article_parent_location_id").classList.add('hidden'); 
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+  if (event.target.value === "location") {
+    addHiddenClasses.push('.codex-center-viewport input[type="submit"]');
+  } else {
+    removeHiddenClasses.push('.codex-center-viewport input[type="submit"]');
   }
+
+  removeHiddenClasses.forEach(selector => document.querySelector(selector)?.classList.remove('hidden'));
+  addHiddenClasses.forEach(selector => document.querySelector(selector)?.classList.add('hidden'));
 }
 
 new_location(event){

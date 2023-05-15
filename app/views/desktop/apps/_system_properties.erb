@@ -23,11 +23,31 @@
                 <hr />
 
                 <div class="commodity-form">
-                    <% @all_commodities.each do | commodity| %>
+                <% @all_commodities.each do | commodity| %>
                     <%= commodity.name + ' ' + commodity.sell.to_s + 'AUEC/SCU' %>
                     <%= button_to "Del", commodity_path(commodity), method: :delete %>
-                    <br/>
+                  
+                    <%= form_with(model: commodity, local: true) do |form| %>
+                      <div class="field">
+                        <%= form.label :vices %>
+                        <%= form.check_box :vices %>
+                      </div>
+                  
+                      <div class="field">
+                        <%= form.label :sell %>
+                        <%= form.number_field :sell %>
+                      </div>
+                  
+                      <div class="field">
+                        <%= form.label :buy %>
+                        <%= form.number_field :buy %>
+                      </div>
+                  
+                      <div class="actions">
+                        <%= form.submit "Update" %>
+                      </div>
                     <% end %>
+                  <% end %>
 
                     <%= render '/commodities/form',  commodity: @commodity %>
 
