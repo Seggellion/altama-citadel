@@ -3,23 +3,13 @@
 
 <div class="main-menu trade-session"  data-traderun-target="newTradeSession">
 Trade Session: <%=  TradeSession.find_by_id(@current_task.state.split("-").last).session_date %>
-<ul>
-  <li data-traderun-target="menuItem">
-  <%= link_to traderun_command_path("trade_run-#{@current_task.state.split("-").last}")  do %> 
-    Open Traderun
-<% end %>
 
-  </li>
-  <li>
-  Profit Distribution
-  </li>
-  <li>
-  Streamcharts
-  </li>
-  <li>
-  Settings
-  </li>
-</ul>
+
+<%= render '/trade123/session_menu' %>
+
+<%= render '/trade123/streamchart_menu' %>
+
+
 </div>
 
 <%= render '/trade123/footer_menu' %>

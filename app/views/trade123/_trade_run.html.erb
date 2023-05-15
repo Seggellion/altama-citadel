@@ -20,6 +20,7 @@
         <th>N</th>
         <th>O</th>
         <th>P</th>
+        <th>Q</th>
       </tr>
     </thead>
     <tbody  data-traderun-target="tbody">
@@ -37,118 +38,20 @@
         <td>SCU Sell</td>
         <td>Capital</td>
         <td>Income</td>
-        <td>Market delta</td>
         <td>Profit</td>
+        <td>ProfSCU</td>
+        <td>Market delta</td>
         <td>Payout</td>
         <td>Action</td>
       </tr>
-      <%= form_with(model: @traderun_new, :html => {:id => 'traderuns_form', :style => '' }) do |form| %>
+
       <tr>
-      <td class="rownumber">2</td>
-      <td contenteditable="true"> <%= form.select :username, options_for_select(@all_users.collect{ |u| [u.username, u.username] } ), {:include_blank => 'User', :required=>"true"},  {data:{ action: 'change->web#shipSelect'}} %> </td>
-      <td contenteditable="true"> <%= form.select :ship, options_for_select(@cargo_ships.collect{ |u| [u.model, u.model] } ), {:include_blank => 'Select Ship', :required=>"true"},  {data:{ action: 'change->traderun#shipSelect'}} %> </td>
-      <td contenteditable="true"><%= form.select :buy_location, options_for_select(@tradeports.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Buy Location', :required=>"true"},  {data:{ action: 'change->traderun#buyLocation',  traderun_target: 'buyLocation'}} %></td>
-      <td contenteditable="false">[  ]</td>
-      <td contenteditable="true"><%= form.select :buy_commodity, options_for_select(@readable_commodities.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Select Commodity', :required=>"true"},  {data:{ action: 'change->traderun#buyCommodity', traderun_target:'buyCommodity'}} %></td>
-      <td data-action="input->traderun#onContentChange" contenteditable="true" id="buyPrice"></td>
-      <td contenteditable="true" data-action="input->traderun#onContentChange"  id="buySCU"></td>
-      <td contenteditable="true"><%= form.select :sell_location, options_for_select(@tradeports.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Sell Location', :required=>"true"},  {data:{ action: 'change->traderun#sellLocation',  traderun_target: 'sellLocation'}} %></td>
-      <td contenteditable="true" data-action="input->traderun#onContentChange"  id="sellPrice"></td>
-      <td data-action="input->traderun#onContentChange"  contenteditable="true"  id="sellSCU"></td>
-      <td contenteditable="false" id="capital"></td>
-      <td contenteditable="false" id="income"></td>
-      <td contenteditable="false" id="delta"></td>
-      <td contenteditable="false" id="profit"></td>
-      <td contenteditable="false" id="payout"></td>
-      <td contenteditable="false" class="radio" data-action="click->traderun#createRun">[  ]</td>
-    </tr>
+      <%= render 'trade123/trade_run_new' %>
+      </tr>
 
-    <%= form.hidden_field :delta, id: "delta_input" %>
-    <%= form.hidden_field :scu, id: "scu_input" %>
-    <%= form.hidden_field :trade_session_id, id: "trade_session_id", value: "#{@current_task.state.split("-").last}" %>
-    <%= form.hidden_field :buy_price, id: "buy_price_input" %>
-    <%= form.hidden_field :sell_price, id: "sell_price_input" %>
-    <%= form.hidden_field :split, id: "split_input" %>
-    <%= form.hidden_field :payout_complete, id: "payout_complete_input" %>
-    <% end %>
-<% @viewing_traderuns.each_with_index do |trade_run, i | %>
-<%= form_with(model: trade_run, local: true) do |form| %>
-<tr class="existing runs">
-  <td class="rownumber"><%= i + 3 %></td>
-
-  <td>
-    <%= trade_run.username %>
-  </td>
-
-  <td>
-    <%= trade_run.ship %>
-  </td>
-
-  <td>
-    <%= trade_run.buy_location %>
-  </td>
-
-  <td>
-  [  ]
-  </td>
-
-  <td>
-    <%= trade_run.commodity.name %>
-  </td>
-
-  <td >
-    <%= trade_run.buy_price %>
-  </td>
-
-  <td >
-    <%= trade_run.scu %>
-  </td>
-
-  <td >
-    <%= trade_run.sell_location %>
-  </td>
-
-  <td >
-    <%= trade_run.sell_price %>
-  </td>
-
-  <td >
-    <%= trade_run.scu %>
-  </td>
-
-  <td>
-    <% if trade_run.buy_price %>      
-      <% capital = ( trade_run.buy_price.to_f * 100) * trade_run.scu %>
-      <%= capital %>
-    <% end %>
-  </td>
-
-  <td>
-    <% if trade_run.sell_price %>      
-      <% income = (trade_run.sell_price.to_f * 100)  * trade_run.scu %>
-      <%= income %>
-    <% end %>
-  </td>
-
-  <td>
-  <% if trade_run.sell_price %>      
-    <% delta = trade_run.delta %>
-    <%= delta %>
-  <% end %>
-</td>
-
-<td>
-<% if trade_run.sell_price %>      
-  <% profit = income - capital %>
-  <%= profit %>
-<% end %>
-</td>
-
-
-</tr>
-<% end %>
-<% end %>
-
+      <% @viewing_traderuns.each_with_index do |trade_run, i | %>
+        <%= render '/trade123/viewing_traderuns', trade_run: trade_run, i:i %>
+      <% end %>
     </tbody>
   </table>
 
