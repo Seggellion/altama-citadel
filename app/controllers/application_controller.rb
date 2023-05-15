@@ -8,11 +8,15 @@ class ApplicationController < ActionController::Base
   end
 
 
-    def require_login
-        unless current_user
-          redirect_to root_url
-        end
-      end
+  def require_login
+    Rails.logger.debug "Current User: #{current_user.inspect}"
+    unless current_user
+      Rails.logger.debug "No current user, redirecting to root_url"
+      redirect_to root_url
+    end
+  end
+  
+
 
       def website_require_login
         unless current_user

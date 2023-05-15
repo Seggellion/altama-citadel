@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :require_login
+  #before_action :require_login, except: [:update ] 
   before_action :set_article, only: %i[ show edit destroy ]
   before_action :task_manager
 
@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
 if  params[:article][:article_type] == "lore"
 
 elsif params[:article][:article_type] == "dossier"
-  byebug
+  
   if current_user.id == params[:article][:user_reference_id].to_i
     @article.update(reference_id: current_user.id)
 
@@ -86,26 +86,14 @@ end
   def update
     @all_tasks = Task.all
     @article = Article.find(params[:id])
-    # you have to set the location parent ID here.
-
-  
-      if @article.update(article_params)
-
-        if article_params[:article_type] == "location"
-          location = Location.find_by_name(article_params[:title])
-          
-          location.update(parent: params[:article][:parent], location_type: params[:article][:location_type],
-          ammenities_fuel: params[:article][:ammenities_fuel],ammenities_rearm: params[:article][:ammenities_rearm],
-          ammenities_repair: params[:article][:ammenities_repair], trade_terminal: params[:article][:trade_terminal]
-          )
-          
-        end
-        task = @all_tasks.find_by(name: "Codex" )
-        state_name = "article|" + @article.id.to_s
-        task.update(state:state_name)
-        redirect_to root_path
-        
-
+    
+    if @article.update(article_params)
+      
+      update_location if article_params[:article_type] == "location"
+      
+      update_task_state
+      
+      redirect_to root_path
     end
   end
 
@@ -132,10 +120,35 @@ end
     end
 
     # Only allow a list of trusted parameters through.
+
+    def update_location
+      location = Location.find_by_name(article_params[:title])      
+
+      location.update(
+        parent: params[:location][:parent], 
+        location_type: params[:location][:location_type],
+        ammenities_fuel: params[:location][:ammenities_fuel],
+        ammenities_rearm: params[:location][:ammenities_rearm],
+        ammenities_repair: params[:location][:ammenities_repair], 
+        trade_terminal: params[:location][:trade_terminal]
+      )
+    end
+    
+    def update_task_state
+      task = @all_tasks.find_by(name: "Codex" )
+      state_name = "article|" + @article.id.to_s
+      task.update(state:state_name)
+    end
+
     def article_params
       params.require(:article).permit(:article_type, :featured_image, 
        :featured_media, :introduction, :content, :title, :location_id, :reference_id)
 
     end
+
+    def location_params
+      params.require(:location).permit(:parent, :location_type, :ammenities_fuel, :ammenities_rearm, :ammenities_repair, :trade_terminal)
+    end
+
 end
 
