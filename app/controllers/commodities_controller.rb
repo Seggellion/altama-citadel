@@ -16,6 +16,7 @@ class CommoditiesController < ApplicationController
       end
     end
   
+
     def destroy
   
       
@@ -35,7 +36,7 @@ class CommoditiesController < ApplicationController
   
   
   def commodity_params
-    params.require(:commodity).permit(:name, :price, :symbol) 
+    params.require(:commodity).permit(:name, :price, :symbol, :vices, :buy, :sell) 
   end
   
   

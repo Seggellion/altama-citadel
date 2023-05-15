@@ -93,7 +93,11 @@ end
 
         if article_params[:article_type] == "location"
           location = Location.find_by_name(article_params[:title])
-          location.update(parent: params[:article][:parent], location_type: params[:article][:location_type])
+          
+          location.update(parent: params[:article][:parent], location_type: params[:article][:location_type],
+          ammenities_fuel: params[:article][:ammenities_fuel],ammenities_rearm: params[:article][:ammenities_rearm],
+          ammenities_repair: params[:article][:ammenities_repair], trade_terminal: params[:article][:trade_terminal]
+          )
           
         end
         task = @all_tasks.find_by(name: "Codex" )

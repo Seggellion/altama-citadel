@@ -79,6 +79,6 @@ end
     def location_params
       params.require(:location).permit(:name, :location_type, :parent, :trade_port, 
       :image, :starfarer_image, :classification, :system, :habitable, :affiliation,
-       :ocean_color, :surface_color)
+       :ocean_color, :surface_color, :ammenities_rearm, :ammenities_repair, :ammenities_fuel, :trade_terminal)
     end
 end

@@ -1,5 +1,5 @@
 class CommodityResource < JSONAPI::Resource
-    attributes :name, :location, :buy, :sell, :vices, :trade_terminal
+    attributes :name, :location, :buy, :sell, :vices
   
   
 end

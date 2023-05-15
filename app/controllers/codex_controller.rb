@@ -107,7 +107,6 @@ Task.create(task_manager_id: @task_manager.id, name: "Codex", state: "article|ma
 end
 
 def edit_article
-
   task = @all_tasks.find_by(name: "Codex" )
     article_id = params[:id]
    
