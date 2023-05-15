@@ -69,7 +69,7 @@ end
   @tradesession_new = TradeSession.new
   @all_trade_sessions = TradeSession.all.order(session_date: :desc)
   @timeline_events = Event.where(event_type:nil)
-  
+  @traderun_split_new = TradeRunSplit.new
   current_user.desktop
 
 

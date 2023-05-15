@@ -1,0 +1,142 @@
+<div data-controller="tradesessionprofit" class="traderun-container">
+    <div id="charContent"></div>
+
+    <div class="main-menu trade-session"  data-traderun-target="newTradeSession">
+    Profit Distribution: <%=  TradeSession.find_by_id(@current_task.state.split("-").last).session_date %>
+
+
+    <div class="drag-container" data-controller="trade-session-profit">
+      <div class="triangle" data-trade-session-profit-target="triangle"></div>
+      <div class="square" data-trade-session-profit-target="square"></div>
+    </div>
+
+
+
+
+
+
+    </div>
+    <%= render '/trade123/footer_menu' %>
+</div>
+<style>
+#charContent{
+  width:100%;
+  height:100vh;
+  display:block;    
+  position:absolute;
+  color:darkblue;
+  font-family:monospace;
+  top:0px;
+  left:0px;
+  z-index:0;
+}
+#traderun_footer{
+  display:block !important;
+}
+.trade-session ul{
+  list-style:none;
+}
+.corner-data{
+    display:flex;
+}
+#shell .corner-data input{
+background-color:transparent;
+}
+    .profit-triangle {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      top: 0px;
+      left: 0px;
+    }
+
+    .draggable {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      cursor: move;
+      user-select: none;
+    }
+.main-menu{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height:300px;
+    width: 80vw;
+    z-index: 2; 
+    background-color:#b3b3b3;
+    font-family: 'dos';
+    font-size:1.6rem;
+    box-shadow:
+    inset 0 0 0 3px #b3b3b3, /* Change #000 to your desired inner border color */
+    inset 0 0 0 6px black, /* Change #fff to match the background color */
+    inset 0 0 0 7px #b3b3b3,
+    inset 0 0 0 10px black; /* Change #fff to match the background color */
+    padding:14px 14px;
+}
+/*
+.tradesessionprofit {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom: 260px solid #ccc;
+}
+*/
+
+.drag-container {
+  position: relative;
+  width: 250px;
+  height: 250px;
+}
+
+.triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 125px solid transparent;
+  border-right: 125px solid transparent;
+  border-bottom: 250px solid transparent;
+  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-style: solid;
+  border-width: 125px 125px 250px;
+  box-sizing: border-box;
+}
+
+.triangle::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -125px;
+  width: 0;
+  height: 0;
+  border-left: 127px solid transparent;
+  border-right: 127px solid transparent;
+  border-bottom: 252px solid transparent;
+  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: black;
+  border-style: solid;
+  border-width: 127px 127px 252px;
+  z-index: -1;
+}
+
+.square {
+  position: absolute;
+  user-drag: none;
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  left: 100px;
+  top: 0;
+  cursor: pointer;
+}
+
+</style>

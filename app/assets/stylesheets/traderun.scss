@@ -54,6 +54,9 @@ select{
   #spreadsheet{
     font-family:dos;
   }
+  #spreadsheet tr:nth-child(2){
+    height: 82.5px;
+  }
 #shell .shell-container #traderun-menu a{
 color: #b9b9b9;
 
@@ -130,4 +133,43 @@ background-color:blue;
   .menu-bar:last-of-type a {
     border-right: none;
   }
+  .addRun{
+    display:block;
+    cursor:pointer;
+    height: 20px;
+    margin: 0px auto;
+    width: 40px;
+    order:99;
+  }
+
+  .remove-commodity{
+    width:30px;
+    cursor:pointer;
+    display:block;
+  }
+  .split-commodity{
+    display:flex;
+  }
+.split-inputs{
+  width:50px;
+}
+
+.split-header{
+  display:flex;
+  justify-content: right;
+    & div {
+      width:40px;
+    }
+  }
+  #spreadsheet input{
+      color:#b9b9b9;
+      background-color:transparent;
+    
+  }
+  .split-container{
+    display: flex;
+    flex-direction: column;
+
+  }
+
 }

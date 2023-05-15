@@ -1,15 +1,20 @@
-
-<ul>
-<ol>
-    Last trade run
-</ol>
-<ol>
-    All trade runs
-</ol>
-<ol>
-    Stream charts
-</ol>
-<ol>
-    Back to main
-</ol>
-<ul>
+<ul class="session-menu" data-traderun-target="sessionMenu">
+  <li data-traderun-target="menuItem">
+    <%= link_to traderun_command_path("trade_run-#{@current_task.state.split("-").last}")  do %> 
+      Open Traderun
+    <% end %>
+  </li>
+  <li  data-traderun-target="menuItem">
+    <%= link_to traderun_command_path("profit-#{@current_task.state.split("-").last}")  do %> 
+      Profit Distribution
+    <% end %>
+  </li>
+  <li  data-traderun-target="menuItem" data-action="sessionStreamCharts">
+    <a href="#">
+      Streamcharts
+    </a>
+  </li>
+  <li>
+  Settings
+  </li>
+</ul>

@@ -152,6 +152,7 @@ Rails.application.routes.draw do
   get 'populate_commodity', to: 'codex#populate_commodity'
   get 'destroy_commodity', to: 'codex#destroy_all_commodity'
   get 'populate_locations', to: 'codex#populate_locations'
+  get 'payout_streamchart', to: 'streamchart#payout'
 
   get 'vote', to: 'guildstones#vote'
   get 'unvote', to: 'guildstones#unvote'

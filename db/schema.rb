@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_05_030347) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_15_032857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_030347) do
     t.integer "refreshPerMinute"
     t.integer "maxInventory"
     t.string "location"
+    t.boolean "vices"
   end
 
   create_table "control_points", force: :cascade do |t|
@@ -212,6 +213,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_030347) do
     t.string "ocean_color"
     t.string "surface_color"
     t.string "location_chart"
+    t.boolean "ammenities_fuel"
+    t.boolean "ammenities_repair"
+    t.boolean "ammenities_rearm"
+    t.boolean "trade_terminal"
     t.index ["name"], name: "index_locations_on_name", unique: true
   end
 
@@ -457,6 +462,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_030347) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "delta"
+    t.boolean "profit"
   end
 
   create_table "trade_session_users", force: :cascade do |t|
@@ -479,6 +485,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_030347) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "session_date"
+    t.integer "owner_id"
   end
 
   create_table "user_badges", force: :cascade do |t|

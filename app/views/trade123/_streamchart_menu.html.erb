@@ -1,0 +1,22 @@
+<ul class="streamchart-menu hidden" data-traderun-target="streamchartMenu">
+  <li data-traderun-target="menuItem">
+    <%#= link_to traderun_command_path("streamchart|payout-#{@current_task.state.split("-").last}")  do %> 
+    <%= link_to  payout_streamchart_path(@current_task.state.split("-").last), target: "_blank" do %>
+   
+      Session Payout
+    <% end %>
+  </li>
+  <li  data-traderun-target="menuItem">
+    
+      Unknown chart 2
+    
+  </li>
+  <li  data-traderun-target="menuItem" >
+    <a href="#">
+    Unknown chart 3
+    </a>
+  </li>
+  <li>
+  Settings
+  </li>
+</ul>
