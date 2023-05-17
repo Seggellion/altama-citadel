@@ -1,11 +1,17 @@
 {
-  "name": "app",
-  "private": "true",
-    "type": "module",
+  "name": "altama-citadel",
+  "private": true,
+  "type": "module",
   "dependencies": {
     "esbuild": "^0.14.13"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
-  }
+  },
+  "version": "1",
+  "description": "great app",
+  "main": "index.js",
+  "repository": "https://github.com/Seggellion/altama-citadel.git",
+  "author": "Seggellioon",
+  "license": "MIT"
 }
