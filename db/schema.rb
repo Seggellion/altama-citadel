@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_20_185907) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_21_171209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -91,7 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_185907) do
     t.integer "refreshPerMinute"
     t.integer "maxInventory"
     t.string "location"
-    t.boolean "vices"
+    t.boolean "vice"
   end
 
   create_table "control_points", force: :cascade do |t|
