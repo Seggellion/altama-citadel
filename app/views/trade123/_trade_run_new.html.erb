@@ -39,7 +39,13 @@
       <%= form.hidden_field :scu, id: "scu_input" %>
       <%= form.hidden_field :trade_session_id, id: "trade_session_id", value: "#{@current_task.state.split("-").last}" %>
       <%= form.hidden_field :buy_price, id: "buy_price_input" %>
+      <%= form.hidden_field :profit, id: "profit_input" %>
       <%= form.hidden_field :sell_price, id: "sell_price_input" %>
       <%= form.hidden_field :split, class: "split_input" %>
+      <%= form.hidden_field :split_cmdty_json, id: "split_cmdty_json" %>
       <%= form.hidden_field :payout_complete, id: "payout_complete_input" %>
+
+
+        
+
     <% end %>

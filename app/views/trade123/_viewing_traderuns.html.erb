@@ -19,7 +19,23 @@
       </td>
     
       <td>
-        <%= trade_run.commodity.name %>
+
+
+
+<% if trade_run.split %>
+
+<% trade_run.splits.each  do  |split| %>
+
+<%= split.commodity_name %>
+
+  <% end %>
+
+<% else %>
+  <% if trade_run.commodity_id %>
+  <%= trade_run.commodity_name %>
+  <% end %>
+<% end %>
+
       </td>
     
       <td >
@@ -57,9 +73,9 @@
       </td>
 
       <td>
-      <% if trade_run.sell_price %>      
-        <% profit = income - capital %>
-        <%= profit %>
+      <% if trade_run.profit %>      
+        
+        <%= trade_run.profit %>
       <% end %>
       </td>
       <td>

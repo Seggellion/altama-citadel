@@ -159,6 +159,15 @@ def start_codex
     end
 end
 
+def start_bot_manager
+  unless @all_tasks.find_by(name:'Altama_exe').present?
+    @task =  Task.create(name: 'Altama_exe',task_manager_id: @task_manager.id, view: 'window')
+    end  
+    respond_to do |format|
+    format.html { redirect_to root_path, notice: "Loaded Bot Manageer" }
+    end
+end
+
 def start_rfa_manager
   unless @all_tasks.find_by(name:'RFA Manager').present?
   @task =  Task.create(name: 'RFA Manager',task_manager_id: @task_manager.id, view: 'fullscreen')

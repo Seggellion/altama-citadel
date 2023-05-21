@@ -65,6 +65,13 @@
     <% end %>
 <% end %>
 
+<% if current_user.user_type == 0 %>
+    <%= link_to start_bot_manager_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("altama_exe.png") %>
+        altama_exe
+    <% end %>
+<% end %>
+
 </div>
 
 <% if current_user && @fullscreen_tasks.present? %>
