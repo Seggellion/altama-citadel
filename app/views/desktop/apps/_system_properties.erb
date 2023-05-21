@@ -24,6 +24,7 @@
 
                 <div class="commodity-form">
                 <% @all_commodities.each do | commodity| %>
+                  <div class="commodity-container" style="border:1px solid black;">
                     <%= commodity.name + ' ' + commodity.sell.to_s + 'AUEC/SCU' %>
                     <%= button_to "Del", commodity_path(commodity), method: :delete %>
                   
@@ -45,6 +46,7 @@
                   
                       <div class="actions">
                         <%= form.submit "Update" %>
+                      </div>
                       </div>
                     <% end %>
                   <% end %>
