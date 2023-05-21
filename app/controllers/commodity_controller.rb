@@ -19,7 +19,7 @@ class CommodityController < JSONAPI::ResourceController
   private
 
   def commodity_params
-    params.require(:commodity).permit(:vices, :sell, :buy)
+    params.require(:commodity).permit(:vice, :sell, :buy)
   end
 
 

@@ -36,7 +36,7 @@ class CommoditiesController < ApplicationController
   
   
   def commodity_params
-    params.require(:commodity).permit(:name, :price, :symbol, :vices, :buy, :sell) 
+    params.require(:commodity).permit(:name, :price, :symbol, :vice, :buy, :sell) 
   end
   
   
