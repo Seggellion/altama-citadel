@@ -2,7 +2,7 @@ class Location < ApplicationRecord
 
 has_one_attached :image
 has_one_attached :starfarer_image
-
+TYPES = ['sector','star', 'planet', 'moon',  'space station', 'point of interest', 'orbital marker']
 
 
 #has_one :article, foreign_key: "article", primary_key: "name"

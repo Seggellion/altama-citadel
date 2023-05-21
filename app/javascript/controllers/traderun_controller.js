@@ -264,6 +264,9 @@ export default class extends Controller {
       // Get all selected commodities for this row
       const selectedCommoditiesInputs = parentTr.querySelectorAll('select[name="trade_run[buy_commodities][]"]');
   
+      // Create an array to store the commodity data
+      const commoditiesArray = [];
+  
       selectedCommoditiesInputs.forEach((input, index) => {
         const commodityName = input.value;
         const commodityData = selectedCommodities.find(commodity => commodity.name === commodityName);
@@ -275,8 +278,22 @@ export default class extends Controller {
           newSellInput.className = 'split-inputs uec';
           newSellInput.value = commodityData.buy;
           sellPriceElement.appendChild(newSellInput);
+  
+          // Push the commodity data to the array
+          commoditiesArray.push({
+            commodity_id: commodityData.id,
+            commodity_buy: commodityData.buy,
+            commodity_sell: commodityData.sell,
+            scu: parentTr.querySelector('.scu').value
+          });
         }
       });
+  
+      // Get the split_cmdty_json element
+      const splitCmdtyJson = document.getElementById('split_cmdty_json');
+  
+      // Set the value to the stringified array
+      splitCmdtyJson.value = JSON.stringify(commoditiesArray);
     } else {
       const selectedCommodity = selectedCommodities[0];
       if (selectedCommodity) {
@@ -284,26 +301,40 @@ export default class extends Controller {
         sellPriceElement.value = selectedCommodity.buy;
       }
     }
-      // Find an element that contains the row you want to calculate for
-  const elementWithinRow = parentTr;
-
-  // Call the calculator function
-  this.calculator(elementWithinRow);
-
+    // Find an element that contains the row you want to calculate for
+    const elementWithinRow = parentTr;
+  
+    // Call the calculator function
+    this.calculator(elementWithinRow);
   }
 
-  createRun() {    
+  createRun(event) {    
     const username = document.getElementById("trade_run_username").value;
     const locationData = document.getElementById("trade_run_buy_location").value;
     const ship = document.getElementById("trade_run_ship").value;
-    const activeCommodity = document.getElementById("trade_run_buy_commodity").value;    
+    const parentTr = event.target.closest('tr');
+    
+    let profit = "0";
+    const activeCommodity = document.getElementById("trade_run_buy_commodity").value;   
+    const splitInput = parentTr.querySelector('.split_input');
+    const isSplit = splitInput.value === 'true';
+    
+    if (isSplit) {
+      profit = this.calculateTotalProfit(parentTr);
+      document.getElementById("sell_price_input").value = 0;
+    }else{
+      profit = document.getElementById("profit").innerHTML;
+      document.getElementById("sell_price_input").value = document.getElementById("sellPrice").innerHTML;
+    }
     event.target.innerHTML = "[X]";
+    
     if(locationData && activeCommodity && username && ship){
 
       document.getElementById("scu_input").value = document.getElementById("sellSCU").innerHTML;
       document.getElementById("buy_price_input").value = document.getElementById("buyPrice").innerHTML;
       document.getElementById("delta_input").value = document.getElementById("delta").innerHTML;
-      document.getElementById("sell_price_input").value = document.getElementById("sellPrice").innerHTML;
+      document.getElementById("profit_input").value = profit;
+      
 
 
       document.getElementById("traderuns_form").submit();
@@ -395,9 +426,14 @@ console.log('oncontentchange');
     this.updatePriceElements(event.target.id, buyCommodity, sellCommodity, isSplit, marketSell);
 }
 
- calculateTotalSCU(parentTr) {
-    const scuElements = parentTr.querySelectorAll('.scu');
-    return Array.from(scuElements).reduce((total, scuElement) => total + parseInt(scuElement.value || 0), 0);
+calculateTotalProfit(parentTr) {
+  const profitDivs = parentTr.querySelectorAll('#profit div');
+  return Array.from(profitDivs).reduce((total, div) => total + parseInt(div.innerHTML || 0), 0);
+}
+
+calculateTotalSCU(parentTr) {
+  const scuElements = parentTr.querySelectorAll('.scu');
+  return Array.from(scuElements).reduce((total, scuElement) => total + parseInt(scuElement.value || 0), 0);
 }
 
  getCommodity(location, commodityName) {
@@ -597,39 +633,50 @@ console.log('oncontentchange');
     const commodityName = event.target.value;
     const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
     const selectedCommodity = commoditiesData.find(commodity => commodity.name === commodityName && commodity.sell > 0);
-  
+
     const parentDiv = event.target.parentElement;
     const uecDiv = parentDiv.querySelector('.uec');
-  
+
     // Check if createSplit is toggled
     const parentTr = event.target.closest('tr');
     const splitInput = parentTr.querySelector('.split_input');
     const isSplit = splitInput.value === 'true';
-  
+
     const sellPriceElement = parentTr.querySelector('#sellPrice');
-  
+    
     if (selectedCommodity) {
-      uecDiv.value = selectedCommodity.sell;
-      
-      if (isSplit) {
-        // Clear existing sell price content
-        sellPriceElement.innerHTML = '';
-        
-        // Create new input for commodity sell price
-        const newInput = document.createElement('input');
-        newInput.type = 'number';
-        newInput.className = 'split-inputs uec';
-        newInput.value = selectedCommodity.sell;
-        sellPriceElement.appendChild(newInput);
-      } else {
-        // If not split, just show the sell price as text
-        sellPriceElement.textContent = selectedCommodity.sell;
-      }
-  
-      this.populateSellLocationSelect(event.target); 
+        uecDiv.value = selectedCommodity.sell;
+
+        if (isSplit) {
+            // Create a new hidden input for the commodity id
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.id = "trade_run[commodity-" + selectedCommodity.id + "-sell]";
+            hiddenInput.name = hiddenInput.id;
+            
+            hiddenInput.value = selectedCommodity.sell;            
+            
+            event.target.parentElement.setAttribute("id", `commodity-${selectedCommodity.id}`);
+
+            parentTr.appendChild(hiddenInput);
+
+            // Clear existing sell price content
+            sellPriceElement.innerHTML = '';
+
+            // Create new input for commodity sell price
+            const newInput = document.createElement('input');
+            newInput.type = 'number';
+            newInput.className = 'split-inputs uec';
+            newInput.value = selectedCommodity.sell;
+            sellPriceElement.appendChild(newInput);
+        } else {
+            // If not split, just show the sell price as text
+            sellPriceElement.textContent = selectedCommodity.sell;
+        }
+
+        this.populateSellLocationSelect(event.target); 
     }
-  }
-  
+}
 
   validateScu(event) {
     // Ensure the input is a number
@@ -668,20 +715,31 @@ console.log('oncontentchange');
 
   removeCommodity(event) {
     event.preventDefault();
+  
+    // Get commodityId from the element to be removed
+    const commodityIdElement = event.target.parentElement.id;
+    const commodityId = commodityIdElement.match(/\d+/g).map(Number);
 
-    const id = event.target.dataset.id;
-    const commodityDiv = this.element.querySelector(`#commodity-${id}`);
-
-    // Get the parent 'tr' of the select field
     const parentTr = event.target.closest('tr');
-
+  
+    // Remove the commodity div and its related hidden input fields
+    const commodityDiv = parentTr.querySelector(`#commodity-${commodityId}`);
+    const hiddenInputField = parentTr.querySelector(`input[name="trade_run[commodity-${commodityId}-sell]"]`);
+    //const hiddenInputField = parentTr.querySelector(`input[name="commodity-${commodityId}"]`);
+  
     if (commodityDiv) {
       commodityDiv.remove();
-      // Pass the parent 'tr' to the populateSellLocationSelect function
-      this.populateSellLocationSelect(parentTr);
     }
+    
+    if (hiddenInputField) {
+      hiddenInputField.remove();
+    }
+  
+    // Pass the parent 'tr' to the populateSellLocationSelect function
+    this.populateSellLocationSelect(parentTr);
   }
 
+  
 
 /*
 

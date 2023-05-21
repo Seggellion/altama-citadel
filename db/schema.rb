@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_032857) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_20_185907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -462,7 +462,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_032857) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "delta"
-    t.boolean "profit"
+    t.integer "profit"
   end
 
   create_table "trade_session_users", force: :cascade do |t|

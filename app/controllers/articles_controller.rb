@@ -2,7 +2,7 @@ class ArticlesController < ApplicationController
   #before_action :require_login, except: [:update ] 
   before_action :set_article, only: %i[ show edit destroy ]
   before_action :task_manager
-
+   
 
   # GET /Articles or /Articles.json
   def index
@@ -84,17 +84,40 @@ end
 
   # PATCH/PUT /Articles/1 or /Articles/1.json
   def update
-    @all_tasks = Task.all
     @article = Article.find(params[:id])
     
-    if @article.update(article_params)
-      
-      update_location if article_params[:article_type] == "location"
-      
-      update_task_state
-      
-      redirect_to root_path
+    if @article.article_type == "location"
+      @location = Location.find_by_name(params[:article][:title])
+      @article.update(
+        title: params[:article][:title],
+        article_type: params[:article][:article_type],
+        user_id: @current_user.id,
+        featured_image: params[:article][:featured_image],
+        featured_media: params[:article][:featured_media],
+        introduction: params[:article][:introduction],
+        content: params[:article][:content],
+        last_updated: Time.now,
+        location: @location.name
+      )
+      @location.update(
+        location_type:params[:article][:location][:location_type],
+        parent:params[:article][:location][:parent],
+        trade_port: params[:article][:location][:trade_terminal],
+        image: params[:article][:featured_image],
+        ammenities_fuel: params[:article][:location][:ammenities_fuel],
+        ammenities_repair: params[:article][:location][:ammenities_repair],
+        ammenities_rearm: params[:article][:location][:ammenities_rearm],
+        trade_terminal: params[:article][:location][:trade_terminal]
+      )
+      @location.save
+    else
+      @article.location = nil
+      @article.update(article_params)
     end
+
+    
+      @article.save
+      redirect_to root_path
   end
 
   # DELETE /Articles/1 or /Articles/1.json
@@ -123,7 +146,6 @@ end
 
     def update_location
       location = Location.find_by_name(article_params[:title])      
-
       location.update(
         parent: params[:location][:parent], 
         location_type: params[:location][:location_type],
@@ -141,13 +163,19 @@ end
     end
 
     def article_params
-      params.require(:article).permit(:article_type, :featured_image, 
-       :featured_media, :introduction, :content, :title, :location_id, :reference_id)
+
+       params.require(:article).permit(:article_type, :featured_image, :featured_media, :introduction, 
+       :content, :title, :reference_id, location_attributes: [:id, :parent, :location_type, :ammenities_fuel, :ammenities_repair, :ammenities_rearm, :trade_terminal])
 
     end
 
+
+
+    
     def location_params
-      params.require(:location).permit(:parent, :location_type, :ammenities_fuel, :ammenities_rearm, :ammenities_repair, :trade_terminal)
+      params.require(:location).permit(:parent, :location_type, :ammenities_fuel, 
+      :ammenities_rearm, :ammenities_repair, :trade_terminal)
+      
     end
 
 end

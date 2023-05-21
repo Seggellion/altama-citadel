@@ -102,6 +102,7 @@ Rails.application.routes.draw do
   get 'rfas_online', to: 'rfas#online'
   get 'start_shell', to: 'tasks#start_shell'
   get 'start_codex', to: 'tasks#start_codex'
+  get 'start_bot_manager', to: 'tasks#start_bot_manager'
   get 'codex_timeline', to: 'codex#timeline'
   get 'codex_article', to: 'codex#article'
   get 'codex_data_processor', to: 'codex#codex_data_processor'

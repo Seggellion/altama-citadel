@@ -1,40 +1,35 @@
 class Article < ApplicationRecord
     belongs_to :user
     has_one_attached :featured_image
-
+    TYPES = ['lore','location', 'event', 'vehicle',  'dossier']
+  
     def location_system
-        if self.location            
-           location =  Location.find_by_name(self.location)           
-             unless location.system.nil?
-                 location.system
-             end
-        end
+      if self.location
+          location = Location.find_by_name(self.location)
+          if location && !location.system.nil?
+              return location.system
+          end
       end
+  end
     
 
-      def location_type
-        if self.location        
-            location =  Location.find_by_name(self.location)
-            
-              unless location.location_type.nil?
-                
-                  location.location_type
-              end
-         end
-      end
-  
-  def location_parent
+  def location_type
     if self.location
-        
-       location =  Location.find_by_name(self.location)
-       
-         unless location.parent.nil?
-             location.parent
-         end
+        location = Location.find_by_name(self.location)
+        if location && !location.location_type.nil?
+            return location.location_type
+        end
     end
-  end
-
-
+end
+  
+      def location_parent
+        if self.location
+          location =  Location.find_by_name(self.location)
+          unless location.nil?
+            return location.parent unless location.parent.nil?
+          end
+        end
+      end
 
     def role_name
       role
