@@ -5,10 +5,9 @@ class CommodityController < JSONAPI::ResourceController
    def update
       
     @commodity = Commodity.find(params[:id])
-
     if @commodity.update(commodity_params)
       flash[:notice] = 'Commodity was successfully updated.'
-      redirect_to commodities_path
+      redirect_to root_path
     else
       flash.now[:alert] = 'Error updating commodity!'
       render :edit
