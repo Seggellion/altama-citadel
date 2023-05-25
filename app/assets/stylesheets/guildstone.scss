@@ -1,5 +1,7 @@
 @import 'mixins';
-
+html{
+    cursor: asset-url('arrow.png'), auto;
+}
 #guildstones{
     margin:0px;
     padding:0px;

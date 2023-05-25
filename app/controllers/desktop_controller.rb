@@ -47,7 +47,7 @@ end
   @altama_users_without_dossier = @altama_users.where.not(id: dossier_ids)
 
 
-
+  @bots = Bot.all
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :desc)
   @ships = Ship.all.order(model: :asc)

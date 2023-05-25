@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   resources :rule_proposals
   resources :categories
   resources :trade_runs
+  resources :bots do
+    resources :giveaways, only: [:new, :create, :show]
+    patch 'toggle_online', on: :member
+  end
   resources :trade_sessions
   
   mount ActionCable.server => "/cable"

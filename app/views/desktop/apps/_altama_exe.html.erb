@@ -1,32 +1,44 @@
-<div data-controller="desktop" id="asl" class="window">
-    <%= render '/desktop/window-frame', app1: 'ASL', task: task %>
-    <div class="asl-container" data-controller="asl" >
-        <div class="contact-list">
-        
-        <% current_user.past_messages_users.each do |message| %>
-            
-        <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
-           <%= show_svg('asl-outline') %><%= message.sender %>
-           <% end %>
-           
-           <% if !task.state.nil? && task.state["message-#{message.sender}"] %>
+<div data-controller="desktop" id="altama_exe" class="window">
+  <%= render '/desktop/window-frame', app1: 'Altama_EXE', task: task %>
+  <div class="bot-container" data-controller="bot" >
+    <div class="contact-list">        
+      <% if @bots.empty? %>
+        <h1>No bots exist. Please create a new bot</h1>
+        <%= render '/views/altama_exe/bot_form' %>
+      <% else %>
+        <%= link_to 'Create new bot', new_bot_path %>
+        <% @bots.each do |bot| %>
+          <div data-controller="bot">
+            <p><%= bot.bot_name %></p>
+            <p><%= bot.channel %></p>
+            <%= button_to 'Toggle Online Status', toggle_online_bot_path(bot), method: :patch %>
+            <% if bot.bot_online %>
+            <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="green" /></svg>
+          <% else %>
+            <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="red" /></svg>
+          <% end %>
 
-           <% message = Message.find_by_id(task.state.split('|').last) %>
-           
-           <%= render 'desktop/apps/asl/message', message:message, task: task %>
-           <% end %>       
-           
+            <button data-action="bot#toggleGiveaways">Show Giveaways</button>
+
+            <div data-bot-target="giveaways" class="hidden">
+              <h2>Giveaways</h2>
+              <% if bot.giveaways.empty? %>
+                <p>No giveaways yet. Create a new one:</p>                
+                <%= render 'altama_exe/giveaway_form', bot: bot %>
+              <% else %>
+                <% bot.giveaways.each do |giveaway| %>
+                  <p><%= giveaway.title %></p>
+                  <p><%= giveaway.description %></p>
+                  <button data-action="bot#toggleParticipants">Show Participants</button>
+                  <div data-bot-target="participants" class="hidden">
+                    <%= render 'altama_exe/participants', giveaway: giveaway %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
         <% end %>
-
-        <a href="#"><%= show_svg('asl-outline') %>John</a>
-        <a href="#"><%= show_svg('asl-outline') %>Emily</a>
-        <a href="#"><%= show_svg('asl-outline') %>Yamada</a>
-
-# This needs to create a new state within ASL - One that stores the username
-# loop through  all the messages
-# Provide a link which opens the window with the state parameter
-# also make this window clicky drag and store location :-)
-# new messages should make the ICQ sound
-        </div>
+      <% end %>
     </div>
+  </div>
 </div>

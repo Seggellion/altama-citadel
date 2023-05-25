@@ -1,76 +1,89 @@
-<div class="live-desktop">
+<div class="live-desktop" data-controller="selection">
 
-<%= link_to start_my_hangar_path, class: 'desktop-icon', method: :post do %>
-    <%= image_tag("my_hangar_icon.png") %>
-    My Hangar
-<% end %>
+    <div data-action="mousedown->selection#startDrag mousemove->selection#drag mouseup->selection#endDrag" 
+        data-selection-target="area" class="selection-container">
+        
+        <div data-selection-target="selectionBox" 
+            style="border:1px dotted black; position:absolute; pointer-events:none;">
+        </div>
 
-<% if current_user.user_type <= 10 %>
-    <%= link_to website_manager_path, class: 'desktop-icon', method: :post do %>        
-        <%= image_tag("website_manager_icon.png") %>
-        Website Manager
+    <%= link_to start_my_hangar_path, class: 'desktop-icon', method: :post do %>
+        <%= image_tag("my_hangar_icon.png") %>
+        My Hangar
     <% end %>
-<% end %>
-
-<% if current_user.user_type <= 10 %>
-    <%= link_to cargo_manifest_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("cargo_manifest_icon.png") %>
-        Cargo Manifest
+    
+    <% if current_user.user_type <= 10 %>
+        <%= link_to website_manager_path, class: 'desktop-icon', method: :post do %>        
+            <%= image_tag("website_manager_icon.png") %>
+            Website Manager
+        <% end %>
     <% end %>
-<% end %>
-
-<% if current_user.user_type <= 42 %>
-    <%= link_to start_rfa_manager_path, class: 'desktop-icon', method: :post do %>
+    
+    <% if current_user.user_type <= 10 %>
+        <%= link_to cargo_manifest_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("cargo_manifest_icon.png") %>
+            Cargo Manifest
+        <% end %>
+    <% end %>
+    
+    <% if current_user.user_type <= 42 %>
+        <%= link_to start_rfa_manager_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("roadside_assistance_icon.png") %>
+            RFA Manager
+        <% end %>
+    <% end %>
+    
+    <%= link_to roadside_assistance_path, class: 'desktop-icon', method: :post do %>
         <%= image_tag("roadside_assistance_icon.png") %>
-        RFA Manager
+        RFAS Customer Portal
     <% end %>
-<% end %>
-
-<%= link_to roadside_assistance_path, class: 'desktop-icon', method: :post do %>
-    <%= image_tag("roadside_assistance_icon.png") %>
-    RFAS Customer Portal
-<% end %>
-
-<% if current_user.user_type <= 30 %>
-    <%= link_to conquest_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("conquest_icon.png") %>
-        ConQuest
+    
+    <% if current_user.user_type <= 30 %>
+        <%= link_to conquest_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("conquest_icon.png") %>
+            ConQuest
+        <% end %>
     <% end %>
-<% end %>
-
-<%= link_to "https://anime-kingdom.herokuapp.com/", class: 'desktop-icon', method: :post do %>
-    <%= image_tag("anime_kingdom_icon.png") %>
-    Anime Kingdom
-<% end %>
-
-<% if current_user.user_type <= 42 %>
-    <%= link_to start_guildstone_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("guildstone_icon.png") %>
-        Guildstone
+    
+    <%= link_to "https://anime-kingdom.herokuapp.com/", class: 'desktop-icon', method: :post do %>
+        <%= image_tag("anime_kingdom_icon.png") %>
+        Anime Kingdom
     <% end %>
-<% end %>
-
-<% if current_user.user_type <= 42 %>
-    <%= link_to start_shell_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("altama_shell_icon.png") %>
-        Altama Shell
+    
+    <% if current_user.user_type <= 42 %>
+        <%= link_to start_guildstone_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("guildstone_icon.png") %>
+            Guildstone
+        <% end %>
     <% end %>
-<% end %>
-
-
-<% if current_user.user_type <= 42 %>
-    <%= link_to start_codex_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("codex_icon.png") %>
-        Codex 95
+    
+    <% if current_user.user_type <= 42 %>
+        <%= link_to start_shell_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("altama_shell_icon.png") %>
+            Altama Shell
+        <% end %>
     <% end %>
-<% end %>
-
-<% if current_user.user_type == 0 %>
-    <%= link_to start_bot_manager_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("altama_exe.png") %>
-        altama_exe
+    
+    
+    <% if current_user.user_type <= 42 %>
+        <%= link_to start_codex_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("codex_icon.png") %>
+            Codex 95
+        <% end %>
     <% end %>
-<% end %>
+    
+    <% if current_user.user_type == 0 %>
+        <%= link_to start_bot_manager_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("altama_exe.png") %>
+            altama_exe
+        <% end %>
+    <% end %>
+
+
+
+    
+    </div>
+
 
 </div>
 
