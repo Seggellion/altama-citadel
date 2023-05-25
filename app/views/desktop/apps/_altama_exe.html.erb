@@ -4,7 +4,7 @@
     <div class="contact-list">        
       <% if @bots.empty? %>
         <h1>No bots exist. Please create a new bot</h1>
-        <%= render '/views/altama_exe/bot_form' %>
+        <%= render 'altama_exe/bot_form' %>
       <% else %>
         <%= link_to 'Create new bot', new_bot_path %>
         <% @bots.each do |bot| %>
