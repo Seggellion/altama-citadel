@@ -7,6 +7,9 @@ a:link, a:visited, a{
 text-decoration:none;
 color:black;
 }
+a:hover{
+     cursor: asset-url('Cursor_15.cur'), auto;
+}
 #task_manager{
     width:300px;
     height:300px;
@@ -68,10 +71,10 @@ color:black;
     width:100vw;
     margin:0px;
     position:relative;
-    cursor: image-url('arrow.png');
+    cursor: asset-url('arrow.png'), auto;
     overflow:hidden;
     .live-desktop{
-        height: calc(100% - 15px);
+        height: calc(100% - 50px);
         padding:10px;
         display:flex;
         flex-direction:column;
@@ -81,6 +84,20 @@ color:black;
         overflow: hidden;
         a{
             color:white;
+        }
+        .selection-container{
+            position:relative; 
+            width:100vw; 
+            height:100%; 
+
+
+            display:flex;
+            flex-direction:column;
+            justify-content: start;
+            align-content: baseline;
+            flex-wrap: wrap;
+            overflow: hidden;
+
         }
     }
 
@@ -208,9 +225,6 @@ color:black;
     margin:3px;
     height:24px;
 }
-
-
-
 
 
 .memo{

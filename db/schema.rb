@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_21_171209) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_25_042800) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -72,6 +72,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_171209) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "badge_type"
+  end
+
+  create_table "bots", force: :cascade do |t|
+    t.string "channel"
+    t.string "bot_name"
+    t.boolean "bot_online"
+    t.string "disabled_functions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -188,6 +197,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_171209) do
     t.string "keyword_required"
     t.integer "event_series_id"
     t.boolean "open"
+  end
+
+  create_table "giveaway_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "giveaway_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "giveaways", force: :cascade do |t|
+    t.integer "bot_id"
+    t.string "channel"
+    t.string "title"
+    t.string "description"
+    t.string "winner"
+    t.datetime "draw_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "guildstones", force: :cascade do |t|

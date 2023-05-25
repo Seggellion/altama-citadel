@@ -1,0 +1,26 @@
+<%= form_with(model: Bot.new, local: true) do |form| %>
+    <% if form.object.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(form.object.errors.count, "error") %> prohibited this bot from being saved:</h2>
+  
+        <ul>
+          <% form.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="field">
+      <%= form.label :channel %>
+      <%= form.text_field :channel %>
+    </div>
+  
+    <div class="field">
+      <%= form.hidden_field :bot_name, value: 'altama_exe' %>
+    </div>
+  
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
