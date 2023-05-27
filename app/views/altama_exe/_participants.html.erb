@@ -1,4 +1,39 @@
 <h3>Participants</h3>
+<table style="width:500px;">
+<tr>
+<th>
+joinDate
+</th>
+<th>
+username
+</th>
+<th>
+aec
+</th>
+<th>
+karma
+</th>
+<th>
+fame
+</th>
+</tr>
 <% giveaway.giveaway_users.each do |user| %>
-  <p><%= user.name %></p>
+  <tr>
+  <td>
+  <p><%= user.created_at.strftime("%A %d, %B") %></p>
+  </td>
+  <td>
+  <p><%= user.user.username %></p>
+  </td>
+  <td>
+  <p><%= user.user.aec %></p>
+  </td>
+  <td>
+  <p><%= user.user.karma %></p>
+  </td>
+  <td>
+  <p><%= user.user.fame %></p>
+  </td>
+  </tr>
 <% end %>
+</table>

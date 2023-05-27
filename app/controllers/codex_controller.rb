@@ -119,25 +119,30 @@ def populate_commodity
   url = 'https://api.gallog.co/v1/commodities'
   response = URI.open(url).read
   json = JSON.parse(response)
-
+  last_commodity = Commodity.order(updated_at: :desc).first
 
   json["data"]["commodities"].each do |key, value|
     new_url = 'https://api.gallog.co/v1/commodities/' + key["slug"]
     commodity_response = URI.open(new_url).read
     commodity_json = JSON.parse(commodity_response)
-    
-    commodity_json["data"]["buyLocations"].each do |location_key, location_value|  
-      buy_price = location_key["buy"].to_f / 100.00
-      sell_price =  location_key["sell"].to_f / 100.00
-      Commodity.create(name: key["name"], sell:  sell_price, buy:  buy_price, location: location_key["name"], updated_at: location_key["timestamp"])
+    is_vice = Commodity.is_vice(key["name"])
+
+    commodity_json["data"]["buyLocations"].each do |location_key, location_value|       
+      break if last_commodity.updated_at >= location_key["timestamp"]
+      buy_price = location_key["buy"].to_i
+      sell_price =  location_key["sell"].to_i
+      
+      commodity = Commodity.create_or_find_by_name_location_and_timestamp(key["name"], sell_price, buy_price, location_key["refreshPerMinute"], location_key["maxInventory"], location_key["name"], location_key["timestamp"], is_vice)
+
         unless Article.find_by_title(key["name"])
           Article.create(title:key["name"], article_type: 'commodity', user_id: current_user.id)
         end
     end
     commodity_json["data"]["sellLocations"].each do |location_key, location_value|  
-      buy_price = location_key["buy"].to_f / 100.00
-      sell_price =  location_key["sell"].to_f / 100.00
-      Commodity.create(name: key["name"], sell: sell_price, buy: buy_price, location: location_key["name"], updated_at: location_key["timestamp"])
+      break if last_commodity.updated_at >= location_key["timestamp"]
+      buy_price = location_key["buy"].to_i
+      sell_price =  location_key["sell"].to_i
+      commodity = Commodity.create_or_find_by_name_location_and_timestamp(key["name"], sell_price, buy_price, location_key["refreshPerMinute"], location_key["maxInventory"], location_key["name"], location_key["timestamp"], is_vice)
         unless Article.find_by_title(key["name"])
           Article.create(title:key["name"], article_type: 'commodity', user_id: current_user.id)
         end
