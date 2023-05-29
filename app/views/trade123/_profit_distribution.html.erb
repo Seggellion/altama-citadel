@@ -5,14 +5,20 @@
     Profit Distribution: <%=  TradeSession.find_by_id(@current_task.state.split("-").last).session_date %>
 
 
-    <div class="drag-container" data-controller="trade-session-profit">
-      <div class="triangle" data-trade-session-profit-target="triangle"></div>
-      <div class="square" data-trade-session-profit-target="square"></div>
-    </div>
 
 
+    <svg id="svgCanvas" width="500" height="500">
+    <!-- Black Triangle -->
+    <polygon id="blackTriangle" points="100,400 400,400 250,100" fill="black"/>
+    <!-- Red Square -->
+    <rect id="redSquare" x="250" y="300" width="20" height="20" fill="red" />
+  </svg>
+  
 
-
+<div class="data" style="text-align:right;">
+Profit: <%= TradeSession.find_by_id(@current_task.state.split("-").last).total_profit %>
+SCU: <%= TradeSession.find_by_id(@current_task.state.split("-").last).total_scu %>
+</div>
 
 
     </div>
@@ -140,3 +146,56 @@ background-color:transparent;
 }
 
 </style>
+
+<script>
+import * as d3 from "d3";
+
+let svgCanvas = d3.select("#svgCanvas");
+let redSquare = d3.select("#redSquare");
+let triangle = d3.select("#blackTriangle");
+
+// Define drag behavior
+let drag = d3.drag()
+  .on("start", dragstarted)
+  .on("drag", dragged)
+  .on("end", dragended);
+
+redSquare.call(drag);
+
+// Define drag handlers
+function dragstarted(event) {
+  d3.select(this).raise();
+}
+
+function dragged(event, d) {
+  // Update position
+  let newX = event.x;
+  let newY = event.y;
+
+  // Check if the new position is within the triangle
+  // Use a function that calculates if a point is within a triangle
+  if (isInsideTriangle(newX, newY)) {
+    // Save the square's position in local storage
+    localStorage.setItem("squareX", newX);
+    localStorage.setItem("squareY", newY);
+
+    d3.select(this)
+      .attr("x", newX - 10) // the offset is to put the cursor in the middle of the square
+      .attr("y", newY - 10);
+  }
+}
+
+function dragended(event) {
+  // Do something when drag ends if necessary
+}
+
+// Function to check if point is within triangle
+// This is a simplified version and will depend on your actual triangle points
+// You might need a more robust version for a non-equilateral triangle
+function isInsideTriangle(x, y) {
+  let withinX = (x >= 100 && x <= 400); // the range of x-coordinates of the triangle
+  let withinY = (y >= 100 && y <= 400); // the range of y-coordinates of the triangle
+  return withinX && withinY;
+}
+
+</script>

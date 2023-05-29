@@ -6,8 +6,12 @@ class TradeRun < ApplicationRecord
         end
     end
 
-    def commodity_name
-        self.commodity.name
+    def commodity_name        
+        if self.commodity.present?       
+            self.commodity.name
+        else
+            "error"
+        end        
     end
 
 def splits
