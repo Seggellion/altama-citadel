@@ -15,35 +15,43 @@
       </td>
     
       <td>
-      [  ]
+      [<% if trade_run.split %>X<% else %> <% end %>]
       </td>
     
       <td>
-
-
-
-<% if trade_run.split %>
-
-<% trade_run.splits.each  do  |split| %>
-
-<%= split.commodity_name %>
-
-  <% end %>
-
-<% else %>
-  <% if trade_run.commodity_id %>
-  <%= trade_run.commodity_name %>
-  <% end %>
-<% end %>
-
+        <% if trade_run.split %>
+          <% trade_run.splits.each  do  |split| %>
+            <%= split.commodity_name %>
+          <% end %>
+          <% else %>
+            <% if trade_run.commodity_id %>
+              <%= trade_run.commodity_name %>
+            <% end %>
+        <% end %>
       </td>
     
       <td >
-        <%= trade_run.buy_price %>
+        <% if trade_run.split %>
+        <% trade_run.splits.each  do  |split| %>
+          <%= split.buy_price %>
+        <% end %>
+        <% else %>
+          <% if trade_run.commodity_id %>
+            <%= trade_run.buy_price %>
+          <% end %>
+      <% end %>
       </td>
     
       <td >
-        <%= trade_run.scu %>
+      <% if trade_run.split %>
+      <% trade_run.splits.each  do  |split| %>
+        <%= split.scu %>
+      <% end %>
+      <% else %>
+        <% if trade_run.commodity_id %>
+          <%= trade_run.scu %>
+        <% end %>
+    <% end %>
       </td>
     
       <td >
@@ -51,23 +59,39 @@
       </td>
     
       <td >
-        <%= trade_run.sell_price %>
+      <% if trade_run.split %>
+      <% trade_run.splits.each  do  |split| %>
+        <%= split.sell_price %>
+      <% end %>
+      <% else %>
+        <% if trade_run.commodity_id %>
+          <%= trade_run.sell_price %>
+        <% end %>
+    <% end %>      
       </td>
     
       <td >
-        <%= trade_run.scu %>
+      <% if trade_run.split %>
+      <% trade_run.splits.each  do  |split| %>
+        <%= split.scu %>
+      <% end %>
+      <% else %>
+        <% if trade_run.commodity_id %>
+          <%= trade_run.scu %>
+        <% end %>
+    <% end %>
       </td>
     
       <td>
         <% if trade_run.buy_price %>      
-          <% capital = ( trade_run.buy_price.to_f * 100) * trade_run.scu %>
+          <% capital = ( trade_run.buy_price.to_i) * trade_run.scu %>
           <%= capital %>
         <% end %>
       </td>
     
       <td>
         <% if trade_run.sell_price %>      
-          <% income = (trade_run.sell_price.to_f * 100)  * trade_run.scu %>
+          <% income = (trade_run.sell_price.to_i)  * trade_run.scu %>
           <%= income %>
         <% end %>
       </td>
@@ -80,6 +104,11 @@
       </td>
       <td>
 
+      <% if trade_run.profit && trade_run.scu %>      
+        
+        <%= trade_run.profit / trade_run.scu %>
+      
+      <% end %>
       </td>
 
       <td>

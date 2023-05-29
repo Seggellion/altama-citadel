@@ -217,22 +217,33 @@ export default class extends Controller {
     const commoditiesData = JSON.parse(commoditiesDataElement.dataset.commodities);
     const buyPriceElement = document.getElementById("buyPrice");
     const deltaElement = document.getElementById("delta");
-
+    
     const selectedCommodityName = event.target.value    
     let activeCommodity = []
     if (locationData) {
-       activeCommodity = commoditiesData.find(commodity => commodity.name === selectedCommodityName   && commodity.location === locationData)
-      if (activeCommodity) {               
-        buyPriceElement.innerHTML = `${activeCommodity.sell}`
-        deltaElement.setAttribute("marketSell", activeCommodity.sell);
-      } else {
-        buyPriceElement.innerHTML = 'null'
-        deltaElement.setAttribute("marketSell", '0');
-      }
+        // Filter by name and location
+        let filteredCommodities = commoditiesData.filter(commodity => commodity.name === selectedCommodityName && commodity.location === locationData);
+       
+        // Sort by updated_at in descending order
+        filteredCommodities.sort((a, b) => {
+            const dateA = new Date(a.updated_at), dateB = new Date(b.updated_at);
+            return dateB - dateA;
+        });
+    
+        // Set activeCommodity to the first element in the sorted array
+        activeCommodity = filteredCommodities[0];
+    
+        if (activeCommodity) {               
+            buyPriceElement.innerHTML = `${activeCommodity.sell}`
+            deltaElement.setAttribute("marketSell", activeCommodity.sell);
+        } else {
+            buyPriceElement.innerHTML = 'null'
+            deltaElement.setAttribute("marketSell", '0');
+        }
     } else {
-      buyPriceElement.innerHTML = ''
-      
+        buyPriceElement.innerHTML = ''
     }
+
     this.calculator(event.target);
     this.populateSellLocationSelect(event.target); 
     if(locationData && activeCommodity && username && ship){
@@ -269,8 +280,10 @@ export default class extends Controller {
   
       selectedCommoditiesInputs.forEach((input, index) => {
         const commodityName = input.value;
-        const commodityData = selectedCommodities.find(commodity => commodity.name === commodityName);
-  
+        const commodityData = selectedCommodities
+        .filter(commodity => commodity.name === commodityName)
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))[0];
+
         if (commodityData) {
           // Create new inputs for commodity buy and sell price
           const newSellInput = document.createElement('input');
@@ -278,12 +291,12 @@ export default class extends Controller {
           newSellInput.className = 'split-inputs uec';
           newSellInput.value = commodityData.buy;
           sellPriceElement.appendChild(newSellInput);
-  
-          // Push the commodity data to the array
+          const commodityBuyPrice = document.querySelector(`[data-commodity="${commodityData.name}"] .uec`).value;
+          // Push the commodity data to the array          
           commoditiesArray.push({
             commodity_id: commodityData.id,
-            commodity_buy: commodityData.buy,
-            commodity_sell: commodityData.sell,
+            commodity_buy: commodityBuyPrice,
+            commodity_sell: commodityData.buy,
             scu: parentTr.querySelector('.scu').value
           });
         }
@@ -294,11 +307,13 @@ export default class extends Controller {
   
       // Set the value to the stringified array
       splitCmdtyJson.value = JSON.stringify(commoditiesArray);
+      
     } else {
       const selectedCommodity = selectedCommodities[0];
       if (selectedCommodity) {
         buyPriceElement.value = selectedCommodity.sell;
         sellPriceElement.value = selectedCommodity.buy;
+        sellPriceElement.innerHTML = selectedCommodity.buy;
       }
     }
     // Find an element that contains the row you want to calculate for
@@ -315,27 +330,30 @@ export default class extends Controller {
     const parentTr = event.target.closest('tr');
     
     let profit = "0";
+    let scu = "0";
     const activeCommodity = document.getElementById("trade_run_buy_commodity").value;   
     const splitInput = parentTr.querySelector('.split_input');
     const isSplit = splitInput.value === 'true';
     
     if (isSplit) {
       profit = this.calculateTotalProfit(parentTr);
+      scu = this.calculateTotalSCU(parentTr);
+      
       document.getElementById("sell_price_input").value = 0;
     }else{
-      profit = document.getElementById("profit").innerHTML;
+      profit = document.querySelector("#profit div").innerHTML;
+      scu =  document.getElementById("sellSCU").innerHTML
       document.getElementById("sell_price_input").value = document.getElementById("sellPrice").innerHTML;
     }
     event.target.innerHTML = "[X]";
     
     if(locationData && activeCommodity && username && ship){
-
-      document.getElementById("scu_input").value = document.getElementById("sellSCU").innerHTML;
+      
+      document.getElementById("scu_input").value = scu;
       document.getElementById("buy_price_input").value = document.getElementById("buyPrice").innerHTML;
       document.getElementById("delta_input").value = document.getElementById("delta").innerHTML;
       document.getElementById("profit_input").value = profit;
       
-
 
       document.getElementById("traderuns_form").submit();
       }else{
@@ -413,17 +431,19 @@ console.log('oncontentchange');
 
     this.clearExistingContent();
 
+    const marketBuy = buyCommodity ? buyCommodity.sell : 0;
+    const marketSell = sellCommodity ? sellCommodity.buy : 0;
+    
+    this.setDeltaAttributes(marketSell, marketBuy);
+
+    this.updatePriceElements(event.target.id, buyCommodity, sellCommodity, isSplit, marketSell);
+
     if (isSplit) {
       this.calculateSplitCommodities(parentTr);
     } else {
       this.calculateRegularCommodities();
     }
 
-    const marketBuy = buyCommodity ? buyCommodity.sell : 0;
-    const marketSell = sellCommodity ? sellCommodity.buy : 0;
-    this.setDeltaAttributes(marketSell, marketBuy);
-
-    this.updatePriceElements(event.target.id, buyCommodity, sellCommodity, isSplit, marketSell);
 }
 
 calculateTotalProfit(parentTr) {
@@ -436,9 +456,20 @@ calculateTotalSCU(parentTr) {
   return Array.from(scuElements).reduce((total, scuElement) => total + parseInt(scuElement.value || 0), 0);
 }
 
- getCommodity(location, commodityName) {
-    const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
-    return commoditiesData.find(commodity => commodity.name === commodityName && commodity.location === location);
+getCommodity(location, commodityName) {
+  const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
+  
+  // Filter by name and location
+  const filteredCommodities = commoditiesData.filter(commodity => commodity.name === commodityName && commodity.location === location);
+
+  // Sort by updated_at in descending order
+  filteredCommodities.sort((a, b) => {
+      const dateA = new Date(a.updated_at), dateB = new Date(b.updated_at);
+      return dateB - dateA;
+  });
+
+  // Return the first element in the sorted array
+  return filteredCommodities[0];
 }
 
  clearExistingContent() {
@@ -466,13 +497,13 @@ calculateTotalSCU(parentTr) {
 }
 
  calculateRegularCommodities() {
-    const buyingPrice = parseFloat(document.getElementById("buyPrice").value) * 100.00;
-    const sellingPrice = parseFloat(document.getElementById("sellPrice").value) * 100;
-    const buySCUElement = parseFloat(document.getElementById("buySCU").value);
+    let buyingPrice = parseFloat(document.getElementById("buyPrice").innerHTML);
+    let sellingPrice = parseFloat(document.getElementById("sellPrice").innerHTML);
+    let buySCUElement = parseFloat(document.getElementById("buySCU").innerHTML);
 
-    const capitalCalculation = buyingPrice * buySCUElement;
-    const incomeCalculation = sellingPrice * buySCUElement;
-    const profitCalculation = incomeCalculation - capitalCalculation;
+    let capitalCalculation = buyingPrice * buySCUElement;
+    let incomeCalculation = sellingPrice * buySCUElement;
+    let profitCalculation = incomeCalculation - capitalCalculation;
 
     this.appendContentToElements(capitalCalculation, incomeCalculation, profitCalculation);
 }
@@ -502,6 +533,7 @@ calculateTotalSCU(parentTr) {
   } else if (targetId === 'sellPrice') {
     this.updateSellPrice(sellCommodity);
   } else if (!isSplit) {
+    console.log('marketSell', marketSell);
       document.getElementById("sellPrice").innerHTML = marketSell;
   }
 }
@@ -522,91 +554,142 @@ calculateTotalSCU(parentTr) {
   }
 }
 
-  populateCommoditySelect() {
-    const location = this.buyLocationTarget.value
-    
-    const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities)
-    const commodities = commoditiesData.filter(commodity => commodity.location === location  && commodity.sell > 0)
+populateCommoditySelect() {
+  const location = this.buyLocationTarget.value;
 
-    this.buyCommodityTarget.innerHTML = ""
-    commodities.forEach(commodity => {
-      const option = document.createElement("option")
-      option.value = commodity.name
-      option.text = commodity.name
-      this.buyCommodityTarget.add(option)
-    })
-  }
+  const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
+  const commodities = commoditiesData.filter(commodity => commodity.location === location && commodity.sell > 0);
 
-  populateSellLocationSelect(elementWithinRow) {
-    const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
-    
-    // Find the parent row
+  // Sort commodities by updated_at in descending order
+  commodities.sort((a, b) => {
+    const dateA = new Date(a.updated_at), dateB = new Date(b.updated_at);
+    return dateB - dateA;
+  });
 
-    const parentTr = elementWithinRow.closest('tr');
-   
-    // Check if createSplit is toggled
-    const splitInput = parentTr.querySelector('.split_input');
-    const isSplit = splitInput.value === 'true';
-    
-    let selectedCommodityNames;
-  
-    if (isSplit) {
-      // Get the selected commodities from all .split-commodity select fields within the row
-      const commoditySelects = parentTr.querySelectorAll('.split-commodity select');
-      selectedCommodityNames = Array.from(commoditySelects).map(select => select.value);
+  // Reduce to unique commodities
+  const uniqueCommodities = commodities.reduce((acc, current) => {
+    const x = acc.find(item => item.name === current.name);
+    if (!x) {
+      return acc.concat([current]);
     } else {
-      selectedCommodityNames = [this.buyCommodityTarget.value];
+      return acc;
     }
+  }, []);
+
+  this.buyCommodityTarget.innerHTML = "";
+  uniqueCommodities.forEach(commodity => {
+    const option = document.createElement("option");
+    option.value = commodity.name;
+    option.text = commodity.name;
+    this.buyCommodityTarget.add(option);
+  });
+}
+
+
+populateSellLocationSelect(elementWithinRow) {
+  const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
   
-    // Filter out commoditiesData to include only those that have the selected names and a buy amount greater than 0
-    const possibleLocations = commoditiesData.filter(commodity => selectedCommodityNames.includes(commodity.name) && commodity.buy > 0);
+  // Find the parent row
+  const parentTr = elementWithinRow.closest('tr');
+ 
+  // Check if createSplit is toggled
+  const splitInput = parentTr.querySelector('.split_input');
+  const isSplit = splitInput.value === 'true';
   
-    // Generate a list of locations for each selected commodity
-    const locationsForEachCommodity = selectedCommodityNames.map(name => {
-      return possibleLocations.filter(location => location.name === name).map(location => location.location);
-    });
-    
-    // Find the intersection of all these lists
-    const sellLocations = locationsForEachCommodity.reduce((a, b) => a.filter(c => b.includes(c)));
-  
-    // Clear the current sell location options
-    
-    const sellLocationSelect = parentTr.querySelector('[data-traderun-target="sellLocation"]');
-    sellLocationSelect.innerHTML = "";
-  
-    // Add the "Please Select location" option as the first choice
-    const defaultOption = document.createElement("option")
-    defaultOption.value = ""
-    defaultOption.text = "Sell location"
-    sellLocationSelect.add(defaultOption)
-    
-    // Add unique locations to the select field
-    sellLocations.forEach(location => {
-      const option = document.createElement("option")
-      option.value = location;
-      option.text = location;
-      sellLocationSelect.add(option);
-    });
+  let selectedCommodityNames;
+
+  if (isSplit) {
+    // Get the selected commodities from all .split-commodity select fields within the row
+    const commoditySelects = parentTr.querySelectorAll('.split-commodity select');
+    selectedCommodityNames = Array.from(commoditySelects).map(select => select.value);
+  } else {
+    selectedCommodityNames = [this.buyCommodityTarget.value];
   }
 
+  // Create an empty array to store the latest commodities
+  let latestCommodities = [];
+
+  // Iterate over each selected commodity
+  for(let name of selectedCommodityNames) {
+    // Filter commodities by the selected name
+    let sameNameCommodities = commoditiesData.filter(commodity => commodity.name === name && commodity.buy > 0);
+    
+    // Iterate over each unique location of the sameNameCommodities
+    for(let location of [...new Set(sameNameCommodities.map(commodity => commodity.location))]) {
+      // Filter commodities by location
+      let sameLocationCommodities = sameNameCommodities.filter(commodity => commodity.location === location);
+
+      // Sort commodities by updated_at in descending order
+      sameLocationCommodities.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+      // Push the most recent commodity to the latestCommodities array
+      latestCommodities.push(sameLocationCommodities[0]);
+    }
+  }
+
+  // Generate a list of unique locations
+  const sellLocations = [...new Set(latestCommodities.map(commodity => commodity.location))];
+
+  // Clear the current sell location options
+  const sellLocationSelect = parentTr.querySelector('[data-traderun-target="sellLocation"]');
+  sellLocationSelect.innerHTML = "";
+
+  // Add the "Please Select location" option as the first choice
+  const defaultOption = document.createElement("option")
+  defaultOption.value = ""
+  defaultOption.text = "Sell location"
+  sellLocationSelect.add(defaultOption)
+  
+  // Add unique locations to the select field
+  sellLocations.forEach(location => {
+    const option = document.createElement("option")
+    option.value = location;
+    option.text = location;
+    sellLocationSelect.add(option);
+  });
+}
 
   addCommodity(event) {
     event.preventDefault();
 
     const location = this.buyLocationTarget.value
     const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
-    const buyCommodities = commoditiesData.filter(commodity => commodity.location === location  && commodity.sell > 0);
+    
+    // Use helper function to get latest commodities
+    const buyCommodities = this.getLatestCommodities(commoditiesData, location);
     const existingSelects = this.element.querySelectorAll('.split-container select');
 
     if (existingSelects.length < buyCommodities.length) {
       const id = new Date().getTime();
       const wrapper = document.createElement('div');
       wrapper.innerHTML = this.selectField(id, buyCommodities).trim();
-  
+
       this.element.querySelector('.split-container').appendChild(wrapper.firstChild);
     } else {
       alert('You have added all available commodities. No more can be added.')
     }
+  }
+
+  getLatestCommodities(commoditiesData, location) {
+    let sameLocationCommodities = commoditiesData.filter(commodity => commodity.location === location && commodity.sell > 0);
+    
+    // Get unique names of commodities at this location
+    let uniqueNames = [...new Set(sameLocationCommodities.map(commodity => commodity.name))];
+    
+    // Create an empty array to store the latest commodities
+    let latestCommodities = [];
+
+    for(let name of uniqueNames) {
+      // Filter commodities by name
+      let sameNameCommodities = sameLocationCommodities.filter(commodity => commodity.name === name);
+      // Sort commodities by updated_at in descending order
+      sameNameCommodities.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+      // Push the most recent commodity to the latestCommodities array
+      latestCommodities.push(sameNameCommodities[0]);
+    }
+
+    return latestCommodities;
   }
 
   selectField(id, buyCommodities) {
@@ -657,7 +740,7 @@ calculateTotalSCU(parentTr) {
             hiddenInput.value = selectedCommodity.sell;            
             
             event.target.parentElement.setAttribute("id", `commodity-${selectedCommodity.id}`);
-
+            event.target.parentElement.setAttribute("data-commodity", selectedCommodity.name);
             parentTr.appendChild(hiddenInput);
 
             // Clear existing sell price content

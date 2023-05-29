@@ -1,3 +1,20 @@
+<style>
+.bot-container{
+    padding:20px;
+}
+.bot-container{
+    padding-top:40px
+}
+.bot-controls{
+    display:flex;
+}
+.participants{
+    overflow: scroll;
+    height: 170px;
+    border: 1px solid black;
+    padding: 10px;
+}
+</style>
 <div data-controller="desktop" id="altama_exe" class="window">
   <%= render '/desktop/window-frame', app1: 'Altama_EXE', task: task %>
   <div class="bot-container" data-controller="bot" >
@@ -6,18 +23,18 @@
         <h1>No bots exist. Please create a new bot</h1>
         <%= render 'altama_exe/bot_form' %>
       <% else %>
-        <%= link_to 'Create new bot', new_bot_path %>
         <% @bots.each do |bot| %>
-          <div data-controller="bot">
+          <div class="bot-body">
             <p><%= bot.bot_name %></p>
             <p><%= bot.channel %></p>
+            <div class="bot-controls">
             <%= button_to 'Toggle Online Status', toggle_online_bot_path(bot), method: :patch %>
             <% if bot.bot_online %>
             <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="green" /></svg>
           <% else %>
             <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="red" /></svg>
           <% end %>
-
+            </div>
             <button data-action="bot#toggleGiveaways">Show Giveaways</button>
 
             <div data-bot-target="giveaways" class="hidden">
@@ -30,7 +47,7 @@
                   <p><%= giveaway.title %></p>
                   <p><%= giveaway.description %></p>
                   <button data-action="bot#toggleParticipants">Show Participants</button>
-                  <div data-bot-target="participants" class="hidden">
+                  <div data-bot-target="participants" class="participants hidden">
                     <%= render 'altama_exe/participants', giveaway: giveaway %>
                   </div>
                 <% end %>

@@ -128,7 +128,7 @@ def populate_commodity
     is_vice = Commodity.is_vice(key["name"])
 
     commodity_json["data"]["buyLocations"].each do |location_key, location_value|       
-      break if last_commodity.updated_at >= location_key["timestamp"]
+      break if last_commodity&.updated_at && last_commodity.updated_at >= location_key["timestamp"]
       buy_price = location_key["buy"].to_i
       sell_price =  location_key["sell"].to_i
       
@@ -139,7 +139,7 @@ def populate_commodity
         end
     end
     commodity_json["data"]["sellLocations"].each do |location_key, location_value|  
-      break if last_commodity.updated_at >= location_key["timestamp"]
+      break if last_commodity&.updated_at && last_commodity.updated_at >= location_key["timestamp"]
       buy_price = location_key["buy"].to_i
       sell_price =  location_key["sell"].to_i
       commodity = Commodity.create_or_find_by_name_location_and_timestamp(key["name"], sell_price, buy_price, location_key["refreshPerMinute"], location_key["maxInventory"], location_key["name"], location_key["timestamp"], is_vice)
