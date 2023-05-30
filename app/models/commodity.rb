@@ -61,7 +61,6 @@ class Commodity < ApplicationRecord
       commodity_list
     end
     
-
     def self.find_buy_locations(title)
       commodity_list = Commodity.where(name: title)
                                 .where('buy > ?', 0)
