@@ -30,7 +30,8 @@ sell_search_query = "#{commodity_name} #{to_location}"
 sell_commodity = Commodity.search_by_name_and_location(sell_search_query).order(updated_at: :desc).first
 
 
-
+puts sell_commodity.buy
+puts buy_commodity.sell
 
 #if buy_commodity && buy_commodity.sell > 0 &&  sell_commodity && sell_commodity.buy > 0 
     #total_profit = ( sell_commodity.buy.to_f * total_units) - ( buy_commodity.sell.to_f * total_units)
