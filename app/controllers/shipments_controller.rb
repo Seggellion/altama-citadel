@@ -51,8 +51,8 @@ else
   response = {total_profit:  'invalid' }
 end
 
-
-    
+puts total_profit 
+puts total_units.to_i
 
     # Render the response
     render json: response
