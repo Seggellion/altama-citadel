@@ -13,7 +13,7 @@ class ShipmentsController < ApplicationController
     commodity_name = json_request["commodity"]
     from_location = json_request["from_location"]
     to_location = json_request["to_location"]
-    total_units = json_request["total_units"].to_f * 100
+    total_units = json_request["total_units"]
 
 
 # buy_commodity = Commodity.where("location LIKE ? AND name = ?", "%#{from_location}%", commodity_name).first
@@ -25,9 +25,9 @@ class ShipmentsController < ApplicationController
 
 
 buy_search_query = "#{commodity_name} #{from_location}"
-buy_commodity = Commodity.search_by_name_and_location(buy_search_query).first
+buy_commodity = Commodity.search_by_name_and_location(buy_search_query).order(updated_at: :desc).first
 sell_search_query = "#{commodity_name} #{to_location}"
-sell_commodity = Commodity.search_by_name_and_location(sell_search_query).first
+sell_commodity = Commodity.search_by_name_and_location(sell_search_query).order(updated_at: :desc).first
 
 
 
