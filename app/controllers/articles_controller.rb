@@ -42,21 +42,24 @@ elsif params[:article][:article_type] == "dossier"
   end
 elsif params[:article][:article_type] == "location"
 
-  if params[:article][:article_location_id] == ""
+  if params[:article][:location] == ""
 
     if params[:article][:parent_location_id]
-      parent = params[:article][:parent_location_id]    
-      if system = Location.find_by_id(params[:article][:parent_location_id]).system
-      else system = Location.last.id + 1
-      end    
+      
+      parent = params[:article][:parent_location_id]
+
+      if system = Location.find_by_name(params[:article][:parent_location_id]).system
+      else system = "Stanton"
+      end          
       location_type = params[:article][:location_type]
     else
       parent = nil
       system = nil
-      location_type = 1
-    end  
+      location_type = "star"
+    end 
+    
     Location.create(name: params[:article][:title], parent: parent, location_type: location_type, system: system, image: params[:article][:featured_image])
-    @article.update(location_id: Location.last.id)
+    @article.update(location: Location.last.name)
   end
 end
 
