@@ -29,10 +29,6 @@ buy_commodity = Commodity.search_by_name_and_location(buy_search_query).order(up
 sell_search_query = "#{commodity_name} #{to_location}"
 sell_commodity = Commodity.search_by_name_and_location(sell_search_query).order(updated_at: :desc).first
 
-
-puts sell_commodity.buy
-puts buy_commodity.sell
-
 #if buy_commodity && buy_commodity.sell > 0 &&  sell_commodity && sell_commodity.buy > 0 
     #total_profit = ( sell_commodity.buy.to_f * total_units) - ( buy_commodity.sell.to_f * total_units)
 #else
@@ -51,8 +47,6 @@ else
   response = {total_profit:  'invalid' }
 end
 
-puts total_profit 
-puts total_units.to_i
 
     # Render the response
     render json: response
