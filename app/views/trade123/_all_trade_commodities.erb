@@ -1,0 +1,30 @@
+Trade Run Commodities<br />
+________________________<br />
+<ul style="height: 50vh; overflow: scroll;">
+
+<div class="">
+********************************************************<br />
+<span>Top Profit / SCU</span>
+<% @profit_scu_traderuns.each do |traderun| %>
+<%= traderun.id %>
+<% end %>
+********************************************************<br />
+</div>
+
+<% @all_commodities.each do |commodity| %>
+    <% if commodity.location.nil? %>
+<% byebug %>
+    <% end %>
+    <li >
+    <% if commodity.buy > 0 %>
+    <span style="color:red">BUY:</span> <%= commodity.name.upcase %> | <%= Location.find_parent(commodity.location) %> <%= commodity.location.upcase %> | <%= commodity.buy %>
+
+    <% elsif commodity.sell > 0  %>
+
+    <span style="color:green">SELL:</span> <%= commodity.name.upcase %> | <%= Location.find_parent(commodity.location) %> <%= commodity.location.upcase %> | <%= commodity.sell %>
+    <% end %>
+</li>
+    <% end %>
+    </ul>
+
+    

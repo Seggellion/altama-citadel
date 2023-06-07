@@ -83,24 +83,34 @@ class HangardumpsController < ApplicationController
    #     puts('ship id is: ' + res.getvalue(0,0).to_s )
    #     puts('current_user.id: ' + current_user.id.to_s)
 
-        @model = key["name"]
-        @ship_model = Ship.where("model ILIKE ?", "%#{@model}%").first 
+   @model = key["name"]
+   @ship_model = Ship.where("model ILIKE ?", "%#{@model}%").first
 
-          if Ship.where("model ILIKE ?", "%#{@model}%").size == 0
-            @model = key["name"].split(" ").first
-            @ship_model = Ship.where("model ILIKE ?", "%#{@model}%").first 
-            if Ship.where("model ILIKE ?", "%#{@model}%").size == 0              
-              @model = key["name"].split(" ").last
-              @ship_model = Ship.where("model ILIKE ?", "%#{@model}%").first 
-            end
-          end
-          
-
-
-        u = Usership.new(user_id: current_user.id, ship_name: @ship_name, model: @ship_model.model, ship_serial: @shipserial, pledge_id: @pledgeid, pledge_name: @pledgename, pledge_date: @pledgedate, lti: @lti, warbond: @warbond, source: 'imported')        
-
-        u.valid?
-        u.save!
+   @model.split(" ").each do |word|
+    @ship_model = Ship.where("model ILIKE ?", "%#{word}%").first
+    break if @ship_model  # If we find a match, we stop searching
+  end
+  
+  unless @ship_model
+    byebug
+  end
+   
+   raise 'No Ship model found' unless @ship_model
+   
+   u = Usership.new(
+     user_id: current_user.id, 
+     ship_name: @ship_name, 
+     model: @ship_model.model, 
+     ship_serial: @shipserial, 
+     pledge_id: @pledgeid, 
+     pledge_name: @pledgename, 
+     pledge_date: @pledgedate, 
+     lti: @lti, 
+     warbond: @warbond, 
+     source: 'imported'
+   )
+   
+   u.save!
    #   end
       #u.save!
     end
