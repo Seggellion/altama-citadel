@@ -133,8 +133,8 @@ end
     end
   end
 
-  def ship_count(ship)
-    all_ships = Usership.where(user_id: self.id, ship_name: ship.model)
+  def ship_count(ship)    
+    all_ships = Usership.where(user_id: self.id, model: ship.model)
     all_ships.count
   end
 

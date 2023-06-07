@@ -25,7 +25,8 @@ end
 def all_fleet
   @current_task = @all_tasks.where(name: 'My Hangar').first
   @myships = Usership.where(user_id: current_user.id, show_information:nil)
-  @myships.each do |usership|    
+  @myships.each do |usership|   
+
     id = usership.ship.code.upcase + SecureRandom.base64.delete('/+=')[0, 14].upcase
     usership.update(show_information:1, fid: id)
   end
@@ -112,7 +113,7 @@ end
 
   # PATCH/PUT /userships/1 or /userships/1.json
   def update
-    
+
     respond_to do |format|
       if @usership.update(usership_params)
         format.html { redirect_to @usership, notice: "Usership was successfully updated." }

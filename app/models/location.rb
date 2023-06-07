@@ -102,6 +102,18 @@ end
   #  end
   end
 
+def self.find_parent(location)
+  found_location = Location.find_by_name(location)
+
+  
+  unless found_location.nil?
+    found_location.parent
+  else
+    
+    'NODATA'
+  end
+end
+
 def full_name
   name = self.name
   planet = self.find_planet.name  

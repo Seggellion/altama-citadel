@@ -2,8 +2,9 @@ class Ship < ApplicationRecord
     belongs_to :manufacturer, optional: true
     has_one_attached :image_topdown
     has_many :users, through: :userships
-    def code
+    validates :model, uniqueness: true
 
+    def code
         if self.model.include?("Starfarer") 
             code = 'SF'  
         elsif self.model.include?("100i")
@@ -89,6 +90,8 @@ class Ship < ApplicationRecord
             code = 'CO'
             elsif self.model.include?("Cutlass")
             code = 'CU'
+            elsif self.model.include?("Cutter")
+            code = 'CT'
             elsif self.model.include?("Cyclone")
             code = 'CY'
             elsif self.model.include?("Defender")
@@ -207,6 +210,8 @@ class Ship < ApplicationRecord
                 code = 'BM'
             elsif self.model.include?("SRV")
                 code = 'SV'
+            elsif self.model.include?("STV")
+                code = 'ST'
             elsif self.model.include?("Vulture")
                 code = 'VT'
             elsif self.model.include?("Mule")
@@ -245,10 +250,12 @@ class Ship < ApplicationRecord
                 code = 'X1'
             elsif self.model.include?("G12")
                 code = 'G1'
-            
-
-
-
+            elsif self.model.include?("E1")
+                code = 'E1'
+            elsif self.model.include?("C1")
+                code = 'C1'
+            elsif self.model.include?("A1")
+                code = 'A1'
         end
     end
 
@@ -256,7 +263,7 @@ class Ship < ApplicationRecord
 
     def expandedships(user) 
         
-        Usership.where(ship_name: self.model, user_id: user.id )
+        Usership.where(model: self.model, user_id: user.id )
     end
 
 end

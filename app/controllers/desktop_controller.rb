@@ -70,6 +70,7 @@ end
   @all_trade_sessions = TradeSession.all.order(session_date: :desc)
   @timeline_events = Event.where(event_type:nil)
   @traderun_split_new = TradeRunSplit.new
+  @profit_scu_traderuns = []
   current_user.desktop
 
 

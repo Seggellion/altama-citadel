@@ -24,9 +24,10 @@ class UsershipsController < ApplicationController
   end
 
   # POST /userships or /userships.json
-  def create
-    @usership = Usership.new(usership_params)
-    @usership.update(user_id:current_user.id)
+  def create    
+    @usership = Usership.new(usership_params)    
+    @usership.update(user_id:current_user.id, ship_name: usership_params[:model])
+
     respond_to do |format|
      # if @usership.save
         #flash[:notice] = "Post has been saved successfully."
@@ -34,7 +35,7 @@ class UsershipsController < ApplicationController
         format.html { redirect_to request.referrer, notice: "Usership was successfully created." }
         format.json { render :show, status: :created, location: @usership }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to request.referrer, notice: "Error" }
         format.json { render json: @usership.errors, status: :unprocessable_entity }
       end
     end
@@ -42,7 +43,6 @@ class UsershipsController < ApplicationController
 
   # PATCH/PUT /userships/1 or /userships/1.json
   def update
-    
     
     usership = Usership.find_by_id(params[:id])
   #  usership_params[:fid] = usership.fid_processor(usership_params[:fid_01],usership_params[:fid_02])
@@ -103,8 +103,8 @@ class UsershipsController < ApplicationController
     end
 
     
-    def usership_params      
-      params.require(:usership).permit(:user_id, :ship_name, :ship_serial, :pledge_id, :show_information,
+    def usership_params     
+      params.require(:usership).permit(:user_id, :model, :ship_serial, :pledge_id, :show_information,
       :pledge_name, :pledge_date, :lti, :warbond, :year_purchased, :description, :paint, :primary, :fid, :fid_01,:fid_02)
     end
 end

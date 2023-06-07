@@ -18,8 +18,11 @@
         <%#= link_to "Existing trade sessions", traderun_command_path("all_trade_sessions")  %>       
         <a href="#">Existing trade sessions</a>
         </li>
-        <li data-traderun-target="menuItem">
-            <%= link_to "Commodity list", traderun_command_path("commodities")  %>            
+        <li data-traderun-target="menuItem"  data-action="commoditiesTradeRun">
+        <a href="#">
+            Commodity list
+            <%#= link_to "Commodity list", traderun_command_path("commodities")  %
+        </a>>            
         </li>
     </ol>
 </div>
@@ -30,6 +33,10 @@
 
     <div class="main-menu existing-trade-session hidden" data-traderun-target="existingTradeSession">
         <%= render 'trade123/all_trade_sessions' %>
+    </div>
+
+    <div class="main-menu existing-trade-session hidden" data-traderun-target="commoditiesTradeRun">
+    <%= render 'trade123/all_trade_commodities' %>
     </div>
 
     <%= render '/trade123/footer_menu' %>

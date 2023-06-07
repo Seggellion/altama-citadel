@@ -35,10 +35,11 @@ def traderun_command_entry
   when ->(s) { s.include?('trade_session') }
     @task.update(state:"trade123|#{command}")
   when ->(s) { s.include?('profit') }
-  @task.update(state:"trade123|#{command}")
-when ->(s) { s.include?('streamchart') }
-@task.update(state:"trade123|#{command}")
+    @task.update(state:"trade123|#{command}")
+  when ->(s) { s.include?('streamchart') }
+    @task.update(state:"trade123|#{command}")
   when "back"
+    byebug
     @task.update(state:'trade123')
   when "quit"
     @task.update(state:nil)

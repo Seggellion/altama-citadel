@@ -19,6 +19,7 @@ export default class extends Controller {
   };
   
 edit(event){
+  
   var ship_id =  event.currentTarget.dataset.ship;
   var edit_container = document.getElementById('container-' + ship_id);
   var all_showing_elements = document.getElementsByClassName('show');
@@ -26,7 +27,7 @@ edit(event){
   for (let i = 0; i < all_showing_elements.length; i++) {
     all_showing_elements[i].classList.remove('show');
   }
-console.log(this.ownedshipbuttonTarget);
+
   if(event.currentTarget.classList.contains('selected')){
     this.ownedshipbuttonTarget.classList.remove('selected');
   }else{
