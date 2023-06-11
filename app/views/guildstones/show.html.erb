@@ -40,8 +40,20 @@
             <% end %>
 
             <% if @orgchart_windows.present? %>
-            <%  @orgchart_windows.each_with_index do |window, i | %>
-                  <%= render 'modal-org_chart', i: i %>
+              <%  @orgchart_windows.each_with_index do |window, i | %>
+                    <%= render 'modal-org_chart', i: i %>
+              <% end %>
+            <% end %>
+
+            <% if @all_apps_windows.present? %>
+            <%  @all_apps_windows.each_with_index do |window, i | %>
+                  <%= render 'modal-all_applications', i: i %>
+            <% end %>
+          <% end %>
+
+          <% if @all_nominations_windows.present? %>
+            <%  @all_nominations_windows.each_with_index do |window, i | %>
+                  <%= render 'modal-all_nominations', i: i %>
             <% end %>
           <% end %>
             

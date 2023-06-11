@@ -48,6 +48,14 @@ $mobile: 625px;
     src: font-url('continuum-bold.ttf') format('truetype');
   }
 
+  @font-face {
+    font-family: 'windows';
+    font-style: normal;
+    font-weight: 400;
+    src: font-url('windows-regular.ttf') format('truetype');
+  }
+
+
   i{
     width:50px;
     height:50px;

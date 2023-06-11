@@ -99,6 +99,16 @@ export default class extends Controller {
     },100);
   }
 
+  allApplications(event){
+    var button =  event.currentTarget;
+    button.classList.toggle("click");    
+    
+    setTimeout(function(){
+      button.classList.toggle("click");
+    },100);
+  }
+
+
   userPositionUpdate(event){
     // console.log("working");
     this.userPositionFieldTarget.addEventListener("change", function(e) {

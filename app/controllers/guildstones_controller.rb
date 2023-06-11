@@ -46,6 +46,8 @@ class GuildstonesController < ApplicationController
       @rules_windows = @window_states.select { |s| s == "Rules" }
       @message_windows = @window_states.select { |s| s.include?("message") }
       @orgchart_windows = @window_states.select { |s| s.include?("orgChart") }
+      @all_apps_windows = @window_states.select { |s| s.include?("allApplications") }
+      @all_nominations_windows = @window_states.select { |s| s.include?("allNominations") }
       @modals = @window_states.select { |s| s.include?("modal") }
       @guildstone_message =  Message.where(task_id: "Guildstone", user_id: current_user.id).last
       
@@ -231,7 +233,7 @@ class GuildstonesController < ApplicationController
   end
 
   def open_org_chart
- @window_states =  []
+    @window_states =  []
     unless @all_tasks.find_by(name: "Guildstone" ).present?
       @window_states = @window_states + Array[state_name]
     end
@@ -253,7 +255,59 @@ class GuildstonesController < ApplicationController
     states_string = @window_states.join(',')
     
     task.update(state:states_string)
-    redirect_to(request.env['HTTP_REFERER'])
+    redirect_to root_path
+  end
+
+  def all_applications
+    @window_states =  []
+    unless @all_tasks.find_by(name: "Guildstone" ).present?
+      @window_states = @window_states + Array[state_name]
+    end
+    
+    task = @all_tasks.find_by(name: "Guildstone" )
+    window_state_csv = task.state
+    state_name = "allApplications-Guildstone"
+    
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+      message_states = window_state_csv.split('|')
+    end  
+    
+    unless @window_states.include?(state_name)
+
+        @window_states = @window_states + Array[state_name]
+  
+    end
+    states_string = @window_states.join(',')
+    
+    task.update(state:states_string)
+    redirect_to root_path
+  end
+
+  def all_nominations
+    @window_states =  []
+    unless @all_tasks.find_by(name: "Guildstone" ).present?
+      @window_states = @window_states + Array[state_name]
+    end
+    
+    task = @all_tasks.find_by(name: "Guildstone" )
+    window_state_csv = task.state
+    state_name = "allNominations-Guildstone"
+    
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+      message_states = window_state_csv.split('|')
+    end  
+    
+    unless @window_states.include?(state_name)
+
+        @window_states = @window_states + Array[state_name]
+  
+    end
+    states_string = @window_states.join(',')
+    
+    task.update(state:states_string)
+    redirect_to root_path
   end
 
   # GET /guildstones/1/edit

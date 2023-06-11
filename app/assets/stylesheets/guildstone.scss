@@ -9,6 +9,7 @@ html{
     background-color: #c0c0c0;
     height: calc(100% - 6px);
     box-sizing: border-box;
+    font-family: 'windows';
     .message-window{
         right: 30%;
         top: 20%;
@@ -92,7 +93,7 @@ html{
             font-size: 1.5rem;
             flex-direction: column;
             justify-content: center;
-            margin: 0px 5px;
+            margin: 0px 3px;
             padding-right:20px;
         }
         .position-body{
@@ -124,16 +125,20 @@ html{
     }
     .position-list{
         background-color: white;
-        margin: 0px 6px;
-        padding: 0px 3px;
+        margin: 0px 3px;
+        padding: 3px 3px;
         border-top:1px solid black;
         border-left:1px solid black;
         border-right:1px solid white;
         border-right:1px solid white;
         color:black;
-        a{
+        overflow: hidden;
+        a.position-item{
             font-size: 0.8rem;
             color:black;
+            width: 130%;
+            height: 16px;
+            display: block;
         }
     }
     .window-icon-bar{
@@ -237,10 +242,17 @@ html{
             height: 753px;
             width: auto;
         }
+        .all-position-button{
+            background-position: top;
+            object-fit: contain;
+            transform: translateX(-244px) translateY(-427px);
+            height: 753px;
+            width: auto;
+        }
         .mail{
             background-position: top;
             object-fit: contain;
-            transform: translateX(-479px) translateY(-569px);
+            transform: translateX(-482px) translateY(-575px);
             height: 753px;
             width: auto;
         }
@@ -254,19 +266,19 @@ html{
         .org-chart{
             background-position: top;
             object-fit: contain;
-            transform: translateX(-565px) translateY(-420px);
+            transform: translateX(-570px) translateY(-426px);
             height: 753px;
             width: auto;
         }
         .all-rules{
-            transform: translateX(-239px) translateY(-212px);
+            transform: translateX(-245px) translateY(-217px);
             background-position: top;
             object-fit: contain;
             height: 753px;
             width: auto;
         }
         .all-positions{
-            transform: translateX(-298px) translateY(-152px);
+            transform: translateX(-305px) translateY(-157px);
             background-position: top;
             object-fit: contain;
             height: 753px;

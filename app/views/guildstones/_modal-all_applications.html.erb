@@ -1,0 +1,85 @@
+
+<div draggable="true" class="guildstone-modal org_chart" 
+<% if i > 0 %>
+style="transform: translate(
+    calc(-50% + <%= i + 1.5 %>%),calc(-30% + <%= i + 2 %>%));
+    z-index: <%= i %>"
+<%end%> >
+    <div class="section-window-header">    
+    All Applications
+        <%= link_to "", close_state_window_path(window: 'allApplications-Guildstone', task: @current_task.id), class:'close-btn windowed' %>
+    </div>
+    <div class="modal-container general">
+        <div class="position-header">
+        All applications available
+        </div>
+        <div class="general-view">
+<div class="general-header">
+    <div>TITLE</div>
+    <div>DESCRIPTION</div>
+    <div>DEPARTMENT</div>
+    <div></div>
+</div>
+        <% Position.all.each do |position|  %>
+            <div class="general-rows">
+            <span><%= position.title %></span>
+            <p><%= position.description %></p>
+            <p><%= position.department.title %></p>
+
+
+            <% unless position.user_position || position.nomination(current_user.id)  %>
+            <%= form_with(model: PositionNomination) do |form| %>
+                <%= form.hidden_field :position_id, :value => position.id %>
+                <%= form.hidden_field :nominee_id, :value => current_user.id%>
+
+                <br/>
+                <%= form.label :resume, "Resume: " %>
+                <br/>
+                <%= form.text_area :resume %>
+                <br/>
+                <%= form.submit 'Apply' %>
+            <% end %>
+            <% else %>
+            <p>Application Submitted!</p>
+        <% end %>
+
+
+            </div>
+        <% end %>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+#guildstones .modal-container.general{
+    background-color:transparent;
+}
+.general-view{
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+}
+.general-view .general-rows{
+    display: flex;
+    align-items: center;
+padding:10px;
+
+    justify-content: space-between;
+}
+.general-view .general-rows:nth-child(even) {
+    background-color: #bef4c2;
+}
+
+.general-view .general-rows:nth-child(odd) {
+    background-color: #dadada;
+}
+.general-header{
+    background-color:white;
+    border:1px solid black;
+    justify-content: space-between;
+    display:flex;
+    padding:0px 8px;
+}
+</style>

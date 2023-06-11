@@ -25,7 +25,9 @@
     <div class="shortcut-icon-container" 
         title="Show all applications" 
         data-action="click->guildstone#allApplications" >
-            <%= image_tag("all_icons.png", class: "all-applications") %>
+        <%= link_to guildstone_all_applications_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("all_icons.png", class: "all-position-button") %>
+        <% end %>
     </div>
     
     <div class="shortcut-icon-container" 
@@ -46,13 +48,14 @@
     </div>
 
     <div class="shortcut-icon-container" 
-    title="All positions" 
-    data-action="click->guildstone#buttonClicked" >
-    <%= link_to  state_modals_path(task_id: @current_task),  class: 'desktop-icon', method: :post do %>
-    <%#= link_to all_state_positions_path, class: 'desktop-icon', method: :post do %>
-        <%= image_tag("all_icons.png", class: "all-positions") %>
+        title="All nominations" 
+        data-action="click->guildstone#buttonClicked" >
+        <%= link_to guildstone_all_nominations_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("all_icons.png", class: "all-positions") %>
         <% end %>
     </div>
+
+
     <div class="shortcut-icon-container" 
     title="All rules" 
     data-action="click->guildstone#buttonClicked" >

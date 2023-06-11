@@ -1,6 +1,6 @@
 class PositionNomination < ApplicationRecord
   belongs_to :user, foreign_key: 'nominator_id'
-  has_one :position
+  belongs_to :position
 
   def user_nominated?
    # PositionNomination.find_by(position_id: self.id)

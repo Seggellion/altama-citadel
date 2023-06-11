@@ -102,6 +102,9 @@ Rails.application.routes.draw do
   get 'start_guildstone', to:'tasks#start_guildstone'
   get 'guildstone_start_asl', to: 'guildstones#guildstone_start_asl'
   get 'guildstone_org_chart', to: 'guildstones#open_org_chart'
+  get 'guildstone_all_applications', to: 'guildstones#all_applications'
+  get 'guildstone_all_nominations', to: 'guildstones#all_nominations'
+  
   get 'start_rfa_manager', to: 'tasks#start_rfa_manager'
   get 'rfas_online', to: 'rfas#online'
   get 'start_shell', to: 'tasks#start_shell'
