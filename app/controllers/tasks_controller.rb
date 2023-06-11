@@ -456,9 +456,9 @@ end
     #next_message = current_user.my_messages.next_created(current_message.created_at).first
     next_message = current_message.next_created
     sender =''
-    if current_message
+    #TODO change to sender.id - creating a bug that i cant figure out yet
     sender = current_message.sender
-    end
+
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
     state_name = "message-#{sender}"
@@ -475,6 +475,7 @@ end
     end    
     states_string = @window_states.join(',')    
     task.update(state:states_string)
+    byebug
     redirect_to(request.env['HTTP_REFERER'])
   end
 
@@ -485,7 +486,7 @@ end
 
     sender =''
     if current_message
-      sender = current_message.sender
+      sender = current_message.sender.id
     end
     #previous_message = current_user.my_messages.previous_created(current_message.created_at).first
     previous_message = current_message.prev_created
@@ -515,8 +516,11 @@ end
   end
 
   def state_asl_message
+    #if system message: sender = task id (of task sending message)
     sender = params[:sender]
     @messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
+    #if sender is another user
+    #blah
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
     state_name = "message-#{sender}"
@@ -529,7 +533,6 @@ end
       @window_states = @window_states + Array[state_name + last_message]
     end
     states_string = @window_states.join(',')
-  
     task.update(state:states_string)
     redirect_to(request.env['HTTP_REFERER'])
   end
