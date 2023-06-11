@@ -78,7 +78,7 @@ case command
   when "moonstone"      
     if filename    
       file_content = File.read("app/views/desktop/apps/shell_apps/files/#{filename}")
-      Moonstone.compile(file_content)
+      text = file_content
     else
       text = "No file specified"
     end

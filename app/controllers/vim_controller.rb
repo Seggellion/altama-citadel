@@ -13,7 +13,7 @@ class VimController < ApplicationController
 
             @task.update(state:'exit')
         when "w"
-            
+            # use colon w to save file. colon w space filename to name. then you must colon q to quit
             unless filename
               filename = "untitled"                   
             end
@@ -30,6 +30,22 @@ class VimController < ApplicationController
 
             out_file.close
            # @task.update(state:'exit')
+        when "wq"
+          filename = params[:query][4..-1]
+            unless filename
+              filename = "untitled"                   
+            end
+            #...
+            out_file = File.new("app/views/desktop/apps/shell_apps/files/#{filename}.moo", "w")
+            out_file.puts(params[:text_content])
+            #...
+
+
+
+            out_file.close
+            # @task.update(state:'exit')  
+            @task.update(state:'exit')         
+           
       end
     
     redirect_to root_path
