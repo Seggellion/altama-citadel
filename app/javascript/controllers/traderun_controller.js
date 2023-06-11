@@ -113,7 +113,8 @@ export default class extends Controller {
     }else if (event.key === "Enter") {
       if (this.menuItemTargets[this.activeIndex].dataset.action === "startNewTradeRun") {
           this.mainMenuTargets.forEach(menu => menu.classList.add("hidden"));
-          document.querySelector('#greeting').classList.add('hidden');              
+          document.querySelector('#greeting').classList.add('hidden');  
+                      
           this.newTradeSessionTarget.classList.remove("hidden");
           this.fillBackground();
           const inputField = document.querySelector('#trade_session_session_date');
@@ -360,7 +361,6 @@ export default class extends Controller {
       document.getElementById("buy_price_input").value = document.getElementById("buyPrice").innerHTML;
       document.getElementById("delta_input").value = document.getElementById("delta").innerHTML;
       document.getElementById("profit_input").value = profit;
-      
 
       document.getElementById("traderuns_form").submit();
       }else{
@@ -423,7 +423,7 @@ export default class extends Controller {
 
   onContentChange(event){
 console.log('oncontentchange');
-    this.calculator(event);
+    this.calculator(event.target);
 
   }
 
@@ -463,6 +463,18 @@ calculateTotalSCU(parentTr) {
   return Array.from(scuElements).reduce((total, scuElement) => total + parseInt(scuElement.value || 0), 0);
 }
 
+calculateProfitPerSCU(parentTr) {
+  const totalProfit = this.calculateTotalProfit(parentTr);
+  const totalSCU = this.calculateTotalSCU(parentTr);
+  
+  // To avoid division by zero
+  if (totalSCU === 0) {
+    return 0;
+  }
+
+  return totalProfit / totalSCU;
+}
+
 getCommodity(location, commodityName) {
   const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
   
@@ -483,6 +495,7 @@ getCommodity(location, commodityName) {
     document.getElementById("capital").innerHTML = '';
     document.getElementById("income").innerHTML = '';
     document.getElementById("profit").innerHTML = '';
+    document.getElementById("prof_scu").innerHTML = '';
 }
 
  calculateSplitCommodities(parentTr) {
@@ -507,18 +520,20 @@ getCommodity(location, commodityName) {
     let buyingPrice = parseFloat(document.getElementById("buyPrice").innerHTML);
     let sellingPrice = parseFloat(document.getElementById("sellPrice").innerHTML);
     let buySCUElement = parseFloat(document.getElementById("buySCU").innerHTML);
-
+    
     let capitalCalculation = buyingPrice * buySCUElement;
     let incomeCalculation = sellingPrice * buySCUElement;
     let profitCalculation = incomeCalculation - capitalCalculation;
-
-    this.appendContentToElements(capitalCalculation, incomeCalculation, profitCalculation);
+    let profit_scu = profitCalculation / buySCUElement;
+    this.appendContentToElements(capitalCalculation, incomeCalculation, profitCalculation, profit_scu);
 }
 
- appendContentToElements(capital, income, profit) {
+ appendContentToElements(capital, income, profit, profit_scu) {
   this.appendContentToElement('capital', capital);
   this.appendContentToElement('income', income);
   this.appendContentToElement('profit', profit);
+
+  this.appendContentToElement('prof_scu', profit_scu);
 }
 
  appendContentToElement(elementId, value) {

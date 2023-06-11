@@ -1,7 +1,19 @@
 class CodexController < ApplicationController
   # before_action :require_login, except: [:find_article]  
   before_action :task_manager
-    
+
+  API_BASE = 'https://api.gallog.co/v1/commodities'.freeze
+
+  def populate_commodity    
+    commodities.each do |commodity|
+      commodity_data = commodity_data_for(commodity)
+      
+      handle_locations(commodity, commodity_data['data']['buyLocations'])
+      handle_locations(commodity, commodity_data['data']['sellLocations'])
+    end
+    redirect_to root_path
+  end
+
 
     def close_codex_window
         task = @all_tasks.find_by(name: "Codex" )        
@@ -115,44 +127,7 @@ def edit_article
      redirect_to root_path
 end
 
-def populate_commodity
-  url = 'https://api.gallog.co/v1/commodities'
-  response = URI.open(url).read
-  json = JSON.parse(response)
-  last_commodity = Commodity.order(updated_at: :desc).first
 
-  json["data"]["commodities"].each do |key, value|
-    new_url = 'https://api.gallog.co/v1/commodities/' + key["slug"]
-    commodity_response = URI.open(new_url).read
-    commodity_json = JSON.parse(commodity_response)
-    is_vice = Commodity.is_vice(key["name"])
-
-    commodity_json["data"]["buyLocations"].each do |location_key, location_value|       
-      break if last_commodity&.updated_at && last_commodity.updated_at >= location_key["timestamp"]
-      buy_price = location_key["buy"].to_i
-      sell_price =  location_key["sell"].to_i
-      
-      commodity = Commodity.create_or_find_by_name_location_and_timestamp(key["name"], sell_price, buy_price, location_key["refreshPerMinute"], location_key["maxInventory"], location_key["name"], location_key["timestamp"], is_vice)
-
-        unless Article.find_by_title(key["name"])
-          Article.create(title:key["name"], article_type: 'commodity', user_id: current_user.id)
-        end
-    end
-    commodity_json["data"]["sellLocations"].each do |location_key, location_value|  
-      break if last_commodity&.updated_at && last_commodity.updated_at >= location_key["timestamp"]
-      buy_price = location_key["buy"].to_i
-      sell_price =  location_key["sell"].to_i
-      commodity = Commodity.create_or_find_by_name_location_and_timestamp(key["name"], sell_price, buy_price, location_key["refreshPerMinute"], location_key["maxInventory"], location_key["name"], location_key["timestamp"], is_vice)
-        unless Article.find_by_title(key["name"])
-          Article.create(title:key["name"], article_type: 'commodity', user_id: current_user.id)
-        end
-    end
-  end
-
-
-
-redirect_to root_path
-end
 
 def populate_locations
   url = 'https://api.gallog.co/v1/tradeports'
@@ -242,5 +217,46 @@ end
     end
 
 
+    private
+
+    def commodities
+      JSON.parse(URI.open(API_BASE).read)['data']['commodities']
+    end
+  
+    def commodity_data_for(commodity)
+      JSON.parse(URI.open("#{API_BASE}/#{commodity['slug']}").read)
+    end
+  
+    def handle_locations(commodity, locations)
+      locations&.each do |location|
+        handle_location(commodity, location)
+      end
+    end
+  
+    def handle_location(commodity, location)
+      if location.nil?
+        puts "Error: location is nil for commodity #{commodity['name']}"
+        return
+      end
+      
+      return if commodity_exists?(commodity['name'], location['timestamp'], location['name'], location['sell'].to_i)
+  
+      sell_price = location['sell'].to_i
+      buy_price = location['buy'].to_i
+      is_vice = Commodity.is_vice(commodity['name'])
+  
+      Commodity.create_or_find_by_name_location_and_timestamp(commodity['name'], sell_price, buy_price, location['refreshPerMinute'], location['maxInventory'], location['name'], location['timestamp'], is_vice)
+      create_article_if_not_exists(commodity['name'])
+    end
+  
+    def commodity_exists?(name, timestamp, location_name, sell_price)
+      Commodity.exists?(name: name, updated_at: timestamp, location: location_name, sell: sell_price)
+    end
+  
+    def create_article_if_not_exists(title)
+      return if Article.find_by_title(title)
+  
+      Article.create(title: title, article_type: 'commodity', user_id: current_user.id)
+    end
 
 end
