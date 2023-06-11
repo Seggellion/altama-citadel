@@ -1,6 +1,6 @@
 class Commodity < ApplicationRecord
   include PgSearch::Model
-
+  # validates :updated_at, uniqueness: true
   pg_search_scope :search_by_name_and_location,
                   against: [:name, :location],
                   using: {

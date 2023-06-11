@@ -87,9 +87,12 @@ end
 
   # PATCH/PUT /Articles/1 or /Articles/1.json
   def update
-    @article = Article.find(params[:id])
-    
+    @article = Article.find(params[:id])    
     if @article.article_type == "location"
+      
+      location_type = params.dig(:article, :location, :location_type)
+      location_type ||= "point of interest"
+
       @location = Location.find_by_name(params[:article][:title])
       @article.update(
         title: params[:article][:title],
@@ -102,16 +105,18 @@ end
         last_updated: Time.now,
         location: @location.name
       )
-      @location.update(
-        location_type:params[:article][:location][:location_type],
-        parent:params[:article][:location][:parent],
-        trade_port: params[:article][:location][:trade_terminal],
-        image: params[:article][:featured_image],
-        ammenities_fuel: params[:article][:location][:ammenities_fuel],
-        ammenities_repair: params[:article][:location][:ammenities_repair],
-        ammenities_rearm: params[:article][:location][:ammenities_rearm],
-        trade_terminal: params[:article][:location][:trade_terminal]
-      )
+      unless params.dig(:article, :location, :parent).nil?
+        @location.update(
+          location_type: location_type,
+          parent: params.dig(:article, :location, :parent),
+          trade_port: params.dig(:article, :location, :trade_terminal),
+          image: params.dig(:article, :featured_image),
+          ammenities_fuel: params.dig(:article, :location, :ammenities_fuel),
+          ammenities_repair: params.dig(:article, :location, :ammenities_repair),
+          ammenities_rearm: params.dig(:article, :location, :ammenities_rearm),
+          trade_terminal: params.dig(:article, :location, :trade_terminal)
+        )
+      end      
       @location.save
     else
       @article.location = nil

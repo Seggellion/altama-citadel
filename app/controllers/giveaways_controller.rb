@@ -11,7 +11,7 @@ class GiveawaysController < ApplicationController
       if @giveaway.save
         redirect_to bot_path(@bot), notice: 'Giveaway was successfully created.'
       else
-        render :new
+        redirect_to root_path
       end
     end
   
