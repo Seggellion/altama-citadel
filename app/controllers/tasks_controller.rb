@@ -329,7 +329,7 @@ def start_guildstone
   
   respond_to do |format|
     @task = Task.last
-    @task.memo(memo_type: "error", memo_text:"Error! NOT! LOL")
+    #@task.memo(memo_type: "error", memo_text:"Error! NOT! LOL")
     format.html { redirect_to guildstone_path(0), notice: "success" }
 
     end
