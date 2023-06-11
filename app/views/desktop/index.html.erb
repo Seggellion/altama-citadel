@@ -79,7 +79,12 @@
         <% end %>
     <% end %>
 
-
+    <% if current_user.user_type == 0 %>
+        <%= link_to start_asl_path, class: 'desktop-icon', method: :post do %>
+            <%= image_tag("asl.svg") %>
+            asl
+        <% end %>
+    <% end %>
 
     
     </div>
