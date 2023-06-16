@@ -8,6 +8,8 @@ export default class extends Controller {
   }
 
   toggleParticipants(event) {
-    this.participantsTarget.classList.toggle('hidden')
+    let closestParticipantsDiv = event.target.nextElementSibling
+    console.log('closestParticipantsDiv', closestParticipantsDiv);
+    closestParticipantsDiv.classList.toggle('hidden')
   }
 }
