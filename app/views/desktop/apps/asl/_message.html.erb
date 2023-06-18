@@ -1,9 +1,12 @@
 <div draggable="true"  class="window message-window">
     
-<div class="section-window-header"><%= show_svg('asl') %>ASL-Message from:
+<div class="section-window-header"><%= show_svg('asl') %>ASL-Message
+<% unless @new_message %>
+ from:
 
 <%= message.sender_name %>
 
+<% end %>
 <%= link_to "", close_state_window_path(window: "message-#{message.sender.id}|#{message.id}", task: task.id), class:'close-btn windowed' %>
    
     </div>
@@ -16,8 +19,11 @@
             Message Text:
         </div>
         <div class="message-body">
-        <textarea id="message" name="content"><%= message.content %></textarea>
-        
+        <% if !@new_message %>
+            <textarea readonly id="message" name="content"><%= message.content %></textarea>
+        <% else %>
+        form
+        <% end %>
         <% if message.nomination? %>
         <div class="message-nomination control-buttons">
             <% if message.already_accepted? or message.rejected? %>
@@ -54,6 +60,7 @@
             <% else %>
             <%= link_to 'Next', "#", class:'button disabled next' %>
             <% end %>
+            <%= link_to 'New', new_message_path(sender: current_user.id, new_message: true, task: task), class:'button next' %>
             <button class="disabled pull-right">
                 Send
             </button>

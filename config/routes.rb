@@ -145,6 +145,7 @@ Rails.application.routes.draw do
   get 'state_modals', to: 'tasks#state_modals'
   get 'next_message', to: 'tasks#state_asl_message_next'
   get 'prev_message', to: 'tasks#state_asl_message_prev'
+  get 'new_message', to: 'tasks#state_asl_message_new'
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'state_location_subitem', to:'tasks#state_location_subitem'
   get 'state_location_mainitem', to:'tasks#state_location_mainitem'

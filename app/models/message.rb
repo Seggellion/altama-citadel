@@ -1,6 +1,10 @@
 class Message < ApplicationRecord
     belongs_to :user
 
+    def new_message
+        user =  User.find_by_id(self.user_id)
+
+    end
 
 def next_created
    user =  User.find_by_id(self.user_id)

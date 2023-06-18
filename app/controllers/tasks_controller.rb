@@ -534,6 +534,32 @@ end
     redirect_to(request.env['HTTP_REFERER'])
   end
 
+  def state_asl_message_new
+    sender = params[:sender]
+    @new_message = params[:new_message]
+    @messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
+    @message = Message.create(sender_id: sender)
+    current_message = @message
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
+    @window_states =  []
+    state_name = "message-#{sender}"
+    last_message = "|#{@messages.id}"
+    window_state_csv = task.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+    end  
+    unless @window_states.include?(state_name  + last_message)
+      @window_states = @window_states + Array[state_name + last_message]
+    end
+    
+    states_string = @window_states.join(',')
+
+    task.update(state:states_string)
+    redirect_to(request.env['HTTP_REFERER'])
+byebug
+  end
+
+
 
   def state_discord_users
     
