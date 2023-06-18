@@ -457,7 +457,7 @@ end
     next_message = current_message.next_created
     sender =''
     if current_message
-    sender = current_message.sender
+      sender = current_message.sender.id
     end
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
@@ -467,7 +467,7 @@ end
     window_state_csv = task.state
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
-      @window_states = window_state_csv.split('|')
+      message_states = window_state_csv.split('|')
     end  
     unless @window_states.include?(state_name + nxt_message)
       @window_states = @window_states - Array[state_name + curr_message]
@@ -485,7 +485,7 @@ end
 
     sender =''
     if current_message
-      sender = current_message.sender
+      sender = current_message.sender.id
     end
     #previous_message = current_user.my_messages.previous_created(current_message.created_at).first
     previous_message = current_message.prev_created
