@@ -5,11 +5,11 @@
         
         <% current_user.past_messages_users.each do |message| %>
             
-        <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
-           <%= show_svg('asl-outline') %><%= message.sender %>
+        <%= link_to state_asl_message_path(sender: message.sender.id), method: :post do %>
+           <%= show_svg('asl-outline') %><%= message.sender.username %>
            <% end %>
            
-           <% if !task.state.nil? && task.state["message-#{message.sender}"] %>
+           <% if task.state&.start_with?("message") %>
 
            <% message = Message.find_by_id(task.state.split('|').last) %>
            
@@ -18,14 +18,6 @@
            
         <% end %>
 
-        <a href="#"><%= show_svg('asl-outline') %>John</a>
-        <a href="#"><%= show_svg('asl-outline') %>Emily</a>
-        <a href="#"><%= show_svg('asl-outline') %>Yamada</a>
-
-# This needs to create a new state within ASL - One that stores the username
-# loop through  all the messages
-# Provide a link which opens the window with the state parameter
-# also make this window clicky drag and store location :-)
 # new messages should make the ICQ sound
         </div>
     </div>
