@@ -20,17 +20,16 @@ style="transform: translate(
                 <div>DEPARTMENT</div>
                 <div></div>
             </div>
+            <% if PositionNomination.all.count > 0 %>
+
         <% PositionNomination.all.each do |position|  %>
             <div class="general-rows">
             <span><%= position.position.title %></span>
             <p><%= position.user.username %></p>
             <p><%= position.position.title %></p>
 
-
-                            
-
-                    <% unless position.user.id == current_user.id %>
-                    <% if position.already_voted?(current_user) %>
+                <% unless position.user.id == current_user.id %>
+                    <% if position.position.already_voted?(current_user) %>
                         <%= link_to "UnVote", unvote_path(user: current_user, nomination: position) %>
                     <% else %>
                         <%= link_to "Vote", vote_path(user: current_user, nomination: position) %>
@@ -40,7 +39,7 @@ style="transform: translate(
 
             </div>
         <% end %>
-
+<% end %>
         </div>
     </div>
 
