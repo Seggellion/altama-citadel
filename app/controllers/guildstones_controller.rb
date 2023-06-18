@@ -187,13 +187,16 @@ class GuildstonesController < ApplicationController
       
       @vote = Vote.find_by(position_nomination_id: nomination.id, guildstone_id: guildstone.id,
       user_id: current_user.id)
+
     end
+
+
     respond_to do |format|
       if @vote.destroy
         format.html { redirect_to guildstone, notice: "unvoted." }
         format.json { render :show, status: :created, location: guildstone }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to guildstone, notice: "Error." }
         format.json { render json: guildstone.errors, status: :unprocessable_entity }
       end
     end
