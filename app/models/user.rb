@@ -5,6 +5,7 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable,
   :omniauthable, omniauth_providers: %i[discord]
   has_many :userships
+  has_many :trade_sessions, foreign_key: 'owner_id'
   #has_many :ships, :through => :userships
   has_many :ships, through: :userships, source: :ship, foreign_key: 'model'
 

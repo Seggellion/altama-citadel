@@ -1,4 +1,6 @@
 class TradeSession < ApplicationRecord
+    belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
+
 
     def total_profit
         profit = TradeRun.where(trade_session_id: self.id).sum(:profit)

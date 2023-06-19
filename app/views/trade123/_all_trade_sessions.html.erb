@@ -4,7 +4,9 @@ ________________________<br />
 <% @all_trade_sessions.each do |trade_session| %>
 
     <li data-traderun-target="menuItem" >
-    <%= trade_session.owner_id %>
+        <%if trade_session.owner %>
+        <%= trade_session.owner.username %>
+        <% end %>
     <%= link_to trade_session.session_date, traderun_command_path("trade_session-#{trade_session.id}")  %>     
 </li>
     <% end %>

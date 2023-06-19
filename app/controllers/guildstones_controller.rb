@@ -24,7 +24,7 @@ class GuildstonesController < ApplicationController
     @department = Department.new
     @categories = Category.all
     @category = Category.new
-    @users = User.all
+    @users = User.all.order(username: :asc)
     @rules = Rule.all
     @rule = Rule.new
     @rule_proposal = RuleProposal.new
@@ -82,7 +82,7 @@ class GuildstonesController < ApplicationController
         total_members = User.where("user_type < ?", 100).count
         total_votes = Vote.where(non_confidence_id: @non_confidence.id).count
         #remove the two -- for testing only
-        consensus = (total_members * 0.66666) - 2
+        consensus = (total_members * 0.66666)
         
       if total_votes > consensus
         if @non_confidence.rule_id
@@ -104,7 +104,7 @@ class GuildstonesController < ApplicationController
         total_members = User.where("user_type < ?", 100).count
         total_votes = Vote.where(rule_proposal_id: rule_proposal.id).count
         #remove the two -- for testing only
-        consensus = (total_members * 0.66666) - 2
+        consensus = (total_members * 0.66666)
 
       if total_votes > consensus
         @new_rule = Rule.create(user_id: rule_proposal.proposer_id, guildstone_id: guildstone.id, position_id: rule_proposal.position_id,
@@ -124,7 +124,7 @@ class GuildstonesController < ApplicationController
 
     #voting on position nominations
     if PositionNomination.find_by_id(params[:nomination])
-   
+      
     nomination = PositionNomination.find_by_id(params[:nomination])
     @users_user_position_histories = UserPositionHistory.where(user_id: nomination.user.id)
     position = Position.find_by_id(nomination.position_id)
@@ -134,10 +134,10 @@ class GuildstonesController < ApplicationController
     total_members = User.where("user_type < ?", 100).count
     total_votes = Vote.where(position_id: nomination.id).count
     #remove the two -- for testing only
-    consensus = (total_members * 0.66666) - 2
+    consensus = (total_members * 0.66666)
     #term_end = Time.now + 3.months
     term_length = position.term_length_days.to_s + 'd'
-
+    
     if total_votes > consensus
      @new_user_position =  UserPosition.create(user_id: nomination.user.id,position_id: position.id, term_length_days: position.term_length_days, 
       department_id: position.department_id, guildstone_id: Guildstone.first.id, nomination_id: nomination.id, title: position.title, 

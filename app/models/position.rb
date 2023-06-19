@@ -41,6 +41,10 @@ end
     PositionNomination.where(position_id: self.id)
   end
 
+  def total_votes
+    Vote.where(position_id: self.id).count
+  end
+
   def position_username
 
     unless self.user.nil?

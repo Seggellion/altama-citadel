@@ -1,0 +1,110 @@
+ <%= render '/trade123/traderun_menu' %>
+
+    <table id="spreadsheet">
+    <thead>
+      <tr>
+        <th></th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+        <th>F</th>
+        <th>G</th>
+        <th>H</th>
+        <th>I</th>
+        <th>J</th>
+        <th>K</th>
+        <th>L</th>
+        <th>M</th>
+        <th>N</th>
+        <th>O</th>
+        <th>P</th>
+        <th>Q</th>
+      </tr>
+    </thead>
+    <tbody  data-traderun-target="tbody">
+      <tr>
+        <td class="rownumber">1</td>
+        <td>Captain</td>
+        <td>Ship</td>
+        <td>Location</td>
+
+        <td>Commodity</td>
+        <td>Buy price</td>
+        <td>SCU Buy</td>
+        <td>Location</td>
+        <td>Price</td>
+        <td>SCU Sell</td>
+        <td>Capital</td>
+        <td>Income</td>
+        <td>Profit</td>
+        <td>ProfSCU</td>
+        <td>Market delta</td>
+        <td>Payout</td>
+        <td>Action</td>
+      </tr>
+
+      <tr>
+      <%#= render 'trade123/trade_run_new' %>
+      </tr>
+
+      <% @viewing_traderuns.each_with_index do |trade_run, i | %>
+        <%= render '/trade123/viewing_traderuns', trade_run: trade_run, i:i %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <script>
+    let selectedCell = null;
+    const cells = document.querySelectorAll('td[contenteditable="true"]');
+
+    cells.forEach((cell) => {
+    cell.addEventListener('click', () => {
+    if (selectedCell) {
+        selectedCell.classList.remove('selected');
+    }
+    selectedCell = cell;
+    selectedCell.classList.add('selected');
+    });
+    });
+
+    document.addEventListener('keydown', (event) => {
+    if (selectedCell) {
+    const currentRowIndex = selectedCell.parentNode.rowIndex;
+    const currentColumnIndex = selectedCell.cellIndex;
+    let newCell;
+
+    switch (event.key) {
+        case 'ArrowUp':
+        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex - 1}-col-${currentColumnIndex}`);
+        break;
+        case 'ArrowDown':
+        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex + 1}-col-${currentColumnIndex}`);
+        break;
+        case 'ArrowLeft':
+        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex}-col-${currentColumnIndex - 1}`);
+        break;
+        case 'ArrowRight':
+        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex}-col-${currentColumnIndex + 1}`);
+        break;
+        default:
+        break;
+    }
+
+    if (newCell) {
+        selectedCell.classList.remove('selected');
+        selectedCell = newCell;
+        selectedCell.classList.add('selected');
+    }
+    }
+    });
+</script>
+
+    <div id="data" >
+        <%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu]) } do %><% end %>
+        <%= content_tag :div, id: "commodities-data", class: "hidden", data: { traderun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
+    </div>
+
+
+

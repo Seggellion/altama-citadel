@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_27_181244) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_18_221010) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -301,6 +301,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_27_181244) do
     t.integer "parent_position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "term_start"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -491,6 +492,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_27_181244) do
     t.datetime "updated_at", null: false
     t.integer "delta"
     t.integer "profit"
+    t.string "type"
   end
 
   create_table "trade_session_users", force: :cascade do |t|

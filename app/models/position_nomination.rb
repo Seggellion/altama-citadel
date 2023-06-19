@@ -12,6 +12,9 @@ class PositionNomination < ApplicationRecord
     User.find_by_id(self.nominee_id)
   end
 
+  def total_votes
+    Vote.where(position_nomination_id: self.id).count
+  end
 
 
 end

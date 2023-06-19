@@ -22,8 +22,22 @@ style="transform: translate(
                 <div class="position-row">Title:  </div>
                 <div class="position-row">Extension:  </div>
                 <div class="position-row">Hire Date:  <%= position.user_position.created_at  %> </div>
-                <% end %>
+            <% end %>
                 <hr />
+
+                <div class="election-container">
+                
+                    Total votes: <%= position.total_votes %>
+                    <br />
+                        Term end:  <%= (position.term_start || 0) + (position.term_length_days || 0) %>
+                    <br />
+                        Term start: <%= position.term_start %>
+                    <br />
+                    <% if position.term_start  && position.term_start > Time.now %> 
+                        Voting is open
+                    <% end %>
+                </div>
+
                 <div class="buttons">
                     <% unless position.user_position || position.nomination(current_user.id)  %>
                         <%= form_with(model: PositionNomination) do |form| %>
@@ -64,12 +78,14 @@ style="transform: translate(
                     
                         <% position.applications.each do | application | %>
                             
-                            <span><%= application.nominee.username %></span>
+                            <span><%= application.nominee.username %><% if application.user.id == current_user.id %> - <%= application.total_votes %><% end %></span>
                                 <% unless application.user.id == current_user.id %>
-                                <% if position.already_voted?(current_user) %>
-                                    <%= link_to "UnVote", unvote_path(user: current_user, nomination: application) %>
+                                <% unless position.already_voted?(current_user) %>
+                                <%= link_to "Vote", vote_path(user: current_user, nomination: application) %>
+                                    
                                 <% else %>
-                                    <%= link_to "Vote", vote_path(user: current_user, nomination: application) %>
+                                Voted
+                                <%#= link_to "UnVote", unvote_path(user: current_user, nomination: application) %>
                                 <% end %>
                             <% end %>
                         <% end %>
