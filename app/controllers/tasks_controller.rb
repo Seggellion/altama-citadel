@@ -123,6 +123,7 @@ def close_last_window
   @task_manager = TaskManager.find_by(user_id: current_user)
   @all_tasks = Task.where(task_manager_id: @task_manager.id)
   @all_tasks.last.destroy
+  redirect_to root_path
 end
 
 def close_state_window
