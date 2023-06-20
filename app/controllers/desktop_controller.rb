@@ -49,7 +49,7 @@ end
 
   @bots = Bot.all
   @discord_users =  DiscordUser.all.order(role: :desc)
-  @rsi_users = RsiUser.all.order(title: :desc)
+  @rsi_users = RsiUser.all.order(title: :asc, username: :asc)
   @ships = Ship.all.order(model: :asc)
   @cargo_ships = Ship.where("scu > ?", 45).order(model: :asc)
   @ship = Ship.new

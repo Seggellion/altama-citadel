@@ -1,19 +1,45 @@
-<div data-controller="desktop" id="asl" class="window memo">
-    <%= render '/desktop/window-frame', app1: 'Memo', task: Task.last %>
+<div data-controller="desktop" class="window memo">
+    <%= render '/desktop/window-frame', app1: 'Error', task: Task.last %>
 
     <% if @current_task && @current_task.memo_text %>
 
-        <div class="memo-body">
-            <div class="memo-icon-container">
-                <%= image_tag( "all_icons.png", class: "error_icon")  %> 
-            </div>
-            <div class="memo-text">
-                This is an error message!
+        <div class="memo-body" data-controller="sound" >
+        <audio data-sound-target="audio" src="<%= audio_path 'warning.mp3' %>"  autoplay></audio>
 
-                <table>
-                <%= @current_task.memo_text %>
-                </table>
+            <div class="memo-main">
+                <div class="memo-icon"><%= image_tag("warning.png") %></div>
+                <div class="memo-text">                
+                    <%= @current_task.memo_text %>                                      
+                </div>
             </div>
+            <%= button_to "OK", clear_memos_path, method: :get, class: "button-class" %>
         </div>
+
+
     <% end %>
 </div>
+
+<style>
+.memo .memo-body{
+    padding-top:30px;
+    display:flex;
+    flex-direction:column;
+}
+.memo-main{
+    display:flex;
+    flex-direction:row;
+}
+.window.memo{
+    height: 160px;
+    width: 420px;
+    z-index:90210;
+}
+.memo-icon{
+    height: 80px;
+    width: 130px;
+}
+.memo-icon img{
+    height:100%;
+    width:100%;
+}
+</style>

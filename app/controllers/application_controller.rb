@@ -1,9 +1,17 @@
 class ApplicationController < ActionController::Base
- # rescue_from StandardError, with: :handle_error if Rails.env.production?
+  rescue_from StandardError, with: :handle_error if Rails.env.production?
 
   #error handler
+  def fetch_log_data
+    log_file_path = Rails.root.join('log', "#{Rails.env}.log")
+    `tail -n 50 #{log_file_path}`
+  end
+
   def handle_error(e)
-    redirect_to bsod_path 
+    @log_data = fetch_log_data if Rails.env.production?
+    #render 'error', status: :internal_server_error
+    render 'bsod', status: :internal_server_error
+    #redirect_to bsod_path 
     #code to send email and redirect to error page
   end
 

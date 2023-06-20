@@ -119,10 +119,17 @@ def clear_memos
   redirect_to root_path
 end
 
+def close_last_window
+  @task_manager = TaskManager.find_by(user_id: current_user)
+  @all_tasks = Task.where(task_manager_id: @task_manager.id)
+  @all_tasks.last.destroy
+end
+
 def close_state_window
 
   window = params[:window]
   task = @all_tasks.find_by_id(params[:task])
+  
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
@@ -605,6 +612,27 @@ end
      end
    end
   end
+  
+  def sync_altama
+    rsi_user = RsiUser.find_by('lower(username) = ?', current_user.username.downcase)
+  task =  Task.find_by(task_manager_id:@task_manager.id, name: "User profile")
+    if rsi_user.nil?
+      
+      return
+    end
+  
+    if current_user.update(org_title: rsi_user.title, user_type: RsiUser.org_user_type_match(rsi_user))
+      
+    else
+      task.memo(memo_type: "error", memo_text:"Error: No user in Altama Database.")
+    end
+  end
+  
+
+
+
+
+
   
 
   def taskbar_button

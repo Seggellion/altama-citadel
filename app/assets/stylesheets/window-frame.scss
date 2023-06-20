@@ -209,6 +209,21 @@
   }
 }
 
+button{
+    background-color: $light_grey;
+    border-top:$highlight_border;
+    border-left:$highlight_border;
+    border-right:$shadow_border;
+    border-bottom:$shadow_border;
+    font-family: 'windows';
+    
+    font-size: 1rem;
+    padding: 2px 36px;
+    &:hover{
+        cursor: asset-url('Cursor_15.cur'), auto;
+    }
+}
+
 .control-buttons{
   padding-top:5px;
   display: flex;
@@ -223,11 +238,7 @@
       display:flex !important;
       justify-content: center;
       align-items: center;
-      background-color: $light_grey;
-      border-top:$highlight_border;
-      border-left:$highlight_border;
-      border-right:$shadow_border;
-      border-bottom:$shadow_border;
+
       &.disabled{
         color: grey !important;
         

@@ -87,6 +87,68 @@ end
       end
     end
 
+
+    def reputation
+    
+      case self.fame
+      when 0..1249
+          fame_level = 1
+      when 1250..2499
+          fame_level = 2
+      when 2500..4999
+          fame_level = 3
+      when 5000..9999
+          fame_level = 4
+      when 10000..32000
+          fame_level = 5
+      end
+  
+      case self.karma
+      when 10000..32000
+          karma_level = 1
+      when 5000..9999
+          karma_level = 2
+      when 2500..4999
+          karma_level = 3
+      when 1250..2499
+          karma_level = 4
+      when 625..1249
+          karma_level = 5
+      when -625..624
+          karma_level = 6
+      when -1249..-625
+          karma_level = 7
+      when -2499..-1250
+          karma_level = 8
+      when -4999..-2500
+          karma_level = 9
+      when -9999..-5000
+          karma_level = 10
+      when -32000..-10000
+          karma_level = 11
+      end
+  
+      title_matrix = [
+          ['Trustworthy', 'Estimable', 'Great', 'Glorious', 'Glorious Lord/Lady'],
+          ['Honest', 'Commendable', 'Famed', 'Illustrious', 'Illustrious Lord/Lady'],
+          ['Good', 'Honorable', 'Admirable', 'Noble', 'Noble Lord/Lady'],
+          ['Kind', 'Respectable', 'Proper', 'Eminent', 'Eminent Lord/Lady'],
+          ['Fair', 'Upstanding', 'Reputable', 'Distinguished', 'Distinguished Lord/Lady'],
+          [nil, 'Notable', 'Prominent', 'Renowned', 'Lord/Lady'],
+          ['Rude', 'Disreputable', 'Notorious', 'Infamous', 'Dishonored Lord/Lady'],
+          ['Unsavory', 'Dishonorable', 'Ignoble', 'Sinister', 'Sinister Lord/Lady'],
+          ['Scoundrel', 'Malicious', 'Vile', 'Villainous', 'Dark Lord/Lady'],
+          ['Despicable', 'Dastardly', 'Wicked', 'Evil', 'Evil Lord/Lady'],
+          ['Outcast', 'Wretched', 'Nefarious', 'Dread', 'Dread Lord/Lady']
+      ]
+  
+      title = title_matrix[karma_level - 1][fame_level - 1]
+
+      "The #{title}" if title.present?
+    
+    end
+
+
    def user_type_text
     if self.user_type == 0
       p 'Administrator'
