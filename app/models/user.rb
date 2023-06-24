@@ -52,7 +52,14 @@ def discounts
   discount
 end
 
+def session_profit(trade_session)
+  trade_runs = TradeRun.where(username: self.username, trade_session_id: trade_session.id)
 
+  total_profit = trade_runs.sum(:profit)
+  total_profit
+  formatted_profit = total_profit.to_s(:delimited)
+  formatted_profit
+end
 
   def will_save_change_to_email?
     false

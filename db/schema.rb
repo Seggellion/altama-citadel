@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_221010) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_24_013903) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -101,6 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_221010) do
     t.integer "maxInventory"
     t.string "location"
     t.boolean "vice"
+    t.boolean "active"
   end
 
   create_table "control_points", force: :cascade do |t|
@@ -264,6 +265,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_221010) do
     t.text "content"
     t.boolean "read", default: false
     t.string "subject"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "milk_runs", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "usership_id"
+    t.integer "commodity_id"
+    t.integer "trade_session_id"
+    t.integer "buy_commodity_id"
+    t.integer "sell_commodity_id"
+    t.integer "sell_commodity_scu"
+    t.integer "buy_commodity_scu"
+    t.integer "buy_commodity_price"
+    t.integer "sell_commodity_price"
+    t.integer "max_scu"
+    t.integer "used_scu"
+    t.integer "profit"
+    t.boolean "locked"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -46,7 +46,7 @@ end
   dossier_ids = dossier_list.map { |user| user[:reference_id] }
   @altama_users_without_dossier = @altama_users.where.not(id: dossier_ids)
 
-
+  @milk_runs = MilkRun.all
   @bots = Bot.all
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :asc, username: :asc)

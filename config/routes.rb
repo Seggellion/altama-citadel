@@ -165,6 +165,9 @@ Rails.application.routes.draw do
   get 'populate_locations', to: 'codex#populate_locations'
   get 'payout_streamchart', to: 'streamchart#payout'
 
+  get 'commodities_by_location', to: 'commodities#commodities_by_location'
+  post 'deactivate_commodities', to: 'commodities#deactivate_commodities'
+
   get 'vote', to: 'guildstones#vote'
   get 'unvote', to: 'guildstones#unvote'
   get 'accept_nomination', to: 'position_nominations#accept'
