@@ -1,110 +1,85 @@
  <%= render '/trade123/traderun_menu' %>
+<% end_column = "I" %>
+ <div data-controller="spreadsheet">
+ <table id="spreadsheetTable">
+   <thead>
+     <tr>
+       <th></th>
+       <% ('A'..end_column).each do |char| %>
+         <th><%= char %></th>
+       <% end %>
+     </tr>
+   </thead>
+   <tbody>
+     <%= form_with model: @milk_run, local: true do |f| %>
+       <tr>
+         <td>1</td>
+         <% ('A'..end_column).each do |char| %>
+          <% if char == 'A' %><td>Buy</td><% end %>
+          <% if char == 'B' %><td><%= f.text_field :profit, placeholder: 'Username' %></td><% end %>
+          <% if char == 'C' %><td><%= f.text_field :profit, placeholder: 'Ship' %></td><% end %>
+          <% if char == 'D' %><td><%= f.text_field :profit, placeholder: 'Location' %></td><% end %>
+          <% if char == 'E' %><td><%= f.text_field :commodity, placeholder: 'Commodity'  %></td><% end %>
+          <% if char == 'F' %><td><%= f.text_field :profit, placeholder: 'BUY_SCU' %></td><% end %>
+          <% if char == 'G' %><td><%= f.text_field :profit, placeholder: 'Buy_Price' %></td><% end %>
+          <% if char == 'H' %><td><%= f.text_field :profit, placeholder: 'Capital'  %></td><% end %>
+          <% if char == 'I' %><td><%= f.submit 'Buy' %></td><% end %>
+         <% end %>
+       </tr>
+     <% end %>
+     <%= form_with model: @milk_run_group, local: true do |f| %>
+       <tr>
+         <td>2</td>
+         <% ('A'..end_column).each do |char| %>
+          <% if char == 'A' %><td>Sell</td><% end %>
+          <% if char == 'B' %><td><%= f.text_field :profit, placeholder: 'Ship' %></td><% end %>
+          <% if char == 'C' %><td><%= f.text_field :profit, placeholder: 'Location'  %></td><% end %>
+          <% if char == 'D' %><td><%= f.text_field :commodity, placeholder: 'Commodity'  %></td><% end %>
+          <% if char == 'E' %><td><%= f.text_field :profit, placeholder: 'SELL_SCU' %></td><% end %>
+          <% if char == 'F' %><td><%= f.text_field :profit, placeholder: 'SellPrice'  %></td><% end %>
+          <% if char == 'G' %><td><%= f.text_field :profit, placeholder: 'Profit/SCU' %></td><% end %>
+          <% if char == 'H' %><td><%= f.submit 'Sell' %></td><% end %>
+         <% end %>
+       </tr>
 
-    <table id="spreadsheet">
-    <thead>
-      <tr>
-        <th></th>
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-        <th>D</th>
-        <th>E</th>
-        <th>F</th>
-        <th>G</th>
-        <th>H</th>
-        <th>I</th>
-        <th>J</th>
-        <th>K</th>
-        <th>L</th>
-        <th>M</th>
-        <th>N</th>
-        <th>O</th>
-        <th>P</th>
-        <th>Q</th>
-      </tr>
-    </thead>
-    <tbody  data-traderun-target="tbody">
-      <tr>
-        <td class="rownumber">1</td>
-        <td>Captain</td>
-        <td>Ship</td>
-        <td>Location</td>
+     <% end %>
+     <% @milk_runs.each_with_index do |milk_run, index| %>
+       <tr>
+         <td><%= index + 1 %></td>
+         <% ('A'..end_column).each do |char| %>
+           <% if char == 'A' %>
+             <td><%= milk_run.profit %></td>
+           <% else %>
+             <td></td>
+           <% end %>
+         <% end %>
+       </tr>
+     <% end %>
+   </tbody>
+ </table>
+</div>
 
-        <td>Commodity</td>
-        <td>Buy price</td>
-        <td>SCU Buy</td>
-        <td>Location</td>
-        <td>Price</td>
-        <td>SCU Sell</td>
-        <td>Capital</td>
-        <td>Income</td>
-        <td>Profit</td>
-        <td>ProfSCU</td>
-        <td>Market delta</td>
-        <td>Payout</td>
-        <td>Action</td>
-      </tr>
-
-      <tr>
-      <%#= render 'trade123/trade_run_new' %>
-      </tr>
-
-      <% @viewing_traderuns.each_with_index do |trade_run, i | %>
-        <%= render '/trade123/viewing_traderuns', trade_run: trade_run, i:i %>
-      <% end %>
-    </tbody>
-  </table>
-
-  <script>
-    let selectedCell = null;
-    const cells = document.querySelectorAll('td[contenteditable="true"]');
-
-    cells.forEach((cell) => {
-    cell.addEventListener('click', () => {
-    if (selectedCell) {
-        selectedCell.classList.remove('selected');
-    }
-    selectedCell = cell;
-    selectedCell.classList.add('selected');
-    });
-    });
-
-    document.addEventListener('keydown', (event) => {
-    if (selectedCell) {
-    const currentRowIndex = selectedCell.parentNode.rowIndex;
-    const currentColumnIndex = selectedCell.cellIndex;
-    let newCell;
-
-    switch (event.key) {
-        case 'ArrowUp':
-        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex - 1}-col-${currentColumnIndex}`);
-        break;
-        case 'ArrowDown':
-        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex + 1}-col-${currentColumnIndex}`);
-        break;
-        case 'ArrowLeft':
-        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex}-col-${currentColumnIndex - 1}`);
-        break;
-        case 'ArrowRight':
-        newCell = document.getElementById(`spreadsheet-row-${currentRowIndex}-col-${currentColumnIndex + 1}`);
-        break;
-        default:
-        break;
-    }
-
-    if (newCell) {
-        selectedCell.classList.remove('selected');
-        selectedCell = newCell;
-        selectedCell.classList.add('selected');
-    }
-    }
-    });
-</script>
-
-    <div id="data" >
-        <%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu]) } do %><% end %>
-        <%= content_tag :div, id: "commodities-data", class: "hidden", data: { traderun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
-    </div>
+<div id="data" >
+<%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu]) } do %><% end %>
+<%= content_tag :div, id: "commodities-data", class: "hidden", data: { traderun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
+</div>
 
 
+<style>
+
+#spreadsheetTable {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+#spreadsheetTable th, #spreadsheetTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#spreadsheetTable th {
+  background-color: #f2f2f2;
+}
+</style>
 

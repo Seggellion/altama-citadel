@@ -1,6 +1,24 @@
 class CommoditiesController < ApplicationController
     before_action :set_commodity, only: %i[edit update destroy ]
   
+    def commodities_by_location
+
+      @commodities = Commodity.where(location: params[:location])
+      
+      render json: @commodities
+    end
+
+    def deactivate_commodities
+      location = Location.find_by(name: params[:location])
+      
+      commodity_name = params[:name]
+      commodities = Commodity.where(location: location.name, name: commodity_name)
+    
+      commodities.update_all(active: false)
+    
+      redirect_to root_path
+    end
+
   def create
       @commodity = Commodity.new(commodity_params)
       

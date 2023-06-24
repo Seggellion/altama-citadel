@@ -1,30 +1,45 @@
 <div data-controller="tradesessionprofit" class="traderun-container">
     <div id="charContent"></div>
-
+<% trade_session = TradeSession.find_by_id(@current_task.state.split("-").last) %>
     <div class="main-menu trade-session"  data-traderun-target="newTradeSession">
-    Profit Distribution: <%=  TradeSession.find_by_id(@current_task.state.split("-").last).session_date %>
+<div class="session-title">
+Profit Distribution: <%=  TradeSession.find_by_id(@current_task.state.split("-").last).session_date %>
+</div>
 
+<div class="distribution-body">
+    <div class="profit-distribution">
 
-
-
-    <svg id="svgCanvas" width="500" height="500">
+    <svg id="svgCanvas" width="250" height="250">
     <!-- Black Triangle -->
-    <polygon id="blackTriangle" points="100,400 400,400 250,100" fill="black"/>
+    <polygon id="blackTriangle" points="50,200 200,200 125,50" fill="black"/>
     <!-- Red Square -->
-    <rect id="redSquare" x="250" y="300" width="20" height="20" fill="red" />
+    <rect id="redSquare" x="125" y="150" width="10" height="10" fill="red" />
   </svg>
   
 
+  </div>
+
 <div class="data" style="text-align:right;">
+<% trade_session.all_users.each do |user| %>
+<%= user.username %> - <%= user.session_profit(trade_session) %> <br/>
+  <% end %>
+
 Profit: <%= TradeSession.find_by_id(@current_task.state.split("-").last).total_profit %>
 SCU: <%= TradeSession.find_by_id(@current_task.state.split("-").last).total_scu %>
-</div>
 
+</div>
+</div>
 
     </div>
     <%= render '/trade123/footer_menu' %>
 </div>
 <style>
+.distribution-body{
+  align-items: flex-end;
+  flex-direction: row;
+  justify-content: space-between;
+  display: flex;
+}
 #charContent{
   width:100%;
   height:100vh;

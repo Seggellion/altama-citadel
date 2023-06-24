@@ -29,6 +29,9 @@
         height:100%;
         padding:0px 5px;
     }
+    #citadel_button{
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
     .app-bar{
         width: 160px;
         display: flex;
@@ -39,7 +42,7 @@
         white-space: nowrap;
         background: repeating-conic-gradient($light_grey_highlight 0% 25%, transparent 0% 50%) 50% / 3px 3px;        
         margin-left: 5px;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        
         border-top:$shadow_border;
         border-left:$shadow_border;
         border-right:$highlight_border;

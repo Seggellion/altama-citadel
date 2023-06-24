@@ -1,0 +1,4 @@
+class MilkRun  < ApplicationRecord
+
+
+end

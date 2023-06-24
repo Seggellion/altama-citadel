@@ -67,6 +67,23 @@ export default class extends Controller {
     }
   }
 
+
+  async loadCommodities(event) {
+    let locationName= event.target.value;
+    let encodedLocationName = encodeURIComponent(locationName);
+    let response = await fetch(`/commodities_by_location?location=${encodedLocationName}`);
+    let commodities = await response.json();
+
+    let commoditySelect = document.getElementById("commodity-select");
+    commoditySelect.innerHTML = "";  // Clear existing options
+
+    commodities.forEach((commodity) => {
+      let option = new Option(commodity.name, commodity.name);
+      commoditySelect.options.add(option);
+    });
+  }
+
+
   updateTraderunFooterVisibility() {
     var greetingElement = document.querySelector('#greeting');
     var traderunFooterElement = document.querySelector('#traderun_footer');
