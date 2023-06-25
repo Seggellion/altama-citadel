@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_25_194225) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_25_233019) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -309,6 +309,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_194225) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "approved"
+    t.index ["nominator_id", "position_id"], name: "index_position_nominations_on_nominator_id_and_position_id", unique: true
   end
 
   create_table "positions", force: :cascade do |t|
@@ -321,7 +322,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_194225) do
     t.integer "parent_position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "term_start"
+    t.datetime "term_start"
   end
 
   create_table "reviews", force: :cascade do |t|

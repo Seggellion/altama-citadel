@@ -80,7 +80,7 @@ class GuildstonesController < ApplicationController
       @non_confidence = NonConfidence.find_by_id(params[:non_confidence])
       @vote = Vote.create(non_confidence_id: @non_confidence.id, position_id: @non_confidence.position_id, user_position_id: @non_confidence.user_position_id, rule_proposal_id: @non_confidence.rule_id,
          guildstone_id: guildstone.id, user_id: current_user.id, vote: true)
-        total_members = User.where("user_type < ?", 100).count
+        total_members = @altama_users.where("user_type < ?", 100).count
         total_votes = Vote.where(non_confidence_id: @non_confidence.id).count
         #remove the two -- for testing only
         consensus = (total_members * 0.66666)

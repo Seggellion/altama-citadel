@@ -13,8 +13,7 @@ class PositionNominationsController < ApplicationController
     @position_nomination = PositionNomination.new
   end
 
-def accept
-  
+def accept  
   @guildstone = Guildstone.first
   position = Position.find_by_id(params[:position])
   nomination = PositionNomination.find_by(position_id: position.id, nominee_id:current_user.id)
@@ -37,12 +36,15 @@ end
     
     @guildstone = Guildstone.first
     @position_nomination.update(nominator_id: current_user.id)
-    @position_nomination.update(guildstone_id: @guildstone.id)
-    
-    
+    @position_nomination.update(guildstone_id: @guildstone.id)        
+
+
+
     respond_to do |format|
       if @position_nomination.save
-        if current_user.id != user_id 
+        if current_user.id != user_id           
+          Vote.create(position_id: position_nomination_params[:position_id], position_id: position_nomination_params[:position_id],
+          guildstone_id: @guildstone.id, user_id: current_user.id, vote:true, position_nomination_id: PositionNomination.last.id )
           Message.create(user_id: user_id, task_id: "Guildstone", content:"You've been nominated for a role! Click below to accept / deny, RoleID: #{position_nomination_params[:position_id]}", subject:"Altama Posititon Nomination")
         end
         format.html { redirect_to @guildstone, notice: "Position Nomination was successfully created." }
@@ -54,7 +56,10 @@ end
   end
 
   def destroy
+    
+    Vote.where(position_nomination_id: @position_nomination.id).destroy_all
     @position_nomination.destroy
+    
     respond_to do |format|
       format.html { redirect_to root_path, notice: "Position Nomination was successfully destroyed." }
       format.json { head :no_content }

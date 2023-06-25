@@ -1,10 +1,12 @@
 <div class="section-window">
     <div class="section-window-header">
-    <%= link_to department.title, state_modals_path(department_id: department.id),  class: 'department-title', method: :post %>
+    <%= department.title %>
     </div>
     <div class="position-list">
         <% if department.positions %>
+        <% if @current_task.state %>
         <% clean_state = @current_task.state.gsub(',', '') %>
+        <% end %>
         <% department.positions.each_with_index do |position, index|  %>       
             
             <%= link_to state_positions_path(position: position.title), 

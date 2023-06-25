@@ -6,7 +6,7 @@
       Title: <%= form.text_field :title, :required=>'true' %>
       
       Type: <%= form.select :department_type, ['worker', 'executive', 'director', 'audit', 'faculty', 'governing'] %>
-
+      
       <%= form.submit 'Add' %>
     <% end %>
   </div>
@@ -16,7 +16,7 @@
       <span>Position:</span>
       Title: <%= f.text_field :title, :required=>'true' %>
       <%= f.select :department_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select department'%>
-      
+      Term Start: <%= date_select("position", "term_start") %>
       <%= f.submit 'Add' %>
     <% end %>
   </div>

@@ -45,6 +45,10 @@ end
     Vote.where(position_id: self.id).count
   end
 
+  def votes_needed
+
+  end
+
   def position_username
 
     unless self.user.nil?

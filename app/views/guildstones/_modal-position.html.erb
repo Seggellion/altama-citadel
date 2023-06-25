@@ -26,12 +26,14 @@ style="transform: translate(
                 <hr />
 
                 <div class="election-container">
-                
                     Total votes: <%= position.total_votes %>
                     <br />
-                        Term end:  <%= (position.term_start || 0) + (position.term_length_days || 0) %>
+                    Votes needed: <%=(@altama_users.count * 0.66666).ceil %>
                     <br />
-                        Term start: <%= position.term_start %>
+                    
+                        Term end:  <%= ((position.term_start || Date.today) + (position.term_length_days || 0).days).strftime('%B %d, %Y') %>
+                    <br />
+                        Term start: <%= position.term_start.strftime('%B %d, %Y') %>
                     <br />
                     <% if position.term_start  && position.term_start > Time.now %> 
                         Voting is open
