@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_24_013903) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_25_194225) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -602,6 +602,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_013903) do
     t.string "online_status"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   create_table "userships", force: :cascade do |t|

@@ -25,6 +25,7 @@ class GuildstonesController < ApplicationController
     @categories = Category.all
     @category = Category.new
     @users = User.all.order(username: :asc)
+    @altama_users = @users.where('user_type <= ?', 30)
     @rules = Rule.all
     @rule = Rule.new
     @rule_proposal = RuleProposal.new

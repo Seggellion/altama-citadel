@@ -4,11 +4,14 @@
     </div>
     <div class="position-list">
         <% if department.positions %>
-        <% department.positions.each do |position|  %>
+        <% clean_state = @current_task.state.gsub(',', '') %>
+        <% department.positions.each_with_index do |position, index|  %>       
             
-            <%= link_to state_positions_path(position: position.title), class: 'position-item', method: :post do %>
-            <% if position.user_position %>  <% end %> <%= position.title %>
-             <%= position.position_username || ' - Apply' %>
+            <%= link_to state_positions_path(position: position.title), 
+            class: "position-item#{ ' highlighted' if (position.title == clean_state) || (@current_task.state.blank? && index == 0) }", 
+            method: :post do %>
+            <%= position.title %>
+             <%= position.position_username || ' - Apply / Vote' %>
             <% end %>
 
             <% if @window_states.present? %>
@@ -29,3 +32,9 @@
     <%= button_to "Delete", department_path(department), method: :delete %>
     <% end %>
 </div>
+<style> 
+#guildstones .position-list .highlighted{
+    background-color:black;
+    color:white;    
+}
+</style>

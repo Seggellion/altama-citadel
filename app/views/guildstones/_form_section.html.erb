@@ -26,7 +26,7 @@
     <span>Nominate:</span>
       
       <%= n.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select position'%>
-      <%= n.select :nominee_id, options_for_select(@users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select nominee'%>
+      <%= n.select :nominee_id, options_for_select(@altama_users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select nominee'%>
       Reason: <%= n.text_field :campaign_description, :required=>'true' %>
       Resume: <%= n.text_field :resume %>
       
