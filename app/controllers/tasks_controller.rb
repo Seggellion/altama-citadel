@@ -126,19 +126,21 @@ def close_state_window
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
-  
+  #byebug
   if @window_states.include?(window)
     
     @window_states = @window_states - Array(window)
   end
- 
+
   states_string = @window_states.join(',')
 
   task.update(state:states_string)
   redirect_to(request.env['HTTP_REFERER'])
+  byebug
  # respond_to do |format|
  #   format.html { redirect_to desktop_path, notice: "closed window" }
  #   end
+
 end
 
 def start_shell
@@ -450,115 +452,7 @@ end
     end
   end
 
-  def state_asl_message_next
-    
-    current_message = current_user.my_messages.find_by_id(params[:current_message])
-    #next_message = current_user.my_messages.next_created(current_message.created_at).first
-    next_message = current_message.next_created
-    sender =''
-    if current_message
-      sender = current_message.sender.id
-    end
-    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
-    @window_states =  []
-    state_name = "message-#{sender}"
-    curr_message = "|#{current_message.id}"
-    nxt_message = "|#{next_message.id}"
-    window_state_csv = task.state
-    unless window_state_csv.nil?
-      @window_states = window_state_csv.split(',')
-      message_states = window_state_csv.split('|')
-    end  
-    unless @window_states.include?(state_name + nxt_message)
-      @window_states = @window_states - Array[state_name + curr_message]
-      @window_states = @window_states + Array[state_name + nxt_message]      
-    end    
-    states_string = @window_states.join(',')    
-    task.update(state:states_string)
-    redirect_to(request.env['HTTP_REFERER'])
-  end
-
-
-
-  def state_asl_message_prev
-    current_message = current_user.my_messages.find_by_id(params[:current_message])
-
-    sender =''
-    if current_message
-      sender = current_message.sender.id
-    end
-    #previous_message = current_user.my_messages.previous_created(current_message.created_at).first
-    previous_message = current_message.prev_created
-    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
-    unless  task
-      task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
-    end
-    @window_states =  []
-    state_name = "message-#{sender}"
-    curr_message = "|#{current_message.id}"
-    prev_message = "|#{previous_message.id}"
-    window_state_csv = task.state
-    unless window_state_csv.nil?
-      @window_states = window_state_csv.split(',')
-      message_states = window_state_csv.split('|')
-    end  
-    unless @window_states.include?(state_name + prev_message)
-      @window_states = @window_states - Array[state_name + curr_message]
-      @window_states = @window_states + Array[state_name + prev_message]
-      
-    end
-    
-    states_string = @window_states.join(',')
-    
-    task.update(state:states_string)
-    redirect_to(request.env['HTTP_REFERER'])
-  end
-
-  def state_asl_message
-    sender = params[:sender]
-    @messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
-    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
-    @window_states =  []
-    state_name = "message-#{sender}"
-    last_message = "|#{@messages.id}"
-    window_state_csv = task.state
-    unless window_state_csv.nil?
-      @window_states = window_state_csv.split(',')
-    end  
-    unless @window_states.include?(state_name  + last_message)
-      @window_states = @window_states + Array[state_name + last_message]
-    end
-    states_string = @window_states.join(',')
-  
-    task.update(state:states_string)
-    redirect_to(request.env['HTTP_REFERER'])
-  end
-
-  def state_asl_message_new
-    sender = params[:sender]
-    @new_message = params[:new_message]
-    @messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
-    @message = Message.create(sender_id: sender)
-    current_message = @message
-    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
-    @window_states =  []
-    state_name = "message-#{sender}"
-    last_message = "|#{@messages.id}"
-    window_state_csv = task.state
-    unless window_state_csv.nil?
-      @window_states = window_state_csv.split(',')
-    end  
-    unless @window_states.include?(state_name  + last_message)
-      @window_states = @window_states + Array[state_name + last_message]
-    end
-    
-    states_string = @window_states.join(',')
-
-    task.update(state:states_string)
-    redirect_to(request.env['HTTP_REFERER'])
-byebug
-  end
-
+ 
 
 
   def state_discord_users

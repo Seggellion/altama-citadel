@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   resources :user_badges
   resources :categories
   resources :rule_proposals
+  resources :messages
 
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -141,11 +142,11 @@ Rails.application.routes.draw do
   get 'state_rules', to: 'tasks#state_rules'
   get 'filter_state', to: 'tasks#filter_state'
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
-  get 'state_asl_message', to: 'tasks#state_asl_message'
+  get 'state_asl_message', to: 'asl#state_asl_message'
   get 'state_modals', to: 'tasks#state_modals'
-  get 'next_message', to: 'tasks#state_asl_message_next'
-  get 'prev_message', to: 'tasks#state_asl_message_prev'
-  get 'new_message', to: 'tasks#state_asl_message_new'
+  get 'next_message', to: 'asl#state_asl_message_next'
+  get 'prev_message', to: 'asl#state_asl_message_prev'
+  get 'new_message', to: 'asl#state_asl_message_new'
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'state_location_subitem', to:'tasks#state_location_subitem'
   get 'state_location_mainitem', to:'tasks#state_location_mainitem'

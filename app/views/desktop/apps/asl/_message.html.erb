@@ -1,6 +1,7 @@
 <div draggable="true"  class="window message-window">
     
 <div class="section-window-header"><%= show_svg('asl') %>ASL-Message
+test
 <% unless @new_message %>
  from:
 
@@ -22,7 +23,7 @@
         <% if !@new_message %>
             <textarea readonly id="message" name="content"><%= message.content %></textarea>
         <% else %>
-        form
+        <%= render 'new_message_form' %>
         <% end %>
         <% if message.nomination? %>
         <div class="message-nomination control-buttons">

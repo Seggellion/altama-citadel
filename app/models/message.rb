@@ -53,8 +53,11 @@ def prev_created
         if self.sender_id
             User.find_by_id(self.sender_id)
         else
+            byebug
             self.task.name
         end
+
+
     end
 
     def sender_name

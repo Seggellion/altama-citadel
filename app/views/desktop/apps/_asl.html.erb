@@ -3,13 +3,13 @@
     <div class="asl-container" data-controller="asl" >
         <div class="contact-list">
 
-        <%= link_to new_message_path(sender: current_user.id), method: :post do %>
+        <%= link_to new_message_path(sender: current_user.id, message: @message), method: :post do %>
             create a new message
           
-            <% if task.state&.start_with?("message") %>
-            <%= render 'desktop/apps/asl/new_message' %>
+            
+            <%= render 'messages/new_message_form', task: task %>
             <% end %>
-            <% end %>
+            
 
         <% current_user.past_messages_users.each do |message| %>
         
