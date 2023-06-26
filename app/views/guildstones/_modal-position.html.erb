@@ -25,20 +25,24 @@ style="transform: translate(
             <% end %>
                 <hr />
 
+                
                 <div class="election-container">
                     Total votes: <%= position.total_votes %>
                     <br />
                     Votes needed: <%=(@altama_users.count * 0.66666).ceil %>
+                    <% if position.term_start %>
                     <br />
                     
                         Term end:  <%= ((position.term_start || Date.today) + (position.term_length_days || 0).days).strftime('%B %d, %Y') %>
                     <br />
                         Term start: <%= position.term_start.strftime('%B %d, %Y') %>
+                        <% end %>
                     <br />
                     <% if position.term_start  && position.term_start > Time.now %> 
                         Voting is open
                     <% end %>
                 </div>
+              
 
                 <div class="buttons">
                     <% unless position.user_position || position.nomination(current_user.id)  %>
