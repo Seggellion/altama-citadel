@@ -126,7 +126,7 @@ def close_state_window
   unless task.state.nil?
     @window_states = task.state.split(',')
   end  
-  #byebug
+
   if @window_states.include?(window)
     
     @window_states = @window_states - Array(window)
@@ -136,7 +136,7 @@ def close_state_window
 
   task.update(state:states_string)
   redirect_to(request.env['HTTP_REFERER'])
-  byebug
+
  # respond_to do |format|
  #   format.html { redirect_to desktop_path, notice: "closed window" }
  #   end

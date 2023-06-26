@@ -69,7 +69,8 @@ def state_asl_message_next
 
   def state_asl_message
     sender = params[:sender]
-    @messages = current_user.my_messages.where(task_id: sender).order(:created_at).last
+    # TODO: changed task_id to sender_id - will have to add in a way to check for tasks later
+    @messages = current_user.my_messages.where(sender_id: sender).order(:created_at).last
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
     state_name = "message-#{sender}"
@@ -95,10 +96,10 @@ def state_asl_message_next
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
     state_name = "new_message"
-    @window_states = @window_states + state_name
-    task.update(state:state_name)
+    @window_states =  @window_states + state_name
+    task.update(state: state_name)
 
-    redirect_to(request.env['HTTP_REFERER'])
+    redirect_to root_url
 
   end
 
