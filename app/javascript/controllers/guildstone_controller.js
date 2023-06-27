@@ -5,14 +5,6 @@ export default class extends Controller {
  static targets = ["menu","mainmenu", "createPosition", "createDepartment", "createNomination", "createRule", "createNonConfidence", "assignRole", "userPositionField"]
  
 
- connect() {
-   this.element.addEventListener('click', this.showMenu.bind(this));
- }
-
- disconnect() {
-   this.element.removeEventListener('click', this.showMenu.bind(this));
- }
-
 
   show(event){
     document.getElementById("submit").style.display = "none";
@@ -23,20 +15,23 @@ export default class extends Controller {
     console.log("test");
   }
 
-  showMenu(event) {
+  toggleMenu(event) {
     event.preventDefault();
-    const departmentId = this.element.dataset.departmentId;
-    fetch(`/departments/${departmentId}/users.json`)
-      .then(response => response.json())
-      .then(users => {
-        const html = users.map(user => `<li>${user.name}</li>`).join('');
-        this.menuTarget.innerHTML = `<ul>${html}</ul>`;
-      });
 
-    this.menuTarget.style.left = `${event.pageX}px`;
-    this.menuTarget.style.top = `${event.pageY}px`;
-    this.menuTarget.classList.add('active');
+    if (this.menuTarget.style.display === "none") {
+      const departmentId = this.element.dataset.departmentId;
+      fetch(`/departments/${departmentId}/users.json`)
+        .then(response => response.json())
+        .then(users => {
+          const html = users.map(user => `<li>${user.name}</li>`).join('');
+          this.menuTarget.innerHTML = `<ul>${html}</ul>`;
+          this.menuTarget.style.display = "block";
+        });
+    } else {
+      this.menuTarget.style.display = "none";
+    }
   }
+
 
   hideMenu() {
     this.menuTarget.classList.remove('active');

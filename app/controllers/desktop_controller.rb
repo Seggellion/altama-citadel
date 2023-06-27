@@ -51,7 +51,7 @@ end
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :asc, username: :asc)
   @ships = Ship.all.order(model: :asc)
-  @cargo_ships = Ship.where("scu > ?", 45).order(model: :asc)
+  @cargo_ships = Ship.where("scu > ?", 1).order(model: :asc)
   @ship = Ship.new
   @selected_ship = Ship.find_by_id(params[:ship_id])
   @manufacturers = Manufacturer.all

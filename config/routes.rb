@@ -21,7 +21,9 @@ Rails.application.routes.draw do
    end
 
   resources :articles
-  resources :departments
+  resources :departments do
+    resources :users, only: :index
+  end
   resources :positions
   resources :rules
   resources :user_position_histories

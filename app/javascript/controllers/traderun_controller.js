@@ -296,7 +296,7 @@ export default class extends Controller {
     if (isSplit) {
       // Clear existing buy price content
       buyPriceElement.innerHTML = '';
-  
+      document.getElementById("prof_scu").innerHTML = '';
       // Get all selected commodities for this row
       const selectedCommoditiesInputs = parentTr.querySelectorAll('select[name="trade_run[buy_commodities][]"]');
   
@@ -459,9 +459,9 @@ console.log('oncontentchange');
     const marketSell = sellCommodity ? sellCommodity.buy : 0;
     
     this.setDeltaAttributes(marketSell, marketBuy);
-
+if (elementWithinRow.id !== "sellPrice"){
     this.updatePriceElements(event.target.id, buyCommodity, sellCommodity, isSplit, marketSell);
-
+  }
     if (isSplit) {
       this.calculateSplitCommodities(parentTr);
     } else {
@@ -481,6 +481,7 @@ calculateTotalSCU(parentTr) {
 }
 
 calculateProfitPerSCU(parentTr) {
+  debugger;
   const totalProfit = this.calculateTotalProfit(parentTr);
   const totalSCU = this.calculateTotalSCU(parentTr);
   
@@ -508,7 +509,7 @@ getCommodity(location, commodityName) {
   return filteredCommodities[0];
 }
 
- clearExistingContent() {
+ clearExistingContent() {  
     document.getElementById("capital").innerHTML = '';
     document.getElementById("income").innerHTML = '';
     document.getElementById("profit").innerHTML = '';
@@ -520,6 +521,9 @@ getCommodity(location, commodityName) {
     const uecElements = parentTr.querySelectorAll('.split-inputs.uec');
     const sellUecElements = parentTr.querySelectorAll('#sellPrice .split-inputs.uec');
 
+    let totalProfit = 0;
+    let totalScu = 0;
+
     Array.from(scuElements).forEach((scuElement, i) => {
         const scuValue = parseFloat(scuElement.value || 0);
         const uecValue = parseFloat(uecElements[i].value || 0);
@@ -528,9 +532,14 @@ getCommodity(location, commodityName) {
         const individualCapital = scuValue * uecValue;
         const individualIncome = scuValue * sellUecValue;
         const individualProfit = individualIncome - individualCapital;
+        totalProfit += individualProfit;
+        totalScu += scuValue;
 
         this.appendContentToElements(individualCapital, individualIncome, individualProfit);
     });
+    const totalProfitPerScu = totalScu ? totalProfit / totalScu : 0;
+    
+    this.appendContentToElement('prof_scu', totalProfitPerScu);
 }
 
  calculateRegularCommodities() {
@@ -549,8 +558,9 @@ getCommodity(location, commodityName) {
   this.appendContentToElement('capital', capital);
   this.appendContentToElement('income', income);
   this.appendContentToElement('profit', profit);
-
+if (profit_scu){
   this.appendContentToElement('prof_scu', profit_scu);
+}
 }
 
  appendContentToElement(elementId, value) {

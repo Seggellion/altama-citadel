@@ -1,8 +1,14 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
 
+   # def index
+    #    @users = User.all
+    #end
+
     def index
-        @users = User.all
+      @department = Department.find(params[:department_id])
+      @users = @department.users # Fetch users as needed
+      render json: @users
     end
 
 def activate

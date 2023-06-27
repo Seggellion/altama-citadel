@@ -54,24 +54,21 @@
 
                         </div>
 
-                        <div class="context-menu directors" data-guildstone-target="menu">
-
-
-                        <div class="department-container" 
-                        data-controller="context-menu" 
-                        data-department-id="<%= department.id %>">
-                 
-                     <!-- Content -->
-                 
-                     <div class="context-menu" data-context-menu-target="menu" style="display: none;">
-                       <!-- The user list will be populated here -->
-                     </div>
-                   </div>
-
-
+                    <div class="context-menu directors" data-guildstone-target="menu">
+                
                         <% @director_departments.each do |department| %>
                                 <div class="director-department">
                                 <%= department.title %>
+                                </div>
+                                <div class="department-container" 
+                                data-action="click->guildstone#toggleMenu"
+                                data-department-id="<%= department.id %>">
+                            
+                                <!-- Content -->
+                            
+                                    <div class="context-menu" data-guildstone-target="menu" style="display: none;">
+                                    <!-- The user list will be populated here -->
+                                    </div>
                                 </div>
                             <% end %>
                         </div>

@@ -3,7 +3,7 @@
 
     <td class="rownumber">2</td>
     <td contenteditable="true"> <%= form.select :username, options_for_select(@all_users.collect{ |u| [u.username, u.username] } ), {:include_blank => 'User', :required=>"true"},  {data:{ action: 'change->web#shipSelect'}} %> </td>
-    <td contenteditable="true"> <%= form.select :ship, options_for_select(@ships.collect{ |u| [u.model, u.model] } ), {:include_blank => 'Select Ship', :required=>"true"},  {data:{ action: 'change->traderun#shipSelect'}} %> </td>
+    <td contenteditable="true"> <%= form.select :ship, options_for_select(@cargo_ships.collect{ |u| [u.model, u.model] } ), {:include_blank => 'Select Ship', :required=>"true"},  {data:{ action: 'change->traderun#shipSelect'}} %> </td>
     <td contenteditable="true"><%= form.select :buy_location, options_for_select(@tradeports.collect{ |u| [u.name, u.name] } ), {:include_blank => 'Buy Location', :required=>"true"},  {data:{ action: 'change->traderun#buyLocation',  traderun_target: 'buyLocation'}} %></td>
     <td contenteditable="false" class="radio" data-action="click->traderun#createSplit">[  ]</td>
     <td contenteditable="true">
