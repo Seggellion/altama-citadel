@@ -53,6 +53,9 @@ select{
   }
   #spreadsheet{
     font-family:dos;
+    td input {
+      width:76px;
+    }
   }
   #spreadsheet tr:nth-child(2){
     height: 82.5px;

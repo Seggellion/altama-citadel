@@ -31,8 +31,9 @@ end
   
   @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
   @all_locations = Location.all.order(name: :asc)
-  @tradeports = Location.where(trade_terminal:true)
-@all_traderuns = TradeRun.all.order(created_at: :desc)
+  @all_locations_parent_grouped = @all_locations.order(parent: :asc)
+  @tradeports = Location.where(trade_terminal: true).order('parent ASC')
+  @all_traderuns = TradeRun.all.order(created_at: :desc)
     if !@current_task.nil? and @current_task.state
       @viewing_traderuns = TradeRun.where(trade_session_id: @current_task.state.split("-").last).order(created_at: :desc)
     end

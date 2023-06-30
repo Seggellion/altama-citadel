@@ -102,6 +102,7 @@
 </script>
 
     <div id="data" >
+        <%= content_tag :div, id: "locations-data", class: "hidden", data: { locations: @all_locations.to_json(only: [:name, :parent]) } do %><% end %>
         <%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu]) } do %><% end %>
         <%= content_tag :div, id: "commodities-data", class: "hidden", data: { traderun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
     </div>
