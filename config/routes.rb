@@ -27,11 +27,6 @@ Rails.application.routes.draw do
   end
 
 
-  resources :users, only: [], as: :all_users do
-    collection do
-      get :autocomplete, defaults: { format: :json }
-    end
-  end
 
   resources :positions
   resources :rules

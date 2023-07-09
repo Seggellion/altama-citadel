@@ -7,9 +7,9 @@
     <% end %>
     <% if char == 'B' %>
       <div class="grid-item">
-        <div data-controller="autocomplete" data-autocomplete-url="<%= autocomplete_all_users_path(format: :json) %>">
-          <input name="user_id" type="text" class="form-control" data-autocomplete-target="input" placeholder="search a user"/>
-          <ul data-autocomplete-target="results" class="list-group"></ul>
+        <div>
+          <input name="user_id" type="text" class="form-control" placeholder="search a user"/>
+          <ul  class="list-group"></ul>
         </div>
       </div>
     <% end %>

@@ -5,8 +5,8 @@
         
         <% current_user.past_messages_users.each do |message| %>
             
-        <%= link_to state_asl_message_path(sender: message.sender.id), method: :post do %>
-           <%= show_svg('asl-outline') %><%= message.sender.username %>
+        <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
+           <%= show_svg('asl-outline') %><%= message.sender %>
            <% end %>
            
            <% if task.state&.start_with?("message") %>
@@ -20,5 +20,22 @@
 
 # new messages should make the ICQ sound
         </div>
+<div class="asl-status-container">
+    <span class="first-char">A</span>
+    <span class="second-char">S</span>
+    <span class="last-char">L</span>
+</div>
+<div class="asl-status-container">
+<%= image_tag("asl.svg") %>
+    Online
+</div>
+
+
     </div>
 </div>
+
+<style>
+.asl-status-container{
+    
+}
+</style>

@@ -49,7 +49,7 @@ def prev_created
         if self.sender_id
             User.find_by_id(self.sender_id)
         else
-            self.task.name
+            self.task_id
         end
     end
 
@@ -57,7 +57,7 @@ def prev_created
         if self.sender_id
             User.find_by_id(self.sender_id).username
         else
-            self.task.name
+            self.task_id
         end
     end
 
