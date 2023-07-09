@@ -1,0 +1,54 @@
+<div class="grid-container">
+<%= form_with model: @milk_run, local: true do |f| %>
+  <div class="grid-item">1</div>
+  <% ('A'..end_column).each do |char| %>
+    <% if char == 'A' %>
+      <div class="grid-item">Buy</div>
+    <% end %>
+    <% if char == 'B' %>
+      <div class="grid-item">
+        <div data-controller="autocomplete" data-autocomplete-url="<%= autocomplete_all_users_path(format: :json) %>">
+          <input name="user_id" type="text" class="form-control" data-autocomplete-target="input" placeholder="search a user"/>
+          <ul data-autocomplete-target="results" class="list-group"></ul>
+        </div>
+      </div>
+    <% end %>
+    <% if char == 'C' %>
+      <div class="grid-item">
+        <input type="hidden" name="buy_commodity_id" id="buy_commodity_id" />
+        <%= f.hidden_field :form_type, value: "buy", 'data-milkrun-target': 'formType' %>
+        <input type="hidden" name="trade_session_id" id="trade_session_id" value="<%= @trade_session_id %>" />
+        <%= f.select :usership_id, @cargo_ships.map { |s| [s.model, s.id] }, { include_blank: 'Select Ship' } %>
+      </div>
+    <% end %>
+    <% if char == 'D' %>
+      <div class="grid-item">
+        <%= f.select :buy_location, @all_locations_parent_grouped.map { |l| [l.name, l.name] }, { include_blank: 'Select Location' }, { data: { action: "change->milkrun#locationChanged" } } %>
+      </div>
+    <% end %>
+    <% if char == 'E' %>
+      <div class="grid-item">
+        <%= f.select :commodity_name, [], { include_blank: 'Select location first' }, data: { action: "change->milkrun#populateCommodityPrice", milkrun_target: 'commoditySelector' } %>
+      </div>
+    <% end %>
+    <% if char == 'F' %>
+      <div class="grid-item">
+        <%= f.number_field :buy_commodity_scu, placeholder: 'BUY_SCU', data: { action: "change->milkrun#calculateCapital", milkrun_target: 'buyScu'  } %>
+      </div>
+    <% end %>
+    <% if char == 'G' %>
+      <div class="grid-item">
+        <%= f.number_field :buy_commodity_price, placeholder: 'Buy_Price', data: { action: "change->milkrun#calculateCapital", milkrun_target: 'buyPrice' } %>
+      </div>
+    <% end %>
+    <% if char == 'H' %>
+      <div class="grid-item" id="capital" data-milkrun-target="capital"></div>
+    <% end %>
+    <% if char == 'I' %>
+      <div class="grid-item"><%= f.submit 'Buy' %></div>
+    <% end %>
+  <% end %>
+<% end %>
+</div>
+
+

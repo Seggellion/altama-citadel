@@ -11,6 +11,24 @@ class UsersController < ApplicationController
       render json: @users
     end
 
+    def all_users
+      
+      @users = User.where("username LIKE ?", "%#{params[:q]}%")
+      respond_to do |format|
+        format.json { render json: @users.as_json(only: [:id, :username]) }
+        format.html # index.html.erb
+      end
+    end
+
+    def autocomplete
+      byebug
+      # your autocomplete logic here
+      # for example, if you wanted to return all users whose names include the search term:
+      search_term = params[:term]
+      @users = User.where("username LIKE ?", "%#{search_term}%")
+      render json: @users
+    end
+
 def activate
   user = User.find_by_id(params[:user])
   hash = params[:hash]

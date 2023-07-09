@@ -1,0 +1,41 @@
+<%= form_with model: @milk_run_group, local: true do |f| %>
+  <div class="grid-item">2</div>
+  <% ('A'..end_column).each do |char| %>
+    <% if char == 'A' %><div class="grid-item">Sell</div><% end %>
+    <% if char == 'B' %>
+      <div class="grid-item">
+        <%= f.select :commodity_name, @commodities_for_sell,  { include_blank: 'Select Commodity' }, {data: { action: "change->milkrun#selectCommodity", milkrun_target: 'commodity' }} %>
+      </div>
+    <% end %>
+    <% if char == 'C' %>
+      <div class="grid-item">
+        <%= f.select :buy_location, @all_locations_parent_grouped.map { |l| [l.name, l.name] }, 
+        { include_blank: 'Select Location' }, 
+        { data: { action: "change->milkrun#selectLocation", milkrun_target: 'location' } } %>      
+      </div>
+    <% end %>
+    <% if char == 'D' %><div class="grid-item"><%= f.number_field :sell_commodity_scu, placeholder: 'SELL_SCU', data: { action: "change->milkrun#updateProfitPerScu", milkrun_target: 'sellScu' } %></div><% end %>
+    <% if char == 'E' %><div class="grid-item"><%= f.number_field :sell_commodity_price, placeholder: 'SellPrice', data: { action: "change->milkrun#updateProfitPerScu", milkrun_target: 'sellPrice'  } %></div><% end %>
+    <% if char == 'F' %><div class="grid-item"><%= f.number_field :profit, placeholder: 'Profit/SCU',  data: { milkrun_target: 'profitPerScu'  }, readonly: true %></div><% end %>
+    <% if char == 'G' %><div class="grid-item"><%= f.submit 'Sell' %></div><% end %>
+  <% end %>
+  <%= f.hidden_field :form_type, value: "sell", 'data-milkrun-target': 'formType'%>
+  <input type="hidden" name="commodity_sell_id" id="commodity_sell_id" />
+<% end %>
+
+<% @milk_runs.each_with_index do |milk_run, index| %>
+  <div class="grid-item"><%= index + 3 %></div>
+  <% ('A'..end_column).each do |char| %>
+    <% if char == 'A' %>
+      <div class="grid-item">BUY</div>
+    <% elsif char == 'B' %>
+      <div class="grid-item"><%= milk_run.buy_commodity&.name %></div>
+    <% elsif char == 'C' %>
+      <div class="grid-item"><%= milk_run.buy_commodity_scu %>SCU</div>
+    <% elsif char == 'D' %>
+      <div class="grid-item"><%= milk_run.buy_commodity_price %>aUEC</div>
+    <% else %>
+      <div class="grid-item"></div>
+    <% end %>
+  <% end %>
+<% end %>

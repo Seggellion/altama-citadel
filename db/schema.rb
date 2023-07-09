@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_25_233019) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_08_215634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -272,7 +272,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_233019) do
   create_table "milk_runs", force: :cascade do |t|
     t.integer "user_id"
     t.integer "usership_id"
-    t.integer "commodity_id"
     t.integer "trade_session_id"
     t.integer "buy_commodity_id"
     t.integer "sell_commodity_id"
@@ -286,6 +285,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_233019) do
     t.boolean "locked"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "commodity_name"
+    t.string "buy_location"
+    t.string "sell_location"
   end
 
   create_table "non_confidences", force: :cascade do |t|

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :rule_proposals
   resources :categories
   resources :trade_runs
+  resources :milk_runs
   resources :bots do
     resources :giveaways, only: [:new, :create, :show]
     patch 'toggle_online', on: :member
@@ -24,6 +25,14 @@ Rails.application.routes.draw do
   resources :departments do
     resources :users, only: :index
   end
+
+
+  resources :users, only: [], as: :all_users do
+    collection do
+      get :autocomplete, defaults: { format: :json }
+    end
+  end
+
   resources :positions
   resources :rules
   resources :user_position_histories
@@ -93,6 +102,7 @@ Rails.application.routes.draw do
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'fleet_view', to: 'my_hangar#fleet_view'
   get 'users', to: 'desktop#users'
+  get 'all_users', to: 'users#all_users'
   get 'roadside_assistance', to: 'web#roadside_assistance'
   get 'current_review', to: 'web#current_review'
   get 'rfa_location', to: 'web#show'
