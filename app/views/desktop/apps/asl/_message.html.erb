@@ -4,7 +4,7 @@
 
 <%= message.sender_name %>
 
-<%= link_to "", close_state_window_path(window: "message-#{message.sender.id}|#{message.id}", task: task.id), class:'close-btn windowed' %>
+<%= link_to "", close_state_window_path(window: "message-#{message.sender}|#{message.id}", task: task.id), class:'close-btn windowed' %>
    
     </div>
     <% message.make_read %>

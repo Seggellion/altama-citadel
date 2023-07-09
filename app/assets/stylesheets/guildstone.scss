@@ -13,6 +13,7 @@ html{
     .message-window{
         right: 30%;
         top: 20%;
+        left:inherit;
     }
     .button.previous,.button.next{
         display:none !important;

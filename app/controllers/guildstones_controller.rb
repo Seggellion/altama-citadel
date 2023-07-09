@@ -41,11 +41,11 @@ class GuildstonesController < ApplicationController
     @audit_departments = Department.where(department_type:"audit")
     @faculty_departments = Department.where(department_type:"faculty")
     @governing_departments = Department.where(department_type:"governing")
-
+    
     if @window_states
       @user_position_windows = @window_states.select { |s| s == "UserPositions" }
       @rules_windows = @window_states.select { |s| s == "Rules" }
-      @message_windows = @window_states.select { |s| s.include?("message") }
+      @message_windows = @window_states.select { |s| s.include?("message") }      
       @orgchart_windows = @window_states.select { |s| s.include?("orgChart") }
       @all_apps_windows = @window_states.select { |s| s.include?("allApplications") }
       @all_nominations_windows = @window_states.select { |s| s.include?("allNominations") }
