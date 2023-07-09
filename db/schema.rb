@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_08_215634) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_09_193300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -102,6 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_08_215634) do
     t.string "location"
     t.boolean "vice"
     t.boolean "active"
+    t.boolean "out_of_date", default: false
   end
 
   create_table "control_points", force: :cascade do |t|
