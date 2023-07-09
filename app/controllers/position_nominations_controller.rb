@@ -43,7 +43,7 @@ end
     respond_to do |format|
       if @position_nomination.save
         if current_user.id != user_id           
-          Vote.create(position_id: position_nomination_params[:position_id], position_id: position_nomination_params[:position_id],
+          Vote.create(position_id: position_nomination_params[:position_id],
           guildstone_id: @guildstone.id, user_id: current_user.id, vote:true, position_nomination_id: PositionNomination.last.id )
           Message.create(user_id: user_id, task_id: "Guildstone", content:"You've been nominated for a role! Click below to accept / deny, RoleID: #{position_nomination_params[:position_id]}", subject:"Altama Posititon Nomination")
         end
