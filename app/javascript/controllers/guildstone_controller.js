@@ -2,11 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
 
- static targets = ["mainmenu", "createPosition", "createDepartment", "createNomination", "createRule", "createNonConfidence", "assignRole", "userPositionField"]
+ static targets = ["menu","mainmenu", "createPosition", "createDepartment", "createNomination", "createRule", "createNonConfidence", "assignRole", "userPositionField"]
+ 
 
-  close(event) {
-//event.target.
-  }
 
   show(event){
     document.getElementById("submit").style.display = "none";
@@ -15,6 +13,28 @@ export default class extends Controller {
     
     document.getElementById("rule_category").style.display = "none";
     console.log("test");
+  }
+
+  toggleMenu(event) {
+    event.preventDefault();
+
+    if (this.menuTarget.style.display === "none") {
+      const departmentId = this.element.dataset.departmentId;
+      fetch(`/departments/${departmentId}/users.json`)
+        .then(response => response.json())
+        .then(users => {
+          const html = users.map(user => `<li>${user.name}</li>`).join('');
+          this.menuTarget.innerHTML = `<ul>${html}</ul>`;
+          this.menuTarget.style.display = "block";
+        });
+    } else {
+      this.menuTarget.style.display = "none";
+    }
+  }
+
+
+  hideMenu() {
+    this.menuTarget.classList.remove('active');
   }
 
   createPosition(event){

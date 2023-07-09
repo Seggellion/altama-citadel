@@ -1,8 +1,32 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
 
+   # def index
+    #    @users = User.all
+    #end
+
     def index
-        @users = User.all
+      @department = Department.find(params[:department_id])
+      @users = @department.users # Fetch users as needed
+      render json: @users
+    end
+
+    def all_users
+      
+      @users = User.where("username LIKE ?", "%#{params[:q]}%")
+      respond_to do |format|
+        format.json { render json: @users.as_json(only: [:id, :username]) }
+        format.html # index.html.erb
+      end
+    end
+
+    def autocomplete
+      byebug
+      # your autocomplete logic here
+      # for example, if you wanted to return all users whose names include the search term:
+      search_term = params[:term]
+      @users = User.where("username LIKE ?", "%#{search_term}%")
+      render json: @users
     end
 
 def activate

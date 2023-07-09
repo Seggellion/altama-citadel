@@ -2,6 +2,8 @@
 
   <% if task.state.include?('trade_run') %>
     <%= render '/trade123/trade_run' %>
+    <% elsif task.state.include?('milk_run') %>
+    <%= render '/trade123/milk_run' %>
   <% elsif task.state.include?('trade_session') %>
     <%= render '/trade123/trade_session' %>
     <% elsif task.state.include?('profit') %>

@@ -57,7 +57,7 @@ class PositionsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def position_params
-    params.require(:position).permit(:guildstone_id, :title, :description, :department_id, :compensation, :parent_position_id)
+    params.require(:position).permit(:guildstone_id, :term_start, :term_length, :title, :description, :department_id, :compensation, :parent_position_id)
   end
 
 end

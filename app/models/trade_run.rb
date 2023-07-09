@@ -1,4 +1,5 @@
 class TradeRun < ApplicationRecord
+belongs_to :trade_session
 
     def commodity
         unless self.commodity_id.nil?            

@@ -1,4 +1,9 @@
 class TradeRunsController < ApplicationController
+    protect_from_forgery except: :create
+
+def show
+redirect_to root_path
+end
 
 
     def create
@@ -60,5 +65,35 @@ class TradeRunsController < ApplicationController
 
             redirect_to root_path
     end
+
+def update
+    @trade_run = TradeRun.find(params[:id])    
+    if @trade_run.update(trade_run_params)
+      render json: {status: 'ok'}
+    else
+      render json: {status: 'error', errors: @trade_run.errors}, status: 422
+    end
+end
+
+# app/controllers/trade_runs_controller.rb
+
+def destroy
+    @trade_run = TradeRun.find(params[:id])
+
+    @trade_run.destroy
+  
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: 'Trade run was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+  
+
+private
+
+def trade_run_params
+    params.require(:trade_run).permit(:username, :ship, :buy_location, :sell_price, :buy_price, :scu)
+end
+
 
 end

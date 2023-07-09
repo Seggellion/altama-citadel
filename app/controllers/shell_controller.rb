@@ -32,6 +32,8 @@ def traderun_command_entry
     @task.update(state:'trade123')
   when ->(s) { s.include?('trade_run') }
   @task.update(state:"trade123|#{command}")
+  when ->(s) { s.include?('milk_run') }
+  @task.update(state:"trade123|#{command}")
   when ->(s) { s.include?('trade_session') }
     @task.update(state:"trade123|#{command}")
   when ->(s) { s.include?('profit') }

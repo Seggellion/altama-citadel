@@ -54,10 +54,21 @@
 
                         </div>
 
-                        <div class="directors">
+                    <div class="context-menu directors" data-guildstone-target="menu">
+                
                         <% @director_departments.each do |department| %>
                                 <div class="director-department">
                                 <%= department.title %>
+                                </div>
+                                <div class="department-container" 
+                                data-action="click->guildstone#toggleMenu"
+                                data-department-id="<%= department.id %>">
+                            
+                                <!-- Content -->
+                            
+                                    <div class="context-menu" data-guildstone-target="menu" style="display: none;">
+                                    <!-- The user list will be populated here -->
+                                    </div>
                                 </div>
                             <% end %>
                         </div>
@@ -77,3 +88,17 @@
         </div>
     </div>
 </div>
+
+<style>
+.context-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.context-menu.active {
+  display: block;
+}
+</style>

@@ -83,6 +83,7 @@ class Task < ApplicationRecord
         task = Task.find_by_id(self.id)
         
         task.update(memo_type: data[:memo_type], memo_text: data[:memo_text])
+        
     #    byebug
      #   task.memo(type:, message:, task_name:)
      #   task.memo(type:, message:, task_name:)

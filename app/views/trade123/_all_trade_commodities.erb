@@ -3,6 +3,20 @@ ________________________<br />
 <ul style="height: 50vh; overflow: scroll;">
 
 <div class="">
+<%= form_with url: deactivate_commodities_path, method: :post, local: true, data: { turbo: false } do |f| %>
+
+
+    
+<%= f.collection_select :location, Location.where(trade_terminal: true), :name, :name, {prompt: "Select a location"}, {data: { action: "change->traderun#loadCommodities" }} %>
+
+    
+<%= f.collection_select :name, [], :name, :name, {prompt: "Select a commodity"}, {id: "commodity-select"} %>
+  
+    <%= f.submit "Deactivate Commodities" %>
+  <% end %>
+</div>
+
+<div class="">
 ********************************************************<br />
 <span>Top Profit / SCU</span>
 <% @profit_scu_traderuns.each do |traderun| %>
@@ -13,7 +27,7 @@ ________________________<br />
 
 <% @all_commodities.each do |commodity| %>
     <% if commodity.location.nil? %>
-<% byebug %>
+
     <% end %>
     <li >
     <% if commodity.buy > 0 %>

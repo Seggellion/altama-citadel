@@ -4,6 +4,11 @@
       Open Traderun
     <% end %>
   </li>
+  <li data-traderun-target="menuItem">
+  <%= link_to traderun_command_path("milk_run-#{@current_task.state.split("-").last}")  do %> 
+    Open Milkrun
+  <% end %>
+</li>
   <li  data-traderun-target="menuItem">
     <%= link_to traderun_command_path("profit-#{@current_task.state.split("-").last}")  do %> 
       Profit Distribution

@@ -1,0 +1,67 @@
+ <%= render '/trade123/traderun_menu' %>
+ 
+ <% @trade_session_id =  @current_task.state.split("-").last %>
+ <% @commodities_for_sell = MilkRun.joins(:buy_commodity).pluck('commodities.name', 'commodities.id') %>
+ 
+<%# @locations_for_sell = Location.where(name: @commodities_for_sell.map(&:location)).distinct %>
+<% end_column = "I" %>
+ <div data-controller="milkrun">
+
+ 
+ <div id="spreadsheetTable" class="grid-container">
+  <div class="grid-item"></div>
+  <% ('A'..end_column).each do |char| %>
+    <div class="grid-item header"><%= char %></div>
+  <% end %>
+
+  <%= render '/trade123/milk_run_buy_form', end_column: end_column %>
+  <%= render '/trade123/milk_run_sell_form', end_column: end_column %>
+</div>
+
+<style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust grid-template-columns for your needs */
+    gap: 1em; /* Set gap for your needs */
+  }
+
+  .grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+
+</div>
+
+<div id="data" >
+  <%= content_tag :div, id: "locations-data", class: "hidden", data: { locations: @all_locations_parent_grouped.to_json(only: [:name, :parent]) } do %><% end %>
+  <%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu]) } do %><% end %>
+  <%= content_tag :div, id: "commodities-data", class: "hidden", data: { milkrun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
+  <%= content_tag :div, id: "milkruns-data", class: "hidden", data: { milkrun_target:'milkRunData', milk_runs: MilkRun.select_by_session(@trade_session_id).to_json(only: [:id, :buy_commodity_id, :buy_commodity_price, :buy_commodity_scu, :commodity_name, :buy_location, :updated_at]) } do %><% end %>
+</div>
+
+
+<style>
+  #spreadsheetTable {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+  }
+
+  #spreadsheetTable th, #spreadsheetTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #spreadsheetTable th {
+    background-color: #f2f2f2;
+  }
+
+#shell .shell-container #traderun input{
+color: #b9b9b9;
+}
+
+</style>
+

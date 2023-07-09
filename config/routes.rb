@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :rule_proposals
   resources :categories
   resources :trade_runs
+  resources :milk_runs
   resources :bots do
     resources :giveaways, only: [:new, :create, :show]
     patch 'toggle_online', on: :member
@@ -21,7 +22,17 @@ Rails.application.routes.draw do
    end
 
   resources :articles
-  resources :departments
+  resources :departments do
+    resources :users, only: :index
+  end
+
+
+  resources :users, only: [], as: :all_users do
+    collection do
+      get :autocomplete, defaults: { format: :json }
+    end
+  end
+
   resources :positions
   resources :rules
   resources :user_position_histories
@@ -92,6 +103,7 @@ Rails.application.routes.draw do
   get 'my_hangar_view', to: 'my_hangar#view'
   get 'fleet_view', to: 'my_hangar#fleet_view'
   get 'users', to: 'desktop#users'
+  get 'all_users', to: 'users#all_users'
   get 'roadside_assistance', to: 'web#roadside_assistance'
   get 'current_review', to: 'web#current_review'
   get 'rfa_location', to: 'web#show'
@@ -151,12 +163,14 @@ Rails.application.routes.draw do
   get 'state_location_subitem', to:'tasks#state_location_subitem'
   get 'state_location_mainitem', to:'tasks#state_location_mainitem'
   get 'close_state_window', to: 'tasks#close_state_window'
+  get 'close_last_window', to: 'tasks#close_last_window'
   get 'close_rules_window', to: 'tasks#close_rules_window'
   get 'close_user_position_window', to: 'tasks#close_user_position_window'
   get 'properties', to: 'tasks#properties'
   get 'profile', to: 'tasks#profile'
   get 'help', to: 'tasks#help'
   get 'rsi_activate', to: 'tasks#rsi_activate'
+  get 'sync_altama', to: 'tasks#sync_altama'
   get 'bsod', to: 'desktop#bsod'
   get 'close_position_window', to: 'tasks#close_position_window'
   get 'taskbar_button', to: 'tasks#taskbar_button'
@@ -164,6 +178,9 @@ Rails.application.routes.draw do
   get 'destroy_commodity', to: 'codex#destroy_all_commodity'
   get 'populate_locations', to: 'codex#populate_locations'
   get 'payout_streamchart', to: 'streamchart#payout'
+
+  get 'commodities_by_location', to: 'commodities#commodities_by_location'
+  post 'deactivate_commodities', to: 'commodities#deactivate_commodities'
 
   get 'vote', to: 'guildstones#vote'
   get 'unvote', to: 'guildstones#unvote'

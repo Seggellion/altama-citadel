@@ -1,9 +1,10 @@
 {
   "name": "app",
   "private": "true",
-    "type": "module",
+  "type": "module",
   "dependencies": {
-    "esbuild": "^0.14.13"
+    "esbuild": "^0.14.13",
+    "stimulus-autocomplete": "^3.1.0"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"

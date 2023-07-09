@@ -6,24 +6,88 @@
         </div>
 
         <div class="profile">
-            <h3> <% if current_user.aec %>
-                Wallet: <%= current_user.aec %> AEC
-                <% else %>
-                No money
-                <% end %>
-            </h3>
-            <h4>Id: 0<%=current_user.id %> </h4>
-            <h4>Karma:<%= current_user.karma | 0 %> </h4>
-            <h4>Title:<%= current_user.org_title %> </h4>
-            <h4>User_Level: <%= current_user.user_type_text %> </h4>
-            <h4>Fame:<%= current_user.fame | 0 %> </h4>
+
+            <div class="profile-header">
+                <%= current_user.reputation %> <%= current_user.username %>
+            </div>
+<div class="profile-body">
+
+<div class="profile-information">
+<p>
+<% if current_user.aec %>
+Wallet: <%= current_user.aec %> AEC
+<% else %>
+No money
+<% end %>
+</p>
+<h4>Id: 0<%=current_user.id %> </h4>
+<h4>Karma:<%= current_user.karma | 0 %> </h4>
+<h4>Fame:<%= current_user.fame | 0 %> </h4>
+<h4>OrgTitle:<%= current_user.org_title %> </h4>
+<h4>User_Level: <%= current_user.user_type_text %> </h4>
+
+
+</div>
+
+<div class="profile-action">
+<% unless Article.find_by(reference_id: current_user.id) %>
+<%= button_to "Create Dossier", codex_dossier_path, method: :get, class: "button-class" %>
+<% else %>
+<button>View Dossier</button>
+<% end %>
+<%= button_to "View Badges", my_badges_path, method: :get, class: "button-class" %>
+<%= button_to "RSI Verify", rsi_activate_path, method: :get, class: "button-class" %>
+<%= button_to "Sync AltamaDB", sync_altama_path, method: :get, class: "button-class" %>
+
+<hr>
+</div>
+
+</div>
+
+<div class="profile-footer">
+<%= button_to 'Close', close_last_window_path, method: 'get' %>
+</div>
+
+
             
-            <% unless Article.find_by(reference_id: current_user.id) %>
-            <h4><%= link_to "Create Dossier", codex_dossier_path, class:'new-item' %> </h4>
-            <% end %>
-            <h4><%= link_to "My badges", my_badges_path %> </h4>
-            <h4><%= link_to "RSI Verify", rsi_activate_path %> </h4>
-            <h4>Change Background image</h4>
+            
+            
+
+
         </div>
     </div>
 </div>
+
+<style>
+.profile-body{
+    display:flex;
+    flex-direction: row;
+    height:100%;
+}
+.profile{
+    width:70%;
+    display:flex;
+    flex-direction: column;
+    font-family: 'windows';
+}
+.profile-information{
+    width:60%;
+}
+.profile-action{
+    display: flex;
+    justify-content:space-evenly;
+    flex-direction: column;
+
+}
+form{
+    max-width:170px;
+}
+form button{
+    width:170px;
+}
+.profile-footer{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 18px;
+}
+</style>

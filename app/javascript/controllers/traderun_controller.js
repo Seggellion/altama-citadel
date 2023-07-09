@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 
 export default class extends Controller {
-  static targets = [ "rowHeader", "tbody", "menu","buyLocation", "buyCommodity", "commoditiesData", "sellLocation",
+  static targets = [ "entry","field","rowHeader", "tbody", "menu","buyLocation", "buyCommodity", "commoditiesData", "sellLocation",
    "menuItem", "newTradeSession", "mainMenu","sessionMenu","streamchartMenu","existingTradeSession", "commoditiesTradeRun" ]
   activeIndex = 0;
 
@@ -66,6 +66,23 @@ export default class extends Controller {
       this.observer.disconnect();
     }
   }
+
+
+  async loadCommodities(event) {
+    let locationName= event.target.value;
+    let encodedLocationName = encodeURIComponent(locationName);
+    let response = await fetch(`/commodities_by_location?location=${encodedLocationName}`);
+    let commodities = await response.json();
+
+    let commoditySelect = document.getElementById("commodity-select");
+    commoditySelect.innerHTML = "";  // Clear existing options
+
+    commodities.forEach((commodity) => {
+      let option = new Option(commodity.name, commodity.name);
+      commoditySelect.options.add(option);
+    });
+  }
+
 
   updateTraderunFooterVisibility() {
     var greetingElement = document.querySelector('#greeting');
@@ -279,7 +296,7 @@ export default class extends Controller {
     if (isSplit) {
       // Clear existing buy price content
       buyPriceElement.innerHTML = '';
-  
+      document.getElementById("prof_scu").innerHTML = '';
       // Get all selected commodities for this row
       const selectedCommoditiesInputs = parentTr.querySelectorAll('select[name="trade_run[buy_commodities][]"]');
   
@@ -442,9 +459,9 @@ console.log('oncontentchange');
     const marketSell = sellCommodity ? sellCommodity.buy : 0;
     
     this.setDeltaAttributes(marketSell, marketBuy);
-
+if (elementWithinRow.id !== "sellPrice"){
     this.updatePriceElements(event.target.id, buyCommodity, sellCommodity, isSplit, marketSell);
-
+  }
     if (isSplit) {
       this.calculateSplitCommodities(parentTr);
     } else {
@@ -464,6 +481,7 @@ calculateTotalSCU(parentTr) {
 }
 
 calculateProfitPerSCU(parentTr) {
+  debugger;
   const totalProfit = this.calculateTotalProfit(parentTr);
   const totalSCU = this.calculateTotalSCU(parentTr);
   
@@ -491,7 +509,7 @@ getCommodity(location, commodityName) {
   return filteredCommodities[0];
 }
 
- clearExistingContent() {
+ clearExistingContent() {  
     document.getElementById("capital").innerHTML = '';
     document.getElementById("income").innerHTML = '';
     document.getElementById("profit").innerHTML = '';
@@ -503,6 +521,9 @@ getCommodity(location, commodityName) {
     const uecElements = parentTr.querySelectorAll('.split-inputs.uec');
     const sellUecElements = parentTr.querySelectorAll('#sellPrice .split-inputs.uec');
 
+    let totalProfit = 0;
+    let totalScu = 0;
+
     Array.from(scuElements).forEach((scuElement, i) => {
         const scuValue = parseFloat(scuElement.value || 0);
         const uecValue = parseFloat(uecElements[i].value || 0);
@@ -511,9 +532,14 @@ getCommodity(location, commodityName) {
         const individualCapital = scuValue * uecValue;
         const individualIncome = scuValue * sellUecValue;
         const individualProfit = individualIncome - individualCapital;
+        totalProfit += individualProfit;
+        totalScu += scuValue;
 
         this.appendContentToElements(individualCapital, individualIncome, individualProfit);
     });
+    const totalProfitPerScu = totalScu ? totalProfit / totalScu : 0;
+    
+    this.appendContentToElement('prof_scu', totalProfitPerScu);
 }
 
  calculateRegularCommodities() {
@@ -532,8 +558,9 @@ getCommodity(location, commodityName) {
   this.appendContentToElement('capital', capital);
   this.appendContentToElement('income', income);
   this.appendContentToElement('profit', profit);
-
+if (profit_scu){
   this.appendContentToElement('prof_scu', profit_scu);
+}
 }
 
  appendContentToElement(elementId, value) {
@@ -607,13 +634,23 @@ populateCommoditySelect() {
   });
 }
 
-
 populateSellLocationSelect(elementWithinRow) {
+  this.fetchLocationsAndPopulate(elementWithinRow)
+    .catch(error => console.error('Error:', error));
+}
+
+
+async fetchLocationsAndPopulate(elementWithinRow) {
   const commoditiesData = JSON.parse(this.commoditiesDataTarget.dataset.commodities);
-  
+ 
+  // Fetch locations data from the API
+  const locationsData = JSON.parse(document.getElementById('locations-data').dataset.locations);
+
+
   // Find the parent row
   const parentTr = elementWithinRow.closest('tr');
  
+
   // Check if createSplit is toggled
   const splitInput = parentTr.querySelector('.split_input');
   const isSplit = splitInput.value === 'true';
@@ -664,10 +701,18 @@ populateSellLocationSelect(elementWithinRow) {
   
   // Add unique locations to the select field
   sellLocations.forEach(location => {
-    const option = document.createElement("option")
-    option.value = location;
-    option.text = location;
-    sellLocationSelect.add(option);
+//    const locationData = locationsData.data.find(loc => loc.attributes.name === location);
+const locationData = locationsData.find(loc => loc.name === location);
+
+if(locationData) {
+  const parent = locationData.parent;
+  const option = document.createElement("option");
+  option.value = location;
+  option.text = `${parent ? parent + ' - ' : ''}${location}`;
+  sellLocationSelect.add(option);
+} else {
+  console.log(`Location ${location} not found in locationsData`);
+}
   });
 }
 
@@ -781,6 +826,34 @@ populateSellLocationSelect(elementWithinRow) {
 
         this.populateSellLocationSelect(event.target); 
     }
+}
+
+update(event) {
+  const url = this.data.get('url');
+  const name = event.target.name;
+  const value = event.target.value;
+  const data = { "trade_run": {} };
+  data["trade_run"][name] = value;
+  
+  
+  fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'X-CSRF-Token': document.querySelector('[name=csrf-token]').content
+    },
+    body: JSON.stringify(data)
+  }).then(response => {
+    if (!response.ok) {
+      // Handle error
+    }
+  });
+}
+
+
+removeEntry(event) {
+  this.entryTarget.remove();
 }
 
   validateScu(event) {

@@ -20,6 +20,7 @@ style="transform: translate(
     <div>DEPARTMENT</div>
     <div></div>
 </div>
+<% if Position.all.count > 0 %>
         <% Position.all.each do |position|  %>
             <div class="general-rows">
             <span><%= position.title %></span>
@@ -46,7 +47,7 @@ style="transform: translate(
 
             </div>
         <% end %>
-
+    <% end %>
         </div>
     </div>
 

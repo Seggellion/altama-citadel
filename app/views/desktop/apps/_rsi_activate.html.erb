@@ -41,7 +41,11 @@
                     <button>Cancel</button>
                 </div>
                 <% else%>
+                <div class="activate-success">
                     Account verified!
+                    
+                    <%= button_to 'OK', close_last_window_path, method: 'get' %>
+                    </div>
                 <% end %>
             </div>
         </div>
@@ -49,7 +53,18 @@
 
 </div>
 
-
+<style>
+.activate-success{
+    padding-top:200px;
+    text-align:center;
+    width:100%;
+}
+#rsi_activate .activate-success form{
+    width:100%;
+    margin-top:10px;
+    max-width:initial;
+}
+</style>
 
 
     

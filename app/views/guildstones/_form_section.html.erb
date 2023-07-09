@@ -6,7 +6,7 @@
       Title: <%= form.text_field :title, :required=>'true' %>
       
       Type: <%= form.select :department_type, ['worker', 'executive', 'director', 'audit', 'faculty', 'governing'] %>
-
+      
       <%= form.submit 'Add' %>
     <% end %>
   </div>
@@ -16,7 +16,7 @@
       <span>Position:</span>
       Title: <%= f.text_field :title, :required=>'true' %>
       <%= f.select :department_id, options_for_select(@departments.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select department'%>
-      
+      Term Start: <%= date_select("position", "term_start") %>
       <%= f.submit 'Add' %>
     <% end %>
   </div>
@@ -26,7 +26,7 @@
     <span>Nominate:</span>
       
       <%= n.select :position_id, options_for_select(@positions.collect{ |u| [u.title, u.id] }  ), :include_blank => 'Select position'%>
-      <%= n.select :nominee_id, options_for_select(@users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select nominee'%>
+      <%= n.select :nominee_id, options_for_select(@altama_users.collect{ |u| [u.username, u.id] }  ), :include_blank => 'Select nominee'%>
       Reason: <%= n.text_field :campaign_description, :required=>'true' %>
       Resume: <%= n.text_field :resume %>
       

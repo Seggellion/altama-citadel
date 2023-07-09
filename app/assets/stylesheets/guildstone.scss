@@ -13,6 +13,7 @@ html{
     .message-window{
         right: 30%;
         top: 20%;
+        left:inherit;
     }
     .button.previous,.button.next{
         display:none !important;
@@ -115,9 +116,12 @@ html{
                 .application-table{
                     margin-top:10px;
                     display:flex;
-                    flex-direction: column;
+                    flex-direction: row;
                     justify-content: space-between;
-
+                a:hover{
+                background-color: black;
+                color: white;
+                }
                     padding: 5px;
                 }
             }
@@ -126,7 +130,7 @@ html{
     .position-list{
         background-color: white;
         margin: 0px 3px;
-        padding: 3px 3px;
+        //padding: 3px 3px;
         border-top:1px solid black;
         border-left:1px solid black;
         border-right:1px solid white;
@@ -139,6 +143,11 @@ html{
             width: 130%;
             height: 16px;
             display: block;
+            padding: 1px 3px;
+            &.highlighted{
+                color:white;
+                background-color: black;
+            }
         }
     }
     .window-icon-bar{

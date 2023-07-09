@@ -31,8 +31,9 @@ end
   
   @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
   @all_locations = Location.all.order(name: :asc)
-  @tradeports = Location.where(trade_terminal:true)
-@all_traderuns = TradeRun.all.order(created_at: :desc)
+  @all_locations_parent_grouped = @all_locations.order(parent: :asc)
+  @tradeports = Location.where(trade_terminal: true).order('parent ASC')
+  @all_traderuns = TradeRun.all.order(created_at: :desc)
     if !@current_task.nil? and @current_task.state
       @viewing_traderuns = TradeRun.where(trade_session_id: @current_task.state.split("-").last).order(created_at: :desc)
     end
@@ -46,12 +47,13 @@ end
   dossier_ids = dossier_list.map { |user| user[:reference_id] }
   @altama_users_without_dossier = @altama_users.where.not(id: dossier_ids)
 
-
+  @milk_runs = MilkRun.all
+  @milk_run =  MilkRun.new
   @bots = Bot.all
   @discord_users =  DiscordUser.all.order(role: :desc)
-  @rsi_users = RsiUser.all.order(title: :desc)
+  @rsi_users = RsiUser.all.order(title: :asc, username: :asc)
   @ships = Ship.all.order(model: :asc)
-  @cargo_ships = Ship.where("scu > ?", 45).order(model: :asc)
+  @cargo_ships = Ship.where("scu > ?", 1).order(model: :asc)
   @ship = Ship.new
   @selected_ship = Ship.find_by_id(params[:ship_id])
   @manufacturers = Manufacturer.all
