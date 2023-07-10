@@ -1,38 +1,48 @@
  <%= render '/trade123/traderun_menu' %>
  
  <% @trade_session_id =  @current_task.state.split("-").last %>
- <% @commodities_for_sell = MilkRun.joins(:buy_commodity).pluck('commodities.name', 'commodities.id') %>
- 
+ <%# @commodities_for_sell = MilkRun.joins(:buy_commodity).pluck('commodities.name', 'commodities.id') %>
+ <% @commodities_for_sell = MilkRun.joins(:buy_commodity).pluck('commodities.id') %>
+
 <%# @locations_for_sell = Location.where(name: @commodities_for_sell.map(&:location)).distinct %>
 <% end_column = "I" %>
  <div data-controller="milkrun">
+ <table id="spreadsheetTable">
+   <thead>
+     <tr>
+       <th></th>
+       <% ('A'..end_column).each do |char| %>
+         <th><%= char %></th>
+       <% end %>
+     </tr>
+   </thead>
+   <tbody>
+     
+<%= render '/trade123/milk_run_buy_form', end_column: end_column %>
+<%= render '/trade123/milk_run_sell_form', end_column: end_column %>
+     
 
- 
- <div id="spreadsheetTable" class="grid-container">
-  <div class="grid-item"></div>
-  <% ('A'..end_column).each do |char| %>
-    <div class="grid-item header"><%= char %></div>
+<% @milk_runs.each_with_index do |milk_run, index| %>
+  <tr>
+    <td><%= index + 3 %></td>
+    <% ('A'..end_column).each do |char| %>
+      <% if char == 'A' %>
+        <td>BUY</td>
+        <% elsif char == 'B' %>
+        <td><%= milk_run.buy_commodity&.name %></td>
+        <% elsif char == 'C' %>
+        <td><%= milk_run.buy_commodity_scu %>SCU</td>
+        <% elsif char == 'D' %>
+        <td><%= milk_run.buy_commodity_price %>aUEC</td>
+         <% else %>
+        <td></td>
+         <% end %>
+    <% end %>
+    </tr>
   <% end %>
-
-  <%= render '/trade123/milk_run_buy_form', end_column: end_column %>
-  <%= render '/trade123/milk_run_sell_form', end_column: end_column %>
-</div>
-
-<style>
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust grid-template-columns for your needs */
-    gap: 1em; /* Set gap for your needs */
-  }
-
-  .grid-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-</style>
-
-
+     
+   </tbody>
+ </table>
 </div>
 
 <div id="data" >

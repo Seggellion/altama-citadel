@@ -3,6 +3,12 @@
     <div class="asl-container" data-controller="asl" >
         <div class="contact-list">
         
+        <div class="contact-seperator">
+            <hr>
+                Online
+            <hr>
+        </div>
+
         <% current_user.past_messages_users.each do |message| %>
             
         <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
@@ -20,36 +26,22 @@
 
 # new messages should make the ICQ sound
         </div>
-<div class="asl-status-container">
-    <span class="first-char">A</span>
-    <span class="second-char">S</span>
-    <span class="last-char">L</span>
-</div>
-<div class="asl-status-container">
-<%= image_tag("asl.svg") %>
-    Online
-</div>
-
+        <div class="add-user-row">
+            <div class="add-user-button">
+                Add Users
+            </div>
+        </div>
+        <div class="bottom-row">
+            <div class="asl-button-container">
+                <span class="first-char">A</span>
+                <span class="second-char">S</span>
+                <span class="last-char">L</span>
+            </div>
+            <div class="asl-status-container">
+                <%= image_tag("asl.svg") %>
+                Online
+            </div>
+        </div>
 
     </div>
 </div>
-
-<style>
-.asl-status-container{
-    width:70%;
-    padding:5px;
-    border-top:$highlight_border;
-    border-left:$highlight_border;
-    border-right:$shadow_border;
-    border-bottom:$shadow_border;
-}
-.asl-status-container .first-char{
-
-}
-.asl-status-container .second-char{
-
-}
-.asl-status-container .last-char{
-
-}
-</style>

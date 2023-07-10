@@ -1,9 +1,9 @@
+@import 'mixins';
 #traderun{
     overflow: scroll;
     height:100vh;
 select{
     font-family: dos;    
-    text-transform:uppercase;
     background-color:black;
     text-transform:uppercase;
     color:white;
@@ -42,7 +42,7 @@ select{
     cursor:pointer;
   }
   td{
-    color: #b9b9b9;
+    color: $dos_white;
     line-height: 1.1;                
   }
   .selected {
@@ -61,7 +61,7 @@ select{
     height: 82.5px;
   }
 #shell .shell-container #traderun-menu a{
-color: #b9b9b9;
+color: $dos_white;
 
 }
 .rownumber{
@@ -87,7 +87,7 @@ background-color:blue;
     
     padding: 10px 0;
     border-bottom: 1px solid #1c2024;
-    color: #b9b9b9;
+    color: $dos_white;
     margin-top:0px;
   }
     .hidden{
@@ -122,7 +122,7 @@ background-color:blue;
   
   .menu-bar a {
     display: block;
-    color: #b9b9b9;
+    color: $dos_white;
     text-decoration: none;
     padding: 8px 14px;
     border-right: 1px solid #666666;
@@ -165,7 +165,7 @@ background-color:blue;
     }
   }
   #spreadsheet input{
-      color:#b9b9b9;
+      color:$dos_white;
       background-color:transparent;
     
   }

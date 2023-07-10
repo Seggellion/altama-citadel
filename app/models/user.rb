@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_many :messages
   has_one :position, :through => :user_position
   has_one :user_position
+  has_many :sent_transactions, class_name: 'Transaction', foreign_key: 'sender_id'
+  has_many :received_transactions, class_name: 'Transaction', foreign_key: 'receiver_id'
   validates :username, uniqueness: true
 
   def top_five

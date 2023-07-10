@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["commodity", "location", "buyScu", "buyPrice", "capital", "sellScu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector", "formType", "milkRunData"]
+  static targets = ["commodity", "location", "buyScu", "buyPrice", "capital", "sellScu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector", "formType",
+   "milkRunData","commodityField", "locationField", "sellScuField", "sellPriceField", "profitPerScuField", "formTypeField"]
 
   // static targets = ["commodity", "location", "profit", "scu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector"]
 //  static targets = ["ship", "location", "commodity", "buyScu", "buyPrice", "capital", "locationsData", "shipsData", "commoditiesData"]
@@ -18,12 +19,12 @@ export default class extends Controller {
   }
   
   selectCommodity(event) {
+    const selectedCommodityId = event.target.value;
+    const selectedCommodity = this.commodities.find(c => c.id == selectedCommodityId);
     
-    const selectedCommodity = this.commodities.find(c => c.id == event.target.value);
+    let trElement = event.target.closest('tr')
+    this.formType =   trElement.dataset.form_type
     
-debugger;
-    const form = event.target.closest('form');
-    this.formType = form.querySelector('[data-milkrun-target="formType"]').value;
     this.updateLocations(selectedCommodity);
     
     
@@ -32,7 +33,7 @@ debugger;
   
   updateLocations(selectedCommodity) {
     let validLocations;
-   debugger;
+   
    // FORM TYPE IS invalid!
     if (this.formType === 'buy') {
       validLocations = this.commodities
@@ -45,6 +46,7 @@ debugger;
           };
         });
     } else {  // assume 'sell' if not 'buy'
+      
       validLocations = this.commodities
         .filter(c => c.name == selectedCommodity.name && c.buy > 0)
         .map(c => {
@@ -60,7 +62,7 @@ debugger;
   }
   
   
-  updateSelectOptions(selectElement, optionsArray) {
+  updateSelectOptions(selectElement, optionsArray) {    
     selectElement.innerHTML = optionsArray.map(option => 
       `<option value='${JSON.stringify(option)}'>${option.name}</option>`).join('');
   }
@@ -74,7 +76,8 @@ debugger;
    ///  JUST TRYING TO SOLVE FOR PROFIT PER SCU
    
    const selectedOptionValue = JSON.parse(event.target.value);
-   const commodityId = selectedOptionValue.id;
+   
+   const commodityId = selectedOptionValue.id;   
    let locationParts = selectedOptionValue.name.split(" | ");
    const locationName = locationParts.pop().trim();
    
@@ -87,8 +90,9 @@ debugger;
    
    
     // populate sell_commodity_price field with selected commodity's sell price
-    this.sellPriceTarget.value = selectedCommodity ? selectedCommodity.sell : '';
+    this.sellPriceTarget.value = selectedCommodity ? selectedCommodity.buy : '';
     this.updateProfitPerScu(event);
+    this.updateHiddenFields();
   }
 
   updateProfitPerScu(event) {
@@ -104,17 +108,21 @@ debugger;
       const buyCommodity = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name);
       
       if (buyCommodity) {
-        const profitPerScu = selectedCommodity.sell - buyCommodity.buy_commodity_price;
-        debugger;
-        this.profitPerScuTarget.textContent = profitPerScu.toFixed(2);
+        const profitPerScu = selectedCommodity.buy - buyCommodity.buy_commodity_price;
+        
+        this.profitPerScuTarget.value = profitPerScu.toFixed(2);
       } else {
         this.profitPerScuTarget.textContent = 'N/A';
       }
     } else {
       this.profitPerScuTarget.textContent = 'N/A';
     }
+    this.updateHiddenFields();
   }
   
+  updateProfit(event){
+    this.updateHiddenFields();
+  }
 
 
   locationChanged(event) {
@@ -172,5 +180,14 @@ debugger;
     this.capitalTarget.textContent = (buyPrice * buyScu).toFixed(2);
   }
   
+  updateHiddenFields() {
+    this.commodityFieldTarget.value = this.commodityTarget.value;
+    this.locationFieldTarget.value = this.locationTarget.value;
+    this.sellScuFieldTarget.value = this.sellScuTarget.value;
+    this.sellPriceFieldTarget.value = this.sellPriceTarget.value;
+    this.profitPerScuFieldTarget.value = this.profitPerScuTarget.value;
+    this.formTypeFieldTarget.value = this.formTypeTarget.value;
+  }
+
   
 }

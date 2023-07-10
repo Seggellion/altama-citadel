@@ -10,7 +10,7 @@ class MilkRunsController < ApplicationController
         # Find the existing record
         
        # @milk_run = MilkRun.find(params[:id])
-    
+       byebug
 
         user = User.search_by_username(params[:user_id]).first
         trade_session_id = params[:trade_session_id]
