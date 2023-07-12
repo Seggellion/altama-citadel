@@ -141,6 +141,7 @@ Rails.application.routes.draw do
   get 'rsi_user_list', to: 'desktop#rsi_user_list'
   get 'all_user_list', to: 'tasks#state_all_users'
   get 'root_user_list', to: 'tasks#state_root_users'
+  get 'twitch_user_list', to: 'tasks#state_twitch_users'
   get 'discord_user_list', to: 'tasks#state_discord_users'
   get 'state_positions', to: 'tasks#state_positions'
   get 'all_state_positions', to: 'tasks#all_state_positions'

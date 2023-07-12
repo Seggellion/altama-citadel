@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["commodity", "location", "buyScu", "buyPrice", "capital", "sellScu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector", "formType",
-   "milkRunData","commodityField", "locationField", "sellScuField", "sellPriceField", "profitPerScuField", "formTypeField"]
+  static targets = ["commodity", "location", "buyScu", "buyPrice", "capital", "sellScu", "profit", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector", "formType",
+   "milkRunData","commodityField", "locationField", "sellScuField", "sellPriceField", "profitPerScuField", "formTypeField", "SellIdField", "BuyIdField"]
 
   // static targets = ["commodity", "location", "profit", "scu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector"]
 //  static targets = ["ship", "location", "commodity", "buyScu", "buyPrice", "capital", "locationsData", "shipsData", "commoditiesData"]
@@ -24,10 +24,23 @@ export default class extends Controller {
     
     let trElement = event.target.closest('tr')
     this.formType =   trElement.dataset.form_type
-    
+    this.updateMaxScu(event);
     this.updateLocations(selectedCommodity);
     
+  }
+
+  updateMaxScu(event){
+    const selectedCommodityId = event.target.value;
+    const selectedCommodity = this.commodities.find(c => c.id == selectedCommodityId);    
     
+    const buyCommodityScu = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name).buy_commodity_scu
+    
+    this.sellScuTarget.max = buyCommodityScu;
+    this.sellScuTarget.addEventListener('input', (e) => {
+      if (e.target.value > buyCommodityScu) {
+        e.target.value = buyCommodityScu;
+      }
+    });
   }
   
   
@@ -91,9 +104,12 @@ export default class extends Controller {
    
     // populate sell_commodity_price field with selected commodity's sell price
     this.sellPriceTarget.value = selectedCommodity ? selectedCommodity.buy : '';
+    
+    this.SellIdFieldTarget.value = selectedCommodity.id
     this.updateProfitPerScu(event);
     this.updateHiddenFields();
   }
+
 
   updateProfitPerScu(event) {
     //const selectedCommodityId = this.commodityTarget.value;
@@ -121,6 +137,19 @@ export default class extends Controller {
   }
   
   updateProfit(event){
+    
+    let sellScu = this.sellScuTarget.value;
+    let sellPrice = this.sellPriceTarget.value;
+    let buyCommodityId = this.commodityTarget.value;
+    //const buyCommodityName = this.commodities.find(c => c.id == buyCommodityId).name;
+    // You may want to add some error handling here in case the commodity name is not found
+    
+    let buyCommodityPrice = this.milk_runsData.find(m => m.buy_commodity_id == buyCommodityId).buy_commodity_price;
+    
+    let profitPerScu = sellPrice - buyCommodityPrice;
+    let totalProfit = profitPerScu * sellScu;
+
+    this.profitTarget.value = totalProfit;
     this.updateHiddenFields();
   }
 
@@ -181,10 +210,12 @@ export default class extends Controller {
   }
   
   updateHiddenFields() {
-    this.commodityFieldTarget.value = this.commodityTarget.value;
+    this.commodityFieldTarget.value = this.commodityTarget.value;    
+    this.BuyIdFieldTarget.value = this.commodityTarget.value;
     this.locationFieldTarget.value = this.locationTarget.value;
     this.sellScuFieldTarget.value = this.sellScuTarget.value;
     this.sellPriceFieldTarget.value = this.sellPriceTarget.value;
+    this.profitFieldTarget.value = this.profitTarget.value;
     this.profitPerScuFieldTarget.value = this.profitPerScuTarget.value;
     this.formTypeFieldTarget.value = this.formTypeTarget.value;
   }

@@ -458,6 +458,16 @@ end
     end
   end
 
+  def state_twitch_users
+    task_manager = TaskManager.find_by(user_id: current_user)
+    task = @all_tasks.find_by(task_manager_id: task_manager.id, name: "User Manager")
+    task.update(state:"twitch_users")
+    
+    respond_to do |format|
+    format.html { redirect_to desktop_path, notice: "Twitch users" }
+    end
+  end
+
   def state_asl_message_next
     
     current_message = current_user.my_messages.find_by_id(params[:current_message])

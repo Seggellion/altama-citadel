@@ -10,16 +10,18 @@ class MilkRunsController < ApplicationController
         # Find the existing record
         
        # @milk_run = MilkRun.find(params[:id])
-       byebug
+       
 
-        user = User.search_by_username(params[:user_id]).first
-        trade_session_id = params[:trade_session_id]
-        buy_commodity_id = params[:buy_commodity_id]
         
-        used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: user.id).sum(:buy_commodity_scu)
+        trade_session_id = params[:milk_run][:trade_session_id]
+        buy_commodity_id = params[:milk_run][:buy_commodity_id]
         
-        if params[:milk_run][:commit] = "Buy"
+        
+        
+        if params[:milk_run][:form_type] == "buy"
             existing_milkrun = MilkRun.find_by(buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
+            user = User.search_by_username(params[:user_id]).first
+            used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: user.id).sum(:buy_commodity_scu)
             unless existing_milkrun
             MilkRun.create!(
                 user_id: user.id, 
@@ -34,20 +36,23 @@ class MilkRunsController < ApplicationController
                 updated_at: Time.now
             )
             end
-        elsif params[:milk_run][:commit] = "Sell"
+        elsif params[:milk_run][:form_type] == "sell"
             current_milkrun = MilkRun.find_by(trade_session_id: trade_session_id, buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
             
-            buy_total = params[:milk_run][:buy__commodity_scu].to_i * params[:milk_run][:buy__commodity_price].to_i
-            sell_total = params[:milk_run][:sell__commodity_scu].to_i * params[:milk_run][:sell__commodity_price].to_i
+            used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: @current_user.id).sum(:buy_commodity_scu)
+            buy_total = params[:milk_run][:buy_commodity_scu].to_i * params[:milk_run][:buy_commodity_price].to_i
+            sell_total = params[:milk_run][:sell_commodity_scu].to_i * params[:milk_run][:sell_commodity_price].to_i
             profit = sell_total - buy_total
-            current_milkrun.updaate!(
-                sell_commodity_id: params[:milk_run][:sell__commodity_id],
-                sell_commodity_scu: params[:milk_run][:sell__commodity_scu],
-                sell_commodity_price: params[:milk_run][:sell__commodity_price],          
+            
+            current_milkrun.update!(
+                sell_commodity_id: params[:milk_run][:sell_commodity_id].to_i,
+                sell_commodity_scu: params[:milk_run][:sell_commodity_scu].to_i,
+                sell_commodity_price: params[:milk_run][:sell_commodity_price].to_i,          
                 used_scu: used_scu, 
                 profit: profit, 
                 updated_at: Time.now
             )
+            
         end
 
 

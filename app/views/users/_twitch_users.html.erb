@@ -1,0 +1,59 @@
+<div class="local-user-list list" data-desktop-target="local_users" >
+
+<table>
+            <tr class="right-pane-header">
+            <td>
+            VFD
+            </td>
+                <td>
+                Type
+                </td>
+                <td>
+                Status
+                </td>
+                <td>
+                Name
+                </td>
+                <td>
+                Provider
+                </td>
+                <td>
+                AEC
+                </td>
+                <td>
+                UserType
+                </td>
+                <td>
+                OrgTitle
+                </td>
+                <td>
+                DiscordRole
+                </td>
+                <td>
+                Created At
+                </td>
+                <td>
+                Last Login
+                </td>
+            </tr>
+            <% @twitch_users.each do | user | %>
+                <tr class="" data-desktop-target="rsi_user_row" data-action="click->desktop#user_row"  >
+                <td>
+                <i class="page-object"></i>
+                </td>
+                <td><% unless user.error.nil? %><i alt="<%= user.error %>" class="error-icon"></i><% end %> </td>
+                <td><% if user.verified? %><%= image_tag("rsi_logo.png", class:"rsi-logo small") %><%end %></td>
+                <td><span class="username"><%= user.username %></span></td>
+                <td><span class="provider"><%= user.provider %></span></td>
+                <td><span class="aec"><%= user.aec %></span></td>
+                <td><span class="user-type"><%= user.user_type %></span></td>
+                <td><span class="org-title"><%= user.org_title %></span></td>
+                <td><span class="discord-role"><%= user.discord_role %></span></td>
+                <td><span class="user-created"><% if defined?(user.created_at) %> <%= user.created_at.utc  %> <% end%></span></td>
+                <td><span class="last-login" style="padding-left:10px;"><% if defined?(user.last_login) %> <%= user.last_login  %> <% end%></span></td>
+            </tr>
+            <% end %>
+
+        </table>
+
+        </div>

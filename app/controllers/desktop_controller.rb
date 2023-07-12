@@ -30,6 +30,7 @@ end
   @all_users = @local_users + DiscordUser.all + RsiUser.all  
   
   @root_users = User.all.order('last_login DESC NULLS LAST', rsi_verify: :desc)
+  @twitch_users = User.where("provider ILIKE ?", "twitch")
   @all_locations = Location.all.order(name: :asc)
   @all_locations_parent_grouped = @all_locations.order(parent: :asc)
   @tradeports = Location.where(trade_terminal: true).order('parent ASC')
@@ -48,6 +49,7 @@ end
   @altama_users_without_dossier = @altama_users.where.not(id: dossier_ids)
 
   @milk_runs = MilkRun.all
+  
   @milk_run =  MilkRun.new
   @bots = Bot.all
   @discord_users =  DiscordUser.all.order(role: :desc)

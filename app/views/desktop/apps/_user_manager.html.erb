@@ -12,6 +12,7 @@
     <div class="level-1" data-action="click->desktop#root_users" > <i class="folder"></i>[+]<%= link_to "HKEY_ROOT_USER", root_user_list_path  %></div>
     <div class="level-1"> <i class="folder"></i> HKEY_WORKER_USER</div>
     <div class="level-1"> <i class="folder"></i> HKEY_MEMBER_USER</div>
+    <div class="level-1" data-action="click->desktop#twitch_users" > <i class="folder"></i>[+]<%= link_to "HKEY_TWITCH_USER", twitch_user_list_path  %> </div>
     <div class="level-1"  data-action="click->desktop#discord_users"> <i class="folder"></i>[+]<%= link_to "HKEY_DISCORD_USER", discord_user_list_path  %> (<%=DiscordUser.all.count %>)</div>
     <div class="level-1" data-action="click->desktop#rsi_users" > <i class="folder"></i> [+]<%= link_to "HKEY_RSI_USER", rsi_user_list_path  %> (<%=RsiUser.all.count %>)</div>
     <div class="level-1">  <i class="folder">[+]</i><%= link_to "HKEY_ALL_USER", all_user_list_path  %> </div>
@@ -60,6 +61,8 @@ when 'root_users' %>
 <%= render '/users/discord_users'  %>
 <% when 'local_users'%>
 <%= render '/users/local_users'%>
+<% when 'twitch_users'%>
+<%= render '/users/twitch_users'%>
 <% end %>
 
         </div>
