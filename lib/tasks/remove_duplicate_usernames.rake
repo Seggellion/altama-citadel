@@ -1,24 +1,17 @@
-# lib/tasks/remove_duplicate_usernames.rake
 namespace :users do
-    desc 'Remove duplicate usernames'
-    task remove_duplicates: :environment do
-      duplicate_usernames = User.group(:username).having("count(*) > 1").pluck(:username)
+  desc 'Remove duplicate usernames'
+  task remove_duplicates: :environment do
+    duplicate_usernames = User.select('LOWER(username)').group('LOWER(username)').having("count(*) > 1").pluck('LOWER(username)')
+
+    duplicate_usernames.each do |username|
+      # get all users with this username, ordered by created_at
+      duplicate_users = User.where("LOWER(username) = ?", username.downcase).order(created_at: :asc)
   
-      duplicate_usernames.each do |username|
-        # get all users with this username, except the first
-        duplicate_users = User.where(username: username).offset(1)
+      # transfer AEC from the newest record to the oldest
+      duplicate_users.last.aec = duplicate_users.first.aec
   
-        duplicate_users.each do |user|
-          # create a new unique username
-          new_username = "#{username}1"
-          # if the new username already exists, add another "1" to it, and so on
-          while User.exists?(username: new_username)
-            new_username << "1"
-          end
-          # update the user with the new username
-          user.update(username: new_username)
-        end
-      end
+      # destroy the newest record
+      duplicate_users.last.destroy
     end
   end
-  
+end

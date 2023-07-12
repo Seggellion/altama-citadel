@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_one :user_position
   has_many :sent_transactions, class_name: 'Transaction', foreign_key: 'sender_id', dependent: :destroy
   has_many :received_transactions, class_name: 'Transaction', foreign_key: 'receiver_id', dependent: :destroy
-  validates :username, uniqueness: true
+  validates :username, uniqueness: { case_sensitive: false }
 
   def top_five
     userships = self.userships
