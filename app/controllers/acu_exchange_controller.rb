@@ -24,7 +24,7 @@ class AcuExchangeController < ApplicationController
       
       # Set additional attributes here
       to_user.password = SecureRandom.hex(10) 
-      to_user.provider = 'twitch' # replace with actual values
+      to_user.provider = 'Twitch' # replace with actual values
       to_user.save!
       
     end

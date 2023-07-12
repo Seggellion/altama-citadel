@@ -75,7 +75,53 @@
             <div class="acu-button">
             (2) AEC Balance:
             </div>
-
+<div class="transaction-list">
+<div class="transaction-header">
+    <div>
+    ID
+    </div>
+    <div>
+    Origin
+    </div>
+    <div>
+    Destination
+    </div>
+    <div>
+    Amount
+    </div>
+    <div style="width: 170px;text-align: right;">
+    Date
+    </div>
+</div>
+<%if @current_user.user_type == 0 %>
+<% @transactions = Transaction.all %>
+<% else %>
+<% @transactions = Transaction.where("sender_id = ? OR receiver_id = ?", @current_user.id, @current_user.id) %>
+<% end %>
+<% @transactions.each do | transaction | %>
+    <div class="transaction-row">
+        <div>
+        <%= transaction.id %> 
+        </div>
+        <div>|</div>
+        <div>
+        <%= transaction.sender.username %> 
+        </div>
+        <div>|</div>
+        <div>
+        <%= transaction.receiver.username %>
+        </div>
+        <div>|</div>
+        <div>
+        <%= transaction.amount %>
+        </div>
+        <div>|</div>
+        <div >
+        <%= transaction.created_at %> 
+        </div>
+    </div>
+    <% end %>
+</div>
         </div>
 
 
@@ -104,3 +150,21 @@
     </div>
 
 </div>
+
+<style>
+.transaction-list, .transaction-header,.transaction-row{
+    display:flex;
+}
+.transaction-list{
+    flex-direction: column;
+    width:870px;
+    margin:20px 0px;
+}
+.transaction-row{
+    justify-content: space-between;
+}
+.transaction-header{
+    justify-content:space-between;
+    flex-direction:row;
+}
+</style>
