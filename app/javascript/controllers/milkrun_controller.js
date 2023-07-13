@@ -2,7 +2,8 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["commodity", "location", "buyScu", "buyPrice", "capital", "sellScu", "profit", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector", "formType",
-   "milkRunData","commodityField", "locationField", "sellScuField", "sellPriceField", "profitPerScuField", "formTypeField", "SellIdField", "BuyIdField"]
+   "milkRunData","commodityField", "locationField", "sellScuField", "sellPriceField", "profitPerScuField", "formTypeField", "SellIdField", "BuyIdField", "buyCommoditySelector",
+  "BuyCommodityIdField", "BuyCommodityPriceField"]
 
   // static targets = ["commodity", "location", "profit", "scu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector"]
 //  static targets = ["ship", "location", "commodity", "buyScu", "buyPrice", "capital", "locationsData", "shipsData", "commoditiesData"]
@@ -209,6 +210,15 @@ export default class extends Controller {
     this.capitalTarget.textContent = (buyPrice * buyScu).toFixed(2);
   }
   
+  updateHiddenBuyFields() {
+    this.buyCommodityFieldTarget.value = this.buyCommoditySelectorTarget.value;   
+    this.userIdFieldTarget.value = this.userIdSelectorTarget.value;    
+    this.BuyCommodityIdFieldTarget.value = this.commodityTarget.value;
+    this.BuyCommodityPriceFieldTarget.value = this.buyPriceTarget.value;
+    this.buyLocationFieldTarget.value = this.buyLocationSelectorTarget.value;
+    this.buyScuFieldTarget.value = this.buyScuTarget.value;
+  }
+
   updateHiddenFields() {
     this.commodityFieldTarget.value = this.commodityTarget.value;    
     this.BuyIdFieldTarget.value = this.commodityTarget.value;

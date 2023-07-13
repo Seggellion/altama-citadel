@@ -1,59 +1,101 @@
 
     
     <tr data-form_type="buy">
-    <%= form_with model: @milk_run, local: true do |f| %>
-      <td>1</td>
+      <td><span>1</span></td>
       <% ('A'..end_column).each do |char| %>
-       <% if char == 'A' %><td>Buy</td><% end %>
+       <% if char == 'A' %><td><span>Buy</span></td><% end %>
        <% if char == 'B' %>
         <td>                    
             <div>
-                <input name="user_id" type="text" class="form-control" placeholder="search a user"/>       
-                <ul  class="list-group"></ul>
+            <span>
+                <input name="user_id" type="text" class="form-control" placeholder="search a user" data-milkrun-target="userIdSelector"/>       
+                </span>
             </div>                
         </td>
        <% end %>
+      
        <% if char == 'C' %>
-         <td>          
-            <input type="hidden" name="buy_commodity_id" id="buy_commodity_id" />
-            <%= f.hidden_field :form_type, value: "buy", 'data-milkrun-target': 'formType' %>
-            <input type="hidden" name="trade_session_id" id="trade_session_id" value="<%= @trade_session_id %>" />
+    <td> 
+    <span>
 
-            <%= f.select :usership_id, @cargo_ships.map { |s| [s.model, s.id] }, 
-            { include_blank: 'Select Ship' } %>
-         </td>          
-       <% end %>
-       <% if char == 'D' %>
-       <td>
-        <%= f.select :buy_location, @all_locations_parent_grouped.map { |l| [l.name, l.name] }, 
-        { include_blank: 'Select Location' }, 
-        { data: { action: "change->milkrun#locationChanged" } } %>        
-       </td>
-       <% end %>
-       <% if char == 'E' %>
-       <td>
-        <%= f.select :commodity_name, [], { include_blank: 'Select location first' }, 
-        data: { action: "change->milkrun#populateCommodityPrice", milkrun_target: 'commoditySelector' } %>
-        </td>
-       <% end %>
-       <% if char == 'F' %>
-        <td><%= f.number_field :buy_commodity_scu, placeholder: 'BUY_SCU', data: { action: "change->milkrun#calculateCapital", milkrun_target: 'buyScu'  } %></td>
-       <% end %>
-       <% if char == 'G' %>
-        <td><%= f.number_field :buy_commodity_price, placeholder: 'Buy_Price', data: { action: "change->milkrun#calculateCapital", milkrun_target: 'buyPrice' } %></td>
-       <% end %>
+
+        <select name="usership_id" id="usership_id">
+            <option value="">Select Ship</option>
+            <% @cargo_ships.each do |ship| %>
+                <option value="<%= ship.id %>"><%= ship.model %></option>
+            <% end %>
+        </select>
+    </span>
+    </td>          
+<% end %>
+<% if char == 'D' %>
+<td>
+<span>
+    <select name="buy_location" id="buy_location" data-action="change->milkrun#locationChanged" data-milkrun-target="buyLocationSelector">
+        <option value="">Select Location</option>
+        <% @all_locations_parent_grouped.each do |location| %>
+            <option value="<%= location.name %>"><%= location.name %></option>
+        <% end %>
+    </select>
+</span>
+</td>
+<% end %>
+<% if char == 'E' %>
+<td>
+<span>
+    <select name="commodity_name" id="commodity_name" data-action="change->milkrun#populateCommodityPrice" data-milkrun-target="buyCommoditySelector">
+        <option value="">Select location first</option>
+    </select>
+</span>
+</td>
+<% end %>
+<% if char == 'F' %>
+<td>
+<span>
+    <input type="number" name="buy_commodity_scu" id="buy_commodity_scu" placeholder="BUY_SCU" data-action="change->milkrun#calculateCapital" data-milkrun-target="buyScu" />
+</span>
+</td>
+<% end %>
+<% if char == 'G' %>
+<td>
+<span>
+    <input type="number" name="buy_commodity_price" id="buy_commodity_price" placeholder="Buy_Price" data-action="change->milkrun#calculateCapital" data-milkrun-target="buyPrice" />
+</span>
+</td>
+<% end %>
+
+
        <% if char == 'H' %>
         <td id="capital" data-milkrun-target="capital"></td>
        <% end %>
        <% if char == 'I' %>
-        <td>
+        <td>      
+        <span>
         
 
-        
-        <%= f.submit 'Buy' %></td>
+
+        <%= form_with model: @milk_run, local: true do |f| %>
+          <%= f.hidden_field :commodity_name, data: { milkrun_target: 'buyCommodityField' } %>
+          <%= f.hidden_field :buy_location, data: { milkrun_target: 'buyLocationField' } %>
+          <%= f.hidden_field :buy_commodity_scu, data: { milkrun_target: 'buyScuField' } %>
+          <%= f.hidden_field :buy_commodity_price, data: { milkrun_target: 'BuyCommodityPriceField' } %>
+          <%= f.hidden_field :user_id, data: { milkrun_target: 'userIdField' } %>
+          <%= f.hidden_field :form_type, value: "buy" %>
+          <%= f.hidden_field :buy_commodity_id, data: { milkrun_target: 'BuyCommodityIdField' } %>
+          
+          <%= f.submit 'BUY' %>
+    
+          
+          
+          <input type="hidden" name="milk_run[trade_session_id]" id="trade_session_id" value="<%= @trade_session_id %>" />
+        <% end %>
+
+
+        </span>
+        </td>
        <% end %>
       <% end %>
-      <% end %>
+      
     </tr>
   
 

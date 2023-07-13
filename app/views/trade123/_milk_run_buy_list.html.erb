@@ -1,0 +1,36 @@
+
+<tr class="white">
+<td><span>4</span></td>
+<td></td>
+<td><span>Inventory</span></td>
+<td><span>Buy Scu</span></td>
+<td><span>Buy Price</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<% @milk_runs_buy.each_with_index do |milk_run, index| %>
+<tr>
+  <td><span><%= index + 3 %></span></td>
+  <% ('A'..end_column).each do |char| %>
+    <% if char == 'A' %>
+      <td><span>BUY</span></td>
+      <% elsif char == 'B' %>
+      <td><span>
+      <%= milk_run.buy_commodity&.name %></span></td>
+      <% elsif char == 'C' %>
+      <td><span>
+      <%= milk_run.buy_commodity_scu %>SCU</span></td>
+      <% elsif char == 'D' %>
+      <td><span>
+      <%= milk_run.buy_commodity_price %>aUEC
+      </span></td>
+       <% else %>
+      <td></td>
+       <% end %>
+  <% end %>
+  </tr>
+<% end %>

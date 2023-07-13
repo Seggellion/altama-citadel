@@ -17,7 +17,7 @@ class MilkRunsController < ApplicationController
         buy_commodity_id = params[:milk_run][:buy_commodity_id]
         
         
-        
+        byebug
         if params[:milk_run][:form_type] == "buy"
             existing_milkrun = MilkRun.find_by(buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
             user = User.search_by_username(params[:user_id]).first

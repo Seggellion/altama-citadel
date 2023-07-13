@@ -25,8 +25,12 @@ select{
     border: 1px solid black;
     padding:5px;
     text-align: center;
-    transform: scaleY(1.5);       
+    
     font-size: 1.3rem;
+    span{
+      transform: scaleY(1.5);
+      display:block;  
+    }
   }
    #shell .shell-container{
     padding-left:0px;

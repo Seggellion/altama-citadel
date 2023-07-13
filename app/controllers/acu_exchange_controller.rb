@@ -19,7 +19,7 @@ class AcuExchangeController < ApplicationController
     
 
     from_user_id = 1    
-    to_user = User.find_or_initialize_by(username: player_name)
+    to_user = User.find_or_initialize_by('LOWER(TRIM(username)) = ?', player_name.downcase.strip)
     if to_user.new_record?
       
       # Set additional attributes here

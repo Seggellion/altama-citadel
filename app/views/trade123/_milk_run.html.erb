@@ -18,7 +18,7 @@
      <tr>
        <th></th>
        <% ('A'..end_column).each do |char| %>
-         <th><%= char %></th>
+         <th><span><%= char %></span></th>
        <% end %>
      </tr>
    </thead>
@@ -27,80 +27,9 @@
 <%= render '/trade123/milk_run_buy_form', end_column: end_column %>
 <%= render '/trade123/milk_run_sell_form', end_column: end_column %>
      
+<%= render '/trade123/milk_run_buy_list', end_column: end_column %>
+<%= render '/trade123/milk_run_sell_list', end_column: end_column %>
 
-
-<tr class="white">
-  <td></td>
-  <td>4</td>
-  <td>Inventory</td>
-  <td>Buy Scu</td>
-  <td>Buy Price</td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-
-<% @milk_runs_buy.each_with_index do |milk_run, index| %>
-  <tr>
-    <td><%= index + 3 %></td>
-    <% ('A'..end_column).each do |char| %>
-      <% if char == 'A' %>
-        <td>BUY</td>
-        <% elsif char == 'B' %>
-        <td><%= milk_run.buy_commodity&.name %></td>
-        <% elsif char == 'C' %>
-        <td><%= milk_run.buy_commodity_scu %>SCU</td>
-        <% elsif char == 'D' %>
-        <td><%= milk_run.buy_commodity_price %>aUEC</td>
-         <% else %>
-        <td></td>
-         <% end %>
-    <% end %>
-    </tr>
-  <% end %>
-
-
-  <tr class="white">
-  <td></td>
-  <td>8</td>
-  <td>Sold</td>
-  <td>Buy Scu</td>
-  <td>Buy Price</td>
-  <td>Sell Scu</td>
-  <td>Sell Price</td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-
-  <% @milk_runs_sell.each_with_index do |milk_run, index| %>
-    <tr>
-      <td><%= index + 6 %></td>
-      <% ('A'..end_column).each do |char| %>
-        <% if char == 'A' %>
-          <td>BUY</td>
-          <% elsif char == 'B' %>
-          <td><%= milk_run.buy_commodity&.name %></td>
-          <% elsif char == 'C' %>
-          <td><%= milk_run.buy_commodity_scu %>SCU</td>
-          <% elsif char == 'D' %>
-          <td><%= milk_run.buy_commodity_price %>aUEC</td>
-          <% elsif char == 'E' %>
-          <td><%= milk_run.sell_commodity_scu %>SCU</td>
-          <% elsif char == 'F' %>
-          <td><%= milk_run.sell_commodity_price %>aUEC</td>
-          <% elsif char == 'g' %>
-          <td><%= milk_run.profit %>aUEC</td>
-           <% else %>
-          <td></td>
-           <% end %>
-      <% end %>
-      </tr>
-    <% end %>
-
-     
    </tbody>
  </table>
 </div>
