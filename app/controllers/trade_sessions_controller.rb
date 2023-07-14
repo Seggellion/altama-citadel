@@ -1,5 +1,5 @@
 class TradeSessionsController < ApplicationController
-    before_action :task_manager
+    before_action :task_manager, except: [:milk_runs, :trade_runs]
     before_action :set_trade_session
     #skip_before_action :require_login, only: [:milk_runs, :trade_runs]
 
