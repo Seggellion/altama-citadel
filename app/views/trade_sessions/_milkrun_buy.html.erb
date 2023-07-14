@@ -1,0 +1,51 @@
+<div class="public-buy-form">
+<span>Buy</span>
+    
+
+
+
+    <select name="usership_id" id="usership_id"  data-action="change->milkrun#shipChanged" data-milkrun-target="buyShipSelector">
+        <option value="">Select Ship</option>
+        <% @cargo_ships.each do |ship| %>
+            <option value="<%= ship.id %>"><%= ship.model %></option>
+        <% end %>
+    </select>
+
+<select name="buy_location" id="buy_location" data-action="change->milkrun#locationChanged" data-milkrun-target="buyLocationSelector">
+    <option value="">Select Location</option>
+    <% @all_locations_parent_grouped.each do |location| %>
+        <option value="<%= location.name %>"><%= location.name %></option>
+    <% end %>
+</select>
+
+<select name="commodity_name" id="commodity_name" data-action="change->milkrun#populateCommodityPrice" data-milkrun-target="buyCommoditySelector">
+    <option value="">Select location first</option>
+</select>
+
+<input type="number" name="buy_commodity_scu" id="buy_commodity_scu" placeholder="BUY_SCU" data-action="change->milkrun#calculateCapital" data-milkrun-target="buyScu" />
+
+<input type="number" name="buy_commodity_price" id="buy_commodity_price" placeholder="Buy_Price" data-action="change->milkrun#calculateCapital" data-milkrun-target="buyPrice" />
+
+    <div id="capital" data-milkrun-target="capital"></div>
+
+
+
+    <%= form_with model: @milk_run, local: true do |f| %>
+      <%= f.hidden_field :commodity_name, data: { milkrun_target: 'buyCommodityField' } %>
+      <%= f.hidden_field :buy_location, data: { milkrun_target: 'buyLocationField' } %>
+      <%= f.hidden_field :buy_commodity_scu, data: { milkrun_target: 'buyScuField' } %>
+      <%= f.hidden_field :buy_commodity_price, data: { milkrun_target: 'BuyCommodityPriceField' } %>
+      <%= f.hidden_field :user_id, value: params[:username]  %>
+      <%= f.hidden_field :ship_id, data: { milkrun_target: 'shipIdField' } %>
+      <%= f.hidden_field :form_type, value: "buy" %>
+      <%= f.hidden_field :buy_commodity_id, data: { milkrun_target: 'BuyCommodityIdField' } %>
+      
+      <%= f.submit 'BUY' %>
+
+      
+      
+      <input type="hidden" name="milk_run[trade_session_id]" id="trade_session_id" value="<%= @trade_session_id %>" />
+    <% end %>
+
+</div>
+<br><br>

@@ -7,7 +7,7 @@
   <td><span>Buy Price</span></td>
   <td><span>Sell Scu</span></td>
   <td><span>Sell Price</span></td>
-  <td></td>
+  <td><span>Profit</span></td>
   <td></td>
   <td></td>
 </tr>
@@ -17,19 +17,31 @@
     <td><span><%= index + 6 %></span></td>
     <% ('A'..end_column).each do |char| %>
     <% if char == 'A' %>
-        <td><span>BUY</span></td>
+        <td class="green"><span><%= milk_run.user.username %></span></td>
         <% elsif char == 'B' %>
-        <td><%= milk_run.buy_commodity&.name %></td>
+        <td><span>
+        <%= milk_run.buy_commodity&.name %>
+        </span></td>
         <% elsif char == 'C' %>
-        <td><%= milk_run.buy_commodity_scu %>SCU</td>
+        <td><span>
+        <%= milk_run.buy_commodity_scu %>SCU
+        </span></td>
         <% elsif char == 'D' %>
-        <td><%= milk_run.buy_commodity_price %>aUEC</td>
+        <td><span>
+        <%= milk_run.buy_commodity_price %>aUEC
+        </span></td>
         <% elsif char == 'E' %>
-        <td><%= milk_run.sell_commodity_scu %>SCU</td>
+        <td><span>
+        <%= milk_run.sell_commodity_scu %>SCU
+        </span></td>
         <% elsif char == 'F' %>
-        <td><%= milk_run.sell_commodity_price %>aUEC</td>
-        <% elsif char == 'g' %>
-        <td><%= milk_run.profit %>aUEC</td>
+        <td><span>
+        <%= milk_run.sell_commodity_price %>aUEC
+        </span></td>
+        <% elsif char == 'G' %>
+        <td><span>
+        <%= milk_run.profit %>aUEC
+        </span></td>
         <% else %>
         <td></td>
         <% end %>

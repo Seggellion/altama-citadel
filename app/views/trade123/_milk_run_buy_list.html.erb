@@ -14,10 +14,10 @@
 
 <% @milk_runs_buy.each_with_index do |milk_run, index| %>
 <tr>
-  <td><span><%= index + 3 %></span></td>
+  <td><span><%= index + 5 %></span></td>
   <% ('A'..end_column).each do |char| %>
     <% if char == 'A' %>
-      <td><span>BUY</span></td>
+    <td class="red"><span><%= milk_run.user.username %></span></td>
       <% elsif char == 'B' %>
       <td><span>
       <%= milk_run.buy_commodity&.name %></span></td>
@@ -27,6 +27,10 @@
       <% elsif char == 'D' %>
       <td><span>
       <%= milk_run.buy_commodity_price %>aUEC
+      </span></td>
+      <% elsif char == 'I' %>
+      <td><span>
+      <%= link_to "DEL", destroy_milk_run_path(milk_run) %>      
       </span></td>
        <% else %>
       <td></td>

@@ -3,6 +3,48 @@
 #milk_run{
     color: $dos_white;
     font-family: 'dos';
-      
+      text-transform:uppercase;
     font-size: 1.3rem;
+    select,input{
+        max-width:150px;
+    }
+    .green{
+        background-color:green;
+    }
+    .red{
+        background-color:red;
+    }
 }
+
+#public_milk_runs{
+    padding:20px;
+    background-color:black;
+    font-family: 'nes';
+    color: $dos_white;
+    width:100%;
+    height:100%;
+    font-size:1.2rem;
+    input, select{
+        background-color:black;
+        font-family: 'nes';
+        color: $dos_white;
+        font-size:1.2rem;
+        margin:2px 0px;
+    }
+    .public-buy-form,.public-sell-form{
+        display:flex;
+        margin:5px;
+        width: 400px;
+        flex-direction: column;
+        form{
+            text-align: right;
+        }
+    }
+    .public-container{
+        display:flex;
+        flex-direction:column;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+  }

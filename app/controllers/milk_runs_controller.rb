@@ -11,17 +11,20 @@ class MilkRunsController < ApplicationController
         
        # @milk_run = MilkRun.find(params[:id])
        
-
-        
+       
+       return if params[:milk_run][:user_id] &&  params[:milk_run][:user_id].size == 0
         trade_session_id = params[:milk_run][:trade_session_id]
         buy_commodity_id = params[:milk_run][:buy_commodity_id]
         
         
-        byebug
+        
         if params[:milk_run][:form_type] == "buy"
+            
             existing_milkrun = MilkRun.find_by(buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
-            user = User.search_by_username(params[:user_id]).first
+            user = User.search_by_username(params[:milk_run][:user_id]).first
+            ship_scu = Ship.find_by_id(params[:milk_run][:ship_id]).scu
             used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: user.id).sum(:buy_commodity_scu)
+            
             unless existing_milkrun
             MilkRun.create!(
                 user_id: user.id, 
@@ -31,10 +34,11 @@ class MilkRunsController < ApplicationController
                 buy_commodity_id: buy_commodity_id,
                 buy_commodity_scu: params[:milk_run][:buy_commodity_scu],
                 buy_commodity_price: params[:milk_run][:buy_commodity_price],      
-                #max_scu: integer, 
+                max_scu: ship_scu, 
                 used_scu:  used_scu,             
                 updated_at: Time.now
             )
+            
             end
         elsif params[:milk_run][:form_type] == "sell"
             current_milkrun = MilkRun.find_by(trade_session_id: trade_session_id, buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
@@ -65,6 +69,13 @@ class MilkRunsController < ApplicationController
        redirect_to MilkRun.last
     end
     
+def destroy
+
+milk_run = MilkRun.find_by_id(params[:format])
+milk_run.destroy
+redirect_to root_path
+end
+
     private
     
     def milk_run_params

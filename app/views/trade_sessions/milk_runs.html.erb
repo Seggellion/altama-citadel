@@ -1,0 +1,37 @@
+<div id="public_milk_runs">
+Greetings <%= params[:username] %>
+
+<% @trade_session =  TradeSession.last %>
+<% @trade_session_id =  TradeSession.last.id %>
+<% @session_milkruns = MilkRun.where(trade_session_id: @trade_session_id) %>
+
+<div class="public-container" data-controller="milkrun" >
+Welcome to <%= @trade_session.owner.username %> MilkRuns
+<%= render 'milkrun_buy' %>
+
+
+<%= render 'milkrun_sell' %>
+
+
+</div>
+
+</div>
+
+<div id="data" >
+  <%= content_tag :div, id: "locations-data", class: "hidden", data: { locations: @all_locations_parent_grouped.to_json(only: [:name, :parent]) } do %><% end %>
+  <%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu, :id]) } do %><% end %>
+  <%= content_tag :div, id: "commodities-data", class: "hidden", data: { milkrun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
+  <%= content_tag :div, id: "milkruns-data", class: "hidden", data: { milkrun_target:'milkRunData', milk_runs: MilkRun.select_by_session(@trade_session_id).to_json(only: [:id, :buy_commodity_id, :buy_commodity_price, :buy_commodity_scu, :commodity_name, :buy_location, :updated_at]) } do %><% end %>
+</div>
+
+<style>
+
+#trade_sessions{
+width:100%;
+height:100%;
+margin:0px;
+padding:0px;
+background-color:black;
+}
+
+</style>

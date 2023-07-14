@@ -1,60 +1,70 @@
 
   <tr class="white">
+<td><span>2</span></td>
 <td></td>
-<td></td>
-<td>Commodity</td>
-<td>Location</td>
-<td>Sell Scu</td>
-<td>Sell Price</td>
-<td>Profit</td>
-<td>Profit/Scu</td>
+<td><span>Commodity</span></td>
+<td><span>Location</span></td>
+<td><span>Sell Scu</span></td>
+<td><span>Sell Price</span></td>
+<td><span>Profit</span></td>
+<td><span>Profit/Scu</span></td>
 <td></td>
 <td></td>
   </tr>
   <tr data-form_type="sell">
-    <td>2</td>
+    <td><span>3</span></td>
     <% ('A'..end_column).each do |char| %>
       <% if char == 'A' %>
-        <td>Sell</td>
+        <td><span>Sell</span></td>
       <% end %>
       <% if char == 'B' %>
         <td>
+        <span>
           <select name="milk_run_group[commodity_name]" data-action="change->milkrun#selectCommodity" data-milkrun-target="commodity">
             <option value="">Select Commodity</option>
             <% @commodities_for_sell.each do |commodity_id| %>
               <option value="<%= commodity_id %>"><%= Commodity.find(commodity_id).name %></option>
             <% end %>
           </select>
+          </span>
         </td>
       <% end %>
       <% if char == 'C' %>
         <td>
+        <span>
           <select name="milk_run_group[buy_location]" data-action="change->milkrun#selectLocation" data-milkrun-target="location">
             <option value="">Select Commodity first</option>
 
           </select>
+          </span>
         </td>
       <% end %>
       <% if char == 'D' %>
         <td>
+        <span>
           <input type="number" name="milk_run_group[sell_commodity_scu]" placeholder="SELL_SCU" data-action="change->milkrun#updateProfit" data-milkrun-target="sellScu" />
+          </span>
         </td>
       <% end %>
       <% if char == 'E' %>
         <td>
+        <span>
           <input type="number" name="milk_run_group[sell_commodity_price]" placeholder="SellPrice" data-action="change->milkrun#updateProfitPerScu" data-milkrun-target="sellPrice" />
+          </span>
         </td>
       <% end %>
       <% if char == 'F' %>
         <td>
+        <span>
         <input type="number" name="milk_run_group[profit]" placeholder="Profit" data-milkrun-target="profit" readonly />
+        </span>
         </td>
       <% end %>
       <% if char == 'G' %>
         <td>
-
+        <span>
         <input type="number" name="milk_run_group[profitSCU]" placeholder="Profit/SCU" data-milkrun-target="profitPerScu" readonly />      
-          
+        </span>
         </td>
       <% end %>
 
@@ -71,12 +81,14 @@
       <%= f.hidden_field :buy_location, data: { milkrun_target: 'locationField' } %>
       <%= f.hidden_field :sell_commodity_scu, data: { milkrun_target: 'sellScuField' } %>
       <%= f.hidden_field :sell_commodity_price, data: { milkrun_target: 'sellPriceField' } %>
-      <%= f.hidden_field :profit, data: { milkrun_target: 'profitPerScuField' } %>
+      <%= f.hidden_field :profit, data: { milkrun_target: 'profitField' } %>
+      
       <%= f.hidden_field :form_type, value: "sell", 'data-milkrun-target': 'formTypeField'%>
       <%= f.hidden_field :buy_commodity_id, data: { milkrun_target: 'BuyIdField' } %>
       <%= f.hidden_field :sell_commodity_id, data: { milkrun_target: 'SellIdField' } %>
-      <%= f.submit 'Sell' %>
-
+      <span>
+      <%= f.submit 'SELL' %>
+      </span>
       <input type="hidden" name="milk_run[form_type]" value="sell" data-milkrun-target="formType"/>
       
       <input type="hidden" name="milk_run[trade_session_id]" id="trade_session_id" value="<%= @trade_session_id %>" />

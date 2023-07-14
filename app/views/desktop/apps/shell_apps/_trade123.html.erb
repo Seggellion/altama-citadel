@@ -8,6 +8,8 @@
     <%= render '/trade123/trade_session' %>
     <% elsif task.state.include?('profit') %>
     <%= render '/trade123/profit_distribution' %>
+    <% elsif task.state.include?('settings') %>
+    <%= render '/trade123/settings' %>
     <% elsif task.state.include?('streamchart') %>
     <%= render '/trade123/streamchart' %>
   <% else %>

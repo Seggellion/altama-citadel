@@ -19,7 +19,9 @@
       Streamcharts
     </a>
   </li>
-  <li>
+  <li  data-traderun-target="menuItem" >
+  <%= link_to traderun_command_path("settings-#{@current_task.state.split("-").last}")  do %> 
   Settings
+  <% end %>
   </li>
 </ul>

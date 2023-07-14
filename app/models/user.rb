@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_one :task_manager
   has_many :rfas
   has_many :messages
+  has_many :milk_runs
+  has_many :trade_runs
   has_one :position, :through => :user_position
   has_one :user_position
   has_many :sent_transactions, class_name: 'Transaction', foreign_key: 'sender_id', dependent: :destroy
@@ -60,8 +62,9 @@ end
 
 def session_profit(trade_session)
   trade_runs = TradeRun.where(username: self.username, trade_session_id: trade_session.id)
-
-  total_profit = trade_runs.sum(:profit)
+  milk_runs = MilkRun.where(user_id: self.id, trade_session_id: trade_session.id)
+  total_profit = (trade_runs.sum(:profit) + milk_runs.sum(:profit))
+  
   total_profit
   formatted_profit = total_profit.to_s(:delimited)
   formatted_profit

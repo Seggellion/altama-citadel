@@ -1,58 +1,25 @@
 <div data-controller="tradesessionprofit" class="traderun-container">
     <div id="charContent"></div>
-<% trade_session = TradeSession.find_by_id(@current_task.state.split("-").last) %>
+    <% trade_session = TradeSession.find_by_id(@current_task.state.split("-").last) %>
     <div class="main-menu trade-session"  data-traderun-target="newTradeSession">
-<div class="session-title">
-Profit Distribution: <%=  TradeSession.find_by_id(@current_task.state.split("-").last).session_date %>
-</div>
+      <div class="session-title">
+      Settings
+      </div>
 
-<div class="distribution-body">
-    <div class="profit-distribution">
-
-    <svg id="svgCanvas" width="250" height="250">
-    <!-- Black Triangle -->
-    <polygon id="blackTriangle" points="50,200 200,200 125,50" fill="black"/>
-    <!-- Red Square -->
-    <rect id="redSquare" x="125" y="150" width="10" height="10" fill="red" />
-  </svg>
-  
-
-  </div>
-
-<div class="data" style="text-align:right;">
-<% trade_session.all_users.each do |user| %>
-<%= user.username %> - <%= user.session_profit(trade_session) %> <br/>
-  <% end %>
-<div class="profit-table">
-<span>MilkRun:<br/> <%= trade_session.milk_run_profit %></span>
-<span>TradeRun:<br/> <%= trade_session.trade_run_profit %></span>
-</div>
-Profit: <%= TradeSession.find_by_id(@current_task.state.split("-").last).total_profit %>
-SCU: <%= TradeSession.find_by_id(@current_task.state.split("-").last).total_scu %>
-
-</div>
-</div>
+      <div class="settings-body">
+          <div class="settings-form">
+          <%= form_with model: trade_session, local: true do |f| %>
+            Session Users:
+            <%= f.text_field :session_users, value: trade_session.session_users %>
+            <%= f.submit '[OK]' %>
+            <% end %>
+        </div>
+    </div>
 
     </div>
     <%= render '/trade123/footer_menu' %>
 </div>
 <style>
-.profit-table{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px;
-  margin:5px;
-  
-  flex-direction:row;
-}
-.profit-table span{
-  border:1px solid black;
-  display:block;
-  margin:5px;
-  padding:5px;
-  text-align:center;
-}
 .distribution-body{
   align-items: flex-end;
   flex-direction: row;
@@ -69,6 +36,13 @@ SCU: <%= TradeSession.find_by_id(@current_task.state.split("-").last).total_scu 
   top:0px;
   left:0px;
   z-index:0;
+}
+#traderun .settings-form input{
+  color:white;
+}
+#traderun .settings-form input[type="Submit"]{
+  background-color:blue;
+  color:white;
 }
 #traderun_footer{
   display:block !important;

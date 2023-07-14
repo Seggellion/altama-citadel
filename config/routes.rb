@@ -171,8 +171,12 @@ Rails.application.routes.draw do
   get 'taskbar_button', to: 'tasks#taskbar_button'
   get 'populate_commodity', to: 'codex#populate_commodity'
   get 'destroy_commodity', to: 'codex#destroy_all_commodity'
+  get 'destroy_milk_run', to: 'milk_runs#destroy'
   get 'populate_locations', to: 'codex#populate_locations'
   get 'payout_streamchart', to: 'streamchart#payout'
+
+  get 'traderun/:username', to: 'trade_sessions#trade_runs', as: :traderun
+  get 'milkrun/:username', to: 'trade_sessions#milk_runs', as: :milkrun
 
   get 'commodities_by_location', to: 'commodities#commodities_by_location'
   post 'deactivate_commodities', to: 'commodities#deactivate_commodities'

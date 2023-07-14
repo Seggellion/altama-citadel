@@ -17,9 +17,10 @@ class AcuExchangeController < ApplicationController
     star_bits = json_request["starBits"].to_i
     received_guid = json_request["secretguid"]
     
-
     from_user_id = 1    
-    to_user = User.where('LOWER(TRIM(username)) = ?', player_name.downcase.strip).first_or_initialize
+    to_user = User.where("lower(username) LIKE lower(?)", "%#{player_name.downcase}%").first_or_initialize
+
+    #to_user = User.where('LOWER(TRIM(username)) = ?', player_name.downcase.strip).first_or_initialize
 
 #    to_user = User.find_or_initialize_by('LOWER(TRIM(username)) = ?', player_name.downcase.strip)
     if to_user.new_record?
@@ -32,8 +33,10 @@ class AcuExchangeController < ApplicationController
     end
 
     
-    to_user_id = User.find_by_username(player_name).id
+    to_user_id = User.where('lower(username) = lower(?)', player_name).first.id
+    byebug
     return unless @secretguid == received_guid
+    
     transaction = Transaction.create(amount: star_bits, sender_id: from_user_id, receiver_id: to_user_id)
     
     if transaction.persisted?

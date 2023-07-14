@@ -1,0 +1,49 @@
+
+
+<%# @commodities_for_sell = Commodity.joins(:milk_runs).where.not(milk_runs: { sell_commodity_scu: 0 }) %>
+
+
+<% @commodities_for_sell = @session_milkruns.where(sell_commodity_id: nil, user_id: @user.id ).joins(:buy_commodity).pluck('commodities.id') %>
+
+<div class="public-sell-form">
+    <span>Sell</span>
+
+      <select name="milk_run_group[commodity_name]" data-action="change->milkrun#selectCommodity" data-milkrun-target="commodity">
+        <option value="">Select Commodity</option>
+        <% @commodities_for_sell.each do |commodity_id| %>
+          <option value="<%= commodity_id %>"><%= Commodity.find(commodity_id).name %></option>
+        <% end %>
+      </select>
+      <select name="milk_run_group[buy_location]" data-action="change->milkrun#selectLocation" data-milkrun-target="location">
+        <option value="">Select Commodity first</option>
+
+      </select>
+
+      <input type="number" name="milk_run_group[sell_commodity_scu]" placeholder="SELL_SCU" data-action="change->milkrun#updateProfit" data-milkrun-target="sellScu" />
+
+      <input type="number" name="milk_run_group[sell_commodity_price]" placeholder="SellPrice" data-action="change->milkrun#updateProfitPerScu" data-milkrun-target="sellPrice" />
+
+    <input type="number" name="milk_run_group[profit]" placeholder="Profit" data-milkrun-target="profit" readonly />
+
+
+    <input type="number" name="milk_run_group[profitSCU]" placeholder="Profit/SCU" data-milkrun-target="profitPerScu" readonly />      
+
+
+    <%= form_with model: @milk_run, local: true do |f| %>
+    <%= f.hidden_field :commodity_name, data: { milkrun_target: 'commodityField' } %>
+    <%= f.hidden_field :buy_location, data: { milkrun_target: 'locationField' } %>
+    <%= f.hidden_field :sell_commodity_scu, data: { milkrun_target: 'sellScuField' } %>
+    <%= f.hidden_field :sell_commodity_price, data: { milkrun_target: 'sellPriceField' } %>
+    <%= f.hidden_field :profit, data: { milkrun_target: 'profitField' } %>
+    <%= f.hidden_field :form_type, value: "sell", 'data-milkrun-target': 'formTypeField'%>
+    <%= f.hidden_field :buy_commodity_id, data: { milkrun_target: 'BuyIdField' } %>
+    <%= f.hidden_field :sell_commodity_id, data: { milkrun_target: 'SellIdField' } %>
+    <span>
+    <%= f.submit 'SELL' %>
+    </span>
+    <input type="hidden" name="milk_run[form_type]" value="sell" data-milkrun-target="formType"/>
+    
+    <input type="hidden" name="milk_run[trade_session_id]" id="trade_session_id" value="<%= @trade_session_id %>" />
+    <% end %>
+
+</div>

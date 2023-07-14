@@ -3,7 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["commodity", "location", "buyScu", "buyPrice", "capital", "sellScu", "profit", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector", "formType",
    "milkRunData","commodityField", "locationField", "sellScuField", "sellPriceField", "profitPerScuField", "formTypeField", "SellIdField", "BuyIdField", "buyCommoditySelector",
-  "BuyCommodityIdField", "BuyCommodityPriceField"]
+  "BuyCommodityIdField", "BuyCommodityPriceField", "buyLocationField", "buyLocationSelector", "userIdSelector", "userIdField", "buyCommodityField","buyScuField",
+"buyShipSelector","shipIdField","profitField"]
 
   // static targets = ["commodity", "location", "profit", "scu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector"]
 //  static targets = ["ship", "location", "commodity", "buyScu", "buyPrice", "capital", "locationsData", "shipsData", "commoditiesData"]
@@ -11,20 +12,25 @@ export default class extends Controller {
   connect() {
 
     let commodities = document.getElementById('commodities-data').dataset.commodities;
+    
     this.commodities = JSON.parse(commodities);
     this.locationsData = JSON.parse(document.getElementById('locations-data').dataset.locations);
     this.commoditiesData  = document.getElementById('commodities-data').dataset.commodities;
-     
+    this.shipsData = JSON.parse(document.getElementById('ships-data').dataset.ships);
     this.milk_runsData = JSON.parse(document.getElementById('milkruns-data').dataset.milkRuns);
 
   }
   
   selectCommodity(event) {
     const selectedCommodityId = event.target.value;
+    
     const selectedCommodity = this.commodities.find(c => c.id == selectedCommodityId);
     
     let trElement = event.target.closest('tr')
-    this.formType =   trElement.dataset.form_type
+    if(trElement){
+      this.formType =   trElement.dataset.form_type
+    }
+   
     this.updateMaxScu(event);
     this.updateLocations(selectedCommodity);
     
@@ -37,6 +43,7 @@ export default class extends Controller {
     const buyCommodityScu = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name).buy_commodity_scu
     
     this.sellScuTarget.max = buyCommodityScu;
+    debugger;
     this.sellScuTarget.addEventListener('input', (e) => {
       if (e.target.value > buyCommodityScu) {
         e.target.value = buyCommodityScu;
@@ -82,6 +89,28 @@ export default class extends Controller {
   }
   
 
+  selectBuyLocation(event) {
+    const selectedLocation = event.target.value;
+    const commodityId = this.commodityTarget.value;
+
+   ///  JUST TRYING TO SOLVE FOR PROFIT PER SCU
+   
+  // const selectedOptionValue = JSON.parse(event.target.value);
+   
+  // const commodityId = selectedOptionValue.id;   
+ //  let locationParts = selectedOptionValue.name.split(" | ");
+  // const locationName = locationParts.pop().trim();
+    // find the selected commodity by name and location
+    const selectedCommodity = this.commodities.find(c => c.name == commodityName && c.location == selectedLocation);
+   const commodityName = this.commodities.find(c => c.id == commodityId).name
+ //  const selectedCommodity = this.commodities.find(c => c.name == commodityName && c.location == locationName);
+    // populate sell_commodity_price field with selected commodity's sell price
+    this.buyPriceTarget.value = selectedCommodity ? selectedCommodity.buy : '';
+    
+    this.buyIdFieldTarget.value = selectedCommodity.id
+  
+    this.updateHiddenBuyFields();
+  }
 
   selectLocation(event) {
     //const selectedLocation = event.target.value;
@@ -95,20 +124,18 @@ export default class extends Controller {
    let locationParts = selectedOptionValue.name.split(" | ");
    const locationName = locationParts.pop().trim();
    
-
     // find the selected commodity by name and location
    // const selectedCommodity = this.commodities.find(c => c.name == commodityName && c.location == selectedLocation);
    const commodityName = this.commodities.find(c => c.id == commodityId).name
    const selectedCommodity = this.commodities.find(c => c.name == commodityName && c.location == locationName);
-   
-   
-   
     // populate sell_commodity_price field with selected commodity's sell price
     this.sellPriceTarget.value = selectedCommodity ? selectedCommodity.buy : '';
     
     this.SellIdFieldTarget.value = selectedCommodity.id
+    
     this.updateProfitPerScu(event);
     this.updateHiddenFields();
+    
   }
 
 
@@ -134,6 +161,7 @@ export default class extends Controller {
     } else {
       this.profitPerScuTarget.textContent = 'N/A';
     }
+    
     this.updateHiddenFields();
   }
   
@@ -142,6 +170,7 @@ export default class extends Controller {
     let sellScu = this.sellScuTarget.value;
     let sellPrice = this.sellPriceTarget.value;
     let buyCommodityId = this.commodityTarget.value;
+    
     //const buyCommodityName = this.commodities.find(c => c.id == buyCommodityId).name;
     // You may want to add some error handling here in case the commodity name is not found
     
@@ -158,28 +187,44 @@ export default class extends Controller {
   locationChanged(event) {
     const locationName = event.target.value
     console.log('locationName', locationName);
+    
     const options = this.commodities
       .filter(commodity => commodity.location == locationName && commodity.sell > 0)
       .map(commodity => `<option value="${commodity.name}">${commodity.name}</option>`)
 
-    this.commoditySelectorTarget.innerHTML = options.join("")
+    this.buyCommoditySelectorTarget.innerHTML = options.join("")
+    this.updateHiddenBuyFields();
   }
 
+  shipChanged(event){
 
+const selectedShipId = event.target.value;
+
+const selectedShipScu = this.shipsData.find(c => c.id == selectedShipId).scu;
+    this.buyScuTarget.max = selectedShipScu;
+    this.buyScuTarget.addEventListener('input', (e) => {
+      if (e.target.value > selectedShipScu) {
+        e.target.value = selectedShipScu;
+      }
+    });
+
+    this.updateHiddenBuyFields();
+  }
 
   populateCommodityPrice(event) {
     
     const commodityId = event.target.value
     
-    const locationData = document.getElementById("milk_run_buy_location").value;
+    const locationData = this.buyLocationSelectorTarget.value;
     
     const commoditiesData = JSON.parse(document.getElementById('commodities-data').dataset.commodities);
     let filteredCommodities = commoditiesData.filter(commodity => commodity.name === commodityId && commodity.location === locationData);
   //  const commodity = this.commodities.find(commodity => commodity.id == commodityId)
     
-    document.querySelector('#milk_run_buy_commodity_price').value = filteredCommodities[0].sell
+    this.buyPriceTarget.value = filteredCommodities[0].sell
     
-    document.querySelector('#buy_commodity_id').value = filteredCommodities[0].id
+    this.BuyCommodityIdFieldTarget.value = filteredCommodities[0].id
+    this.updateHiddenBuyFields();
   }
   handleSell(event) {
     event.preventDefault()
@@ -208,26 +253,37 @@ export default class extends Controller {
     const buyScu = parseFloat(this.buyScuTarget.value) || 0;
   
     this.capitalTarget.textContent = (buyPrice * buyScu).toFixed(2);
+    this.updateHiddenBuyFields();
   }
   
   updateHiddenBuyFields() {
+    this.shipIdFieldTarget.value = this.buyShipSelectorTarget.value;
+    
     this.buyCommodityFieldTarget.value = this.buyCommoditySelectorTarget.value;   
-    this.userIdFieldTarget.value = this.userIdSelectorTarget.value;    
-    this.BuyCommodityIdFieldTarget.value = this.commodityTarget.value;
+    
+    if (this.hasUserIdFieldTarget) {
+      this.userIdFieldTarget.value = this.userIdSelectorTarget.value;    
+    }
+    
+    //this.BuyCommodityIdFieldTarget.value = this.commodityTarget.value;
     this.BuyCommodityPriceFieldTarget.value = this.buyPriceTarget.value;
     this.buyLocationFieldTarget.value = this.buyLocationSelectorTarget.value;
     this.buyScuFieldTarget.value = this.buyScuTarget.value;
+    
   }
 
   updateHiddenFields() {
+    
     this.commodityFieldTarget.value = this.commodityTarget.value;    
     this.BuyIdFieldTarget.value = this.commodityTarget.value;
     this.locationFieldTarget.value = this.locationTarget.value;
     this.sellScuFieldTarget.value = this.sellScuTarget.value;
     this.sellPriceFieldTarget.value = this.sellPriceTarget.value;
+    
     this.profitFieldTarget.value = this.profitTarget.value;
-    this.profitPerScuFieldTarget.value = this.profitPerScuTarget.value;
+    //this.profitPerScuFieldTarget.value = this.profitPerScuTarget.value;
     this.formTypeFieldTarget.value = this.formTypeTarget.value;
+    
   }
 
   

@@ -7,8 +7,8 @@ class Commodity < ApplicationRecord
                     tsearch: { prefix: true },
                     trigram: { threshold: 0.9 }
                   }
-                  has_many :milk_runs
-                  has_many :buy_milk_runs, class_name: 'MilkRun', foreign_key: 'buy_commodity_id'
+                  #has_many :milk_runs
+                  has_many :milk_runs, class_name: 'MilkRun', foreign_key: 'buy_commodity_id'
 
           def self.buy_by_location(location)
             commodity_list = Commodity.where(location: location)

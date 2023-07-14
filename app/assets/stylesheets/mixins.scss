@@ -23,6 +23,13 @@ $mobile: 625px;
     font-weight: 400;
     src: font-url('dos.ttf') format('truetype');
   }
+
+  @font-face {
+    font-family: 'nes';
+    font-style: normal;
+    font-weight: 400;
+    src: font-url('Pixel_NES.otf') format('opentype');
+  }
   
   @font-face {
     font-family: 'dos-win';
