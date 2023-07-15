@@ -1,5 +1,5 @@
 class MilkRunsController < ApplicationController
-    before_action :task_manager
+    before_action :task_manager, except: [:create]
     def new
         @milk_run = MilkRun.new
         @commodities_for_sell = Commodity.joins(:milk_runs).where.not(milk_runs: { sell_commodity_scu: 0 })
