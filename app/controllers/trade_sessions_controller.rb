@@ -4,7 +4,7 @@ class TradeSessionsController < ApplicationController
     #skip_before_action :require_login, only: [:milk_runs, :trade_runs]
 
     def milk_runs
-      @user = User.find_by_username(params[:username])
+      #@user = User.find_by_username(params[:username])
       @cargo_ships = Ship.where("scu > ?", 1).order(model: :asc)
       @all_locations = Location.all.order(name: :asc)
       @all_locations_parent_grouped = @all_locations.order(parent: :asc)
@@ -69,25 +69,34 @@ open_state = "trade123|trade_run-#{TradeSession.last.id}"
 
         if @trade_session.session_users != trade_session_params[:session_users]
             # Split the input string by commas to get an array of usernames
-          input_usernames = trade_session_params[:session_users].split(',')
+            input_usernames = trade_session_params[:session_users].split(',')
 
-          # Normalize the usernames (strip whitespace and downcase)
-          normalized_input_usernames = input_usernames.map { |username| username.strip.downcase }
-
-          # Find or create users
-          users = normalized_input_usernames.map do |username|
-            user = User.where("lower(username) LIKE ?", "%#{username}%").first_or_create(username: username)
-            user.update(provider: 'trade123', password:SecureRandom.hex(10) ) if user.provider == ''
-
-            user
-          end
+            # Normalize the usernames (strip whitespace and downcase)
+            normalized_input_usernames = input_usernames.map { |username| username.strip.downcase }
+            
+            # Find or create users
+            users = normalized_input_usernames.map do |username|
+              # using 'find_by' to avoid unwanted matches
+              user = User.find_by("lower(username) = ?", username) 
+            
+              if user.nil?
+                # create a new user with provider and password if user does not exist
+                user = User.create!(username: username, provider: 'trade123', password: SecureRandom.hex(10))
+              elsif user.provider.blank?
+                # update provider and password if they are not set (either nil or empty string)
+                user.update!(provider: 'trade123', password: SecureRandom.hex(10))
+              end
+            
+              user
+            end
+            byebug
 
           updated_usernames = users.map(&:username).join(',')
             @trade_session.update(session_users: updated_usernames)
 
         end
 
-byebug
+        
         redirect_to root_path
         
       end
