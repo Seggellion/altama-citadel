@@ -24,7 +24,8 @@ class MilkRunsController < ApplicationController
             user = User.search_by_username(params[:milk_run][:user_id]).first
             ship_scu = Ship.find_by_id(params[:milk_run][:ship_id]).scu
             used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: user.id).sum(:buy_commodity_scu)
-            
+            puts user
+            puts user.id
             unless existing_milkrun
             MilkRun.create!(
                 user_id: user.id, 
