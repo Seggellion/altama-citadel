@@ -12,7 +12,7 @@ class TradeSessionsController < ApplicationController
       @milk_run = MilkRun.new
       # You can handle the situation if the user doesn't exist as you want.
       @user = User.where('lower(username) = lower(?)', params[:username]).first
-
+      @tradeports = Location.where(trade_terminal: true).order('parent ASC')
 
         session_usernames = @trade_session.session_users.split(',')
         
@@ -28,6 +28,7 @@ class TradeSessionsController < ApplicationController
     end
 
     def trade_runs
+      @tradeports = Location.where(trade_terminal: true).order('parent ASC')
       @cargo_ships = Ship.where("scu > ?", 1).order(model: :asc)
       @user = User.find_by_username(params[:username])
       @all_locations = Location.all.order(name: :asc)

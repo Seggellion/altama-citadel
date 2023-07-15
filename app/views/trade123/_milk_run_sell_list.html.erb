@@ -42,6 +42,10 @@
         <td><span>
         <%= milk_run.profit %>aUEC
         </span></td>
+        <% elsif char == 'I' %>
+        <td><span>
+        <%= link_to "DEL", destroy_milk_run_path(milk_run) %>    
+        </span></td>          
         <% else %>
         <td></td>
         <% end %>

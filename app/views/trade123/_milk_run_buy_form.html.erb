@@ -8,7 +8,7 @@
         <td>                    
             <div>
             <span>
-                <input name="user_id" type="text" class="form-control" placeholder="search a user" data-milkrun-target="userIdSelector"/>       
+                <input name="user_id" type="text" class="form-control" placeholder="USERNAME" data-milkrun-target="userIdSelector"/>       
                 </span>
             </div>                
         </td>
@@ -33,8 +33,8 @@
 <span>
     <select name="buy_location" id="buy_location" data-action="change->milkrun#locationChanged" data-milkrun-target="buyLocationSelector">
         <option value="">Select Location</option>
-        <% @all_locations_parent_grouped.each do |location| %>
-            <option value="<%= location.name %>"><%= location.name %></option>
+        <% @tradeports.each do |location| %>
+            <option value="<%= location.name %>"><%= location.parent %> - <%= location.name %></option>
         <% end %>
     </select>
 </span>

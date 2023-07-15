@@ -42,10 +42,12 @@ class MilkRunsController < ApplicationController
             end
         elsif params[:milk_run][:form_type] == "sell"
             current_milkrun = MilkRun.find_by(trade_session_id: trade_session_id, buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
-            
+            buy_commodity_scu = current_milkrun.buy_commodity_scu
+            buy_commodity_price = current_milkrun.buy_commodity_price
             used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: @current_user.id).sum(:buy_commodity_scu)
-            buy_total = params[:milk_run][:buy_commodity_scu].to_i * params[:milk_run][:buy_commodity_price].to_i
+            buy_total = buy_commodity_scu * buy_commodity_price
             sell_total = params[:milk_run][:sell_commodity_scu].to_i * params[:milk_run][:sell_commodity_price].to_i
+            byebug
             profit = sell_total - buy_total
             
             current_milkrun.update!(

@@ -1,4 +1,5 @@
 import { Application } from "@hotwired/stimulus"
+import "channels"
 
 const application = Application.start()
 

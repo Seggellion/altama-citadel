@@ -10,7 +10,18 @@ has_many :milk_runs
     end
 
     def total_scu
+        trade_run_profit = TradeRun.where(trade_session_id: self.id).sum(:scu)
+        milk_run_profit = MilkRun.where(trade_session_id: self.id).sum(:sell_commodity_scu)
+        profit = trade_run_profit + milk_run_profit
+        profit.to_s(:delimited)
+    end
+
+    def trade_run_scu
         TradeRun.where(trade_session_id: self.id).sum(:scu)
+    end
+
+    def milk_run_scu
+        TradeRun.where(trade_session_id: self.id).sum(:sell_commodity_scu)
     end
 
 def milk_run_profit

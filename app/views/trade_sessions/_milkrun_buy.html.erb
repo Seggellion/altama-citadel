@@ -13,8 +13,8 @@
 
 <select name="buy_location" id="buy_location" data-action="change->milkrun#locationChanged" data-milkrun-target="buyLocationSelector">
     <option value="">Select Location</option>
-    <% @all_locations_parent_grouped.each do |location| %>
-        <option value="<%= location.name %>"><%= location.name %></option>
+    <% @tradeports.each do |location| %>
+        <option value="<%= location.name %>"><%= location.parent %>-<%= location.name %></option>
     <% end %>
 </select>
 

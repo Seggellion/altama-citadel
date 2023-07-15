@@ -5,8 +5,8 @@
  <% @session_milkruns = MilkRun.where(trade_session_id: @trade_session_id) %>
 
  <% @commodities_for_sell = @session_milkruns.where(sell_commodity_id: nil).joins(:buy_commodity).pluck('commodities.id') %>
- <% @milk_runs_buy =  @session_milkruns.where("sell_commodity_price IS NULL OR sell_commodity_price = 0") %>
- <% @milk_runs_sell =  @session_milkruns.where("sell_commodity_price > 0") %>
+ <% @milk_runs_buy =  @session_milkruns.where("sell_commodity_price IS NULL OR sell_commodity_price = 0").order(created_at: :desc)  %>
+ <% @milk_runs_sell =  @session_milkruns.where("sell_commodity_price > 0").order(created_at: :desc) %>
  
 
 

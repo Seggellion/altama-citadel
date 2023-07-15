@@ -43,7 +43,7 @@ export default class extends Controller {
     const buyCommodityScu = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name).buy_commodity_scu
     
     this.sellScuTarget.max = buyCommodityScu;
-    debugger;
+    
     this.sellScuTarget.addEventListener('input', (e) => {
       if (e.target.value > buyCommodityScu) {
         e.target.value = buyCommodityScu;
@@ -142,7 +142,12 @@ export default class extends Controller {
   updateProfitPerScu(event) {
     //const selectedCommodityId = this.commodityTarget.value;
     const selectedOptionValue = JSON.parse(event.target.value);
-    const selectedCommodityId = selectedOptionValue.id;
+    let selectedCommodityId = ""
+    if(selectedOptionValue.id){
+      selectedCommodityId = selectedOptionValue.id;
+    }else{
+      selectedCommodityId = JSON.parse(this.locationTarget.value).id;
+    }
     
     // I don't believe this should be selecting a commodity and instead a location ^^
     const selectedCommodity = this.commodities.find(c => c.id == selectedCommodityId);
@@ -152,16 +157,16 @@ export default class extends Controller {
       const buyCommodity = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name);
       
       if (buyCommodity) {
-        const profitPerScu = selectedCommodity.buy - buyCommodity.buy_commodity_price;
+        const profitPerScu = this.sellPriceTarget.value - buyCommodity.buy_commodity_price;
         
-        this.profitPerScuTarget.value = profitPerScu.toFixed(2);
+        this.profitPerScuTarget.value = profitPerScu.toLocaleString();
       } else {
         this.profitPerScuTarget.textContent = 'N/A';
       }
     } else {
       this.profitPerScuTarget.textContent = 'N/A';
     }
-    
+    this.updateProfit();
     this.updateHiddenFields();
   }
   
@@ -251,8 +256,9 @@ const selectedShipScu = this.shipsData.find(c => c.id == selectedShipId).scu;
   calculateCapital() {
     const buyPrice = parseFloat(this.buyPriceTarget.value) || 0;
     const buyScu = parseFloat(this.buyScuTarget.value) || 0;
-  
-    this.capitalTarget.textContent = (buyPrice * buyScu).toFixed(2);
+    const capital = Math.floor(buyPrice * buyScu);
+
+    this.capitalTarget.textContent = capital.toLocaleString();
     this.updateHiddenBuyFields();
   }
   

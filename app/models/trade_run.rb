@@ -7,6 +7,10 @@ belongs_to :trade_session
         end
     end
 
+    def payout
+0
+    end
+
     def commodity_name        
         if self.commodity.present?       
             self.commodity.name

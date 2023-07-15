@@ -16,7 +16,9 @@ class StreamchartController < ApplicationController
     end
     
     
-    
+    def milk_run_profits
+
+    end
   
     
     end
