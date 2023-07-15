@@ -47,7 +47,7 @@ class MilkRunsController < ApplicationController
             used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: @current_user.id).sum(:buy_commodity_scu)
             buy_total = buy_commodity_scu * buy_commodity_price
             sell_total = params[:milk_run][:sell_commodity_scu].to_i * params[:milk_run][:sell_commodity_price].to_i
-            byebug
+            
             profit = sell_total - buy_total
             
             current_milkrun.update!(

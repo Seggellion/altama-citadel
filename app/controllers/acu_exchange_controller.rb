@@ -34,7 +34,7 @@ class AcuExchangeController < ApplicationController
 
     
     to_user_id = User.where('lower(username) = lower(?)', player_name).first.id
-    byebug
+    
     return unless @secretguid == received_guid
     
     transaction = Transaction.create(amount: star_bits, sender_id: from_user_id, receiver_id: to_user_id)

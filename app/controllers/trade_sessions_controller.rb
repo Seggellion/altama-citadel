@@ -89,7 +89,7 @@ open_state = "trade123|trade_run-#{TradeSession.last.id}"
             
               user
             end
-            byebug
+            
 
           updated_usernames = users.map(&:username).join(',')
             @trade_session.update(session_users: updated_usernames)
