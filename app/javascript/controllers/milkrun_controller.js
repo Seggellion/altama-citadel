@@ -40,7 +40,7 @@ export default class extends Controller {
     const selectedCommodityId = event.target.value;
     const selectedCommodity = this.commodities.find(c => c.id == selectedCommodityId);    
     
-    const buyCommodityScu = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name).buy_commodity_scu
+    const buyCommodityScu = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name && m.sell_commodity_id == null ).buy_commodity_scu
     
     this.sellScuTarget.max = buyCommodityScu;
     

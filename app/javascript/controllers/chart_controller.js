@@ -8,10 +8,28 @@ export default class extends Controller {
 
   connect() {
     this.initializeChart()
+    
+    fetch('/profits')
+      .then(response => response.json())
+      .then(data => {
+        this.updateChart(data)
+      })
+      
     this.subscribeToChannel()
   }
 
+  updateChart(data) {
+    // Update the labels and data of the chart
+    this.chart.data.labels = Object.keys(data);
+    this.chart.data.datasets[0].data = Object.values(data);
+    
+    // Redraw the chart
+    this.chart.update();
+  }
+
+
   initializeChart() {
+    
     this.chart = new Chart(this.canvasTarget, {
       type: 'bar',
       data: {
@@ -40,8 +58,8 @@ export default class extends Controller {
     console.log('Received data:', data);
   
     // Update the labels and data of the chart
-    this.chart.data.labels = Object.keys(data.profits);
-    this.chart.data.datasets[0].data = Object.values(data.profits);
+    this.chart.data.labels = Object.keys(data);
+    this.chart.data.datasets[0].data = Object.values(data);
   
     // Redraw the chart
     this.chart.update();
@@ -49,10 +67,8 @@ export default class extends Controller {
 
   subscribeToChannel() {
     this.subscription = createConsumer().subscriptions.create({ channel: "UserProfitsChannel" }, {
-      received: (data) => {
-        // update your chart with new data
-      }
-    })
+      received: this.received.bind(this) // use this line instead of the placeholder comment
+    });
   }
 
 

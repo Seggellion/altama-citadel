@@ -175,7 +175,7 @@ Rails.application.routes.draw do
   get 'populate_locations', to: 'codex#populate_locations'
   get 'payout_streamchart', to: 'streamchart#payout'
   get 'milkruns_streamchart', to: 'streamchart#milk_run_profits'
-
+  get 'profits', to: 'milk_runs#profits'
   get 'traderun/:username', to: 'trade_sessions#trade_runs', as: :traderun
   get 'milkrun/:username', to: 'trade_sessions#milk_runs', as: :milkrun
 

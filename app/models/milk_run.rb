@@ -10,7 +10,9 @@ class MilkRun  < ApplicationRecord
 
 
     
-
+    def grouped_profits
+        MilkRun.group(:user_id).sum(:profit)
+    end
     
 
     private

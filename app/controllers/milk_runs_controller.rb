@@ -1,9 +1,12 @@
 class MilkRunsController < ApplicationController
-    before_action :task_manager, except: [:create]
+    before_action :task_manager, except: [:create, :profits]
     def new
         @milk_run = MilkRun.new
         @commodities_for_sell = Commodity.joins(:milk_runs).where.not(milk_runs: { sell_commodity_scu: 0 })
         @locations_for_sell = []
+    end
+    def profits
+        render json: MilkRun.joins(:user).group('users.username').sum(:profit)
     end
     
     def create
@@ -24,8 +27,7 @@ class MilkRunsController < ApplicationController
             user = User.search_by_username(params[:milk_run][:user_id]).first
             ship_scu = Ship.find_by_id(params[:milk_run][:ship_id]).scu
             used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: user.id).sum(:buy_commodity_scu)
-            puts user
-            puts user.id
+
             unless existing_milkrun
             MilkRun.create!(
                 user_id: user.id, 
@@ -45,7 +47,14 @@ class MilkRunsController < ApplicationController
             current_milkrun = MilkRun.find_by(trade_session_id: trade_session_id, buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
             buy_commodity_scu = current_milkrun.buy_commodity_scu
             buy_commodity_price = current_milkrun.buy_commodity_price
-            used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: @current_user.id).sum(:buy_commodity_scu)
+            if @current_user
+                commodity_user_id = @current_user.id 
+            else
+  
+                commodity_user_id = current_milkrun.user_id
+            end
+
+            used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: commodity_user_id).sum(:buy_commodity_scu)
             buy_total = buy_commodity_scu * buy_commodity_price
             sell_total = params[:milk_run][:sell_commodity_scu].to_i * params[:milk_run][:sell_commodity_price].to_i
             

@@ -17,7 +17,7 @@ class StreamchartController < ApplicationController
     
     
     def milk_run_profits
-
+byebug
     end
   
     
