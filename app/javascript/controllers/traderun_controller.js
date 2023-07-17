@@ -317,6 +317,7 @@ export default class extends Controller {
           newSellInput.value = commodityData.buy;
           sellPriceElement.appendChild(newSellInput);
           const commodityBuyPrice = document.querySelector(`[data-commodity="${commodityData.name}"] .uec`).value;
+          
           // Push the commodity data to the array          
           commoditiesArray.push({
             commodity_id: commodityData.id,
@@ -326,7 +327,7 @@ export default class extends Controller {
           });
         }
       });
-  
+
       // Get the split_cmdty_json element
       const splitCmdtyJson = document.getElementById('split_cmdty_json');
   
@@ -481,7 +482,7 @@ calculateTotalSCU(parentTr) {
 }
 
 calculateProfitPerSCU(parentTr) {
-  debugger;
+  
   const totalProfit = this.calculateTotalProfit(parentTr);
   const totalSCU = this.calculateTotalSCU(parentTr);
   
@@ -491,6 +492,44 @@ calculateProfitPerSCU(parentTr) {
   }
 
   return totalProfit / totalSCU;
+}
+
+updateLocation(event){
+  const url = this.data.get('url');
+  const id = event.target.dataset.id;
+  const name = event.target.name;
+  const value = event.target.value;
+  const data = { "trade_run": {} };
+  data["trade_run"][name] = value;
+
+  fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'X-CSRF-Token': document.querySelector('[name=csrf-token]').content
+    },
+    body: JSON.stringify(data)
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json(); // this line parses the JSON response into a JavaScript object
+  }).then(data => {
+    console.log("Fetched data: ", data); // log the data
+    if (data && data.status === 'ok') {
+     
+      const sellPriceElement = event.target.closest('tr').querySelector('#sell_price');
+      if (sellPriceElement) {
+        
+        sellPriceElement.value = data.buy_price; 
+        
+        event.target.parentElement.innerHTML = value;
+        
+       
+      }
+    }
+  })
 }
 
 getCommodity(location, commodityName) {
@@ -828,13 +867,15 @@ if(locationData) {
     }
 }
 
+
+
 update(event) {
   const url = this.data.get('url');
+  const id = event.target.dataset.id;
   const name = event.target.name;
   const value = event.target.value;
   const data = { "trade_run": {} };
   data["trade_run"][name] = value;
-  
   
   fetch(url, {
     method: 'PATCH',
@@ -846,10 +887,22 @@ update(event) {
     body: JSON.stringify(data)
   }).then(response => {
     if (!response.ok) {
-      // Handle error
+      throw new Error('Network response was not ok');
     }
+    return response.json(); // this line parses the JSON response into a JavaScript object
+  }).then(data => {
+    console.log("Fetched data: ", data); // log the data
+    if (data && data.status === 'ok') {
+      const profitElement = document.getElementById(`trade_run_profit_${id}`);
+      if (profitElement) {
+        profitElement.textContent = data.profit; // profit should be returned by server
+      }
+    }
+  }).catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
   });
 }
+
 
 
 removeEntry(event) {

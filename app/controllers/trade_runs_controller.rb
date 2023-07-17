@@ -66,14 +66,49 @@ end
             redirect_to root_path
     end
 
-def update
-    @trade_run = TradeRun.find(params[:id])    
-    if @trade_run.update(trade_run_params)
-      render json: {status: 'ok'}
-    else
-      render json: {status: 'error', errors: @trade_run.errors}, status: 422
+    def update
+        @trade_run = TradeRun.find(params[:id])
+        # Ensure the sell_price is in the params
+        
+        if trade_run_params[:sell_price]
+          # Calculate the profit
+          sell_price = trade_run_params[:sell_price].to_f
+          buy_price = @trade_run.buy_price
+          quantity = @trade_run.scu
+          profit = (sell_price - buy_price) * quantity
+      
+          # Add the profit to the params
+          trade_run_params_with_profit = trade_run_params.merge(profit: profit)
+        else
+          trade_run_params_with_profit = trade_run_params
+        end
+      
+        if @trade_run.update(trade_run_params_with_profit)
+          response = {status: 'ok', profit: @trade_run.profit}
+          Rails.logger.debug "Response: #{response}"
+          render json: response
+        else
+          response = {status: 'error', errors: @trade_run.errors.full_messages}
+          Rails.logger.debug "Response: #{response}"
+          render json: response, status: 422
+        end
+      end
+      
+      def update_traderun_location
+        @trade_run = TradeRun.find(params[:id])
+        @commodity_buy_price = Commodity.find_by(location: params[:trade_run][:sell_location], name: @trade_run.commodity.name).buy
+        if @trade_run.update(trade_run_location_params)
+            
+            render json: {status: 'ok', location: @trade_run.sell_location, buy_price: @commodity_buy_price}
+        else
+            response = {status: 'error', errors: @trade_run.errors.full_messages}
+            Rails.logger.debug "Response: #{response}"
+            render json: response, status: 422
+        end
     end
-end
+    
+
+
 
 # app/controllers/trade_runs_controller.rb
 
@@ -95,5 +130,9 @@ def trade_run_params
     params.require(:trade_run).permit(:username, :ship, :buy_location, :sell_price, :buy_price, :scu)
 end
 
+    
+def trade_run_location_params
+    params.require(:trade_run).permit(:sell_location)
+end
 
 end

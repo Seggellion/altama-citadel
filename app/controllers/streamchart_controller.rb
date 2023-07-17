@@ -15,9 +15,15 @@ class StreamchartController < ApplicationController
         render "trade123/streamchart"
     end
     
-    
-    def milk_run_profits
-byebug
+    def milkrun_profits
+      trade_session_id = params[:trade_session_id]
+      render json: MilkRun.where(trade_session_id: trade_session_id).joins(:user).group('users.username').sum(:profit)
+    end
+  
+    def traderun_profits
+         
+      trade_session_id = params[:trade_session_id]
+      render json: TradeRun.where(trade_session_id: trade_session_id).joins(:user).group('users.username').sum(:profit)
     end
   
     

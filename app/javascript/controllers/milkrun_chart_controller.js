@@ -8,8 +8,9 @@ export default class extends Controller {
 
   connect() {
     this.initializeChart()
-    
-    fetch('/profits')
+    const tradeSessionId = this.element.dataset.tradeSessionId;
+
+    fetch(`/milkrun_profits?trade_session_id=${tradeSessionId}`)
       .then(response => response.json())
       .then(data => {
         this.updateChart(data)
@@ -66,14 +67,14 @@ export default class extends Controller {
   }
 
   subscribeToChannel() {
-    this.subscription = createConsumer().subscriptions.create({ channel: "UserProfitsChannel" }, {
-      received: this.received.bind(this) // use this line instead of the placeholder comment
-    });
+    this.milkRunSubscription = createConsumer().subscriptions.create({ channel: "MilkRunProfitsChannel", trade_session_id: tradeSessionId }, {
+        received: this.received.bind(this)
+      });
   }
 
 
   connectToActionCable() {
-    App.cable.subscriptions.create({ channel: "UserProfitsChannel" }, {
+    App.cable.subscriptions.create({ channel: "MilkRunProfitsChannel" }, {
       received: (data) => {
         // update your chart with new data
       }
@@ -81,11 +82,9 @@ export default class extends Controller {
   }
 
   disconnect() {
-    // Called when the controller's context is disconnected
-    // For example, when navigating between pages or removing a controller's element from the DOM
-    if (this.subscription) {
-      createConsumer().subscriptions.remove(this.subscription)
-    }
+    if (this.milkRunSubscription) {
+        createConsumer().subscriptions.remove(this.milkRunSubscription)
+      }
   }
 
 }

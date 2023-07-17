@@ -3,19 +3,27 @@
       <td class="rownumber"><%= i + 3 %></td>
     
       <td>
+      <span>
         <%= trade_run.username %>
+        </span>
       </td>
     
       <td>
+      <span>
         <%= trade_run.ship %>
+        </span>
       </td>
     
       <td>
+      <span>
         <%= trade_run.buy_location %>
+        </span>
       </td>
     
       <td>
+      <span>
       [<% if trade_run.split %>X<% else %> <% end %>]
+      </span>
       </td>
     
       <td>
@@ -49,14 +57,32 @@
       <% end %>
       <% else %>
         <% if trade_run.commodity_id %>
-          <%= trade_run.scu %>
+          
           <%= text_field_tag "scu", trade_run.scu, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
         <% end %>
     <% end %>
       </td>
     
       <td >
+      <% if trade_run.sell_location != '' %>
         <%= trade_run.sell_location %>
+      <% else %>
+      <% @commodity_sell_locations = Commodity.where(name: trade_run.commodity.name, sell: 0) %>
+
+      <select id="update_location" name="sell_location" 
+      data-action="change->traderun#updateLocation" 
+      data-traderun-target="updateLocation"  
+      data-controller="traderun" 
+      data-traderun-url="<%= url_for(controller: :trade_runs, action: :update_traderun_location, id: trade_run.id) %>">
+  
+      <option value="">Sell Location</option>
+      <% @commodity_sell_locations.each do |commodity| %>
+          <option value="<%= commodity.location %>"><%= commodity.location %></option>
+      <% end %>
+  </select>
+
+       
+      <% end %>
       </td>
     
       <td >
@@ -69,7 +95,7 @@
         <% if trade_run.commodity_id %>
         <%#= form.text_field :sell_price, value: trade_run.sell_price, data: { controller: "traderun", action: "input->traderun#update", url: url_for(controller: :trade_runs, id: trade_run.id) } %>
         <%#= form.text_field :sell_price, value: trade_run.sell_price, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
-        <%= text_field_tag "sell_price", trade_run.sell_price, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
+        <%= text_field_tag "sell_price", trade_run.sell_price, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id), id:trade_run.id } %>
 
 
         <% end %>
@@ -104,7 +130,7 @@
         <% end %>
       </td>
 
-      <td>
+      <td id="trade_run_profit_<%=trade_run.id%>">
       <% if trade_run.profit %>      
         
         <%= trade_run.profit %>

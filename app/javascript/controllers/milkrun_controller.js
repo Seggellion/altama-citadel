@@ -202,13 +202,17 @@ export default class extends Controller {
   }
 
   shipChanged(event){
+    let selectedShipId = event.target.value;
+    let selectedShipScu = this.shipsData.find(c => c.id == selectedShipId).scu;
 
-const selectedShipId = event.target.value;
-
-const selectedShipScu = this.shipsData.find(c => c.id == selectedShipId).scu;
     this.buyScuTarget.max = selectedShipScu;
+    this.buyScuTarget.value = selectedShipScu;
+    console.log('shipchanged',selectedShipId);
     this.buyScuTarget.addEventListener('input', (e) => {
       if (e.target.value > selectedShipScu) {
+        
+        selectedShipId = this.buyShipSelectorTarget.value;
+        selectedShipScu = this.shipsData.find(c => c.id == selectedShipId).scu;
         e.target.value = selectedShipScu;
       }
     });

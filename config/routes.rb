@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   resources :non_confidences
   resources :rule_proposals
   resources :categories
-  resources :trade_runs
+
+  resources :trade_runs do
+    patch :update_traderun_location, on: :member
+  end
   resources :milk_runs
   resources :bots do
     resources :giveaways, only: [:new, :create, :show]
@@ -175,10 +178,15 @@ Rails.application.routes.draw do
   get 'populate_locations', to: 'codex#populate_locations'
   get 'payout_streamchart', to: 'streamchart#payout'
   get 'milkruns_streamchart', to: 'streamchart#milk_run_profits'
-  get 'profits', to: 'milk_runs#profits'
+  get 'traderuns_streamchart', to: 'streamchart#trade_run_profits'
+  
+  get 'milkrun_profits', to: 'streamchart#milkrun_profits'
+  get 'traderun_profits', to: 'streamchart#traderun_profits'
+
   get 'traderun/:username', to: 'trade_sessions#trade_runs', as: :traderun
   get 'milkrun/:username', to: 'trade_sessions#milk_runs', as: :milkrun
 
+  
   get 'commodities_by_location', to: 'commodities#commodities_by_location'
   post 'deactivate_commodities', to: 'commodities#deactivate_commodities'
 
