@@ -44,6 +44,11 @@ export default class extends Controller {
         }]
       },
       options: {
+        plugins: {
+          legend: {
+            display: false,
+          }
+      },
         scales: {
           y: {
             beginAtZero: true

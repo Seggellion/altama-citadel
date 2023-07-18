@@ -1,23 +1,23 @@
 <% trade_session_id = @current_task.state.split("-").last %>
 <ul class="streamchart-menu hidden" data-traderun-target="streamchartMenu">
-  <li data-traderun-target="menuItem">
-    <%#= link_to traderun_command_path("streamchart|payout-#{trade_session_id}")  do %> 
-    <%= link_to  payout_streamchart_path(@current_task.state.split("-").last), target: "_blank" do %>
-   
-      TradeRun Payout
-    <% end %>
-  </li>
-  <li  data-traderun-target="menuItem">
 
-  <%= link_to milkruns_streamchart_path(trade_session:trade_session_id) do %>
+  <li  data-traderun-target="menuItem" data-traderun-newWindow>
+  <%= link_to milkruns_streamchart_path(trade_session:trade_session_id), target: "_blank"  do %>
       MilkRun Profit
       <% end %>
   </li>
-  <li  data-traderun-target="menuItem">
-  <%= link_to traderuns_streamchart_path(trade_session:trade_session_id) do %>
+  <li  data-traderun-target="menuItem" data-newWindow="true" >
+  <%= link_to traderuns_streamchart_path(trade_session:trade_session_id), target: "_blank"  do %>
       TradeRun Profit
       <% end %>
   </li>
+  <li data-traderun-target="menuItem">
+  <%#= link_to traderun_command_path("streamchart|payout-#{trade_session_id}")  do %> 
+  <%= link_to  payout_streamchart_path(@current_task.state.split("-").last), target: "_blank" do %>
+ 
+    TradeRun Payout
+  <% end %>
+</li>
   <li  data-traderun-target="menuItem" >
     <a href="#">
     Unknown chart 3

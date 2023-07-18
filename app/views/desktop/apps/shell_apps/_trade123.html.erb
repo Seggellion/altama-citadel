@@ -17,5 +17,63 @@
   <% end %>
 
 </div>
+<div id="cursor"></div>
+<style>control-buttons
+body *:not(.control-buttons), body *:not(.control-buttons) * {
+  cursor: none !important;
+}
+*:not(.control-buttons), *:not(.control-buttons) * {
+  /* Use a transparent cursor image */
+  cursor: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'), auto !important;
+}
 
+#cursor {
+  position: absolute;
+  background: #b9b9b9;
+  width: 12px;
+  height: 25px;
+  pointer-events: none;
+  z-index: 9999;
+}
 
+* {
+    /* Disable text selection */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ */
+    -moz-user-select: none; /* Firefox */
+    user-select: none; /* General */
+}
+
+</style>
+<script>
+var cursor = document.getElementById('cursor');
+
+document.onmousemove = function(e) {
+    cursor.style.left = e.pageX + 'px';
+    cursor.style.top = e.pageY + 'px';
+
+    var elementBelow = document.elementFromPoint(e.clientX, e.clientY);
+    var computedStyle = window.getComputedStyle(elementBelow);
+    var bgColor = computedStyle.getPropertyValue('background-color');
+    
+    // If the background color is not set or is 'transparent' or 'rgba(0, 0, 0, 0)', we assume it's black
+    if (bgColor === 'transparent' || bgColor === 'rgba(0, 0, 0, 0)') {
+        bgColor = 'rgb(0, 0, 0)'; // Assume black
+    }
+
+    var rgbValues = bgColor.substring(4, bgColor.length-1)
+        .replace(/ /g, '')
+        .split(',');
+
+    var r = rgbValues[0];
+    var g = rgbValues[1];
+    var b = rgbValues[2];
+    
+    var brightness = Math.round(((parseInt(r) * 299) +
+                        (parseInt(g) * 587) +
+                        (parseInt(b) * 114)) / 1000);
+                        
+    // If brightness is greater than 125, use a white cursor. Otherwise, use a black cursor.
+    cursor.style.backgroundColor = brightness < 125 ? 'white' : 'black';
+};
+</script>

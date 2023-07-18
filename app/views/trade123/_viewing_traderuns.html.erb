@@ -1,6 +1,6 @@
 <%= form_with(model: trade_run, local: true) do |form| %>
     <tr class="existing runs">
-      <td class="rownumber"><%= i + 3 %></td>
+      <td class="rownumber"><span><%= i + 3 %></span></td>
     
       <td>
       <span>
@@ -32,9 +32,11 @@
             <%= split.commodity_name %>
           <% end %>
           <% else %>
+          <span>
             <% if trade_run.commodity_id %>
               <%= trade_run.commodity_name %>
             <% end %>
+            </span>
         <% end %>
       </td>
     
@@ -45,7 +47,9 @@
         <% end %>
         <% else %>
           <% if trade_run.commodity_id %>
+          <span>
             <%= text_field_tag "buy_price", trade_run.buy_price, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
+            </span>
           <% end %>
       <% end %>
       </td>
@@ -57,18 +61,21 @@
       <% end %>
       <% else %>
         <% if trade_run.commodity_id %>
-          
+        <span>
           <%= text_field_tag "scu", trade_run.scu, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
+          </span>
         <% end %>
     <% end %>
       </td>
     
       <td >
       <% if trade_run.sell_location != '' %>
+      <span>
         <%= trade_run.sell_location %>
+        </span>
       <% else %>
       <% @commodity_sell_locations = Commodity.where(name: trade_run.commodity.name, sell: 0) %>
-
+      <span>
       <select id="update_location" name="sell_location" 
       data-action="change->traderun#updateLocation" 
       data-traderun-target="updateLocation"  
@@ -80,7 +87,7 @@
           <option value="<%= commodity.location %>"><%= commodity.location %></option>
       <% end %>
   </select>
-
+  </span>
        
       <% end %>
       </td>
@@ -95,8 +102,9 @@
         <% if trade_run.commodity_id %>
         <%#= form.text_field :sell_price, value: trade_run.sell_price, data: { controller: "traderun", action: "input->traderun#update", url: url_for(controller: :trade_runs, id: trade_run.id) } %>
         <%#= form.text_field :sell_price, value: trade_run.sell_price, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
+        <span>
         <%= text_field_tag "sell_price", trade_run.sell_price, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id), id:trade_run.id } %>
-
+        </span>
 
         <% end %>
     <% end %>      
@@ -111,7 +119,9 @@
         <% if trade_run.scu %>
         <%#= form.text_field :scu, value: trade_run.scu, data: { controller: "traderun", action: "input->traderun#update", url: url_for(controller: :trade_runs, id: trade_run.id) } %>
         <%#= form.text_field :scu, value: trade_run.scu, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
+        <span>
         <%= text_field_tag "scu", trade_run.scu, data: { controller: "traderun", action: "input->traderun#update", traderun_url: url_for(controller: :trade_runs, action: :update, id: trade_run.id) } %>
+        </span>
         <% end %>
     <% end %>
       </td>
@@ -119,29 +129,34 @@
       <td>
         <% if trade_run.buy_price %>      
           <% capital = ( trade_run.buy_price.to_i) * trade_run.scu %>
+          <span>
           <%= capital %>
+          </span>
         <% end %>
       </td>
     
       <td>
         <% if trade_run.sell_price %>      
           <% income = (trade_run.sell_price.to_i)  * trade_run.scu %>
+          <span>
           <%= income %>
+          </span>
         <% end %>
       </td>
 
       <td id="trade_run_profit_<%=trade_run.id%>">
       <% if trade_run.profit %>      
-        
+      <span>
         <%= trade_run.profit %>
+        </span>
       <% end %>
       </td>
       <td>
 
       <% if trade_run.profit && trade_run.scu %>      
-        
+      <span>
         <%= trade_run.profit / trade_run.scu %>
-      
+        </span>
       <% end %>
       </td>
 
@@ -157,8 +172,9 @@
     </td>
 
 <td>
+<span>
 <%= link_to 'DEL', trade_run_path(trade_run), method: :delete, data: { confirm: 'Are you sure?', action: "ajax:success->traderun#removeRow" } %>
-
+</span>
 </td>    
     
     </tr>

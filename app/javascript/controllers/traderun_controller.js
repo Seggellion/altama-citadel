@@ -161,7 +161,15 @@ export default class extends Controller {
         const activeLink = activeMenuItem.querySelector('a');
     
         if (activeLink) {
-          window.location.href = activeLink.href;
+          
+          if (activeMenuItem.dataset.newwindow) {
+            // Open link in a new window or tab
+           
+            window.open(activeLink.href, '_blank');
+          } else {
+            // Navigate to link in the current window
+            window.location.href = activeLink.href;
+          }
         }
       }
     }

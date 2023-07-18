@@ -55,7 +55,7 @@ class TradeSessionsController < ApplicationController
         )
 
 TradeSession.create(session_date: datetime, owner_id: current_user.id)
-open_state = "trade123|trade_run-#{TradeSession.last.id}"
+open_state = "trade123|trade_session-#{TradeSession.last.id}"
 @current_task = @task_manager.tasks.last
 @current_task.update(state:open_state)
 

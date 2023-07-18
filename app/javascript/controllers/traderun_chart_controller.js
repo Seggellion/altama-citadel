@@ -31,23 +31,29 @@ export default class extends Controller {
 
 
   initializeChart() {
-    
+    Chart.defaults.font.size = 18;
+    Chart.defaults.color = 'rgba(255, 255, 255, 1)';
     this.chart = new Chart(this.canvasTarget, {
       type: 'bar',
       data: {
         labels: [], 
         datasets: [{
-          label: 'Profit',
+          label: 'Profit', 
           data: [], 
-          backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+          backgroundColor: 'rgba(75, 192, 192, 0.5)', 
           borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
+          borderWidth: 1,
         }]
       },
       options: {
+        plugins: {
+          legend: {
+            display: false,
+          }
+      },
         scales: {
           y: {
-            beginAtZero: true
+            beginAtZero: true,
           }
         }
       }
