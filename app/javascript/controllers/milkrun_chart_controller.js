@@ -8,9 +8,9 @@ export default class extends Controller {
 
   connect() {
     this.initializeChart()
-    const tradeSessionId = this.element.dataset.tradeSessionId;
+    this.tradeSessionId = this.element.dataset.tradeSessionId;
 
-    fetch(`/milkrun_profits?trade_session_id=${tradeSessionId}`)
+    fetch(`/milkrun_profits?trade_session_id=${this.tradeSessionId}`)
       .then(response => response.json())
       .then(data => {
         this.updateChart(data)
@@ -72,7 +72,7 @@ export default class extends Controller {
   }
 
   subscribeToChannel() {
-    this.milkRunSubscription = createConsumer().subscriptions.create({ channel: "MilkRunProfitsChannel", trade_session_id: tradeSessionId }, {
+    this.milkRunSubscription = createConsumer().subscriptions.create({ channel: "MilkRunProfitsChannel", trade_session_id: this.tradeSessionId }, {
         received: this.received.bind(this)
       });
   }

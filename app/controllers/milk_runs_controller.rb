@@ -9,6 +9,11 @@ class MilkRunsController < ApplicationController
         render json: MilkRun.joins(:user).group('users.username').sum(:profit)
     end
     
+    def show
+        redirect_to root_path
+        end
+        
+
     def create
         # Find the existing record
         

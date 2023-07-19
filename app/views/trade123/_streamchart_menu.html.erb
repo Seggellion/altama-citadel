@@ -1,7 +1,7 @@
 <% trade_session_id = @current_task.state.split("-").last %>
 <ul class="streamchart-menu hidden" data-traderun-target="streamchartMenu">
 
-  <li  data-traderun-target="menuItem" data-traderun-newWindow>
+  <li  data-traderun-target="menuItem" data-newWindow="true">
   <%= link_to milkruns_streamchart_path(trade_session:trade_session_id), target: "_blank"  do %>
       MilkRun Profit
       <% end %>
