@@ -18,18 +18,13 @@ class AcuExchangeController < ApplicationController
     received_guid = json_request["secretguid"]
     
     from_user_id = 1    
+    
     to_user = User.where("lower(username) LIKE lower(?)", "%#{player_name.downcase}%").first_or_initialize
-
-    #to_user = User.where('LOWER(TRIM(username)) = ?', player_name.downcase.strip).first_or_initialize
-
-#    to_user = User.find_or_initialize_by('LOWER(TRIM(username)) = ?', player_name.downcase.strip)
     if to_user.new_record?
-      
-      # Set additional attributes here
+      to_user.username = player_name
       to_user.password = SecureRandom.hex(10) 
       to_user.provider = 'Twitch' # replace with actual values
-      to_user.save!
-      
+      to_user.save!      
     end
 
     

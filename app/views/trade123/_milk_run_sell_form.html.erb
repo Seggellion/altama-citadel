@@ -22,8 +22,9 @@
         <span>
           <select name="milk_run_group[commodity_name]" data-action="change->milkrun#selectCommodity" data-milkrun-target="commodity">
             <option value="">Select Commodity</option>
-            <% @commodities_for_sell.each do |commodity_id| %>
-              <option value="<%= commodity_id %>"><%= Commodity.find(commodity_id).name %></option>
+            <% @commodities_for_sell.each do |commodity| %>
+              
+              <option value="<%= commodity.id %>"><%= commodity.username %> - <%= commodity.name %></option>
             <% end %>
           </select>
           </span>

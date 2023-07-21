@@ -80,6 +80,7 @@ Rails.application.routes.draw do
   post 'staff_code', to: 'conquest#staff_code',  as: :staff_code, :constraints => { :subdomain => "ctd" }
   post 'shipments/json_request', to: 'shipments#json_request'
   post 'exchange/json_request', to: 'acu_exchange#json_request'
+  post 'star_bitizen/json_request', to: 'star_bitizen#json_request'
 
   get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'

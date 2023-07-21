@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_14_045017) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_20_015039) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -103,6 +103,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_045017) do
     t.boolean "vice"
     t.boolean "active"
     t.boolean "out_of_date", default: false
+    t.integer "inventory", default: 0
+  end
+
+  create_table "commodity_stubs", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "commodity_id"
+    t.integer "buy_price"
+    t.integer "sell_price"
+    t.boolean "flagged"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "control_points", force: :cascade do |t|
@@ -455,6 +466,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_045017) do
     t.index ["model"], name: "index_ships_on_model", unique: true
   end
 
+  create_table "star_bitizen_runs", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "commodity_id"
+    t.integer "profit", default: 0
+    t.integer "scu", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "task_managers", force: :cascade do |t|
     t.integer "user_id"
     t.string "task_id"
@@ -598,7 +618,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_045017) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
+    t.string "username", null: false
     t.integer "user_type", default: 100
     t.string "profile_image"
     t.string "provider"

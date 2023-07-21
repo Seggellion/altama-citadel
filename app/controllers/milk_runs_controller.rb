@@ -2,7 +2,11 @@ class MilkRunsController < ApplicationController
     before_action :task_manager, except: [:create, :profits]
     def new
         @milk_run = MilkRun.new
-        @commodities_for_sell = Commodity.joins(:milk_runs).where.not(milk_runs: { sell_commodity_scu: 0 })
+       # @commodities_for_sell = Commodity.joins(:milk_runs).where.not(milk_runs: { sell_commodity_scu: 0 })
+       @commodities_for_sell = Commodity.joins(milk_runs: :user)
+                                  .where.not(milk_runs: { sell_commodity_scu: 0, sell_commodity_id: nil })
+                                  .select('commodities.*, users.username')
+
         @locations_for_sell = []
     end
     def profits

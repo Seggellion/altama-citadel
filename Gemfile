@@ -70,6 +70,7 @@ gem 'google-cloud-storage'
 gem 'discord-notifier'
 
 gem 'ruby-clock'
+gem 'clockwork'
 
 gem 'jsonapi-resources'
 

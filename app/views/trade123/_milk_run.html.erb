@@ -4,7 +4,14 @@
  <%# @commodities_for_sell = MilkRun.joins(:buy_commodity).pluck('commodities.name', 'commodities.id') %>
  <% @session_milkruns = MilkRun.where(trade_session_id: @trade_session_id) %>
 
- <% @commodities_for_sell = @session_milkruns.where(sell_commodity_id: nil).joins(:buy_commodity).pluck('commodities.id') %>
+ <%# @commodities_for_sell = @session_milkruns.where(sell_commodity_id: nil).joins(:buy_commodity).pluck('commodities.id') %>
+<%
+@commodities_for_sell = Commodity.joins(milk_runs: :user)
+                                  .where(milk_runs: { trade_session_id: @trade_session_id, sell_commodity_id: nil })
+                                  .select('commodities.*, users.username')
+
+ %>
+
  <% @milk_runs_buy =  @session_milkruns.where("sell_commodity_price IS NULL OR sell_commodity_price = 0").order(created_at: :desc)  %>
  <% @milk_runs_sell =  @session_milkruns.where("sell_commodity_price > 0").order(created_at: :desc) %>
  
