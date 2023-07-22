@@ -239,20 +239,38 @@ end
         return
       end
       
-      return if commodity_exists?(commodity['name'], location['timestamp'], location['name'], location['sell'].to_i)
-  
       sell_price = location['sell'].to_i
       buy_price = location['buy'].to_i
       is_vice = Commodity.is_vice(commodity['name'])
-  
-      Commodity.create_or_find_by_name_location_and_timestamp(commodity['name'], sell_price, buy_price, location['refreshPerMinute'], location['maxInventory'], location['name'], location['timestamp'], is_vice)
-      create_article_if_not_exists(commodity['name'])
+    
+      commodity_record = Commodity.find_or_initialize_by(name: commodity['name'], location: location['name'])
+      if commodity_record.new_record? || commodity_record.sell != sell_price
+        commodity_record.update(
+          sell: sell_price,
+          buy: buy_price,
+          refreshPerMinute: location['refreshPerMinute'],
+          maxInventory: location['maxInventory'],
+          out_of_date:false,
+          vice: is_vice
+        )
+        create_article_if_not_exists(commodity['name'])
+        create_commodity_stub(commodity_record, buy_price, sell_price)
+      end
     end
-  
+
     def commodity_exists?(name, timestamp, location_name, sell_price)
       Commodity.exists?(name: name, updated_at: timestamp, location: location_name, sell: sell_price)
     end
   
+    def create_commodity_stub(commodity, buy_price, sell_price)
+      CommodityStub.create(
+        user_id: 1, 
+        buy_price: buy_price, 
+        sell_price: sell_price, 
+        commodity_id: commodity.id
+      )
+    end
+
     def create_article_if_not_exists(title)
       return if Article.find_by_title(title)
   

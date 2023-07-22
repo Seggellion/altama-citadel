@@ -81,6 +81,8 @@ Rails.application.routes.draw do
   post 'shipments/json_request', to: 'shipments#json_request'
   post 'exchange/json_request', to: 'acu_exchange#json_request'
   post 'star_bitizen/json_request', to: 'star_bitizen#json_request'
+  post 'star_bitizen/buy_trade', to: 'star_bitizen#buy_trade'
+  post 'star_bitizen/sell_trade', to: 'star_bitizen#sell_trade'
 
   get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'

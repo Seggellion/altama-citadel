@@ -54,9 +54,53 @@ Manage Data
         <%= link_to "Populate Locations", populate_locations_path %>
     </li>
 </ul>
-</div>
 
-</div>
+    <div class="log-container">
 
-        
+        <h2>Logs</h2>
+        <div class="log-list">        
+            <% @commodity_stubs.each do |stub|  %>
+                <div class="stub-row">
+                    <div class="stub-name">
+                        <%= stub.commodity.name %>
+                    </div>
+                    <div class="stub-username">
+                        <%= stub.user.username %>
+                    </div>
+                    <div class="stub-buy">
+                        <%= stub.buy_price %>
+                    </div>
+                    <div class="stub-sell">
+                        <%= stub.sell_price %>
+                    </div>
+                    <div class="stub-date">
+                        <%= stub.created_at.in_time_zone('Pacific Time (US & Canada)').strftime("%A, %B %d, %H:%M:%S") %>
+                    </div>
+                </div>
+            <% end %>
         </div>
+
+    </div>
+
+</div>
+
+</div>        
+        </div>
+
+    <style>
+        .log-list{
+            display:flex;
+            flex-direction:column;
+            justify-content: space-between;
+            height:500px;
+            overflow: auto;
+        }
+        .stub-row{
+            display:flex;
+            flex-direction:row;
+            align-items:center;
+            justify-content: space-between;
+            flex-wrap: wrap-reverse;
+            border-bottom: 1px solid grey;
+        }
+    </style>

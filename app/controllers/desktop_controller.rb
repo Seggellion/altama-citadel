@@ -76,7 +76,7 @@ end
   @traderun_split_new = TradeRunSplit.new
   @profit_scu_traderuns = []
   current_user.desktop
-
+    @commodity_stubs = CommodityStub.all.order(created_at: :desc)
 
 
   

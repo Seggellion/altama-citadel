@@ -1,5 +1,7 @@
 class Commodity < ApplicationRecord
   include PgSearch::Model
+  validates :name, uniqueness: { scope: :location }
+
   # validates :updated_at, uniqueness: true
   pg_search_scope :search_by_name_and_location,
                   against: [:name, :location],
@@ -9,6 +11,7 @@ class Commodity < ApplicationRecord
                   }
                   #has_many :milk_runs
                   has_many :milk_runs, class_name: 'MilkRun', foreign_key: 'buy_commodity_id'
+    has_many :commodity_stubs
 
           def self.buy_by_location(location)
             commodity_list = Commodity.where(location: location)
