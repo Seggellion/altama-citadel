@@ -18,87 +18,124 @@ class MilkRunsController < ApplicationController
         end
         
 
-    def create
-        # Find the existing record
-        
-       # @milk_run = MilkRun.find(params[:id])
-       
-       
-       return if params[:milk_run][:user_id] &&  params[:milk_run][:user_id].size == 0
-        trade_session_id = params[:milk_run][:trade_session_id]
-        buy_commodity_id = params[:milk_run][:buy_commodity_id]
-        
-        
-        
-        if params[:milk_run][:form_type] == "buy"
+        def create                              
+            trade_session_id = params[:milk_run][:trade_session_id]
+            buy_commodity_id = params[:milk_run][:buy_commodity_id]
+                      
             
-            existing_milkrun = MilkRun.find_by(buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
+            if params[:milk_run][:form_type] == "buy"
+            ship_scu = Ship.find(params[:milk_run][:ship_id])&.scu
             user = User.search_by_username(params[:milk_run][:user_id]).first
-            ship_scu = Ship.find_by_id(params[:milk_run][:ship_id]).scu
-            used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: user.id).sum(:buy_commodity_scu)
+            return if params[:milk_run][:user_id]&.empty?
+              existing_milkrun = MilkRun.find_by(buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
+          
+              unless existing_milkrun
+                create_milk_run_and_update_commodity(user, params, 'buy', trade_session_id, buy_commodity_id, ship_scu, ship_scu)
+              end
+          
+            elsif params[:milk_run][:form_type] == "sell"
+              current_milkrun = MilkRun.find_by(trade_session_id: trade_session_id, buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
+              if @current_user
+                commodity_user_id = @current_user.id 
+              else
+                commodity_user_id = current_milkrun.user_id
+              end
+                sell_commodity = Commodity.find_by_id(params[:milk_run][:sell_commodity_id])
+              buy_commodity_scu = current_milkrun.buy_commodity_scu
+              buy_commodity_price = current_milkrun.buy_commodity_price
+              sell_location = JSON.parse(params[:milk_run][:sell_location])["name"].split('| ')[1]              
+              used_scu = MilkRun.where(trade_session_id: trade_session_id, user_id: commodity_user_id).sum(:buy_commodity_scu)
+              buy_total = buy_commodity_scu * buy_commodity_price
+              sell_total = params[:milk_run][:sell_commodity_scu].to_i * params[:milk_run][:sell_commodity_price].to_i
+              profit = sell_total - buy_total
+          
+              current_milkrun.update!(
+                sell_commodity_id: sell_commodity.id,
+                sell_commodity_scu: params[:milk_run][:sell_commodity_scu].to_i,
+                sell_commodity_price: params[:milk_run][:sell_commodity_price].to_i, 
+                sell_location: sell_location,          
+                used_scu: used_scu, 
+                profit: profit, 
+                updated_at: Time.now
+              )
 
-            unless existing_milkrun
+              percent_change = ((params[:milk_run][:sell_commodity_price].to_f - sell_commodity.buy) / sell_commodity.buy) * 100                            
+              out_of_family = percent_change.abs >= 10       
+
+              if percent_change.abs == 0
+                redirect_to root_path and return
+              end
+              
+              #this should be placed below within the else statement to prevent certain entries
+              sell_commodity.update(buy: params[:milk_run][:sell_commodity_price], updated_at: Time.now)
+
+                if out_of_family 
+                    CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy: params[:milk_run][:sell_commodity_price], flagged:true)
+                else
+                    CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy: params[:milk_run][:sell_commodity_price])
+                end
+
+            end
+          
+            redirect_to root_path
+          end          
+    
+    def destroy
+        milk_run = MilkRun.find_by_id(params[:format])
+        milk_run.destroy
+        redirect_to root_path
+    end
+
+    private
+    
+   def create_milk_run_and_update_commodity(user, params, trade_type, trade_session_id, commodity_id, ship_scu, used_scu)
+            # Create the MilkRun
             MilkRun.create!(
                 user_id: user.id, 
                 usership_id: params[:milk_run][:trade_session_id], 
                 trade_session_id: trade_session_id, 
                 commodity_name: params[:milk_run][:commodity_name], 
-                buy_commodity_id: buy_commodity_id,
-                buy_commodity_scu: params[:milk_run][:buy_commodity_scu],
-                buy_commodity_price: params[:milk_run][:buy_commodity_price],      
+                "#{trade_type}_commodity_id": commodity_id,
+                "#{trade_type}_commodity_scu": params[:milk_run]["#{trade_type}_commodity_scu"],
+                "#{trade_type}_commodity_price": params[:milk_run]["#{trade_type}_commodity_price"],
+                "#{trade_type}_location": params[:milk_run]["#{trade_type}_location"],      
                 max_scu: ship_scu, 
                 used_scu:  used_scu,             
                 updated_at: Time.now
             )
             
-            end
-        elsif params[:milk_run][:form_type] == "sell"
-            current_milkrun = MilkRun.find_by(trade_session_id: trade_session_id, buy_commodity_id: buy_commodity_id, sell_commodity_id: nil)
-            buy_commodity_scu = current_milkrun.buy_commodity_scu
-            buy_commodity_price = current_milkrun.buy_commodity_price
-            if @current_user
-                commodity_user_id = @current_user.id 
-            else
-  
-                commodity_user_id = current_milkrun.user_id
-            end
-
-            used_scu =  MilkRun.where(trade_session_id: trade_session_id, user_id: commodity_user_id).sum(:buy_commodity_scu)
-            buy_total = buy_commodity_scu * buy_commodity_price
-            sell_total = params[:milk_run][:sell_commodity_scu].to_i * params[:milk_run][:sell_commodity_price].to_i
+            # Find the relevant Commodity and update it
+            commodity = Commodity.find_by_id(commodity_id)
             
-            profit = sell_total - buy_total
-            
-            current_milkrun.update!(
-                sell_commodity_id: params[:milk_run][:sell_commodity_id].to_i,
-                sell_commodity_scu: params[:milk_run][:sell_commodity_scu].to_i,
-                sell_commodity_price: params[:milk_run][:sell_commodity_price].to_i,          
-                used_scu: used_scu, 
-                profit: profit, 
-                updated_at: Time.now
-            )
-            
-        end
+            if commodity
+              # Calculate the percent change
+         #     percent_change = ((params[:milk_run]["#{trade_type}_commodity_price"].to_f - commodity.send(trade_type)) / commodity.send(trade_type)) * 100
+         
+              percent_change = ((params[:milk_run]["#{trade_type}_commodity_price"].to_f - commodity.sell) / commodity.sell) * 100                            
+              out_of_family = percent_change.abs >= 10            
+              
+              # This has to be reversed because the context changes:
+              type_reverse = "sell"
+              if trade_type == "buy"
+                trade_type = "sell"
+                type_reverse = "buy"
+              end
+              
+              #this should be placed below within the else statement to prevent certain entries
+            commodity.update("#{trade_type}": params[:milk_run]["#{type_reverse}_commodity_price"], updated_at: Time.now)
 
-
-        # Update it with the new data
-       # if @milk_run.update(milk_run_params)
-       # redirect_to @milk_run
-       # else
-       # render :new
-       # end
-       redirect_to MilkRun.last
-    end
-    
-def destroy
-
-milk_run = MilkRun.find_by_id(params[:format])
-milk_run.destroy
-redirect_to root_path
+if out_of_family 
+    CommodityStub.create!(user_id: user.id, commodity_id: commodity.id, "#{trade_type}_price": params[:milk_run]["#{type_reverse}_commodity_price"], flagged:true)
+else
+    CommodityStub.create!(user_id: user.id, commodity_id: commodity.id, "#{trade_type}_price": params[:milk_run]["#{type_reverse}_commodity_price"])
 end
+          
+              # Create a new CommodityStub
+              
+            end
+          end
 
-    private
-    
+
     def milk_run_params
         params.require(:milk_run).permit(:sell_commodity_scu, :sell_commodity_price, :profit)
     end

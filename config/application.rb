@@ -14,7 +14,10 @@ module AltamaCitadel
     config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
     config.autoload_paths << "#{Rails.root}/lib"
     # Configuration for the application, engines, and railties goes here.
-    #
+    
+    #added for commodity constants
+    config.autoload_paths += %W(#{config.root}/lib)
+
 #pineapple
     config.middleware.insert_before 0, Rack::Cors do
       allow do

@@ -3,6 +3,7 @@ class CodexController < ApplicationController
   before_action :task_manager
 
   API_BASE = 'https://api.gallog.co/v1/commodities'.freeze
+  include CommodityConstants
 
   def populate_commodity    
     commodities.each do |commodity|
@@ -242,16 +243,21 @@ end
       sell_price = location['sell'].to_i
       buy_price = location['buy'].to_i
       is_vice = Commodity.is_vice(commodity['name'])
-    
+
+      refresh_per_minute =  REFRESH_PER_MINUTE_MAPPING[commodity['name']] || 50
+      max_inventory =  MAX_INVENTORY
+
       commodity_record = Commodity.find_or_initialize_by(name: commodity['name'], location: location['name'])
       if commodity_record.new_record? || commodity_record.sell != sell_price
         commodity_record.update(
           sell: sell_price,
           buy: buy_price,
-          refreshPerMinute: location['refreshPerMinute'],
-          maxInventory: location['maxInventory'],
+          refreshPerMinute: refresh_per_minute,
+          maxInventory: max_inventory,
           out_of_date:false,
-          vice: is_vice
+          active:true,
+          vice: is_vice,
+          updated_at: location['timestamp']
         )
         create_article_if_not_exists(commodity['name'])
         create_commodity_stub(commodity_record, buy_price, sell_price)

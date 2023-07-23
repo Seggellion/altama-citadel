@@ -71,7 +71,7 @@ gem 'discord-notifier'
 
 gem 'ruby-clock'
 gem 'clockwork'
-
+gem 'table_print'
 gem 'jsonapi-resources'
 
 group :development, :test do
