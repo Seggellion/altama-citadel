@@ -1,0 +1,43 @@
+<div draggable="true"  class="window message-window">
+    
+<div class="section-window-header"><%= show_svg('asl') %>New_Message
+<%= task.id %>
+||
+<%= @states_string %>
+
+<%= link_to "", close_state_window_path(window: "new_message", task: task.id), class:'close-btn windowed' %>
+    </div>
+    <%= form_with model: Message.create  do |form| %>
+        
+    <div class="asl-container" data-controller="asl" >
+        <div class="message-content">
+        <div class="content-header">
+       
+    
+  
+            <div>
+              <%= form.select :user_id, options_for_select(User.all.collect{ |u| [u.username, u.id]}) %>
+              <%= form.text_area :content %>
+              <%= form.hidden_field :sender_id, value: current_user.id %>
+            </div>
+          
+            
+          
+          </div>
+          </div> 
+          
+        
+          
+            <div>
+              <%= form.submit %>
+            </div>
+        
+            <% end %>
+
+    
+        </div>
+        </div>
+
+
+
+  
