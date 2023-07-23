@@ -101,9 +101,15 @@
     <% end %>
 <% end %>
 
+<% if current_user && @all_tasks %>
+    <% @all_tasks.each do | task |  %>
+    <%= render "/desktop/window3", task: task %>
+    <% end %>
+<% end %>
+
 <% if current_user && @windowed_tasks.present? %>
     <% @windowed_tasks.each do | task |  %>
-    <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
+    <%#= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
     <% end %>
 <% end %>
 

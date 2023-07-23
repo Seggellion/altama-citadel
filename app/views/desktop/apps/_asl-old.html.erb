@@ -1,4 +1,7 @@
-     <div class="contact-list">
+<div data-controller="desktop" id="asl" class="window">
+    <%= render '/desktop/window-frame', app1: 'ASL', task: task %>
+    <div class="asl-container" data-controller="asl" >
+        <div class="contact-list">
         
         <div class="contact-seperator">
             <hr>
@@ -6,21 +9,10 @@
             <hr>
         </div>
 
-        <%= link_to new_asl_message_path(sender: current_user.id, message: @message), method: :post do %>
-            create a new message
-
-            <% if task.state&.start_with?("new_message") %>
-                <%= render 'messages/new_message_form', task: task %>
-            <% end %>
-
-        <% end %>
-            
-
         <% current_user.past_messages_users.each do |message| %>
-        
             
         <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
-           <%= show_svg('asl-outline') %><%= message.sender_name %>
+           <%= show_svg('asl-outline') %><%= message.sender %>
            <% end %>
            
            <% if task.state&.start_with?("message") %>
@@ -51,6 +43,5 @@
             </div>
         </div>
 
-    <% Task.sub_windows.each do |window| %>
-        <%= render "/desktop/window3", task: window %>
-    <% end %>
+    </div>
+</div>

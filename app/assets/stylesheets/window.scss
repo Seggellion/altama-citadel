@@ -1,0 +1,138 @@
+@import 'mixins';
+
+window{
+    width: 614px;
+    height: 406px;
+    position:absolute;
+    background-color:grey;
+    z-index:9;
+    top: 23.8%;
+    left: 18.2%;
+    box-shadow:inset -1px -1px 1px 0px #818181;
+    background-color: $light_grey;
+    border-left: $highlight_border;
+    border-top: $highlight_border;
+    border-right:$shadow_border;
+    border-bottom:$shadow_border;
+    padding:3px 3px;
+    font-family:'windows';
+    menu{
+        margin:0px;
+        padding:0px;
+        padding: 3px 8px;
+        ul,li{
+            list-style:none;
+            display:flex;
+            align-items: center;
+            flex-direction:row;
+            padding:0px;
+            margin:0px;
+        }
+        li:not(:first-child){
+            margin:0px 10px;
+        }
+        li:first-child{
+            margin-right:10px;
+        }
+    }
+    content{
+        background-color:white;
+        margin-top: 27px;
+        display: block;
+
+    border-right: $highlight_border;
+    border-bottom: $highlight_border;
+    border-top:$shadow_border;
+    border-left:$shadow_border;
+
+    }
+    header{
+        color:white;
+        background-color: #060080;
+        width:100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        a{
+            color:white;
+        }
+        info{
+            display: flex;
+            flex-direction: row;
+            name{
+                font-size: 1rem;
+                font-weight: 900;
+                letter-spacing: 1.5px;
+                margin-top: 1px;
+                user-select: none;
+            }
+            icon{
+                display: block;
+                width: 27px;
+            }
+        }
+        controls{
+            display:flex;
+            padding-top:3px;
+            padding-bottom: 3px;
+            margin-right: 3px;
+        }
+        .btn{
+            width:18px;
+            height:16px;
+            display:block;
+            box-shadow:inset -1px -1px 1px 0px #818181;
+            position:relative;
+            background-color: $light_grey;
+            border-left: $highlight_border;
+            border-top: $highlight_border;
+            border-right:$shadow_border;
+            border-bottom:$shadow_border;
+            &.close{
+                margin-left: 4px;
+                
+                &:before, &:after {
+                    position: absolute;
+                    left: 8px;
+                    top:1px;
+                    content: ' ';
+                    height: 14px;
+                    width: 2px;
+                    background-color: black;
+                  }
+                  &:before {
+                    transform: rotate(45deg);
+                  }
+                  &:after {
+                    transform: rotate(-45deg);
+                  }
+            }
+
+            &.minimize{
+                margin-left: 4px;
+                position:relative;
+                &:before, &:after {
+                    position: absolute;
+                    left: 7px;
+                    top:8px;
+                    content: ' ';
+                    height: 8px;
+                    width: 2px;
+                    background-color: black;
+                  }
+                  &:before {
+                    transform: rotate(90deg);
+                  }
+                  &:after {
+                    transform: rotate(-90deg);
+                  }
+            }
+
+        }
+    }
+}
+
+body.dragging, body.dragging * {
+cursor: move !important;
+}
