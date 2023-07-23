@@ -6,18 +6,27 @@ class Message < ApplicationRecord
 
     end
 
-def next_created
-   user =  User.find_by_id(self.user_id)
-    index = user.my_messages_sorted.index self
-    user.my_messages[index + 1]
-end
+    def next_created
+        user =  User.find_by_id(self.user_id)
+        index = user.my_messages_sorted.index self
+        user.my_messages[index + 1]
+    end
 
-def prev_created
-    user =  User.find_by_id(self.user_id)
-     index = user.my_messages_sorted.index self
-     user.my_messages[index - 1]
-     
- end
+    def prev_created
+        user =  User.find_by_id(self.user_id)
+        index = user.my_messages_sorted.index self
+        user.my_messages[index - 1]      
+    end
+
+    def next?
+        user =  User.find_by_id(self.user_id)
+        self == user.my_messages_sorted.first ? false : true
+    end
+
+    def prev?
+        user =  User.find_by_id(self.user_id)
+        self == user.my_messages_sorted.last ? false : true
+    end
 
     def make_read
         self.update(read: true)

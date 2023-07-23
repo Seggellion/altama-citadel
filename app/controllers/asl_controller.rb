@@ -6,12 +6,12 @@ class AslController < ApplicationController
 def state_asl_message_next
     
     current_message = current_user.my_messages.find_by_id(params[:current_message])
-    #next_message = current_user.my_messages.next_created(current_message.created_at).first
     next_message = current_message.next_created
     sender =''
     if current_message
       sender = current_message.sender.id
     end
+    #byebug
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
     state_name = "message-#{sender}"
@@ -29,18 +29,17 @@ def state_asl_message_next
     states_string = @window_states.join(',')    
     task.update(state:states_string)
     redirect_to(request.env['HTTP_REFERER'])
+
   end
 
 
 
   def state_asl_message_prev
     current_message = current_user.my_messages.find_by_id(params[:current_message])
-
     sender =''
     if current_message
       sender = current_message.sender.id
     end
-    #previous_message = current_user.my_messages.previous_created(current_message.created_at).first
     previous_message = current_message.prev_created
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     unless  task
@@ -57,12 +56,9 @@ def state_asl_message_next
     end  
     unless @window_states.include?(state_name + prev_message)
       @window_states = @window_states - Array[state_name + curr_message]
-      @window_states = @window_states + Array[state_name + prev_message]
-      
-    end
-    
-    states_string = @window_states.join(',')
-    
+      @window_states = @window_states + Array[state_name + prev_message] 
+    end 
+    states_string = @window_states.join(',')   
     task.update(state:states_string)
     redirect_to(request.env['HTTP_REFERER'])
   end
@@ -96,7 +92,8 @@ def state_asl_message_next
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     @window_states =  []
     state_name = "new_message"
-    @window_states =  @window_states + state_name
+    @window_states.push(state_name)
+    #@window_states =  @window_states + state_name
     task.update(state: state_name)
 
     redirect_to root_url
