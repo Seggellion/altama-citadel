@@ -1,0 +1,28 @@
+<window data-controller="windows">
+<header data-windows-target="header">
+<info>
+<icon>
+
+</icon>
+    <name>
+    <%= task.name %>
+    </name>
+    </info>
+    <controls>
+        <%= link_to '', window_minimize_path(Task.last), class:'btn minimize' %>
+        <%= link_to '', window_maximize_path(Task.last), class:'btn maximize' %>
+        <%= link_to '', window_close_path(Task.last), class:'btn close' %>
+    </controls>
+</header>
+
+<%= render '/window/menu' %>
+
+<content>
+
+<%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", task: task %>
+
+
+
+</content>
+
+</window>

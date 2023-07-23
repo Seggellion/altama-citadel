@@ -189,7 +189,10 @@ Rails.application.routes.draw do
   get 'traderun/:username', to: 'trade_sessions#trade_runs', as: :traderun
   get 'milkrun/:username', to: 'trade_sessions#milk_runs', as: :milkrun
 
-  
+  get 'window_minimize', to: 'windows#minimize'
+  get 'window_maximize', to: 'windows#maximize'
+  get 'window_close', to: 'windows#close'
+
   get 'commodities_by_location', to: 'commodities#commodities_by_location'
   post 'deactivate_commodities', to: 'commodities#deactivate_commodities'
 

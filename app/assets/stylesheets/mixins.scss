@@ -4,9 +4,11 @@ $light_grey_shadow: #595959;
 $dark_grey: #595a56;
 $button_shadow: #363636;
 $default_background: #008080;
+$window_dark_grey:#1d1d1d;
 
-$highlight_border: 2px solid $light_grey_highlight;
-$shadow_border: 2px solid $light_grey_shadow;
+$highlight_border: 1px solid $light_grey_highlight;
+//$shadow_border: 2px solid $light_grey_shadow;
+$shadow_border: 1px solid $window_dark_grey;
 $orange: #d08a3e;
 $altama_green: #6eb288;
 $altama_blue: #05aac7;

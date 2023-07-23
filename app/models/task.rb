@@ -16,6 +16,10 @@ class Task < ApplicationRecord
         end
         @attribute
     end
+    
+    def sub_windows
+
+    end
 
 
     def getModalAttribute(window)
