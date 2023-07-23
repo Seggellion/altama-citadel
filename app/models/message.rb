@@ -1,16 +1,20 @@
 class Message < ApplicationRecord
     belongs_to :user
 
+    def new_message
+        user =  User.find_by_id(self.user_id)
+
+    end
 
 def next_created
    user =  User.find_by_id(self.user_id)
-    index = user.my_messages.index self
+    index = user.my_messages_sorted.index self
     user.my_messages[index + 1]
 end
 
 def prev_created
     user =  User.find_by_id(self.user_id)
-     index = user.my_messages.index self
+     index = user.my_messages_sorted.index self
      user.my_messages[index - 1]
      
  end
@@ -49,8 +53,12 @@ def prev_created
         if self.sender_id
             User.find_by_id(self.sender_id)
         else
-            self.task_id
+            #self.task_id
+            #byebug
+            self.task.name
         end
+
+
     end
 
     def sender_name

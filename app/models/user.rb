@@ -259,7 +259,11 @@ end
   end
 
   def my_messages
-    Message.where(user_id: self.id)
+    Message.where(user_id: self.id)#.order(created_at: :DESC)
+  end
+
+  def my_messages_sorted
+    Message.where(user_id: self.id).order(created_at: :DESC)
   end
 
 
