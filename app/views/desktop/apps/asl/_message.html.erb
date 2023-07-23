@@ -53,18 +53,18 @@ test
                 Preferences
             </button>
             
-            <% if message.prev_created %>
+            <% if message.prev? %>
             <%= link_to 'Prev', prev_message_path(current_message: message, task: task), class:'button previous' %>
             <% else %>
             <%= link_to 'Prev', "#", class:'button disabled previous' %>
             <% end %>
             
-            <% if message.next_created  %>
+            <% if message.next? %>
             <%= link_to 'Next', next_message_path(current_message: message, task: task), class:'button next' %>
             <% else %>
             <%= link_to 'Next', "#", class:'button disabled next' %>
             <% end %>
-
+            
             <%= link_to 'New', new_message_path(sender: current_user.id, new_message: true, task: task), class:'button next' %>
             <button class="disabled pull-right">
                 Send

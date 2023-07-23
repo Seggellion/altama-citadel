@@ -11,10 +11,12 @@
 
         <%= link_to new_asl_message_path(sender: current_user.id, message: @message), method: :post do %>
             create a new message
-          
-            
-            <%#= render 'messages/new_message_form', task: task %>
+
+            <% if task.state&.start_with?("new_message") %>
+                <%= render 'messages/new_message_form', task: task %>
             <% end %>
+
+        <% end %>
             
 
         <% current_user.past_messages_users.each do |message| %>
