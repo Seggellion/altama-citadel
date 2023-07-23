@@ -9,13 +9,14 @@ class Message < ApplicationRecord
     def next_created
         user =  User.find_by_id(self.user_id)
         index = user.my_messages_sorted.index self
-        user.my_messages[index + 1]
+        user.my_messages_sorted[index - 1]
+       # byebug
     end
 
     def prev_created
         user =  User.find_by_id(self.user_id)
         index = user.my_messages_sorted.index self
-        user.my_messages[index - 1]      
+        user.my_messages_sorted[index + 1]      
     end
 
     def next?
