@@ -33,9 +33,10 @@
 # new messages should make the ICQ sound
         </div>
         <div class="add-user-row">
-            <div class="add-user-button">
-                Add Users
-            </div>
+            
+            <%= link_to 'Add Users', asl_add_user_path, class: 'add-user-button' %>
+               
+            
         </div>
         <div class="bottom-row">
             <div class="asl-button-container">
@@ -48,7 +49,22 @@
                 Online
             </div>
         </div>
-
-    <% Task.sub_windows.each do |window| %>
-        <%= render "/desktop/window3", task: window %>
-    <% end %>
+        
+<style>
+#asl content{
+    height: 89%;
+    margin:0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border:none;
+}
+#asl content .contact-list{
+margin:0px;
+}
+#asl{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+</style>

@@ -6,6 +6,7 @@ def buy_trade
   @secretguid  = ENV['STARBITIZEN_EXCHANGE']
   commodity_name = json_request["commodity"]
   received_guid = json_request["secretguid"]  
+  starbits = json_request["starbits"]
   
   return unless @secretguid == received_guid  
 
@@ -30,12 +31,14 @@ def buy_trade
 
   records_exist = buy_commodity.present?
     
-    if records_exist &&  buy_commodity.inventory > 0
+    if records_exist &&  buy_commodity.inventory > 0 &&  capital < starbits
 
       actual_removed = [buy_commodity.maxInventory, total_units].min
 
       actual_removed = [buy_commodity.inventory, actual_removed].min
       capital = buy_commodity.sell.to_i * actual_removed
+
+      
 
     buy_commodity_inventory = buy_commodity.decrement!(:inventory, actual_removed)
     
@@ -62,10 +65,13 @@ existing_run = StarBitizenRun.find_by(user_id: to_user_id, profit:0)
         scu: actual_removed)
     end
 
-    response = {total_profit:  total_profit  }
-
+    response = {capital:  capital  }
+  elsif records_exist &&  buy_commodity.inventory > 0 && capital > starbits 
+    response = {error:  'insufficient_funds' }
+  elsif records_exist &&  buy_commodity.inventory == 0
+    response = {error:  'insufficient_inventory' }
     else
-      response = {total_profit:  'invalid' }
+      response = {error:  'invalid' }
     end
 
   
@@ -89,9 +95,6 @@ def sell_trade
   total_units = json_request["total_units"].to_i
   sell_search_query = "#{commodity_name} #{to_location}"
   sell_commodity = Commodity.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
-  
-  
-
   records_exist = sell_commodity.present?
 
   if records_exist
@@ -103,12 +106,40 @@ def sell_trade
     current_run.update(profit:total_profit)
     response = {total_profit:  total_profit  }
   else
-    response = {total_profit:  'invalid'  }
+    response = {error:  'invalid'  }
   end
 
   render json: response
 
 end
+
+
+def profit_check
+    json_request = JSON.parse(request.body.read)
+    commodity_name = json_request["commodity"]
+    from_location = json_request["from_location"]
+    to_location = json_request["to_location"]
+    total_units = json_request["total_units"]
+
+
+  buy_search_query = "#{commodity_name} #{from_location}"
+  buy_commodity = Commodity.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+  sell_search_query = "#{commodity_name} #{to_location}"
+  sell_commodity = Commodity.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+
+    records_exist = buy_commodity.present? && sell_commodity.present?
+    if records_exist
+      total_profit = ( sell_commodity.buy.to_i * total_units.to_i) - ( buy_commodity.sell.to_i * total_units.to_i)
+      response = {total_profit:  total_profit  }
+    else
+      response = {total_profit:  'invalid' }
+    end
+
+
+    # Render the response
+    render json: response
+  end
+
 
 
 end

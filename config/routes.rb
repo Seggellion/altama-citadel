@@ -79,11 +79,6 @@ Rails.application.routes.draw do
   end
 
   post 'staff_code', to: 'conquest#staff_code',  as: :staff_code, :constraints => { :subdomain => "ctd" }
-  post 'shipments/json_request', to: 'shipments#json_request'
-  post 'exchange/json_request', to: 'acu_exchange#json_request'
-  post 'star_bitizen/json_request', to: 'star_bitizen#json_request'
-  post 'star_bitizen/buy_trade', to: 'star_bitizen#buy_trade'
-  post 'star_bitizen/sell_trade', to: 'star_bitizen#sell_trade'
 
   get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
@@ -157,11 +152,7 @@ Rails.application.routes.draw do
   get 'state_rules', to: 'tasks#state_rules'
   get 'filter_state', to: 'tasks#filter_state'
   get 'state_location_wizard', to: 'tasks#state_location_wizard'
-  get 'state_asl_message', to: 'asl#state_asl_message'
-  get 'state_modals', to: 'tasks#state_modals'
-  get 'next_message', to: 'asl#state_asl_message_next'
-  get 'prev_message', to: 'asl#state_asl_message_prev'
-  get 'new_asl_message', to: 'asl#state_asl_message_new'
+
   get 'state_location_edit', to: 'tasks#state_location_edit'
   get 'state_location_subitem', to:'tasks#state_location_subitem'
   get 'state_location_mainitem', to:'tasks#state_location_mainitem'
@@ -209,4 +200,27 @@ Rails.application.routes.draw do
   post 'activate', to: 'users#activate', as: :activate
   post 'vim_command', to: 'vim#vim_command'
   
+
+# ASL portion
+get 'state_asl_message', to: 'asl#state_asl_message'
+get 'asl_add_user', to: 'asl#asl_add_user'
+get 'state_modals', to: 'tasks#state_modals'
+get 'next_message', to: 'asl#state_asl_message_next'
+get 'prev_message', to: 'asl#state_asl_message_prev'
+get 'new_asl_message', to: 'asl#state_asl_message_new'
+#End ASL
+
+
+# Star bitizen portion
+
+post 'shipments/json_request', to: 'shipments#json_request'
+post 'exchange/json_request', to: 'acu_exchange#json_request'
+post 'star_bitizen/json_request', to: 'star_bitizen#json_request'
+post 'star_bitizen/buy_trade', to: 'star_bitizen#buy_trade'
+post 'star_bitizen/sell_trade', to: 'star_bitizen#sell_trade'
+post 'star_bitizen/profit', to: 'star_bitizen#profit_check'
+
+#end Star Bitizen
+
+
 end
