@@ -87,14 +87,18 @@ class Task < ApplicationRecord
         task = Task.find_by_id(self.id)
         
         task.update(memo_type: data[:memo_type], memo_text: data[:memo_text])
-        
-    #    byebug
-     #   task.memo(type:, message:, task_name:)
-     #   task.memo(type:, message:, task_name:)
-     #   task.update()
-
     end
 
+
+    def sub_windows
+        if  self.state
+       self.state.split(',')
+        else
+             []
+        end
+    end
+
+    
     def getModalTitle
         task = self
         @window_states =  []

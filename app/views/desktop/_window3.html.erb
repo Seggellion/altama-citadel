@@ -1,26 +1,42 @@
-<window data-controller="windows">
+<% if task.respond_to?(:name) && task.name.present? %>
+<% task_name = task.name  %>
+<% else  %>
+<% task_name = task %>
+<% end %>
+
+<window data-controller="windows" id="<%= task_name.downcase.parameterize.underscore %>">
 <header data-windows-target="header">
 <info>
 <icon>
-
+<%= image_tag("#{task_name.downcase.parameterize.underscore}_icon.png")  %>
 </icon>
     <name>
-    <%= task.name %>
+        <%= task_name %>
     </name>
     </info>
     <controls>
         <%= link_to '', window_minimize_path(Task.last), class:'btn minimize' %>
         <%= link_to '', window_maximize_path(Task.last), class:'btn maximize' %>
-        <%= link_to '', window_close_path(Task.last), class:'btn close' %>
+        
+        <%= link_to '', window_close_path(window:task_name), class:'btn close' %>
     </controls>
 </header>
-
-<%= render '/window/menu' %>
-
+<% if task.respond_to?(:view) && task.view.present? %>
+    <% unless task.view == 'slim' %>
+    <%= render '/window/menu' %>
+    <% end %>
+<% end %>
 <content>
 
-<%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", task: task %>
+<% if task.respond_to?(:name) && task.name.present? %>
 
+<%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", task: task %>
+<%  else %>
+<% task_name = task %>
+<% @current_task = Task.all.detect { |task| task.name && task_name && task_name.downcase.include?(task.name.downcase) } %>
+
+<%= render "/#{@current_task.name.downcase.parameterize.underscore}/#{task.downcase.parameterize.underscore}", task: task %>
+<% end %>
 
 
 </content>

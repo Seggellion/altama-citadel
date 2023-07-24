@@ -189,7 +189,7 @@ end
 
 def start_asl
   unless @all_tasks.find_by(name:'ASL').present?
-    @task =  Task.create(name: 'ASL',task_manager_id: @task_manager.id, view: 'window')
+    @task =  Task.create(name: 'ASL',task_manager_id: @task_manager.id, view: 'slim')
     end  
     redirect_to(request.env['HTTP_REFERER'])
 end
@@ -556,11 +556,6 @@ end
       task.memo(memo_type: "error", memo_text:"Error: No user in Altama Database.")
     end
   end
-  
-
-
-
-
 
   
 
@@ -577,6 +572,7 @@ current_task = Task.find_by_id(params[:task])
   def new
     @task = Task.new
   end
+
 
   # GET /tasks/1/edit
   def edit

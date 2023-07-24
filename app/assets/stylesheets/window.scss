@@ -60,6 +60,7 @@ window{
         info{
             display: flex;
             flex-direction: row;
+            align-items: center;
             name{
                 font-size: 1rem;
                 font-weight: 900;
@@ -68,8 +69,15 @@ window{
                 user-select: none;
             }
             icon{
+                margin-left: 2px;
+                margin-right: 7px;
                 display: block;
-                width: 27px;
+                width: 18px;
+                height: 19px;
+                overflow: hidden;
+                img{
+                    width:100%;
+                }
             }
         }
         controls{

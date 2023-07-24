@@ -80,7 +80,7 @@ def state_asl_message_next
     end
     states_string = @window_states.join(',')
     task.update(state:states_string)
-    redirect_to(request.env['HTTP_REFERER'])
+    redirect_to root_path
   end
 
   def state_asl_message_new
@@ -105,6 +105,22 @@ def state_asl_message_next
     @message = Message.create(new_message_params)
   end
 
+  def asl_add_user
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
+    @window_states =  []
+    state_name = "asl_add_user"
+    window_state_csv = task.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+    end  
+    unless @window_states.include?(state_name)
+        @window_states = @window_states + Array[state_name]
+    end
+    states_string = @window_states.join(',')
+    
+    task.update(state:states_string)
+    redirect_to root_path
+  end
 
   private
   def new_message_params
