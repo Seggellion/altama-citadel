@@ -61,12 +61,12 @@ class StarBitizenController < ApplicationController
   
         response = {capital:  capital  }
       else
-        response = {error:  'insufficient_funds' }
+        response = {capital:  'insufficient_funds' }
       end
     elsif records_exist &&  buy_commodity.inventory == 0
-      response = {error:  'insufficient_inventory' }
+      response = {capital:  'insufficient_inventory' }
     else
-      response = {error:  'invalid' }
+      response = {capital:  'invalid' }
     end
     
     render json: response
@@ -100,7 +100,7 @@ def sell_trade
 
     response = {total_sold:  total_sold}
   else
-    response = {error:  'invalid'  }
+    response = {total_sold:  'invalid'  }
   end
 
   render json: response
