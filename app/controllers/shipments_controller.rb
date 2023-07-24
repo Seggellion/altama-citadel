@@ -6,7 +6,7 @@ class ShipmentsController < ApplicationController
   
   def json_request
     # Parse the incoming JSON request
-    
+    @active_commodities = Commodity.where(active:true)
     json_request = JSON.parse(request.body.read)
 
     # Extract the required parameters from the request
@@ -26,9 +26,9 @@ class ShipmentsController < ApplicationController
 
 buy_search_query = "#{commodity_name} #{from_location}"
 #buy_commodity = Commodity.search_by_name_and_location(buy_search_query).order("DATE(updated_at) DESC").first
-buy_commodity = Commodity.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+buy_commodity = @active_commodities.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
 sell_search_query = "#{commodity_name} #{to_location}"
-sell_commodity = Commodity.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+sell_commodity = @active_commodities.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
 
 #if buy_commodity && buy_commodity.sell > 0 &&  sell_commodity && sell_commodity.buy > 0 
     #total_profit = ( sell_commodity.buy.to_f * total_units) - ( buy_commodity.sell.to_f * total_units)

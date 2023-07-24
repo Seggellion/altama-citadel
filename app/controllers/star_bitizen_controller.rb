@@ -9,7 +9,7 @@ class StarBitizenController < ApplicationController
     starbits = json_request["starbits"].to_i
     
     return unless @secretguid == received_guid  
-  
+    @active_commodities = Commodity.where(active:true)
     player_name = json_request["player_name"]
     from_location = json_request["from_location"]
     total_units = json_request["total_units"].to_i
@@ -24,7 +24,7 @@ class StarBitizenController < ApplicationController
   
     buy_search_query = "#{commodity_name} #{from_location}"
   
-    buy_commodity = Commodity.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+    buy_commodity = @active_commodities.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
   
     to_user_id = User.where('lower(username) = lower(?)', player_name).first.id  
   
@@ -82,11 +82,12 @@ def sell_trade
   player_name = json_request["player_name"]  
   to_user_id = User.find_by(username: player_name)
   commodity_name = json_request["commodity"]
+  @active_commodities = Commodity.where(active:true)
 
   to_location = json_request["to_location"]
   total_units = json_request["total_units"].to_i
   sell_search_query = "#{commodity_name} #{to_location}"
-  sell_commodity = Commodity.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+  sell_commodity =  @active_commodities.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
   records_exist = sell_commodity.present?
 
   if records_exist
@@ -94,9 +95,10 @@ def sell_trade
     total_units = current_run.scu
     capital = current_run.commodity.sell.to_i * total_units
     total_profit = ( sell_commodity.buy.to_i * total_units) - ( capital)
-
+    total_sold = total_profit + capital
     current_run.update(profit:total_profit)
-    response = {total_profit:  total_profit  }
+
+    response = {total_sold:  total_sold}
   else
     response = {error:  'invalid'  }
   end
@@ -115,9 +117,9 @@ def profit_check
 
 
   buy_search_query = "#{commodity_name} #{from_location}"
-  buy_commodity = Commodity.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+  buy_commodity = @active_commodities.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
   sell_search_query = "#{commodity_name} #{to_location}"
-  sell_commodity = Commodity.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+  sell_commodity = @active_commodities.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
 
     records_exist = buy_commodity.present? && sell_commodity.present?
     if records_exist
