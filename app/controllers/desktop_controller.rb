@@ -67,6 +67,7 @@ end
   @reward  = Reward.new
   @all_rewards = Reward.all
   @all_commodities = Commodity.all.order(name: :asc)
+  @active_commodities = @all_commodities.where(active:true)
   @readable_commodities = Commodity.select(:name).distinct.order(name: :asc)
   @user_manager = Task.find_by(task_manager_id: @task_manager.id, name: "User Manager")
   @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
