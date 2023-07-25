@@ -12,6 +12,12 @@ class StarBitizenController < ApplicationController
     @active_commodities = Commodity.where(active:true)
     player_name = json_request["player_name"]
     from_location = json_request["from_location"]
+    to_location = json_request["to_location"]
+
+    sell_search_query = "#{commodity_name} #{to_location}"
+    # sell_commodity = @active_commodities.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+    sell_commodity = @active_commodities.search_by_name_and_location(sell_search_query).where('buy > ?', 0)
+    
     total_units = json_request["total_units"].to_i
     to_user = User.where("lower(username) LIKE lower(?)", "%#{player_name.downcase}%").first_or_initialize
   
@@ -24,11 +30,11 @@ class StarBitizenController < ApplicationController
   
     buy_search_query = "#{commodity_name} #{from_location}"
   
-    buy_commodity = @active_commodities.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
-  
+   # buy_commodity = @active_commodities.search_by_name_and_location(buy_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
+    buy_commodity = @active_commodities.search_by_name_and_location(buy_search_query).where('sell > ?', 0)
     to_user_id = User.where('lower(username) = lower(?)', player_name).first.id  
   
-    records_exist = buy_commodity.present?
+    records_exist = buy_commodity.present? && sell_commodity.present?
     
     if records_exist &&  buy_commodity.inventory > 0
       actual_removed = [buy_commodity.maxInventory, total_units].min

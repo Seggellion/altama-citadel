@@ -28,7 +28,7 @@
         <td class="rownumber"><span>1</span></td>
         <td><span>Captain</span></td>
         <td><span>Ship</span></td>
-        <td<span>>Buy Location</span></td>
+        <td><span>Buy Location</span></td>
         <td><span>Split</span></td>
         <td><span>Commodity</span></td>
         <td><span>Buy price</span></td>
@@ -105,7 +105,7 @@
     <div id="data" >
         <%= content_tag :div, id: "locations-data", class: "hidden", data: { locations: @all_locations_parent_grouped.to_json(only: [:name, :parent]) } do %><% end %>
         <%= content_tag :div, id: "ships-data", class: "hidden", data: { ships: @cargo_ships.to_json(only: [:model, :scu]) } do %><% end %>
-        <%= content_tag :div, id: "commodities-data", class: "hidden", data: { traderun_target:'commoditiesData', commodities: @all_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
+        <%= content_tag :div, id: "commodities-data", class: "hidden", data: { traderun_target:'commoditiesData', commodities:  @active_commodities.to_json(only: [:id, :name, :buy, :sell, :location, :updated_at]) } do %><% end %>
     </div>
 
 
