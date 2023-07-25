@@ -49,8 +49,7 @@ class StarBitizenController < ApplicationController
             commodity_id: buy_commodity.id,
             user_id: to_user_id, 
             profit: total_profit,
-            scu: actual_removed)
-        elsif existing_run && existing_run.created_at > (Time.now - 4.minutes)      
+            scu: actual_removed)   
         else
           StarBitizenRun.create(
             commodity_id: buy_commodity.id,
@@ -66,6 +65,7 @@ class StarBitizenController < ApplicationController
     elsif records_exist &&  buy_commodity.inventory == 0
       response = {capital:  'insufficient_inventory' }
     else
+      
       response = {capital:  'invalid' }
     end
     
@@ -78,8 +78,10 @@ def sell_trade
   json_request = JSON.parse(request.body.read)
   @secretguid  = ENV['STARBITIZEN_EXCHANGE']
   received_guid = json_request["secretguid"]  
+  
   return unless @secretguid == received_guid  
   player_name = json_request["player_name"]  
+  
   to_user_id = User.find_by(username: player_name)
   commodity_name = json_request["commodity"]
   @active_commodities = Commodity.where(active:true)
@@ -87,11 +89,14 @@ def sell_trade
   to_location = json_request["to_location"]
   total_units = json_request["total_units"].to_i
   sell_search_query = "#{commodity_name} #{to_location}"
+
+#is it possible sell_commodity does not exist?
+
   sell_commodity =  @active_commodities.search_by_name_and_location(sell_search_query).min_by { |commodity| (commodity.updated_at - Time.current).abs }
   records_exist = sell_commodity.present?
+  current_run = StarBitizenRun.find_by(user_id: to_user_id, profit: 0) 
 
-  if records_exist
-    current_run = StarBitizenRun.find_by(user_id: to_user_id, profit: 0) 
+  if records_exist &&  current_run
     total_units = current_run.scu
     capital = current_run.commodity.sell.to_i * total_units
     total_profit = ( sell_commodity.buy.to_i * total_units) - ( capital)

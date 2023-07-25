@@ -10,8 +10,10 @@ def index
     @windowed_tasks = @all_tasks.where(view:'window')
     @fullscreen_tasks = @all_tasks.where(view:'fullscreen')   
     @current_task = @fullscreen_tasks.first.present? ? @fullscreen_tasks.first : @windowed_tasks.first.present? ? @windowed_tasks.first : nil
+    @window3_tasks = @all_tasks.where(view: "slim")
   end  
 
+  
 if !@current_task.nil? and @current_task.name.downcase.include? "location"    
   if @current_task.state and @current_task.state.downcase.include? "subitem"
     location = Location.find_by_id(@current_task.state.downcase.split(',')[0].split('-')[-1])    

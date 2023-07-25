@@ -100,8 +100,8 @@
     <% end %>
 <% end %>
 
-<% if current_user && @all_tasks %>
-    <% @all_tasks.each do | task |  %>
+<% if current_user && @window3_tasks %>
+    <% @window3_tasks.each do | task |  %>
     <%= render "/desktop/window3", task: task %>
     <% if task.sub_windows.count > 0 %>
         <% task.sub_windows.each do |window| %>
@@ -113,7 +113,7 @@
 
 <% if current_user && @windowed_tasks.present? %>
     <% @windowed_tasks.each do | task |  %>
-    <%#= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
+    <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", root_users: @root_users, task: task %>
     <% end %>
 <% end %>
 
