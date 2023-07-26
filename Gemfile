@@ -38,7 +38,7 @@ gem "jbuilder", "~> 2.11"
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
-
+gem 'sentry-raven'
 # I added hotwire 
 # gem 'hotwire-rails'
 
