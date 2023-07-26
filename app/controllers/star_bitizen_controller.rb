@@ -93,12 +93,13 @@ end
   def setup_trade_variables
     @commodity_name = @json_request["commodity"]
     @starbits = @json_request["starbits"].to_i
+    @trade_locations = Location.where(trade_terminal:true)
     player_name = @json_request["player_name"]
     from_location_string = @json_request["from_location"]
-    from_location = Location.search_for(from_location_string).first&.name
+    from_location = @trade_locations.search_for(from_location_string).first&.name
     
     to_location_string = @json_request["to_location"]
-    to_location = Location.search_for(to_location_string).first&.name
+    to_location = @trade_locations.search_for(to_location_string).first&.name
     
     @sell_commodity = Commodity.where(name: @commodity_name, location: to_location).where('buy > ?', 0).first
 
