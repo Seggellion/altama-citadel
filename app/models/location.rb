@@ -125,10 +125,11 @@ def full_name
   end
   
 end
-# If location is at Lathan it's ID 
-#
-#
 
+
+def self.search_for(query)
+  where("name ILIKE ?", "%#{query}%")
+end
 
 
 end

@@ -3,7 +3,7 @@ class StarBitizenController < ApplicationController
   before_action :parse_json_request, :validate_secret_guid
 
   def buy_trade    
-    setup_trade_variables    
+    setup_trade_variables        
     records_exist = @buy_commodity.present? && @sell_commodity.present?
     response = handle_buy_trade(records_exist, @buy_commodity, @total_units, @to_user, @starbits)
     render json: response
@@ -94,14 +94,18 @@ end
     @commodity_name = @json_request["commodity"]
     @starbits = @json_request["starbits"].to_i
     player_name = @json_request["player_name"]
-    from_location = @json_request["from_location"]
-    to_location = @json_request["to_location"]
+    from_location_string = @json_request["from_location"]
+    from_location = Location.search_for(from_location_string).first&.name
+    
+    to_location_string = @json_request["to_location"]
+    to_location = Location.search_for(to_location_string).first&.name
+    
+    @sell_commodity = Commodity.where(name: @commodity_name, location: to_location).where('buy > ?', 0).first
 
-    sell_search_query = "#{@commodity_name} #{to_location}"
-    @sell_commodity = Commodity.search_by_name_and_location(sell_search_query).where('buy > ?', 0).first
-    buy_search_query = "#{@commodity_name} #{from_location}"
-    @buy_commodity = Commodity.search_by_name_and_location(buy_search_query).where('sell > ?', 0).first
+    @buy_commodity = Commodity.where(name: @commodity_name, location: from_location).where('sell > ?', 0).first
+    
     @total_units = @json_request["total_units"].to_i
+    
     @to_user = fetch_or_create_user(player_name)
   end
 
