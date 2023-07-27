@@ -356,8 +356,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sentry-raven (2.13.0)
-      faraday (>= 0.7.6, < 1.0)
+    sentry-rails (5.10.0)
+      railties (>= 5.0)
+      sentry-ruby (~> 5.10.0)
+    sentry-ruby (5.10.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     signet (0.17.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -465,7 +468,8 @@ DEPENDENCIES
   ruby-clock
   sassc-rails (~> 2.1)
   selenium-webdriver (>= 4.0.0)
-  sentry-raven
+  sentry-rails
+  sentry-ruby
   sprockets-rails (>= 3.4.1)
   stimulus-rails (>= 0.7.3)
   table_print

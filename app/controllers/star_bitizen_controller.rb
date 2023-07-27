@@ -5,6 +5,7 @@ class StarBitizenController < ApplicationController
   def buy_trade    
     setup_trade_variables        
     records_exist = @buy_commodity.present? && @sell_commodity.present?
+    
     response = handle_buy_trade(records_exist, @buy_commodity, @total_units, @to_user, @starbits)
     render json: response
   rescue => e
@@ -24,6 +25,7 @@ class StarBitizenController < ApplicationController
 
   def handle_buy_trade(records_exist, buy_commodity, total_units, to_user, starbits)
     response = {capital:  '30000 ERROR'}
+    
     if records_exist && buy_commodity.inventory > 0
         actual_removed = [buy_commodity.maxInventory, total_units].min
         actual_removed = [buy_commodity.inventory, actual_removed].min
@@ -107,7 +109,7 @@ end
     
     @total_units = @json_request["total_units"].to_i
     
-    @to_user = fetch_or_create_user(player_name)
+    @to_user = fetch_or_create_user(player_name)    
   end
 
   def find_sell_commodity    
@@ -119,19 +121,19 @@ end
 
   def find_current_run
     player_name = @json_request["player_name"]
-    to_user_id = User.find_by(username: player_name)
+    to_user_id = User.where("username ILIKE ?", player_name).first.id
     StarBitizenRun.find_by(user_id: to_user_id, profit: 0)
   end
 
   def fetch_or_create_user(player_name)
-    user = User.where("lower(username) = lower(?)", player_name).first_or_initialize do |new_user|
+    user = User.where("username ILIKE ?", player_name).first_or_initialize do |new_user|
       new_user.username = player_name
       new_user.password = SecureRandom.hex(10)
       new_user.provider = 'StarBitizen'
-    end
+    end    
     user.save! if user.new_record?
     user
-  end
+  end  
 
   
 end
