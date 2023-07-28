@@ -26,16 +26,19 @@ ________________________<br />
 </div>
 
 <% @all_commodities.each do |commodity| %>
-    <% if commodity.location.nil? %>
+
+    <li >
+    <% if commodity.sell.nil? %>
 
     <% end %>
-    <li >
-    <% if commodity.buy > 0 %>
+    
+    <% if commodity.buy && commodity.buy > 0 %>
     <span style="color:red">BUY:</span> <%= commodity.name.upcase %> | <%= Location.find_parent(commodity.location) %> <%= commodity.location.upcase %> | <%= commodity.buy %>
-
-    <% elsif commodity.sell > 0  %>
-
+    
+    <% elsif commodity.sell && commodity.sell > 0  %>
+    
     <span style="color:green">SELL:</span> <%= commodity.name.upcase %> | <%= Location.find_parent(commodity.location) %> <%= commodity.location.upcase %> | <%= commodity.sell %>
+    
     <% end %>
 </li>
     <% end %>

@@ -20,8 +20,7 @@ class MilkRunsController < ApplicationController
 
         def create                              
             trade_session_id = params[:milk_run][:trade_session_id]
-            buy_commodity_id = params[:milk_run][:buy_commodity_id]
-                      
+            buy_commodity_id = params[:milk_run][:buy_commodity_id]                      
             
             if params[:milk_run][:form_type] == "buy"
             ship_scu = Ship.find(params[:milk_run][:ship_id])&.scu
@@ -40,7 +39,7 @@ class MilkRunsController < ApplicationController
               else
                 commodity_user_id = current_milkrun.user_id
               end
-                sell_commodity = Commodity.find_by_id(params[:milk_run][:sell_commodity_id])
+              sell_commodity = Commodity.find_by_id(params[:milk_run][:sell_commodity_id])
               buy_commodity_scu = current_milkrun.buy_commodity_scu
               buy_commodity_price = current_milkrun.buy_commodity_price
               sell_location = JSON.parse(params[:milk_run][:sell_location])["name"].split('| ')[1]              
@@ -70,14 +69,21 @@ class MilkRunsController < ApplicationController
               sell_commodity.update(buy: params[:milk_run][:sell_commodity_price], updated_at: Time.now)
 
                 if out_of_family 
-                    CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy: params[:milk_run][:sell_commodity_price], flagged:true)
+                    CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy_price: params[:milk_run][:sell_commodity_price], flagged:true)
                 else
-                    CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy: params[:milk_run][:sell_commodity_price])
+                  
+                    CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy_price: params[:milk_run][:sell_commodity_price])
                 end
 
             end
           
-            redirect_to root_path
+            
+            if params[:milk_run][:public]
+              redirect_to request.original_url
+            else
+              redirect_to root_path
+            end
+
           end          
     
     def destroy
