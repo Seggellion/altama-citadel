@@ -13,6 +13,9 @@
             <%= f.text_field :session_users, value: trade_session.session_users %>
             <%= f.submit '[OK]' %>
             <% end %>
+            <span>
+            https://ctd.altama.energy/milkrun/<%if trade_session.session_users %><%= trade_session.session_users.split(",").first %><%else%>username<%end%>
+            </span>
         </div>
     </div>
 
