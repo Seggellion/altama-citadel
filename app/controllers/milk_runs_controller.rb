@@ -42,6 +42,7 @@ class MilkRunsController < ApplicationController
               sell_commodity = Commodity.find_by_id(params[:milk_run][:sell_commodity_id])
               buy_commodity_scu = current_milkrun.buy_commodity_scu
               buy_commodity_price = current_milkrun.buy_commodity_price
+              
               sell_location = JSON.parse(params[:milk_run][:sell_location])["name"].split('| ')[1]              
               used_scu = MilkRun.where(trade_session_id: trade_session_id, user_id: commodity_user_id).sum(:buy_commodity_scu)
               buy_total = buy_commodity_scu * buy_commodity_price
@@ -62,7 +63,16 @@ class MilkRunsController < ApplicationController
               out_of_family = percent_change.abs >= 10       
 
               if percent_change.abs == 0
-                redirect_to root_path and return
+                
+
+                if percent_change.abs == 0
+                  if params[:milk_run][:public]
+                    redirect_to request.original_url and return
+                  else
+                    redirect_to root_path and return
+                  end
+                end
+
               end
               
               #this should be placed below within the else statement to prevent certain entries
@@ -79,9 +89,9 @@ class MilkRunsController < ApplicationController
           
             
             if params[:milk_run][:public]
-              redirect_to request.original_url
+              redirect_to request.original_url and return
             else
-              redirect_to root_path
+              redirect_to root_path and return
             end
 
           end          

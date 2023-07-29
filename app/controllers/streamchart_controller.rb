@@ -19,11 +19,22 @@ class StreamchartController < ApplicationController
       trade_session_id = params[:trade_session_id]
       render json: MilkRun.where(trade_session_id: trade_session_id).joins(:user).group('users.username').sum(:profit)
     end
+
+    def star_bitizen_runs_data
+      profits = StarBitizenRun.all.joins(:user).group('users.username').sum(:profit)
+      runs = StarBitizenRun.all.joins(:user).group('users.username').count
+      render json: { profits: profits, runs: runs }
+    end
+    
   
     def traderun_profits
          
       trade_session_id = params[:trade_session_id]
       render json: TradeRun.where(trade_session_id: trade_session_id).joins(:user).group('users.username').sum(:profit)
+    end
+
+    def star_bitizen
+
     end
   
     

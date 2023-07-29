@@ -150,6 +150,13 @@ export default class extends Controller {
         document.querySelector('#greeting').classList.add('hidden');              
         this.commoditiesTradeRunTarget.classList.remove("hidden");
         this.fillBackground();
+      }else if (this.menuItemTargets[this.activeIndex].dataset.action === "StarBitizenRuns") {
+        this.mainMenuTargets.forEach(menu => menu.classList.add("hidden"));
+        document.querySelector('#greeting').classList.add('hidden');              
+        this.commoditiesTradeRunTarget.classList.add("hidden");
+        
+        window.location.href = '/star_bitizen_chart';
+
       }else if (this.menuItemTargets[this.activeIndex].dataset.action === "sessionStreamCharts") {
         
         this.streamchartMenuTarget.classList.remove("hidden");

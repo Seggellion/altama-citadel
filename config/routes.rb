@@ -175,8 +175,11 @@ Rails.application.routes.draw do
   get 'payout_streamchart', to: 'streamchart#payout'
   get 'milkruns_streamchart', to: 'streamchart#milk_run_profits'
   get 'traderuns_streamchart', to: 'streamchart#trade_run_profits'
+  get 'star_bitizen_chart', to: 'streamchart#star_bitizen'
+  
   
   get 'milkrun_profits', to: 'streamchart#milkrun_profits'
+  get 'star_bitizen_runs_data', to: 'streamchart#star_bitizen_runs_data'
   get 'traderun_profits', to: 'streamchart#traderun_profits'
 
   get 'traderun/:username', to: 'trade_sessions#trade_runs', as: :traderun
