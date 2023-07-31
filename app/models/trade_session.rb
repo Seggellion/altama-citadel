@@ -16,6 +16,14 @@ has_many :milk_runs
         profit.to_s(:delimited)
     end
 
+    def count_users
+       if self.session_users.split(',').count
+        self.session_users.split(',').count
+       else
+0
+       end
+    end
+
     def trade_run_scu
         TradeRun.where(trade_session_id: self.id).sum(:scu)
     end

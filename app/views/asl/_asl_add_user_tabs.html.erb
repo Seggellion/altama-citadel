@@ -1,0 +1,36 @@
+<div class="tabs">
+<ul>
+<li>
+Username
+</li>
+<li>
+Detail
+</li>
+<li>
+ASL #
+</li>
+<li>
+Interests
+</li>
+</ul>
+
+    <div class="tab-content">
+        <div class="tab-description">
+            Search for a user by their username.
+        </div>
+        <div class="tab-action">
+            <div class="tab-action-header">
+            Search Users By Email
+            </div>
+
+            <div class="tab-form">
+            <label>Username:</label>
+            <%= form_with model: @article do |f| %>
+                <%= f.text_field :user, id: "user", value: current_user.username %>
+                <% end %>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,39 @@
+<div class="results">
+    <div class="resuls-header">
+    Found 2 User(s). Double click on a user in order to add them
+    </div>
+
+    <div class="results-container">
+        <div class="column">
+        ASL #
+        </div>
+        <div class="column">
+        Nick Name
+        </div>
+        <div class="column">
+        Twitch
+        </div>
+        <div class="column">
+        Authorized
+        </div>
+        <div class="results-list">
+<% User.all.each do |user| %>
+    <div class="column">
+        <%= user.id %>
+    </div>
+
+    <div class="column">
+        <%= user.username %>
+    </div>
+
+    <div class="column">
+        <%= user.provider %>
+    </div>
+
+    <div class="column">
+    <%= user.rsi_verify %>
+</div>
+
+    <% end %>
+        </div>
+    </div>

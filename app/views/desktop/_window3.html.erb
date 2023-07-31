@@ -34,7 +34,7 @@
 <%  else %>
 <% task_name = task %>
 <% @current_task = Task.all.detect { |task| task.name && task_name && task_name.downcase.include?(task.name.downcase) } %>
-
+<% byebug %>
 <%= render "/#{@current_task.name.downcase.parameterize.underscore}/#{task.downcase.parameterize.underscore}", task: task %>
 <% end %>
 

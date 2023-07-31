@@ -7,8 +7,8 @@ ________________________<br />
         <%if trade_session.owner %>
         <%= trade_session.owner.username %>
         <% end %>
-    <%= link_to trade_session.session_date, traderun_command_path("trade_session-#{trade_session.id}")  %>     
-</li>
+    <%= link_to trade_session.session_date, traderun_command_path("trade_session-#{trade_session.id}")  %>  (<%= trade_session.count_users %>)
+    </li>
     <% end %>
     </ul>
 

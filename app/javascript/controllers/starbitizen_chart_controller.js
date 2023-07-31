@@ -87,10 +87,16 @@ export default class extends Controller {
               display: true,
               text: '# Runs'
             },
-            // this is an optional customization that makes the right scale gridlines invisible
             grid: {
               drawOnChartArea: false, 
             },
+          },
+          x: {
+            ticks: {
+              autoSkip: false,
+              maxRotation: 90,
+              minRotation: 90
+            }
           }
         }
       }

@@ -41,23 +41,55 @@ class MilkRunsController < ApplicationController
               end
               sell_commodity = Commodity.find_by_id(params[:milk_run][:sell_commodity_id])
               buy_commodity_scu = current_milkrun.buy_commodity_scu
+              sell_commodity_scu = params[:milk_run][:sell_commodity_scu].to_i
               buy_commodity_price = current_milkrun.buy_commodity_price
               
               sell_location = JSON.parse(params[:milk_run][:sell_location])["name"].split('| ')[1]              
-              used_scu = MilkRun.where(trade_session_id: trade_session_id, user_id: commodity_user_id).sum(:buy_commodity_scu)
+              used_scu = MilkRun.where(trade_session_id: trade_session_id, user_id: commodity_user_id, sell_commodity_id:nil).sum(:buy_commodity_scu)
               buy_total = buy_commodity_scu * buy_commodity_price
-              sell_total = params[:milk_run][:sell_commodity_scu].to_i * params[:milk_run][:sell_commodity_price].to_i
+              sell_total = sell_commodity_scu * params[:milk_run][:sell_commodity_price].to_i
               profit = sell_total - buy_total
           
+
+          if sell_commodity_scu < buy_commodity_scu
+            buy_total = sell_commodity_scu * buy_commodity_price
+            profit = sell_total - buy_total
+            MilkRun.create(
+              buy_commodity_id: current_milkrun.buy_commodity_id,
+              buy_commodity_scu:sell_commodity_scu,
+              buy_commodity_price:current_milkrun.buy_commodity_price,
+              buy_location:current_milkrun.buy_location,
+              usership_id: current_milkrun.usership_id,
+              user_id: current_milkrun.user_id,
+              trade_session_id:  current_milkrun.trade_session_id,
+              sell_commodity_id: sell_commodity.id,
+              sell_commodity_scu: sell_commodity_scu,
+              commodity_name: current_milkrun.commodity_name,
+              sell_commodity_price: params[:milk_run][:sell_commodity_price].to_i, 
+              sell_location: sell_location,    
+              profit: profit, 
+              used_scu: sell_commodity_scu,
+            )
+
+            current_milkrun.update!(              
+              buy_commodity_scu: buy_commodity_scu - sell_commodity_scu, 
+              used_scu: used_scu,               
+              updated_at: Time.now
+            )
+
+          else
+
               current_milkrun.update!(
                 sell_commodity_id: sell_commodity.id,
-                sell_commodity_scu: params[:milk_run][:sell_commodity_scu].to_i,
+                sell_commodity_scu: sell_commodity_scu,
                 sell_commodity_price: params[:milk_run][:sell_commodity_price].to_i, 
                 sell_location: sell_location,          
                 used_scu: used_scu, 
                 profit: profit, 
                 updated_at: Time.now
               )
+
+          end
 
               percent_change = ((params[:milk_run][:sell_commodity_price].to_f - sell_commodity.buy) / sell_commodity.buy) * 100                            
               out_of_family = percent_change.abs >= 10       
