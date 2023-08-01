@@ -14,6 +14,7 @@ class StarBitizenController < ApplicationController
     render json: { capital: '30000 ERROR' }, status: 500
   end
 
+  
   def sell_trade
     @sell_commodity = find_sell_commodity
     records_exist = @sell_commodity.present?
@@ -45,8 +46,15 @@ class StarBitizenController < ApplicationController
             if existing_run.present? 
                 existing_run.destroy_all
             end
+
+            begin
+              StarBitizenRun.create!(twitch_channel: twitch_channel, commodity_id: buy_commodity.id, user_id: to_user.id, profit: total_profit, scu: actual_removed)
+            rescue => e
+              Sentry.capture_exception(e, extra: { twitch_channel: twitch_channel, user_id: to_user.id })
+              raise e
+            end
             
-            StarBitizenRun.create(twitch_channel: twitch_channel, commodity_id: buy_commodity.id, user_id: to_user.id, profit: total_profit, scu: actual_removed)          
+            #StarBitizenRun.create(twitch_channel: twitch_channel, commodity_id: buy_commodity.id, user_id: to_user.id, profit: total_profit, scu: actual_removed)          
             response = {capital:  capital }
         else
             response = {capital:  'insufficient_funds' }
@@ -56,7 +64,7 @@ class StarBitizenController < ApplicationController
     else
         response = {capital:  'invalid' }
     end
-
+    puts "outputting failure"
     return response.to_json
 end
 
@@ -99,7 +107,7 @@ end
     @starbits = @json_request["starbits"].to_i
     @trade_locations = Location.where(trade_terminal:true)
     player_name = @json_request["player_name"]    
-    @twitch_channel = @json_request["twitch_channel"].to_i
+    @twitch_channel = @json_request["twitch_channel"]
     from_location_string = @json_request["from_location"]
     from_location = @trade_locations.search_for(from_location_string).first&.name
     
@@ -125,9 +133,11 @@ end
 
   def find_current_run
     player_name = @json_request["player_name"]
+    
     to_user_id = User.where("username ILIKE ?", player_name).first.id
     @twitch_channel = @json_request["twitch_channel"].to_i
     StarBitizenRun.find_by(user_id: to_user_id, twitch_channel: @twitch_channel, profit: 0)
+    
   end
 
   def fetch_or_create_user(player_name)
