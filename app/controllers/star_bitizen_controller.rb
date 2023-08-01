@@ -6,7 +6,8 @@ class StarBitizenController < ApplicationController
     setup_trade_variables        
     records_exist = @buy_commodity.present? && @sell_commodity.present?
     
-    response = handle_buy_trade(records_exist, @buy_commodity, @total_units, @to_user, @starbits)
+    response = handle_buy_trade(records_exist, @buy_commodity, @twitch_channel, @total_units, @to_user, @starbits)
+    
     render json: response
   rescue => e
     logger.error "Exception in buy_trade: #{e.message}"
@@ -23,7 +24,7 @@ class StarBitizenController < ApplicationController
 
   private
 
-  def handle_buy_trade(records_exist, buy_commodity, total_units, to_user, starbits)
+  def handle_buy_trade(records_exist, buy_commodity, twitch_channel, total_units, to_user, starbits)
     response = {capital:  '30000 ERROR'}
     
     if records_exist && buy_commodity.inventory > 0
@@ -32,7 +33,7 @@ class StarBitizenController < ApplicationController
 
         # Now calculate the capital
         capital = buy_commodity.sell.to_i * actual_removed
-
+        
         if capital <= starbits
             buy_commodity_inventory = buy_commodity.decrement!(:inventory, actual_removed)    
             buy_commodity.save
@@ -44,7 +45,8 @@ class StarBitizenController < ApplicationController
             if existing_run.present? 
                 existing_run.destroy_all
             end
-            StarBitizenRun.create(commodity_id: buy_commodity.id, user_id: to_user.id, profit: total_profit, scu: actual_removed)          
+            
+            StarBitizenRun.create(twitch_channel: twitch_channel, commodity_id: buy_commodity.id, user_id: to_user.id, profit: total_profit, scu: actual_removed)          
             response = {capital:  capital }
         else
             response = {capital:  'insufficient_funds' }
@@ -96,7 +98,8 @@ end
     @commodity_name = @json_request["commodity"]
     @starbits = @json_request["starbits"].to_i
     @trade_locations = Location.where(trade_terminal:true)
-    player_name = @json_request["player_name"]
+    player_name = @json_request["player_name"]    
+    @twitch_channel = @json_request["twitch_channel"].to_i
     from_location_string = @json_request["from_location"]
     from_location = @trade_locations.search_for(from_location_string).first&.name
     
@@ -110,6 +113,7 @@ end
     @total_units = @json_request["total_units"].to_i
     
     @to_user = fetch_or_create_user(player_name)    
+    
   end
 
   def find_sell_commodity    
@@ -122,7 +126,8 @@ end
   def find_current_run
     player_name = @json_request["player_name"]
     to_user_id = User.where("username ILIKE ?", player_name).first.id
-    StarBitizenRun.find_by(user_id: to_user_id, profit: 0)
+    @twitch_channel = @json_request["twitch_channel"].to_i
+    StarBitizenRun.find_by(user_id: to_user_id, twitch_channel: @twitch_channel, profit: 0)
   end
 
   def fetch_or_create_user(player_name)
