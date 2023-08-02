@@ -13,7 +13,8 @@ gem 'nokogiri'
 gem 'nokogiri-styles'
 gem "watir-rails"
 gem 'discordrb'
-gem 'twitch-api'
+#gem 'twitch-api', '~> 0.4.0' # use a version compatible with faraday version 2.0 if available
+gem 'twitch_oauth2', '~> 0.5.0' 
 gem 'rack-cors'
 gem 'pg_search'
 

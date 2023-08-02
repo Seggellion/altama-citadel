@@ -38,6 +38,12 @@ end
     end
 end
 
+def total_star_bitizen_runs
+
+  StarBitizenRun.where(twitch_channel:self.twitch_id).count
+
+end
+
 def isAdmin?
   if self.user_type == 0
     return true

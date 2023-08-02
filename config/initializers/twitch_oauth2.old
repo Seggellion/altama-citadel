@@ -1,0 +1,21 @@
+client = TwitchOAuth2::Client.new(
+  client_id: ENV['TWITCH_CLIENT_ID'],
+  client_secret: ENV['TWITCH_CLIENT_SECRET'],
+  redirect_uri: ENV['TWITCH_REDIRECT_URI']
+)
+
+# If you have an access_token and refresh_token, initialize the tokens object like this:
+tokens = TwitchOAuth2::Tokens.new(
+  client: client,
+  access_token: 'your_access_token',
+  refresh_token: 'your_refresh_token',
+  token_type: :user,
+  scopes: %w[user:read:email bits:read]
+)
+
+# If you don't have an access_token and refresh_token yet, you could initialize the tokens object without them like this:
+# tokens = TwitchOAuth2::Tokens.new(client: client, token_type: :user)
+
+
+
+

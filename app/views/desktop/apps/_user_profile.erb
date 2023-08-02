@@ -25,7 +25,10 @@ No money
 <h4>Fame:<%= current_user.fame | 0 %> </h4>
 <h4>OrgTitle:<%= current_user.org_title %> </h4>
 <h4>User_Level: <%= current_user.user_type_text %> </h4>
-
+<% if current_user.twitch_username %>
+<h4><a href="https://twitch.tv/<%= current_user.twitch_username %>" target="_blank">Twitch Channel: <%= current_user.twitch_username %> </a></h4>
+<h4>Total Star Bitizen Runs: <%= current_user.total_star_bitizen_runs || 0 %></h4>
+<% end %>
 
 </div>
 
@@ -37,6 +40,8 @@ No money
 <% end %>
 <%= button_to "View Badges", my_badges_path, method: :get, class: "button-class" %>
 <%= button_to "RSI Verify", rsi_activate_path, method: :get, class: "button-class" %>
+<%= link_to "Twitch Verify", twitch_redirect_path(username: current_user.username), class: "button-class" %>
+
 <%= button_to "Sync AltamaDB", sync_altama_path, method: :get, class: "button-class" %>
 
 <hr>

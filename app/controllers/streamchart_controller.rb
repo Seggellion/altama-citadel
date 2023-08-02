@@ -23,9 +23,16 @@ class StreamchartController < ApplicationController
     def star_bitizen_runs_data
       profits = StarBitizenRun.all.joins(:user).group('users.username').sum(:profit)
       runs = StarBitizenRun.all.joins(:user).group('users.username').count
-      render json: { profits: profits, runs: runs }
+      #channel = StarBitizenRun.all.joins(:channel).group('users.username').count
+      render json: { profits: profits, runs: runs, channels: channels }
     end
     
+    def star_bitizen_twitch_data
+      profits = StarBitizenRun.all.joins(:user).group('users.username').sum(:profit)
+      runs = StarBitizenRun.all.joins(:user).group('users.username').count
+      #channel = StarBitizenRun.all.joins(:channel).group('users.username').count
+      render json: { profits: profits, runs: runs, channels: channels }
+    end
   
     def traderun_profits
          

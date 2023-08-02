@@ -1,6 +1,26 @@
 class ApplicationController < ActionController::Base
  # rescue_from StandardError, with: :handle_error if Rails.env.production?
 
+
+ # before_action :set_user_session
+
+# default devise stuff from chatgpt
+
+ # before_action :authenticate_user!
+
+ helper_method :current_user, :user_signed_in?
+ 
+ def current_user  
+  
+   @current_user ||= User.find_by(username: session[:username]) if session[:username]
+ end
+ 
+ def user_signed_in?
+   current_user.present?
+ end
+
+ ## end default devise stuff
+
   #error handler
   def fetch_log_data
     log_file_path = Rails.root.join('log', "#{Rails.env}.log")
@@ -17,8 +37,10 @@ class ApplicationController < ActionController::Base
 
 
   def require_login
+    
     Rails.logger.debug "Current User: #{current_user.inspect}"
     unless current_user
+      
       Rails.logger.debug "No current user, redirecting to root_url"
       redirect_to root_url
     end
@@ -47,5 +69,12 @@ class ApplicationController < ActionController::Base
         
     end
 
+    private
 
+    def set_user_session
+      if current_user
+        
+        session[:username] = current_user.username
+      end
+    end
 end

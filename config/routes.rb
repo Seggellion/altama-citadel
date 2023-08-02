@@ -196,6 +196,9 @@ Rails.application.routes.draw do
   get 'unvote', to: 'guildstones#unvote'
   get 'accept_nomination', to: 'position_nominations#accept'
   get 'reject_nomination', to: 'position_nominations#reject'
+  
+  get '/twitch/verify', to: 'users#twitch_verify'
+  get '/twitch/redirect', to: 'users#twitch_redirect'
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
   post 'authenticate', to: 'users#auth', as: :auth
   post 'verify', to: 'users#verify', as: :verify
