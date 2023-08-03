@@ -176,10 +176,12 @@ Rails.application.routes.draw do
   get 'milkruns_streamchart', to: 'streamchart#milk_run_profits'
   get 'traderuns_streamchart', to: 'streamchart#trade_run_profits'
   get 'star_bitizen_chart', to: 'streamchart#star_bitizen'
-  
+  get 'star_bitizen_chart_twitch/:twitch_username', to: 'streamchart#star_bitizen_twitch', as: 'star_bitizen_chart_twitch'
   
   get 'milkrun_profits', to: 'streamchart#milkrun_profits'
   get 'star_bitizen_runs_data', to: 'streamchart#star_bitizen_runs_data'
+  get 'star_bitizen_chart_twitch_data/:twitch_id', to: 'streamchart#star_bitizen_twitch_data'
+  
   get 'traderun_profits', to: 'streamchart#traderun_profits'
 
   get 'traderun/:username', to: 'trade_sessions#trade_runs', as: :traderun

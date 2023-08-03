@@ -58,26 +58,27 @@ class Commodity < ApplicationRecord
     def self.find_sell_locations(title)
       commodity_list = Commodity.where(name: title)
                                 .where('sell > ?', 0)
-                                .order(updated_at: :desc)
-      commodity_list = Commodity.find_by_sql("
-        SELECT DISTINCT ON (location) *
-        FROM (#{commodity_list.to_sql}) AS commodities
-        ORDER BY location, updated_at DESC
-      ")
+                                .order(sell: :desc)
+                        commodity_list = Commodity.find_by_sql("
+                        SELECT *
+                        FROM (#{commodity_list.to_sql}) AS commodities
+                        ORDER BY commodities.sell DESC, commodities.location DESC
+                        ")
       commodity_list
     end
     
     def self.find_buy_locations(title)
       commodity_list = Commodity.where(name: title)
-                                .where('buy > ?', 0)
-                                .order(updated_at: :desc)
+        .where('buy > ?', 0)
+        .order(buy: :asc)
       commodity_list = Commodity.find_by_sql("
-        SELECT DISTINCT ON (location) *
-        FROM (#{commodity_list.to_sql}) AS commodities
-        ORDER BY location, updated_at DESC
+      SELECT *
+      FROM (#{commodity_list.to_sql}) AS commodities
+      ORDER BY commodities.buy DESC, commodities.location DESC
       ")
       commodity_list
     end
+    
     
     
 

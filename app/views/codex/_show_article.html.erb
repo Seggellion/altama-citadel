@@ -33,6 +33,18 @@
                     <th>Commodity</th>
                     <th></th>
                 </tr>
+  
+                <tr>
+                    <td><strong>Sell</strong></td>
+                </tr>
+<tr><td></td><td></td></tr>
+                <% Commodity.sell_by_location(@article.location).each do |commodity| %>
+                    <tr>
+                        <td><%= commodity.name %></td>
+                        <td><%= commodity.sell %></td>
+                    </tr>
+                <% end %>
+
                 <tr>
                 <td>Buy</td>
                 </tr>
@@ -43,16 +55,6 @@
                     </tr>
                 <% end %>
 
-                <tr>
-                    <td>Sell</td>
-                </tr>
-
-                <% Commodity.sell_by_location(@article.location).each do |commodity| %>
-                    <tr>
-                        <td><%= commodity.name %></td>
-                        <td><%= commodity.sell %></td>
-                    </tr>
-                <% end %>
             </table>
 
         </div>
@@ -67,9 +69,26 @@
                 <th>Locations</th>
                 <th></th>
             </tr>
+
             <tr>
-            <td>Buy</td>
+            <td><strong>Sell</strong></td>
+        </tr>
+<tr>
+<td></td><td></td>
+</tr>
+        <% Commodity.find_sell_locations(@article.title).each do |commodity| %>
+            <tr>
+                <td><%= commodity.location %></td>
+                <td><%= commodity.sell %></td>
             </tr>
+        <% end %>
+
+            <tr>
+            <td><strong>Buy</strong></td>
+            </tr>
+            <tr>
+<td></td><td></td>
+</tr>
             <% Commodity.find_buy_locations(@article.title).each do |commodity| %>
                 <tr>
                     <td><%= commodity.location %></td>
@@ -77,16 +96,7 @@
                 </tr>
             <% end %>
 
-            <tr>
-                <td>Sell</td>
-            </tr>
 
-            <% Commodity.find_sell_locations(@article.title).each do |commodity| %>
-                <tr>
-                    <td><%= commodity.location %></td>
-                    <td><%= commodity.sell %></td>
-                </tr>
-            <% end %>
         </table>
 
     </div>

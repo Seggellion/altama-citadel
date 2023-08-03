@@ -110,6 +110,9 @@ class MilkRunsController < ApplicationController
               #this should be placed below within the else statement to prevent certain entries
               sell_commodity.update(buy: params[:milk_run][:sell_commodity_price], updated_at: Time.now)
 
+              current_milkrun.user.give_karma(200)
+                current_milkrun.user.give_fame(200)
+
                 if out_of_family 
                     CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy_price: params[:milk_run][:sell_commodity_price], flagged:true)
                 else

@@ -7,15 +7,18 @@ export default class extends Controller {
   static targets = ["canvas"];
 
   connect() {
+    
     this.initializeChart()
-    this.tradeSessionId = this.element.dataset.tradeSessionId;
-
-    fetch(`/star_bitizen_runs_data`)
+    //this.tradeSessionId = this.element.dataset.tradeSessionId;
+    this.twitch_id = this.element.dataset.twitch_id;
+  
+    
+    fetch(`/star_bitizen_chart_twitch_data/${this.twitch_id}`)
       .then(response => response.json())
       .then(data => {
         this.updateChart(data)
       })
-      
+    
     this.subscribeToChannel()
   }
 
@@ -133,7 +136,8 @@ export default class extends Controller {
   
 
   subscribeToChannel() {
-    this.StarBitizenSubscription = createConsumer().subscriptions.create({ channel: "StarBitizenTwitchChannel", twitch_channel: this.tradeSessionId }, {
+    
+    this.StarBitizenSubscription = createConsumer().subscriptions.create({ channel: "StarBitizenTwitchChannel", twitch_id: this.twitch_id }, {
         received: this.received.bind(this)
       });
   }
@@ -149,7 +153,7 @@ export default class extends Controller {
 
   disconnect() {
     if (this.StarBitizenSubscription) {
-        createConsumer().subscriptions.remove(this.StarBitizenSubscription)
+        createConsumer().subscriptions.remove(this.StarBitizenTwitchSubscription)
       }
   }
 

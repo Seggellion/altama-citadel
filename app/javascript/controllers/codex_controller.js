@@ -31,6 +31,19 @@ console.log('loaded');
     
   }
 
+  updateSaveButtonVisibility() {
+    const locationId = document.querySelector("#article_location_id").value;
+    const parentId = document.querySelector("#article_parent_location_id").value;
+    const locationType = document.querySelector("#article_location_type").value;
+  
+    const saveButton = document.querySelector('.codex-center-viewport input[type="submit"]');
+    
+    if (locationId && parentId && locationType) {
+      saveButton.classList.remove('hidden');
+    } else {
+      saveButton.classList.add('hidden');
+    }
+  }
 
 article_type(event){
   const selectors = {
@@ -44,62 +57,33 @@ article_type(event){
   const removeHiddenClasses = selectors[event.target.value] || [];
   const addHiddenClasses = selectors['none'].filter(selector => !removeHiddenClasses.includes(selector));
 
-  if (event.target.value === "location") {
-    addHiddenClasses.push('.codex-center-viewport input[type="submit"]');
-  } else {
-    removeHiddenClasses.push('.codex-center-viewport input[type="submit"]');
-  }
-
   removeHiddenClasses.forEach(selector => document.querySelector(selector)?.classList.remove('hidden'));
   addHiddenClasses.forEach(selector => document.querySelector(selector)?.classList.add('hidden'));
+  this.updateSaveButtonVisibility();
 }
 
 new_location(event){
   if (event.target.value === ""){
     document.querySelector("#article_parent_location_id").classList.remove('hidden');
-    document.querySelector("#article_location_type").classList.remove('hidden'); 
- //   document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
-  }else{
+    document.querySelector("#article_location_type").classList.remove('hidden');    
+  } else {
     document.querySelector("#article_parent_location_id").classList.add('hidden');
-    document.querySelector("#article_location_type").classList.add('hidden'); 
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
+    document.querySelector("#article_location_type").classList.add('hidden');  
   }
+
+  this.updateSaveButtonVisibility(); 
 }
 
 require_location(event){
-  if (event.target.value === ""){
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
-  }else{
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
-  }
+  this.updateSaveButtonVisibility();
 }
-select_parent(event){
-  if (event.target.value === ""){    
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
-  }else{    
 
-    if( document.querySelector("#article_location_type").value !== ""  ){
-      document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
-    }else{
-      document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
-    }
-//    document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
-  }
+select_parent(event){
+  this.updateSaveButtonVisibility();
 }
 
 location_type(event){
-  if (event.target.value === ""){    
-    document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
-  }else{    
-
-    if( document.querySelector("#article_parent_location_id").value !== ""  ){
-      document.querySelector('.codex-center-viewport input[type="submit"]').classList.remove('hidden');    
-    }else{
-      document.querySelector('.codex-center-viewport input[type="submit"]').classList.add('hidden');    
-    }
-
-    
-  }
+  this.updateSaveButtonVisibility();
 }
 
 find_people(event){
@@ -183,6 +167,7 @@ find_commodity(event){
     
   //  this.submenuTarget.hidden = true;
   }
+
 
   
 }
