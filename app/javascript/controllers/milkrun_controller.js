@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["commodity", "location", "buyScu", "buyPrice", "capital", "sellScu", "profit", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector", "formType",
    "milkRunData","commodityField", "locationField", "sellScuField", "sellPriceField", "profitPerScuField", "formTypeField", "SellIdField", "BuyIdField", "buyCommoditySelector",
-  "BuyCommodityIdField", "BuyCommodityPriceField", "buyLocationField", "buyLocationSelector", "userIdSelector", "userIdField", "buyCommodityField","buyScuField",
+  "BuyCommodityIdField", "BuyCommodityPriceField", "buyLocationField", "buyLocationSelector", "userIdSelector", "userIdField","userIdSellField", "buyCommodityField","buyScuField",
 "buyShipSelector","shipIdField","profitField"]
 
   // static targets = ["commodity", "location", "profit", "scu", "sellPrice", "profitPerScu", "commoditiesData", "commoditySelector"]
@@ -34,7 +34,9 @@ export default class extends Controller {
    
     this.updateMaxScu(event);
     this.updateLocations(selectedCommodity);
-    
+    if (this.hasUserIdSellFieldTarget) {      
+      this.userIdSellFieldTarget.value = event.target.selectedOptions[0].dataset.user_id;    
+    }
   }
 
   updateMaxScu(event){

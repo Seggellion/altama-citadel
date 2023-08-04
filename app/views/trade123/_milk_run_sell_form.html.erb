@@ -24,7 +24,7 @@
             <option value="">Select Commodity</option>
             <% @commodities_for_sell.each do |commodity| %>
               
-              <option value="<%= commodity.id %>"><%= commodity.username %> - <%= commodity.name %></option>
+              <option data-user_id="<%= commodity.user_id %>" value="<%= commodity.id %>"><%= commodity.username %> - <%= commodity.name %></option>
             <% end %>
           </select>
           </span>
@@ -84,6 +84,7 @@
       <%= f.hidden_field :sell_commodity_scu, data: { milkrun_target: 'sellScuField' } %>
       <%= f.hidden_field :sell_commodity_price, data: { milkrun_target: 'sellPriceField' } %>
       <%= f.hidden_field :profit, data: { milkrun_target: 'profitField' } %>
+      <%= f.hidden_field :user_id, data: { milkrun_target: 'userIdSellField' } %>
       
       <%= f.hidden_field :form_type, value: "sell", 'data-milkrun-target': 'formTypeField'%>
       <%= f.hidden_field :buy_commodity_id, data: { milkrun_target: 'BuyIdField' } %>
