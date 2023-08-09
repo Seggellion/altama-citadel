@@ -58,13 +58,13 @@ export default class extends Controller {
   
   updateLocations(selectedCommodity) {
     let validLocations;
-   
+    
    // FORM TYPE IS invalid!
     if (this.formType === 'buy') {
       validLocations = this.commodities
         .filter(c => c.name == selectedCommodity.name && c.sell > 0)
         .map(c => {
-          const locationData = this.locationsData.find(l => l.name == c.location);
+          let locationData = this.locationsData.find(l => l.name == c.location);
           return {
             name: `${locationData.parent} | ${c.location}`,
             id: c.id
@@ -75,7 +75,10 @@ export default class extends Controller {
       validLocations = this.commodities
         .filter(c => c.name == selectedCommodity.name && c.buy > 0)
         .map(c => {
-          const locationData = this.locationsData.find(l => l.name == c.location);
+          
+          let locationData = this.locationsData.find(l => l.name == c.location);
+          console.log(locationData);
+          debugger;
           return {
             name: `${locationData.parent} | ${c.location}`,
             id: c.id

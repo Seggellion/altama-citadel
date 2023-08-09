@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: altama_citadel_development
+  database: altama_citadel_development_new
 #  username: linux_user
 #  password: linux_user
 #  port: 5432
