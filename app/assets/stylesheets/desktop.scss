@@ -10,6 +10,9 @@ color:black;
 a:hover{
      cursor: asset-url('Cursor_15.cur'), auto;
 }
+body{
+    margin:0px;
+}
 #task_manager{
     width:300px;
     height:300px;
@@ -198,7 +201,8 @@ a:hover{
     height:100vh;
     background-color:blue;
     color:white;
-    padding-top: 10px;
+    padding: 10px;
+
     .bsod-link{
         color:white;
         &:hover{
