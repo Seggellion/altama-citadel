@@ -67,7 +67,7 @@ open_state = "trade123|trade_session-#{TradeSession.last.id}"
     def update
       
 
-        if @trade_session.session_users != trade_session_params[:session_users]
+      if @trade_session.session_users != trade_session_params[:session_users]
             # Split the input string by commas to get an array of usernames
             input_usernames = trade_session_params[:session_users].split(',')
 
@@ -92,13 +92,18 @@ open_state = "trade123|trade_session-#{TradeSession.last.id}"
             
 
           updated_usernames = users.map(&:username).join(',')
-            @trade_session.update(session_users: updated_usernames)
-
+          if @trade_session.update(session_users: updated_usernames)
+            redirect_to root_path
+        else
+            error = "Failed to update TradeSession: " + @trade_session.errors.full_messages.join(', ')
+            task = Task.where(task_manager_id: @task_manager.id).where("state LIKE ?", "%trade123%").first
+            task.memo(memo_type: "error", memo_text:error)
+            redirect_to root_path
         end
-
-        
+    else
         redirect_to root_path
-        
+    end
+
       end
     
 

@@ -33,6 +33,7 @@
     <%= f.hidden_field :commodity_name, data: { milkrun_target: 'commodityField' } %>
     <%= f.hidden_field :sell_location, data: { milkrun_target: 'locationField' } %>
     <%= f.hidden_field :sell_commodity_scu, data: { milkrun_target: 'sellScuField' } %>
+    <%= f.hidden_field :public_user_name, value: params[:username]  %>
     <%= f.hidden_field :sell_commodity_price, data: { milkrun_target: 'sellPriceField' } %>
     <%= f.hidden_field :profit, data: { milkrun_target: 'profitField' } %>
     <%= f.hidden_field :public, value: true  %>

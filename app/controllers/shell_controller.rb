@@ -27,6 +27,7 @@ end
 def traderun_command_entry
   @task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Altama Shell")
   command = params[:format]
+  
   case command
   when "Enter"    
     @task.update(state:'trade123')
@@ -47,7 +48,9 @@ def traderun_command_entry
   when "quit"
     @task.update(state:nil)
   end
+  
   redirect_to root_path
+  
 end
 
 def command_entry

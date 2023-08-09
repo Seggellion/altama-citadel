@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_01_231344) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_09_021733) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -210,6 +210,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_231344) do
     t.string "keyword_required"
     t.integer "event_series_id"
     t.boolean "open"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "friend_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
   create_table "giveaway_users", force: :cascade do |t|
@@ -561,7 +571,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_231344) do
     t.datetime "updated_at", null: false
     t.datetime "session_date"
     t.integer "owner_id"
-    t.string "session_users", default: "f"
+    t.string "session_users"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -638,6 +648,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_231344) do
     t.string "online_status"
     t.string "twitch_username"
     t.integer "twitch_id"
+    t.integer "asl_number"
+    t.index ["asl_number"], name: "index_users_on_asl_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
@@ -683,6 +695,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_01_231344) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "transactions", "users", column: "receiver_id"
   add_foreign_key "transactions", "users", column: "sender_id"
 end

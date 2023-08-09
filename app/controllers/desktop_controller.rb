@@ -94,6 +94,8 @@ end
     .order("COUNT(commodity_stubs.id) DESC")
     .select("users.id as user_id", "users.username", "COUNT(commodity_stubs.id) as total_commodities")
 
+    @leaderboard_data_false = @leaderboard_data_false.reject { |user| user.total_commodities.zero? }
+    @leaderboard_data_true = @leaderboard_data_true.reject { |user| user.total_commodities.zero? }
 
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end

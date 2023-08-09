@@ -41,6 +41,8 @@ class MilkRunsController < ApplicationController
     @trade_session_id = @milk_run_params[:trade_session_id]
     @buy_commodity_id = @milk_run_params[:buy_commodity_id]
     @milk_run_username = @milk_run_params[:user_name]
+    @milk_run_user_id = @milk_run_params[:user_id]
+    @milk_run_public_username = @milk_run_params[:public_user_name]
   end
 
   def handle_buy_commodity
@@ -67,7 +69,13 @@ class MilkRunsController < ApplicationController
     if @milk_run_username
       fetch_or_create_user(@milk_run_username)
     else
-      username = User.find_by_id(@milk_run_params[:user_id]).username
+
+      if @milk_run_params[:public_user_name]
+        username =  @milk_run_public_username
+      else
+        username = User.find_by_id(@milk_run_params[:user_id]).username
+      end
+      
       fetch_or_create_user(username)
     end
     
@@ -104,8 +112,8 @@ class MilkRunsController < ApplicationController
     profit = sell_total - buy_total
   
     percent_change = ((@milk_run_params[:sell_commodity_price].to_f - sell_commodity.buy) / sell_commodity.buy) * 100                            
-  
-    if out_of_family?(@milk_run_params[:sell_commodity_price], sell_commodity.sell) && current_user.user_type != 0
+    
+    if out_of_family?(@milk_run_params[:sell_commodity_price], sell_commodity.buy) && current_user&.user_type != 0
       CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy_price: @milk_run_params[:sell_commodity_price], flagged: true)
       current_milkrun.user.take_karma(1000)
       if current_milkrun.user.karma < -5000
@@ -153,6 +161,7 @@ class MilkRunsController < ApplicationController
   end
 
   def update_milkrun_for_full_sell(current_milkrun, sell_commodity, sell_location, used_scu, profit)
+    
     current_milkrun.update!(
       sell_commodity_id: sell_commodity.id,
       sell_commodity_scu: @milk_run_params[:sell_commodity_scu].to_i,
@@ -171,7 +180,7 @@ class MilkRunsController < ApplicationController
       percent_change = ((@milk_run_params["buy_commodity_price"].to_f - buy_commodity.sell) / buy_commodity.sell) * 100
       out_of_family = percent_change.abs >= 6.5
   
-      if out_of_family?(@milk_run_params["buy_commodity_price"], buy_commodity.sell) && current_user.user_type != 0
+      if out_of_family?(@milk_run_params["buy_commodity_price"], buy_commodity.sell) && current_user&.user_type != 0
         CommodityStub.create!(user_id: user.id, commodity_id: buy_commodity.id, buy_price: @milk_run_params["buy_commodity_price"], flagged: true)
         current_user.take_karma(1000)
         if current_user.karma < -5000
@@ -193,15 +202,20 @@ class MilkRunsController < ApplicationController
           used_scu: ship_scu,             
           updated_at: Time.now
         )
-        current_user.give_karma(200)
-        current_user.give_fame(200)
+          unless current_user
+            current_user = user
+          end
+          current_user.give_karma(200)
+          current_user.give_fame(200)
+
         CommodityStub.create!(user_id: user.id, commodity_id: buy_commodity.id, buy_price: @milk_run_params["buy_commodity_price"])
       end
     end
   end
   
 
-  def out_of_family?(price, base_price)
+  def out_of_family?(price, base_price)    
+    
     percent_change = (price.to_f - base_price) / base_price * 100
     percent_change.abs >= OUT_OF_FAMILY_THRESHOLD
   end
