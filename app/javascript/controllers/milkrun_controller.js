@@ -18,6 +18,7 @@ export default class extends Controller {
     this.commoditiesData  = document.getElementById('commodities-data').dataset.commodities;
     this.shipsData = JSON.parse(document.getElementById('ships-data').dataset.ships);
     this.milk_runsData = JSON.parse(document.getElementById('milkruns-data').dataset.milkRuns);
+    this.sellScuTarget.addEventListener('input', this.handleInputChange.bind(this));
 
   }
   
@@ -40,20 +41,22 @@ export default class extends Controller {
     }
   }
 
-  updateMaxScu(event){
+  updateMaxScu(event) {
     const selectedCommodityId = event.target.value;
-    const selectedCommodity = this.commodities.find(c => c.id == selectedCommodityId);    
+    const selectedCommodity = this.commodities.find(c => c.id == selectedCommodityId);
 
-    const buyCommodityScu = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name && m.sell_commodity_id == null ).buy_commodity_scu
-    
-    this.sellScuTarget.max = buyCommodityScu;
-    
-    this.sellScuTarget.addEventListener('input', (e) => {
-      if (e.target.value > buyCommodityScu) {
-        e.target.value = buyCommodityScu;
-      }
-    });
+    this.currentMaxScu = this.milk_runsData.find(m => m.commodity_name == selectedCommodity.name && m.sell_commodity_id == null).buy_commodity_scu;
+
+    this.sellScuTarget.max = this.currentMaxScu;
+    console.log('currentMaxScu', this.currentMaxScu);
+}
+
+handleInputChange(event) {
+  if (event.target.value > this.currentMaxScu) {
+      console.log('currentMaxScu-type', this.currentMaxScu);
+      event.target.value = this.currentMaxScu;
   }
+}
   
   
   updateLocations(selectedCommodity) {
@@ -76,9 +79,7 @@ export default class extends Controller {
         .filter(c => c.name == selectedCommodity.name && c.buy > 0)
         .map(c => {
           
-          let locationData = this.locationsData.find(l => l.name == c.location);
-          
-          
+          let locationData = this.locationsData.find(l => l.name == c.location);                    
           return {
             name: `${locationData.parent} | ${c.location}`,
             id: c.id
@@ -199,7 +200,7 @@ export default class extends Controller {
 
   locationChanged(event) {
     const locationName = event.target.value
-    console.log('locationName', locationName);
+    
     
     const options = this.commodities
       .filter(commodity => commodity.location == locationName && commodity.sell > 0)
