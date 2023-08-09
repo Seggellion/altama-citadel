@@ -1,5 +1,6 @@
 class MilkRunsController < ApplicationController
   before_action :set_milk_run_params, only: [:create]
+  OUT_OF_FAMILY_THRESHOLD = 6.5
 
   def new
     @milk_run = MilkRun.new
@@ -48,7 +49,7 @@ class MilkRunsController < ApplicationController
     user = find_user
     existing_milkrun = find_existing_milkrun(user.id)
     
-    create_milk_run_and_update_commodity(user, 'buy', ship_scu) unless existing_milkrun
+    create_milk_run_and_update_buy_commodity(user, ship_scu) unless existing_milkrun
   end
 
   def handle_sell_commodity
@@ -103,13 +104,15 @@ class MilkRunsController < ApplicationController
     profit = sell_total - buy_total
   
     percent_change = ((@milk_run_params[:sell_commodity_price].to_f - sell_commodity.buy) / sell_commodity.buy) * 100                            
-    out_of_family = percent_change.abs >= 6.5 
   
-    if out_of_family
+    if out_of_family?(@milk_run_params[:sell_commodity_price], sell_commodity.sell) && current_user.user_type != 0
       CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy_price: @milk_run_params[:sell_commodity_price], flagged: true)
-      current_milkrun.user.take_karma(1000)    
+      current_milkrun.user.take_karma(1000)
+      if current_milkrun.user.karma < -5000
+        current_milkrun.user.update(user_type:9001)
+      end
     else
-      sell_commodity.update(buy: @milk_run_params[:sell_commodity_price], updated_at: Time.now)
+      sell_commodity.update(buy: @milk_run_params[:sell_commodity_price], sell:0, updated_at: Time.now)
       current_milkrun.user.give_karma(200)
       current_milkrun.user.give_fame(200)
       CommodityStub.create!(user_id: current_milkrun.user_id, commodity_id: sell_commodity.id, buy_price: @milk_run_params[:sell_commodity_price])
@@ -161,35 +164,46 @@ class MilkRunsController < ApplicationController
     )
   end
 
-  def create_milk_run_and_update_commodity(user, trade_type, ship_scu)
-    commodity = Commodity.find_by_id(@buy_commodity_id)
+  def create_milk_run_and_update_buy_commodity(user, ship_scu)
+    buy_commodity = Commodity.find_by_id(@buy_commodity_id)
     
-    if commodity
-      percent_change = ((@milk_run_params["#{trade_type}_commodity_price"].to_f - commodity.sell) / commodity.sell) * 100
+    if buy_commodity
+      percent_change = ((@milk_run_params["buy_commodity_price"].to_f - buy_commodity.sell) / buy_commodity.sell) * 100
       out_of_family = percent_change.abs >= 6.5
   
-      if out_of_family
-        CommodityStub.create!(user_id: user.id, commodity_id: commodity.id, "#{trade_type}_price": @milk_run_params["#{trade_type}_commodity_price"], flagged: true)
+      if out_of_family?(@milk_run_params["buy_commodity_price"], buy_commodity.sell) && current_user.user_type != 0
+        CommodityStub.create!(user_id: user.id, commodity_id: buy_commodity.id, buy_price: @milk_run_params["buy_commodity_price"], flagged: true)
+        current_user.take_karma(1000)
+        if current_user.karma < -5000
+          current_user.update(user_type:9001)
+        end
       else
-        commodity.update("#{trade_type}": @milk_run_params["#{trade_type}_commodity_price"], updated_at: Time.now)
+        buy_commodity.update(sell: @milk_run_params["buy_commodity_price"], buy: 0, updated_at: Time.now)
         
         MilkRun.create!(
           user_id: user.id, 
           usership_id: @milk_run_params[:trade_session_id], 
           trade_session_id: @trade_session_id, 
           commodity_name: @milk_run_params[:commodity_name], 
-          "#{trade_type}_commodity_id": @buy_commodity_id,
-          "#{trade_type}_commodity_scu": @milk_run_params["#{trade_type}_commodity_scu"],
-          "#{trade_type}_commodity_price": @milk_run_params["#{trade_type}_commodity_price"],
-          "#{trade_type}_location": @milk_run_params["#{trade_type}_location"],      
+          buy_commodity_id: @buy_commodity_id,
+          buy_commodity_scu: @milk_run_params["buy_commodity_scu"],
+          buy_commodity_price: @milk_run_params["buy_commodity_price"],
+          buy_location: @milk_run_params["buy_location"],      
           max_scu: ship_scu, 
-          used_scu:  ship_scu,             
+          used_scu: ship_scu,             
           updated_at: Time.now
         )
-        CommodityStub.create!(user_id: user.id, commodity_id: commodity.id, "#{trade_type}_price": @milk_run_params["#{trade_type}_commodity_price"])
+        current_user.give_karma(200)
+        current_user.give_fame(200)
+        CommodityStub.create!(user_id: user.id, commodity_id: buy_commodity.id, buy_price: @milk_run_params["buy_commodity_price"])
       end
     end
-  end  
+  end
   
+
+  def out_of_family?(price, base_price)
+    percent_change = (price.to_f - base_price) / base_price * 100
+    percent_change.abs >= OUT_OF_FAMILY_THRESHOLD
+  end
 
 end

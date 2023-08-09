@@ -80,9 +80,21 @@ end
   @profit_scu_traderuns = []
   current_user.desktop
     @commodity_stubs = CommodityStub.all.order(created_at: :desc)
+    # @leaderboard_data = User.left_joins(:commodity_stubs).group("users.id").order("COUNT(commodity_stubs.id) DESC").select("users.id as user_id", "users.username", "COUNT(commodity_stubs.id) as total_commodities")
+
+    @leaderboard_data_true = User.left_joins(:commodity_stubs)
+    .where(commodity_stubs: { flagged: true })
+    .group("users.id")
+    .order("COUNT(commodity_stubs.id) DESC")
+    .select("users.id as user_id", "users.username", "COUNT(commodity_stubs.id) as total_commodities")
+
+    @leaderboard_data_false = User.left_joins(:commodity_stubs)
+    .where(commodity_stubs: { flagged: [false, nil] })
+    .group("users.id")
+    .order("COUNT(commodity_stubs.id) DESC")
+    .select("users.id as user_id", "users.username", "COUNT(commodity_stubs.id) as total_commodities")
 
 
-  
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end
 

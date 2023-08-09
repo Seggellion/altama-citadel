@@ -1,0 +1,124 @@
+
+<% @grouped_leaderboard_data_false =  @leaderboard_data_false.each_slice(2).to_a %>
+<% if current_user && current_user.isAdmin? %>
+<% @grouped_leaderboard_data_true =  @leaderboard_data_true.each_slice(2).to_a %>
+<% end %>
+<div class="session-title">
+
+
+
+
+<div class="ansi-title">
+    <div class="ansi-border-left"></div>
+    Commodity Update Leaderboard
+    <div class="ansi-border-right"></div>
+</div>
+
+
+</div>
+
+<div class="scoreboard">
+  <ul>
+    <% @grouped_leaderboard_data_false.each do |pair| %>
+      <li class="row">
+        <% pair.each do |user_data| %>
+          <div class="column">
+            <div class="stub-name"><%= user_data.username %></div>
+            <div class="stub-count"><%= user_data.total_commodities %></div>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+    <% if current_user && current_user.isAdmin? %>
+    <% @grouped_leaderboard_data_true.each do |pair| %>
+        <li class="row flagged">
+          <% pair.each do |user_data| %>
+            <div class="column">
+              <div class="stub-name"><%= user_data.username %></div>
+              <div class="stub-count"><%= user_data.total_commodities %></div>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+      <% end %>
+  </ul>
+</div>
+
+<style>
+.scoreboard ul,
+.scoreboard li {
+list-style:none;
+padding:0px;
+margin:0px;
+}
+.session-title{
+    text-align:center;
+}
+
+.flagged{
+    color:red !important;
+}
+
+.scoreboard .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.scoreboard .column {
+    display:flex;
+    justify-content:space-between;
+  flex: 0 0 48%; /* 48% width for each column to add some gap between */
+  box-sizing: border-box;
+}
+
+.ansi-title {
+    
+    display: inline-block;
+    padding: 20px;
+    position: relative;
+    text-shadow: 3px 1px #01d8db;
+    color: black;
+    text-align: center;
+    overflow: hidden;
+}
+
+.ansi-title::before,
+.ansi-title::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><text x='0' y='10' font-family='dos' font-size='16'>▒</text></svg>") repeat-x;
+}
+
+.ansi-title::before {
+    top: 0;
+    left:10px;
+}
+
+.ansi-title::after {
+    bottom: 0;
+    left:10px;
+    width: calc(100% - 20px);
+}
+
+.ansi-border-left,
+.ansi-border-right {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><text x='0' y='10' font-family='dos' font-size='16'>▒</text></svg>") repeat-y;
+}
+
+.ansi-border-left {
+    left: 0;
+    top: 0px;
+}
+
+.ansi-border-right {
+    right: 0;
+    top: 10px;
+}
+
+</style>

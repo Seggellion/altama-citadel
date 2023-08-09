@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :trade_sessions, foreign_key: 'owner_id'
   #has_many :ships, :through => :userships
   has_many :ships, through: :userships, source: :ship, foreign_key: 'model'
-
+  has_many :commodity_stubs
   has_one :task_manager
   has_many :rfas
   has_many :messages
@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   def top_five
     userships = self.userships
-end
+  end
 
   def email_required? 
     false 

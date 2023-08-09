@@ -29,11 +29,20 @@
             StarBitizenRun Data
         </a>      
         </li>
+        <li data-traderun-target="menuItem"  data-action="Scoreboard">
+        <a href="#">
+            Scoreboard
+        </a>      
+        </li>
     </ol>
 </div>
 
     <div class="main-menu new-trade-session hidden" data-traderun-target="newTradeSession">
         <%= render 'trade123/new_trade_session' %>
+    </div>
+
+    <div class="main-menu new-trade-session hidden" data-traderun-target="ScoreBoard">
+        <%= render 'trade123/scoreboard' %>
     </div>
 
     <div class="main-menu existing-trade-session hidden" data-traderun-target="existingTradeSession">

@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [ "entry","field","rowHeader", "tbody", "menu","buyLocation", "buyCommodity", "commoditiesData", "sellLocation",
-   "menuItem", "newTradeSession", "mainMenu","sessionMenu","streamchartMenu","existingTradeSession", "commoditiesTradeRun" ]
+   "menuItem", "newTradeSession", "mainMenu","sessionMenu","streamchartMenu","existingTradeSession", "commoditiesTradeRun","ScoreBoard" ]
   activeIndex = 0;
 
   
@@ -157,6 +157,17 @@ export default class extends Controller {
         
         window.location.href = '/star_bitizen_chart';
 
+      }else if (this.menuItemTargets[this.activeIndex].dataset.action === "Scoreboard") {
+        this.mainMenuTargets.forEach(menu => menu.classList.add("hidden"));
+        document.querySelector('#greeting').classList.add('hidden');  
+                    
+        this.ScoreBoardTarget.classList.remove("hidden");
+        this.fillBackground();        
+        if (inputField) {                 
+          setTimeout(() => {
+            inputField.focus();
+          }, 1000); 
+        }
       }else if (this.menuItemTargets[this.activeIndex].dataset.action === "sessionStreamCharts") {
         
         this.streamchartMenuTarget.classList.remove("hidden");

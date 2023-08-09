@@ -34,6 +34,7 @@ export default class extends Controller {
    
     this.updateMaxScu(event);
     this.updateLocations(selectedCommodity);
+
     if (this.hasUserIdSellFieldTarget) {      
       this.userIdSellFieldTarget.value = event.target.selectedOptions[0].dataset.user_id;    
     }
@@ -80,6 +81,7 @@ export default class extends Controller {
             id: c.id
           };
         });
+        
     }
     
     this.updateSelectOptions(this.locationTarget, validLocations);    
