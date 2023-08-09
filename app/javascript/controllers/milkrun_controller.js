@@ -77,8 +77,8 @@ export default class extends Controller {
         .map(c => {
           
           let locationData = this.locationsData.find(l => l.name == c.location);
-          console.log(locationData);
-          debugger;
+          
+          
           return {
             name: `${locationData.parent} | ${c.location}`,
             id: c.id
