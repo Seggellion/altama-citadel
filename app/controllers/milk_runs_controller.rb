@@ -175,7 +175,7 @@ class MilkRunsController < ApplicationController
 
   def create_milk_run_and_update_buy_commodity(user, ship_scu)
     buy_commodity = Commodity.find_by_id(@buy_commodity_id)
-    
+    current_user = User.find_by_username(session[:username])
     if buy_commodity
       percent_change = ((@milk_run_params["buy_commodity_price"].to_f - buy_commodity.sell) / buy_commodity.sell) * 100
       out_of_family = percent_change.abs >= 6.5
@@ -202,9 +202,12 @@ class MilkRunsController < ApplicationController
           used_scu: ship_scu,             
           updated_at: Time.now
         )
+
+        
           unless current_user
             current_user = user
           end
+          
           current_user.give_karma(200)
           current_user.give_fame(200)
 

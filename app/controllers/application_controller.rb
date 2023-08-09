@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  #rescue_from StandardError, with: :handle_error if Rails.env.production?
+  rescue_from StandardError, with: :handle_error if Rails.env.production?
 
 
  # before_action :set_user_session
