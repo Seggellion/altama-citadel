@@ -13,10 +13,11 @@ class TradeSessionsController < ApplicationController
       # You can handle the situation if the user doesn't exist as you want.
       @user = User.where('lower(username) = lower(?)', params[:username]).first
       @tradeports = Location.where(trade_terminal: true).order('parent ASC')
+      
       if @trade_session&.session_users
         session_usernames = @trade_session.session_users.split(',')
         normalized_session_usernames = session_usernames.map { |username| username.strip.downcase }
-    
+        
         # Check if params[:username] is included in the list
         unless normalized_session_usernames.include?(params[:username].strip.downcase)
           # If the username is not included in the session_users, redirect to the error page
@@ -114,13 +115,13 @@ open_state = "trade123|trade_session-#{TradeSession.last.id}"
   private
 
   def set_trade_session
-    @trade_session = if params[:id].present?
-      TradeSession.find_by(id: params[:id])
+    @trade_session = TradeSession.where("session_users LIKE ?", "%#{params[:username]}%").order(created_at: :desc).first
+    
+    unless @trade_session
+      redirect_to bsod_path, alert: "No trade session found for the given username."
     end
-
-    # Use the last TradeSession if @trade_session is nil
-    @trade_session ||= TradeSession.last
   end
+  
 
     def trade_session_params
       params.require(:trade_session).permit(:user_id, :session_users)
