@@ -212,10 +212,12 @@ Rails.application.routes.draw do
 # ASL portion
 get 'state_asl_message', to: 'asl#state_asl_message'
 get 'asl_add_user', to: 'asl#asl_add_user'
+get 'asl_add_contact', to: 'asl#asl_add_contact'
 get 'state_modals', to: 'tasks#state_modals'
 get 'next_message', to: 'asl#state_asl_message_next'
 get 'prev_message', to: 'asl#state_asl_message_prev'
 get 'new_asl_message', to: 'asl#state_asl_message_new'
+post 'send_friend_request', to: 'asl#send_friend_request'
 #End ASL
 
 

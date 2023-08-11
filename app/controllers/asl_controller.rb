@@ -122,6 +122,47 @@ def state_asl_message_next
     redirect_to root_path
   end
 
+  def asl_add_contact
+    
+    task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
+    @window_states =  []
+    state_name = "asl_add_contact"
+    window_state_csv = task.state
+    unless window_state_csv.nil?
+      @window_states = window_state_csv.split(',')
+    end  
+    unless @window_states.include?(state_name)
+        @window_states = @window_states + Array[state_name]
+    end
+    states_string = @window_states.join(',')
+    
+    task.update(state:states_string)
+    redirect_to root_path
+  end
+
+  def send_friend_request
+    
+    friend = User.find_by(asl_number: params[:asl_number])
+    friend ||= User.find_by(username: params[:username])
+
+    if friend
+        Friendship.create(
+            user_id: current_user.id,
+            friend_id: friend.id,
+            status: "pending",
+            group: params[:group]
+        )
+        
+        # (rest of the code remains unchanged)
+    else
+        render json: { message: "User not found!" }, status: :not_found
+    end
+end
+
+
+
+
+
   private
   def new_message_params
     params.require(:message).permit(:sender_id, :user_id, content)

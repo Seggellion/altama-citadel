@@ -1,0 +1,17 @@
+<div data-controller="asl" style="display: flex;flex-direction: column;">
+<div class="add-contact-top">
+    <div class="add-user-left">
+    <%= image_tag("add_user_banner.png") %>
+    </div>
+    <div class="add-user-right">
+    <%= render '/asl/asl_add_contact_header' %>
+    <%= render '/asl/asl_add_contact_message' %>
+    </div>
+
+</div>
+<hr>
+
+
+<button data-action="click->asl#submitFriendRequest">Next</button>
+
+</div>

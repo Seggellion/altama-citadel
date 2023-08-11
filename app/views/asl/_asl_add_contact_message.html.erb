@@ -1,0 +1,26 @@
+<div class="contact-message">
+Click 'Next' to add the user to your Contact List.
+</div>
+
+
+<div class="group-container">
+<div class="group-header">
+Group Mode - Arrange Users in Groups
+</div>
+<div class="group-form">
+    <div class="group-form-row">
+        <input type="radio" name="group_selection" data-asl-target="existingGroupRadio" data-action="click->asl#toggleGroupSelection">Add user to an existing group
+        <select name="friend_group" data-asl-target="friendGroupSelect" disabled>
+        <option value="General" selected>General</option>
+            <!-- Populate this dropdown with existing friend-groups -->
+        </select>
+    </div>
+
+    <div class="group-form-row">
+        <input type="radio" name="group_selection" data-asl-target="newGroupRadio" data-action="click->asl#toggleGroupSelection">Add user to a new group
+        <input type="text" name="new_friend_group" placeholder="Create a new friend-group" data-asl-target="newFriendGroupInput" disabled />
+    </div>
+</div>
+
+    
+</div>

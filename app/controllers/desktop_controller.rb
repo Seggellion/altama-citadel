@@ -96,6 +96,7 @@ end
 
     @leaderboard_data_false = @leaderboard_data_false.reject { |user| user.total_commodities.zero? }
     @leaderboard_data_true = @leaderboard_data_true.reject { |user| user.total_commodities.zero? }
+    @friendships_by_group = current_user.friendships.includes(:friend).group_by(&:group)
 
 # Discord::Notifier.message('Discord Notifier Webhook Notification')
 end

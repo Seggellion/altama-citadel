@@ -15,7 +15,26 @@
 
         <% end %>
             
+        <% @friendships_by_group.each do |group_name, friendships| %>
+            <div class="contact-seperator">
+            <hr>
+            <%= group_name || "General" %>
+        <hr>
+        </div>
+                <% friendships.each do |friendship| %>
+                    <%= link_to state_asl_message_path(sender: friendship.friend.username), method: :post do %>
+                        <%= show_svg('asl-outline') %><%= friendship.friend.username %>
+                        <% end %>
+                    
+                <% end %>
+            
+        <% end %>
 
+        <div class="contact-seperator">
+        <hr>
+        System
+    <hr>
+    </div>
         <% current_user.past_messages_users.each do |message| %>
         
             

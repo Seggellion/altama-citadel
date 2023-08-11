@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_09_021733) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_11_035415) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -217,6 +217,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_09_021733) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "group"
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
     t.index ["user_id"], name: "index_friendships_on_user_id"
   end
@@ -570,7 +571,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_09_021733) do
     t.datetime "updated_at", null: false
     t.datetime "session_date"
     t.integer "owner_id"
-    t.string "session_users"
+    t.string "session_users", default: "f"
   end
 
   create_table "transactions", force: :cascade do |t|

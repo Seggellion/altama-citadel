@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :rfas
   has_many :messages
   has_many :milk_runs
+  has_many :friendships
   has_many :trade_runs, primary_key: 'username', foreign_key: 'username'
   has_one :position, :through => :user_position
   has_one :user_position

@@ -1,9 +1,10 @@
-<div class="results">
-    <div class="resuls-header">
+<div  class="results">
+    <div class="results-header">
     Found 2 User(s). Double click on a user in order to add them
     </div>
 
     <div class="results-container">
+    <div class="row results-header-row">
         <div class="column">
         ASL #
         </div>
@@ -14,26 +15,50 @@
         Twitch
         </div>
         <div class="column">
+        Data3
+        </div>
+        <div class="column">
+        Data4
+        </div>
+        <div class="column">
         Authorized
         </div>
-        <div class="results-list">
-<% User.all.each do |user| %>
-    <div class="column">
-        <%= user.id %>
-    </div>
-
-    <div class="column">
-        <%= user.username %>
-    </div>
-
-    <div class="column">
-        <%= user.provider %>
-    </div>
-
-    <div class="column">
-    <%= user.rsi_verify %>
-</div>
-
-    <% end %>
         </div>
+        <div class="results-list">
+            <% User.all.each do |user| %>
+                
+                <div class="row" 
+                data-asl-target="row" 
+                data-user-id="<%= user.id %>"
+                data-asl-number="<%= user.asl_number %>"
+                data-username="<%= user.username %>"
+                data-twitch-username="<%= user.twitch_username %>"
+                data-action="dblclick->asl#doubleClickRow click->asl#selectRow">
+
+
+                <div class="column">
+                    <%= user.id %>
+                </div>
+
+                <div class="column">
+                    <%= user.username %>
+                </div>
+
+                <div class="column">
+                    <%= user.provider %>
+                </div>
+                <div class="column">
+                Data3
+            </div>
+            <div class="column">
+            Data4
+        </div>
+
+                <div class="column">
+                    <%= user.rsi_verify %>
+                </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
     </div>

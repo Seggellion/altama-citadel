@@ -1,22 +1,17 @@
+<div data-controller="asl" style="display: flex;flex-direction: column;">
 <div class="add-user-top">
     <div class="add-user-top-left">
-        <%= render 'asl_add_user_tabs' %>
+        <%= render '/asl/asl_add_user_tabs' %>
     </div>
     <div class="add-user-top-right">
-        <%= render 'asl_add_action_buttons' %>
-</div>
+        <%= render '/asl/asl_add_action_buttons' %>
+    </div>
 </div>
 <div class="add-user-bottom">
-<%= render 'asl_add_user_list' %>
+    <%= render '/asl/asl_add_user_list' %>
 </div>
 
 
-<button>Add friend</button>
+<a href="#"  class="button-class" data-action="click->asl#addFriend">Add Friend</a>
 
-
-<style>
-#asl_add_user{
-    height: 496px;
-    width: 634px;
-}
-</style>
+</div>

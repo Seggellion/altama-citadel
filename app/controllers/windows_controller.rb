@@ -13,7 +13,8 @@ class WindowsController < ApplicationController
         active_task = @all_tasks.find_by(name: params[:window])
 
         unless active_task
-        active_task = @all_tasks.find_by(state: params[:window])                                    
+            active_task = @all_tasks.where("state ILIKE ?", "%#{params[:window]}%").first 
+            
         windows = active_task.state.split(',')
 
         if windows.include?(params[:window])    
