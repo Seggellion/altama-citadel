@@ -17,7 +17,7 @@ has_many :milk_runs
     end
 
     def count_users
-       if self.session_users.split(',').count
+       if self.session_users
         self.session_users.split(',').count
        else
 0

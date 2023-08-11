@@ -13,17 +13,21 @@ class TradeSessionsController < ApplicationController
       # You can handle the situation if the user doesn't exist as you want.
       @user = User.where('lower(username) = lower(?)', params[:username]).first
       @tradeports = Location.where(trade_terminal: true).order('parent ASC')
-
+      if @trade_session&.session_users
         session_usernames = @trade_session.session_users.split(',')
-        
-        # Normalize the usernames (strip whitespace and downcase)
         normalized_session_usernames = session_usernames.map { |username| username.strip.downcase }
-
+    
         # Check if params[:username] is included in the list
         unless normalized_session_usernames.include?(params[:username].strip.downcase)
           # If the username is not included in the session_users, redirect to the error page
           redirect_to bsod_path, alert: "User not part of the trade session."
+          return
         end
+      else
+        # Handle the situation when there's no @trade_session or @trade_session.session_users
+        redirect_to bsod_path, alert: "Invalid trade session or session users not defined."
+        return
+      end
 
     end
 
