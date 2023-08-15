@@ -13,15 +13,15 @@
 <window data-controller="windows" id="<%= task_name.downcase.parameterize.underscore %>">
 <header data-windows-target="header">
 <info>
+
 <icon>
-<% unless task.name %>
   <% if File.exist?(image_path) %>
     <%= image_tag(image_name) %>
-  <% elsif task.include?("message") %>
+  <% elsif task.is_a?(String) && task.include?("message") %>
     <%= image_tag(message_image) %>  
-  <% end %>
-  <% end %>
+  <% end %>  
 </icon>
+
 
     <name>
         <%= task_name %>
