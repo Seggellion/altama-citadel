@@ -110,8 +110,6 @@ def display_preferences
   
     unless @all_tasks.find_by(name:'Display Preferences').present?
   
-      @current_user.asl_number ||= generate_unique_asl_number
-  
       if @current_user.save
       @task =  Task.create(name: 'Display Preferences',task_manager_id: @task_manager.id, view: 'slim')
   
