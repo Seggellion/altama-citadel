@@ -65,6 +65,7 @@ class MilkRunsController < ApplicationController
     Ship.find(@milk_run_params[:ship_id])&.scu
   end
 
+
   def find_user
     if @milk_run_username
       fetch_or_create_user(@milk_run_username)
@@ -92,7 +93,7 @@ class MilkRunsController < ApplicationController
   end
 
   def find_existing_milkrun(user_id)
-    MilkRun.find_by(buy_commodity_id: @buy_commodity_id, sell_commodity_id: nil, user_id: user_id)
+    MilkRun.find_by(buy_commodity_id: @buy_commodity_id, sell_commodity_id: nil, user_id: user_id, trade_session_id:@trade_session_id)
   end
 
   def find_current_milkrun(commodity_user_id)
@@ -176,10 +177,11 @@ class MilkRunsController < ApplicationController
   def create_milk_run_and_update_buy_commodity(user, ship_scu)
     buy_commodity = Commodity.find_by_id(@buy_commodity_id)
     current_user = User.find_by_username(session[:username])
+    
     if buy_commodity
       percent_change = ((@milk_run_params["buy_commodity_price"].to_f - buy_commodity.sell) / buy_commodity.sell) * 100
       out_of_family = percent_change.abs >= 6.5
-  
+      
       if out_of_family?(@milk_run_params["buy_commodity_price"], buy_commodity.sell) && current_user&.user_type != 0
         CommodityStub.create!(user_id: user.id, commodity_id: buy_commodity.id, buy_price: @milk_run_params["buy_commodity_price"], flagged: true)
         current_user.take_karma(1000)
@@ -187,8 +189,7 @@ class MilkRunsController < ApplicationController
           current_user.update(user_type:9001)
         end
       else
-        buy_commodity.update(sell: @milk_run_params["buy_commodity_price"], buy: 0, updated_at: Time.now)
-        
+        buy_commodity.update(sell: @milk_run_params["buy_commodity_price"], buy: 0, updated_at: Time.now)        
         MilkRun.create!(
           user_id: user.id, 
           usership_id: @milk_run_params[:trade_session_id], 

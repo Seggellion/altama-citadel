@@ -1,5 +1,9 @@
 class Message < ApplicationRecord
+
+
     belongs_to :user
+    belongs_to :sender, class_name: 'User'
+    belongs_to :receiver, class_name: 'User'
 
     def new_message
         user =  User.find_by_id(self.user_id)
@@ -59,17 +63,15 @@ class Message < ApplicationRecord
 
 
 
-    def sender
-        if self.sender_id
-            User.find_by_id(self.sender_id)
-        else
-            #self.task_id
-            #byebug
-            self.task.name
-        end
-
-
-    end
+   # def sender
+  #      if self.sender_id
+  #          User.find_by_id(self.sender_id)
+  #      else
+  #          #self.task_id
+   #         #byebug
+   #         self.task.name
+   #     end
+ #   end
 
     def sender_name
         if self.sender_id

@@ -25,7 +25,7 @@
         </div>
         </div>
         <div class="results-list">
-            <% User.all.each do |user| %>
+            <% @asl_users.each do |user| %>
                 
                 <div class="row" 
                 data-asl-target="row" 
@@ -37,7 +37,7 @@
 
 
                 <div class="column">
-                    <%= user.id %>
+                    <%= user.asl_number %>
                 </div>
 
                 <div class="column">

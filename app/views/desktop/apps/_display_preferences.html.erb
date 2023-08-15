@@ -1,0 +1,112 @@
+<div class="display-preferences-container">
+    <div class="preferences-header">
+        <%= image_tag('computer_monitor.png') %>  
+    </div>
+
+<%= form_for @current_user, url: user_path(@current_user), method: :patch, html: {class: 'preferences-form'} do |f| %>
+
+    <div class="preferences-actions">
+        <div class="row">
+            <div class="column">
+            <div class="preferences-module">
+            <span class="module-header">Colour palette</span>
+            <div class="">
+                <%= f.label :background_color, "Background color" %>
+                <%= f.color_field :background_color %><br>
+                </div>
+                <div class="">
+                <%= f.label :font_color, "Accent color" %>
+                <%= f.color_field :accent_color %>
+                </div>
+                <div class="">
+                <%= f.label :font_color, "Font color" %>
+                <%= f.color_field :font_color %>
+                </div>
+                </div>
+            </div>
+            <div class="column">
+            <div class="preferences-module">
+                <span class="module-header">Font size</span>
+                
+                <%= f.range_field :font_size, min: 8, max: 36, step: 1 %>
+                <span><%= @current_user.font_size %>px</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+            <div class="preferences-module">
+            <span class="module-header">Font family</span>
+                
+                <%= f.select :font_name, User::ALLOWED_FONTS %>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <%= f.submit "Apply", class:'button-class' %>
+            </div>
+        </div>
+    </div>
+<% end %>
+</div>
+
+<style>
+#display_preferences content{
+    width:100%;
+    background-color:transparent;
+    border:0px solid transparent;
+
+}
+.preferences-module{
+    border: 1px solid #808080;
+    position:relative;
+    padding: 9px 10px;
+    width:100%;
+
+
+    box-shadow: 
+    1px 0 0 #f0efef inset,
+     0 1px 0 #f0efef inset,
+     1px 0 0 #f0efef,       
+     0 1px 0 #f0efef;       
+  
+
+}
+#display_preferences{
+    width: 498px;
+    height: 540px;
+}
+.module-header{
+    position:absolute;
+    display:block;
+    top:-10px;
+    left:5px;
+    background-color:#c0c0c0;
+}
+.preferences-header{
+    padding: 17px 26% 0px 26%;
+}
+.preferences-actions .row{
+    width:100%;    
+    justify-content: space-between;
+    margin-top: 17px;
+}
+.preferences-actions .column{
+width:48%;
+}
+.preferences-actions{
+    padding: 0px 24px;
+    
+}
+.preferences-actions .row,
+.preferences-actions .column{
+    display:flex;
+    flex-direction:row;
+}
+.preferences-header img{
+    width:100%;
+}
+</style>

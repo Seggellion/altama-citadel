@@ -1,3 +1,27 @@
-<div data-controller="starbitizen-chart-twitch" data-twitch_id=<%= @twitch_id  %> >
+
+<div class="streamchart-container" data-controller="starbitizen-chart-twitch" data-font_color="<%= @user.font_color %>" data-accent_color="<%= @user.accent_color %>" data-twitch_id=<%= @user.twitch_id  %> >
+<h1><%= @user.twitch_username %> </h1>
   <canvas data-starbitizen-chart-twitch-target="canvas"></canvas>
 </div>
+
+
+<style>
+.streamchart-container{
+  padding:10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+#streamchart{
+font-size: <%= @user.font_size %>px;
+font-family: <%= @user.font_name %>;
+color:  <%= @user.font_color %>;
+<% unless @user.background_color == "#ffffff" %>
+background-color:  <%= @user.background_color %>;
+<% end %>
+}
+h1{
+  font-size: <%= @user.font_size %>px;
+font-family: <%= @user.font_name %>;
+color:  <%= @user.font_color %>;
+}
+</style>

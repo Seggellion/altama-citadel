@@ -189,7 +189,13 @@ end
 
 def start_asl
   unless @all_tasks.find_by(name:'ASL').present?
+
+    @current_user.asl_number ||= generate_unique_asl_number
+
+    if @current_user.save
     @task =  Task.create(name: 'ASL',task_manager_id: @task_manager.id, view: 'slim')
+
+    end
     end  
     redirect_to(request.env['HTTP_REFERER'])
 end
@@ -628,7 +634,12 @@ current_task = Task.find_by_id(params[:task])
        
       @task = Task.find(params[:id])
     end
-
+    def generate_unique_asl_number
+      loop do
+        asl = Random.rand(1_000_000..9_999_999)
+        break asl unless User.exists?(asl_number: asl)
+      end
+    end
     # Only allow a list of trusted parameters through.
     def task_params
       params.require(:task).permit(:name, :author, :icon)

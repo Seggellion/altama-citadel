@@ -15,6 +15,29 @@ class User < ApplicationRecord
   has_one :task_manager
   has_many :rfas
   has_many :messages
+  has_many :sent_messages, class_name: 'Message', foreign_key: 'sender_id'
+  has_many :received_messages, class_name: 'Message', foreign_key: 'receiver_id'
+  
+  # You can add more font names to this array as per your requirements
+  ALLOWED_FONTS = [
+    'Arial', 
+    'Arial Black', 
+    'Comic Sans MS', 
+    'Courier New', 
+    'Georgia', 
+    'Impact', 
+    'Times New Roman', 
+    'Trebuchet MS', 
+    'Verdana', 
+    'Webdings', 
+    'MS Sans Serif', 
+    'MS Serif'
+  ]
+
+  validates :font_name, inclusion: { in: ALLOWED_FONTS }
+  validates :font_color, :background_color, :accent_color, format: { with: /\A#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\z/, message: "must be a valid hex color" }
+  validates :font_size, numericality: { only_integer: true, greater_than_or_equal_to: 8, less_than_or_equal_to: 36 }
+
   has_many :milk_runs
   has_many :friendships
   has_many :trade_runs, primary_key: 'username', foreign_key: 'username'
@@ -281,18 +304,30 @@ end
   #  unique_messages = self.my_messages.group_by(&:task_id).each_with_object({}) do |messages, hash|
   #    messages[0] = messages[1].max_by{|v| v.created_at}
   #  end
-  #  unique_messages
-
-
-    
+  #  unique_messages    
       subquery = self.my_messages.select('MAX(id) as id').group(:task_id)
       self.my_messages.where(id: subquery)
-        
-    
-
-
-
   end
+
+  def system_messages
+    self.messages.where(subject:"system")
+  end
+
+  def has_unread_messages_from?(friend)
+    # Logic here to identify if there are unread messages
+  end
+
+  def friend_requests
+    self.messages.where(subject:"Friend Request")
+  end
+
+def filtered_by_receiver(receiver)
+  my_messages = self.messages.where(receiver_id: receiver)
+  receiver_messages = Message.where(user_id: receiver, receiver_id: self.id)
+messages = (my_messages + receiver_messages).sort_by(&:created_at)
+  
+  messages
+end
 
   def total_reviews
     Review.where(reviewee_id: self.id).count

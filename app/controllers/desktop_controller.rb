@@ -78,6 +78,7 @@ end
   @timeline_events = Event.where(event_type:nil)
   @traderun_split_new = TradeRunSplit.new
   @profit_scu_traderuns = []
+  @asl_users = User.where.not(asl_number: nil).where.not(id: @current_user.id)
   current_user.desktop
     @commodity_stubs = CommodityStub.all.order(created_at: :desc)
     # @leaderboard_data = User.left_joins(:commodity_stubs).group("users.id").order("COUNT(commodity_stubs.id) DESC").select("users.id as user_id", "users.username", "COUNT(commodity_stubs.id) as total_commodities")
@@ -103,6 +104,21 @@ end
 
 def ship_view_switch
 
+end
+
+def display_preferences
+  
+    unless @all_tasks.find_by(name:'Display Preferences').present?
+  
+      @current_user.asl_number ||= generate_unique_asl_number
+  
+      if @current_user.save
+      @task =  Task.create(name: 'Display Preferences',task_manager_id: @task_manager.id, view: 'slim')
+  
+      end
+    end  
+    redirect_to root_path
+  
 end
 
 def rsi_user_list

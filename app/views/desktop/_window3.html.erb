@@ -1,15 +1,28 @@
+
 <% if task.respond_to?(:name) && task.name.present? %>
 <% task_name = task.name  %>
 <% else  %>
 <% task_name = task %>
 <% end %>
 
+<% image_name = "#{task_name.downcase.parameterize.underscore}_icon.png" %>
+<% image_path = Rails.root.join("app", "assets", "images", image_name) %>
+<% message_image = "message_icon.png" %>
+
+
 <window data-controller="windows" id="<%= task_name.downcase.parameterize.underscore %>">
 <header data-windows-target="header">
 <info>
 <icon>
-<%= image_tag("#{task_name.downcase.parameterize.underscore}_icon.png")  %>
+<% unless task.name %>
+  <% if File.exist?(image_path) %>
+    <%= image_tag(image_name) %>
+  <% elsif task.include?("message") %>
+    <%= image_tag(message_image) %>  
+  <% end %>
+  <% end %>
 </icon>
+
     <name>
         <%= task_name %>
     </name>
@@ -32,10 +45,16 @@
 
 <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", task: task %>
 <%  else %>
-<% task_name = task %>
-<% @current_task = Task.all.detect { |task| task.name && task_name && task_name.downcase.include?(task.name.downcase) } %>
 
-<%= render "/#{@current_task.name.downcase.parameterize.underscore}/#{task.downcase.parameterize.underscore}", task: task %>
+<% task_name = task %>
+<% task_state = task %>
+
+<% state_view = task.downcase.split("-")[0] %>
+
+<%# @current_task = Task.all.detect { |task| task.name && task_name && task_name.downcase.include?(task.name.downcase) } %>
+<% @current_task =  @all_tasks.detect { |task| task.state && task_state && task.state.downcase.include?(task_state.downcase) } %>
+
+<%= render "/#{@current_task.name.downcase.parameterize.underscore}/#{state_view.parameterize.underscore}", task: task %>
 <% end %>
 
 

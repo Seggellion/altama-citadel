@@ -48,8 +48,8 @@ class StreamchartController < ApplicationController
     end
 
     def star_bitizen_twitch
-      user = User.find_by(twitch_username: params[:twitch_username])      
-      @twitch_id = user.twitch_id
+      @user = User.find_by(twitch_username: params[:twitch_username])      
+
     end
   
     

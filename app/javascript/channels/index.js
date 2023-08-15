@@ -3,3 +3,4 @@
 import { createConsumer } from "@rails/actioncable"
 
 createConsumer()
+import "./messages_channel"

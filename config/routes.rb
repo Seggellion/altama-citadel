@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     resources :users, only: :index
   end
 
-
+  resources :users, only: [:edit, :update]
 
   resources :positions
   resources :rules
@@ -199,6 +199,8 @@ Rails.application.routes.draw do
   get 'accept_nomination', to: 'position_nominations#accept'
   get 'reject_nomination', to: 'position_nominations#reject'
   
+  # User stuff
+  get 'display_preferences', to: 'desktop#display_preferences'
   get '/twitch/verify', to: 'users#twitch_verify'
   get '/twitch/redirect', to: 'users#twitch_redirect'
   post 'api_discord_users', to: 'users#discord_populate', as: :discord_populate
@@ -207,7 +209,7 @@ Rails.application.routes.draw do
   post 'hangardump', to: 'hangardumps#create', as: :hangardump
   post 'activate', to: 'users#activate', as: :activate
   post 'vim_command', to: 'vim#vim_command'
-  
+  #End User
 
 # ASL portion
 get 'state_asl_message', to: 'asl#state_asl_message'
@@ -218,6 +220,8 @@ get 'next_message', to: 'asl#state_asl_message_next'
 get 'prev_message', to: 'asl#state_asl_message_prev'
 get 'new_asl_message', to: 'asl#state_asl_message_new'
 post 'send_friend_request', to: 'asl#send_friend_request'
+post 'send_message', to: 'asl#send_message'
+
 #End ASL
 
 

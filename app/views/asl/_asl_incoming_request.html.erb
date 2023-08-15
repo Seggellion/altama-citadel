@@ -1,0 +1,78 @@
+<% message = @current_user.filtered_by_receiver(receiver_id).first  %>
+
+<div class="add-contact-header">
+<span class="message-request-header">From</span>
+<div class="message-info-pane">
+
+    <div class="row">
+    <div class="column"><strong>Username:</strong><input disabled id="message_asl_number" data-asl-target="aslNumber" value="<%= message.sender.username %>"></div>
+    <div class="column"><strong>Twitch:</strong><input disabled id="message_twitch" data-asl-target="aslNumber" value="<%= message.sender.twitch_username %>"></div>
+    </div>
+
+    <div class="row">
+        <div class="column"><strong>ASL#</strong><input disabled id="message_asl_number" data-asl-target="aslNumber" value="<%= message.sender.asl_number %>"></div>
+        <div class="column"><strong>Date:</strong><input disabled id="message_asl_number" data-asl-target="aslNumber" value="<%= message.created_at.strftime('%m/%d/%y') %>"></div>
+        <div class="column"><strong>Time:</strong><input disabled id="message_asl_number" data-asl-target="aslNumber" value="<%= message.created_at.strftime('%I:%M %p') %>"></div>
+    </div>
+
+</div>
+</div>
+
+<div class="message-request-body">
+<span class="message-request-header">Been Added</span>
+    <div class="row">
+        <div class="column">
+            <%= image_tag('asl_request_graphic.png') %>
+        </div>
+        <div class="column" style="line-height: 18px;">
+            The user has added you to their contact list.<br/><br/> You can share ethe details of your mutal contacts by clicking ont he "Send Contacts" button.
+        </div>
+    </div>
+
+    <div class="message-response-buttons">
+        <span class="message-request-header">Response Action</span>
+        <div class="row"
+        data-asl-target="request_container" 
+        data-user-id="<%= message.sender.id %>"
+        data-asl-number="<%= message.sender.asl_number %>"
+        data-username="<%= message.sender.username %>"
+        data-twitch-username="<%= message.sender.twitch_username %>"
+        >
+        
+            <a href="#" class="button-class">Get User Info</a>
+            <a href="#" class="button-class">Send Contacts</a>
+            
+            <a href="#" data-action="click->asl#addContactList" class="button-class">Add To Contact List</a>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="message-footer-buttons">
+
+
+<div class="row">
+<div class="column">
+    <a href="#" class="button-class">More</a>
+</div>
+<div class="column">
+    <a href="#" class="button-class">Close</a>
+    <a href="#" class="button-class disabled">Next</a>
+</div>
+</div>
+
+</div>
+
+
+<style>
+
+#desktop #<%= task.downcase.parameterize.underscore %>{
+    width: 530px;
+    height: 380px;
+
+}
+
+</style>

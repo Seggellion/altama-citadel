@@ -6,7 +6,8 @@
     The problems seems to be caused by a conflict with the controller:  <%= controller.controller_name %>
 </p>
 <p>
-    PAGE_FAULT_IN_NONPAGED_AREA - <%= @error %>
+    PAGE_FAULT_IN_NONPAGED_AREA - <%= @error %> - <% if flash[:alert] %><%= flash[:alert] %><% end %>
+      
     </p>
     <p>
     If this is the first time you've seen this stop error screen, restart the citadel. If this screen appears again, follow these steps:

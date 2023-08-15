@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_035415) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_15_035152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -219,6 +219,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_035415) do
     t.datetime "updated_at", null: false
     t.string "group"
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
     t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
@@ -289,6 +290,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_035415) do
     t.string "subject"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "receiver_id"
   end
 
   create_table "milk_runs", force: :cascade do |t|
@@ -649,6 +651,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_035415) do
     t.string "twitch_username"
     t.integer "twitch_id"
     t.integer "asl_number"
+    t.string "font_name", default: "Arial"
+    t.string "font_color", default: "#000000"
+    t.string "accent_color", default: "#000000"
+    t.string "background_color", default: "#FFFFFF"
+    t.integer "font_size", default: 14
     t.index ["asl_number"], name: "index_users_on_asl_number", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["rsi_username"], name: "index_users_on_rsi_username", unique: true

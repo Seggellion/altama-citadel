@@ -78,7 +78,7 @@ module CommodityConstants
       "Corundum" => 2500,
       "Diamond" => 2500,
       "Distilled Spirits" => 700,
-      "Gold" => 40,
+      "Gold" => 30,
       "Hydrogen" => 2500,
       "Iodine" => 700,
       "Laranite" => 200,

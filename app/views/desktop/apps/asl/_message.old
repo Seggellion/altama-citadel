@@ -5,7 +5,7 @@ test
 <% unless @new_message %>
  from:
 
-<%= message.sender_name %>
+<%= message&.sender_name %>
 
 
 <% end %>

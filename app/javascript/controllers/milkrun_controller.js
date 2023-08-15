@@ -93,10 +93,12 @@ handleInputChange(event) {
   
   
   updateSelectOptions(selectElement, optionsArray) {    
-    selectElement.innerHTML = optionsArray.map(option => 
-      `<option value='${JSON.stringify(option)}'>${option.name}</option>`).join('');
-  }
-  
+    selectElement.innerHTML = optionsArray.map(option => {
+        let escapedValue = JSON.stringify(option).replace(/"/g, '&quot;');
+        return `<option value="${escapedValue}">${option.name}</option>`;
+    }).join('');
+}
+
 
   selectBuyLocation(event) {
     const selectedLocation = event.target.value;
@@ -126,7 +128,7 @@ handleInputChange(event) {
     //const commodityId = this.commodityTarget.value;
 
    ///  JUST TRYING TO SOLVE FOR PROFIT PER SCU
-   
+  // debugger;
    const selectedOptionValue = JSON.parse(event.target.value);
    
    const commodityId = selectedOptionValue.id;   

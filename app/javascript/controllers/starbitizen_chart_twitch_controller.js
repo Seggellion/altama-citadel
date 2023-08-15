@@ -7,11 +7,13 @@ export default class extends Controller {
   static targets = ["canvas"];
 
   connect() {
-    
+    this.twitch_id = this.element.dataset.twitch_id;
+    this.fontColor = this.element.dataset.font_color;
+    this.accentColor = this.element.dataset.accent_color;
+
     this.initializeChart()
     //this.tradeSessionId = this.element.dataset.tradeSessionId;
-    this.twitch_id = this.element.dataset.twitch_id;
-  
+
     
     fetch(`/star_bitizen_chart_twitch_data/${this.twitch_id}`)
       .then(response => response.json())
@@ -46,6 +48,22 @@ export default class extends Controller {
   }
   
 
+  setFontColor(alpha) {
+    return this.hexToRgba(this.fontColor, alpha);
+  }
+  setAccentColor(alpha) {
+    return this.hexToRgba(this.accentColor, alpha);
+  }
+
+  hexToRgba(hex, alpha) {
+    
+    let r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
   initializeChart() {
     this.chart = new Chart(this.canvasTarget, {
       type: 'bar',
@@ -54,8 +72,9 @@ export default class extends Controller {
         datasets: [{
           label: 'Profit',
           data: [],
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          color: `${this.setFontColor(1)}`,
+          backgroundColor: `${this.setAccentColor(0.2)}`,
+          borderColor: `${this.setAccentColor(1)}`,
           borderWidth: 1,
           yAxisID: 'y',
         }, {
@@ -80,25 +99,44 @@ export default class extends Controller {
             position: 'left',
             title: {
               display: true,
-              text: 'Profit'
+              text: 'Profit',
+              color: `${this.setFontColor(1)}`
             },
+            ticks: {
+              color: `${this.setFontColor(1)}`
+            },
+            grid:{
+              borderColor: `${this.setFontColor(0.4)}`, 
+              color: `${this.setFontColor(0.4)}`
+            }
           },
           y1: {
             beginAtZero: true,
             position: 'right',
             title: {
               display: true,
-              text: '# Runs'
+              text: '# Runs',
+              color: `${this.setFontColor(1)}`
+            },
+            ticks: {
+              color: `${this.setFontColor(1)}`
             },
             grid: {
               drawOnChartArea: false, 
+              borderColor: `${this.setFontColor(0.4)}`, 
+              color: `${this.setFontColor(0.4)}`
             },
           },
           x: {
             ticks: {
+              color: `${this.setFontColor(1)}`,
               autoSkip: false,
               maxRotation: 90,
               minRotation: 90
+            },
+            grid:{
+              borderColor: `${this.setFontColor(0.4)}`, 
+              color: `${this.setFontColor(0.4)}`
             }
           }
         }

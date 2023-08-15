@@ -76,6 +76,33 @@ body{
     position:relative;
     cursor: asset-url('arrow.png'), auto;
     overflow:hidden;
+
+    .context-menu {
+        position: absolute;
+        border: 1px solid #000;
+        background-color: #c0c0c0;
+        z-index: 1000; // So that it appears on top of other elements
+        box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
+        font-family: 'MS Sans Serif', sans-serif; 
+    }
+    
+    .context-menu ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .context-menu li {
+        padding: 4px 10px;
+    }
+    
+    .context-menu li:hover {
+        background-color: #000;
+        color: #FFF;
+        cursor: asset-url('Cursor_15.cur'), auto;
+    }
+    
+
     .live-desktop{
         height: calc(100% - 50px);
         padding:10px;

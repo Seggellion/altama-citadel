@@ -6,15 +6,7 @@
             <hr>
         </div>
 
-        <%= link_to new_asl_message_path(sender: current_user.id, message: @message), method: :post do %>
-            create a new message
 
-            <% if task.state&.start_with?("new_message") %>
-                <%= render 'messages/new_message_form', task: task %>
-            <% end %>
-
-        <% end %>
-            
         <% @friendships_by_group.each do |group_name, friendships| %>
             <div class="contact-seperator">
             <hr>
@@ -23,7 +15,14 @@
         </div>
                 <% friendships.each do |friendship| %>
                     <%= link_to state_asl_message_path(sender: friendship.friend.username), method: :post do %>
-                        <%= show_svg('asl-outline') %><%= friendship.friend.username %>
+                        <div data-friend-id="<%= friendship.friend.id %>">
+                            <% if @current_user.has_unread_messages_from?(friendship.friend) %>
+                                <%= show_svg('asl-message') %>
+                            <% else %>
+                                <%= show_svg('asl-outline') %>
+                            <% end %>
+                        </div>
+                        <%= friendship.friend.username %>
                         <% end %>
                     
                 <% end %>
@@ -35,23 +34,25 @@
         System
     <hr>
     </div>
-        <% current_user.past_messages_users.each do |message| %>
-        
-            
-        <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
-           <%= show_svg('asl-outline') %><%= message.sender_name %>
-           <% end %>
-           
-           <% if task.state&.start_with?("message") %>
+    <div data-controller="messages">
+        <div data-messages-target="list">
 
-           <% message = Message.find_by_id(task.state.split('|').last) %>
-           
-           <%= render 'desktop/apps/asl/message', message:message, task: task %>
-           <% end %>       
-           
+        <% current_user.friend_requests.each do |message| %>            
+            <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
+            <%= show_svg('asl-outline') %><%= message.sender_name %>
+            <% end %>                 
         <% end %>
+        
 
-# new messages should make the ICQ sound
+        <% current_user.system_messages.each do |message| %>            
+            <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
+            <%= show_svg('asl-outline') %><%= message.sender_name %>
+            <% end %>                 
+        <% end %>
+        </div>
+    </div>
+
+
         </div>
         <div class="add-user-row">
             
@@ -71,6 +72,10 @@
             </div>
         </div>
         
+        <script>
+
+document.querySelector(`name`).innerHTML = '<%= current_user.asl_number %>';
+        </script>
 <style>
 #asl content{
     height: 89%;
