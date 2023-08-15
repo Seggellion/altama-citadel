@@ -42,3 +42,5 @@
 .byebug_history
 dump.rdb
 latest.dump
+*.key
+*.old
