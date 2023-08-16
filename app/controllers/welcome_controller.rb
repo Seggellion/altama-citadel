@@ -3,6 +3,7 @@ class WelcomeController < ApplicationController
 before_action :not_logged_in
 
 def index
+  
 @current_user = current_user
 end
 

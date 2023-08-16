@@ -257,23 +257,34 @@ end
 
   end
 
-    def self.from_omniauth(auth, params)
-      
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.user_type = 101 
-      if params["plus"] == "true"
-        user.user_type = 100 
+    def self.from_omniauth(auth, params)      
+      user = where(provider: auth.provider, uid: auth.uid).first
+      # If user not found by UID
+      unless user      
+        user = where("username ILIKE ?", auth.info.name).first    
+        # If user found by email
+        if user
+          user.update(
+            uid: auth.uid,
+            provider: auth.provider
+          )
+        else
+          # Create new user
+          user = create(
+            provider: auth.provider,
+            uid: auth.uid,
+            username: auth.info.name,
+            profile_image: auth.info.image,
+            password: Devise.friendly_token[0, 20],
+            user_type: params["plus"] == "true" ? 100 : 101
+          )
+        end
       end
-      user.password = Devise.friendly_token[0, 20]
-      user.username = auth.info.name   # assuming the user model has a name
-      user.profile_image = auth.info.image # assuming the user model has an image
-      # If you are using confirmable and the provider(s) you use validate emails,
-      # uncomment the line below to skip the confirmation emails.
-      # user.skip_confirmation!
     
-    end
+      user
 
   end
+
   def self.new_with_session(params, session)
 
     super.tap do |user|

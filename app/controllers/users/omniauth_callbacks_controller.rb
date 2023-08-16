@@ -3,7 +3,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def after_sign_in_path_for(resource)
     subdomain = request.subdomain
-
+    
     if resource.is_a?(User) 
       case subdomain
       when 'ctd'        
@@ -22,6 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def discord
+    
     @user = User.from_omniauth(request.env["omniauth.auth"], request.env["omniauth.params"])
 
     if @user.persisted?
