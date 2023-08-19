@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_15_035152) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_17_213853) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -478,6 +478,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_035152) do
     t.index ["model"], name: "index_ships_on_model", unique: true
   end
 
+  create_table "star_bitizen_race_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "star_bitizen_race_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["star_bitizen_race_id"], name: "index_star_bitizen_race_users_on_star_bitizen_race_id"
+    t.index ["user_id"], name: "index_star_bitizen_race_users_on_user_id"
+  end
+
+  create_table "star_bitizen_races", force: :cascade do |t|
+    t.string "race_name"
+    t.string "channel_name"
+    t.integer "prize_pool", default: 0
+    t.integer "laps", default: 1
+    t.date "race_date"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_star_bitizen_races_on_user_id"
+  end
+
   create_table "star_bitizen_runs", force: :cascade do |t|
     t.integer "user_id"
     t.integer "commodity_id"
@@ -624,6 +645,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_035152) do
     t.integer "term_length_days"
   end
 
+  create_table "user_skills", force: :cascade do |t|
+    t.string "skill_name"
+    t.integer "value", default: 0
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_skills_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -704,6 +734,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_035152) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "star_bitizen_race_users", "star_bitizen_races"
+  add_foreign_key "star_bitizen_race_users", "users"
+  add_foreign_key "star_bitizen_races", "users"
   add_foreign_key "transactions", "users", column: "receiver_id"
   add_foreign_key "transactions", "users", column: "sender_id"
+  add_foreign_key "user_skills", "users"
 end

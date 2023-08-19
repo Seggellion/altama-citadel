@@ -18,6 +18,14 @@ class User < ApplicationRecord
   has_many :sent_messages, class_name: 'Message', foreign_key: 'sender_id'
   has_many :received_messages, class_name: 'Message', foreign_key: 'receiver_id'
   
+  # Associations for StarBitizenRace
+  has_many :created_races, class_name: 'StarBitizenRace', foreign_key: 'user_id'
+  has_many :star_bitizen_race_users
+  has_many :participated_races, through: :star_bitizen_race_users, source: :star_bitizen_race
+
+  # Associations for UserSkill
+  has_many :user_skills
+
   # You can add more font names to this array as per your requirements
   ALLOWED_FONTS = [
     'Arial', 
