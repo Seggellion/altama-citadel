@@ -13,7 +13,6 @@
         <%= render '/asl/asl_incoming_request', task: task, receiver_id: receiver_id %>
         </div>
 
-
     <% else %>
 
 
@@ -67,7 +66,7 @@
                     <%= image_tag('asl_message_background_icon.png') %>
                     </a>
                 </div>
-                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleMessage">Prev</a></div>
+                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleMessage">Not In Use</a></div>
                 <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleHistory">History</a></div>
 
             </div>
@@ -81,6 +80,7 @@
     <div class="column">
     <a  class="button-class" href="#">Cancel</a>
     <a  class="button-class" href="#">User Details</a>
+    <%= link_to "Prev Message", asl_read_message_path %>
     </div>
 
 

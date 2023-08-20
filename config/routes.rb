@@ -221,6 +221,7 @@ get 'prev_message', to: 'asl#state_asl_message_prev'
 get 'new_asl_message', to: 'asl#state_asl_message_new'
 post 'send_friend_request', to: 'asl#send_friend_request'
 post 'send_message', to: 'asl#send_message'
+get 'asl_read_message', to: 'asl#asl_read_message'
 
 #End ASL
 
