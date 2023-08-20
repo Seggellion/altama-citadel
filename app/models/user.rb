@@ -348,6 +348,10 @@ messages = (my_messages + receiver_messages).sort_by(&:created_at)
   messages
 end
 
+def most_recent_message(receiver)
+
+end
+
   def total_reviews
     Review.where(reviewee_id: self.id).count
   end

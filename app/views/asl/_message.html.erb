@@ -1,90 +1,109 @@
 
 <div data-controller="asl" data-asl-uh-oh-sound-path-value="<%= asset_path('uhoh.wav') %>" id="asl_message" style="display: flex;flex-direction: column;">
 
-<% receiver_id = task.split('|')[0].split('-').last  %>
-<%     
-receiver = User.find_by(id: receiver_id)
-receiver ||= User.find_by(username: receiver_id)
-%>
+    <% receiver_id = task.split('|')[0].split('-').last  %>
+    <%     
+    receiver = User.find_by(id: receiver_id)
+    receiver ||= User.find_by(username: receiver_id)
+    %>
 
-<% if @current_user.filtered_by_receiver(receiver.id).first && @current_user.filtered_by_receiver(receiver.id).first.subject == 'Friend Request' %>
+    <% if @current_user.filtered_by_receiver(receiver.id).first && @current_user.filtered_by_receiver(receiver.id).first.subject == 'Friend Request' %>
 
-<div class="incoming-request">
-<%= render '/asl/asl_incoming_request', task: task, receiver_id: receiver_id %>
-</div>
-
-
-<% else %>
-
-
-<div class="message-history" data-asl-target="messageHistory" style="display:none;">
-
-
-<ul>
-<% if @current_user.filtered_by_receiver(receiver.id) %>
-<% @current_user.filtered_by_receiver(receiver.id).each do | message| %>    
-<li><%= message.sender.username %>: <%= message.content %></li>
-<% end %>
-</ul>
-
-<% end %>
-</div>
-    <div class="message-info-pane">
-        <div class="row">
-        <div class="column">To ASL# <input disabled id="message_asl_number" data-asl-target="aslNumber" value="<%= receiver.asl_number %>"></div>
-        <div class="column">User:<input disabled id="message_receiver_username" data-asl-target="aslUsername" value="<%= receiver.username %>"></div>
-        <div class="column">Twitch:<input disabled id="message_twitch" data-asl-target="aslTwitch"  value="<%= receiver.username %>"></div>
-        
+        <div class="incoming-request">
+        <%= render '/asl/asl_incoming_request', task: task, receiver_id: receiver_id %>
         </div>
 
-        <div class="row">
 
-            <div class="column">Enter Message:</div>
-            <div class="column">Chars<input disabled id="message_chars" data-asl-target="aslChars"></div>
-            <div class="column"></div>
-            <div class="column" style="margin-right:101px; margin-top:-1px;">
-                <a href="#" class="button-class square" >
-                <%= image_tag('asl_message_font_icon.png') %>
-                </a>
-                <a href="#" class="button-class square" >
-                <%= image_tag('asl_message_font_color_icon.png') %>
-                </a>
-                <a href="#" class="button-class square" >
-                <%= image_tag('asl_message_background_icon.png') %>
-                </a>
+    <% else %>
+
+
+        <div class="message-history" data-asl-target="messageHistory" style="display:none;">
+
+
+            <ul>
+            <% if @current_user.filtered_by_receiver(receiver.id) %>
+            <% @current_user.filtered_by_receiver(receiver.id).each do | message| %>    
+            <li><%= message.sender.username %>: <%= message.content %></li>
+            <% end %>
+            </ul>
+
+        </div>
+
+
+        <div class="message-view" data-asl-target="messageView" style="display:none;">
+
+
+            <ul>
+            <% if @current_user.filtered_by_receiver(receiver.id) %>
+                <% last_message = @current_user.filtered_by_receiver(receiver.id).last %>    
+                <li><%= last_message.sender.username %>: <%= last_message.content %></li>
+            <% end %>
+            </ul>
+
+        </div>
+    <% end %>
+
+        <div class="message-info-pane">
+            <div class="row">
+            <div class="column">To ASL# <input disabled id="message_asl_number" data-asl-target="aslNumber" value="<%= receiver.asl_number %>"></div>
+            <div class="column">User:<input disabled id="message_receiver_username" data-asl-target="aslUsername" value="<%= receiver.username %>"></div>
+            <div class="column">Twitch:<input disabled id="message_twitch" data-asl-target="aslTwitch"  value="<%= receiver.username %>"></div>
+            
             </div>
-            <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleHistory">History</a></div>
+
+            <div class="new-message row" data-asl-target="newMessage" >
+
+                <div class="column">Enter Message:</div>
+                <div class="column">Chars<input disabled id="message_chars" data-asl-target="aslChars"></div>
+                <div class="column"></div>
+                <div class="column" style="margin-right:101px; margin-top:-1px;">
+                    <a href="#" class="button-class square" >
+                    <%= image_tag('asl_message_font_icon.png') %>
+                    </a>
+                    <a href="#" class="button-class square" >
+                    <%= image_tag('asl_message_font_color_icon.png') %>
+                    </a>
+                    <a href="#" class="button-class square" >
+                    <%= image_tag('asl_message_background_icon.png') %>
+                    </a>
+                </div>
+                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleMessage">Prev</a></div>
+                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleHistory">History</a></div>
+
+            </div>
+        </div>
+        <div class="message-field maximized">
+        <textarea data-asl-target="messageContent" data-action="input->asl#updateCharCount" id="message" name="content"></textarea>
 
         </div>
+
+    <div class="message-buttons">
+    <div class="column">
+    <a  class="button-class" href="#">Cancel</a>
+    <a  class="button-class" href="#">User Details</a>
     </div>
-    <div class="message-field maximized">
-    <textarea data-asl-target="messageContent" data-action="input->asl#updateCharCount" id="message" name="content"></textarea>
 
+
+
+    <div class="column">
+
+    <a data-action="click->asl#sendMessage" class="button-class" href="#">Send</a>
+
+    <%= image_tag('asl_message_graphic.png') %>
+    </div>
     </div>
 
-<div class="message-buttons">
-<div class="column">
-<a  class="button-class" href="#">Cancel</a>
-<a  class="button-class" href="#">User Details</a>
-</div>
-
-
-
-<div class="column">
-
-<a data-action="click->asl#sendMessage" class="button-class" href="#">Send</a>
-
-<%= image_tag('asl_message_graphic.png') %>
-</div>
-</div>
-
-<% end %>
+    <% end %>
 
 
 </div>
 
 
     <style>
+
+    .hide{
+        display:none;
+    }
 #<%= task.downcase.parameterize.underscore %>{
     width: 604px;
     height: 364px;
