@@ -19,7 +19,8 @@ class Message < ApplicationRecord
 
     def prev_created(receiver)
         user =  User.find_by_id(self.user_id)
-        index = user.filtered_by_receiver(receiver).index self
+        messages = user.filtered_by_receiver(receiver)
+        last = messages.last
         user.filtered_by_receiver(receiver)[index + 1]      
     end
 

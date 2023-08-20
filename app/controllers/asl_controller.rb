@@ -107,33 +107,37 @@ def state_asl_message_next
   end
 
   def asl_read_message
-    
-    #receiver needs to be grabbed from state name
-    current_message = current_user.filtered_by_receiver(current_user.id).last
-    sender =''
-    if current_message
-      sender = current_message.sender.id
-    end
-    #byebug
-    previous_message = current_message.prev_created()
 
+    #receiver needs to be grabbed from state name
+ 
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     unless  task
       task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
     end
+    receiver_name = task.state.split('|')[0].split('-').last
+    receiver = User.find_by(username: receiver_name)
+    current_message = current_user.filtered_by_receiver(receiver.id).last
+    #sender =''
+    #if current_message
+     # sender = current_message.sender.id
+   # end
+
+    previous_message = current_message.prev_created(receiver.id)
+
+    byebug
     @window_states =  []
-    state_name = "message-#{sender}"
-    curr_message = "|#{current_message.id}"
-    prev_message = "|#{previous_message.id}"
+    state_name = task.state
+    #curr_message = "|#{current_message.id}"
+    #prev_message = "|#{previous_message.id}"
     window_state_csv = task.state
     unless window_state_csv.nil?
       @window_states = window_state_csv.split(',')
       message_states = window_state_csv.split('|')
     end  
-    unless @window_states.include?(state_name + prev_message)
-      @window_states = @window_states - Array[state_name + curr_message]
-      @window_states = @window_states + Array[state_name + prev_message] 
-    end 
+    #unless @window_states.include?(state_name + prev_message)
+     # @window_states = @window_states - Array[state_name + curr_message]
+      #@window_states = @window_states + Array[state_name + prev_message] 
+   # end 
     states_string = @window_states.join(',')   
     task.update(state:states_string)
     redirect_to(request.env['HTTP_REFERER'])
