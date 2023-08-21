@@ -5,21 +5,31 @@ class UsersController < ApplicationController
     #    @users = User.all
     #end
 
-def index
-  @department = Department.find(params[:department_id])
-  @users = @department.users # Fetch users as needed
-  render json: @users
-end
-
-def activate
-  user = User.find_by_id(params[:user])
-  hash = params[:hash]
-  if  RsiUser.authenticate(hash,user.id, params[:handle]) 
-    redirect_to desktop_path, notice: "Successfully verified user."
-  else
-    redirect_to desktop_path, notice: "Failed."
+  def index
+    @department = Department.find(params[:department_id])
+    @users = @department.users # Fetch users as needed
+    render json: @users
   end
-end
+
+  def activate
+    user = User.find_by_id(params[:user])
+    hash = params[:hash]
+    if  RsiUser.authenticate(hash,user.id, params[:handle]) 
+      redirect_to desktop_path, notice: "Successfully verified user."
+    else
+      redirect_to desktop_path, notice: "Failed."
+    end
+  end
+
+  def user_status
+    status = params[:format]    
+    current_user.update(online_status: status)
+    # After saving the updated status
+    ActionCable.server.broadcast('status_updates', { user_id: current_user.id, status: current_user.online_status, username: current_user.username })
+
+    redirect_to root_path
+  end
+  
 
 # def twitch_redirect
 #   tokens = TwitchOAuth2::Tokens.new(

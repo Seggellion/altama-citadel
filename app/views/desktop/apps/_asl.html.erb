@@ -11,18 +11,22 @@
             <div class="contact-seperator">
             <hr>
             <%= group_name || "General" %>
-        <hr>
+            <hr>
         </div>
                 <% friendships.each do |friendship| %>
                     <%= link_to state_asl_message_path(sender: friendship.friend.username), method: :post do %>
                         <div data-friend-id="<%= friendship.friend.id %>">
                             <% if @current_user.has_unread_messages_from?(friendship.friend) %>
                                 <%= show_svg('asl-message') %>
+                                
                             <% else %>
-                                <%= show_svg('asl-outline') %>
+                            <%= user_image(friendship.friend) %>
+                                
                             <% end %>
+                            
                         </div>
-                        <%= friendship.friend.username %>
+                 
+                        
                         <% end %>
                     
                 <% end %>
@@ -66,9 +70,12 @@
                 <span class="second-char">S</span>
                 <span class="last-char">L</span>
             </div>
-            <div class="asl-status-container">
-                <%= image_tag("asl.svg") %>
-                Online
+              <div  class="asl-status-container" data-controller="userstatus" data-action="click->userstatus#toggleSlideout">
+
+
+                <%= render '/asl/asl_status_button' %>
+            
+              
             </div>
         </div>
         

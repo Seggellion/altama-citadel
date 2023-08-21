@@ -4,7 +4,8 @@
     height: 490px;
 
     margin:0px;
-   
+    left: 76%;
+     top: 17%;
     .asl-container{
         margin-right:5px;
         height: 99%;
@@ -15,6 +16,7 @@
     }
     content{
         background-color: $light_grey;
+        justify-content: space-between;
     }
     .content-header{
         margin-bottom: 10px;
@@ -102,7 +104,7 @@ margin-right:5px;
     transform: scaleY(0.8);
 }
 .bottom-row{
-    height: 35px;
+    height: 30px;
     display:flex;
     width: 97%;
     padding: 4px;
@@ -154,6 +156,7 @@ content{
     display: flex;
     flex-direction: column;
     position:relative;
+    justify-content: space-between;
 }
 .tabs ul, .tabs li{
     list-style:none;
@@ -540,55 +543,55 @@ content{
         width: 100%;
         }
     }
-.message-field{
-    margin-top:3px;
-    height:auto;
-    &.maximized{
-        height: 50%;
-        textarea{
-            height: 100%;
+    .message-field{
+        margin-top:3px;
+        height:auto;
+        &.maximized{
+            height: 50%;
+            textarea{
+                height: 100%;
+            }
         }
-    }
-    textarea{
-        width: 99%;
-        height:70px;
+        textarea{
+            width: 99%;
+            height:70px;
 
-        border-bottom:$highlight_border;
-        border-right:$highlight_border;
-        border-left:$shadow_border;
-        border-top:$shadow_border; 
-    }
-}
-
-.message-buttons{
-    .column{
-        display:flex;
-        img{
-            width:44px;
             border-bottom:$highlight_border;
             border-right:$highlight_border;
             border-left:$shadow_border;
             border-top:$shadow_border; 
         }
     }
-    .button-class{
-        width: 63px;
-        height: 36px;
-        padding: 0px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        &:first-child{
-            margin-right: 16px;
+
+    .message-buttons{
+        .column{
+            display:flex;
+            img{
+                width:44px;
+                border-bottom:$highlight_border;
+                border-right:$highlight_border;
+                border-left:$shadow_border;
+                border-top:$shadow_border; 
+            }
         }
+        .button-class{
+            width: 63px;
+            height: 36px;
+            padding: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            &:first-child{
+                margin-right: 16px;
+            }
+        }
+        padding-right: 7px;
+        padding-bottom: 4px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
-    padding-right: 7px;
-    padding-bottom: 4px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 
     .message-info-pane{
         display:flex;
@@ -669,7 +672,70 @@ content{
 
 .button-class.disabled{
 color:#979797;
-&:hover{
-    cursor: asset-url('arrow.cur'), auto !important;
+    &:hover{
+        cursor: asset-url('arrow.cur'), auto !important;
+        color:red;
+    }
 }
+
+/* ASL status */
+.status-list{
+    background-color:#c0c0c0;
+    width: 170px;
+    display: block;
+    position:absolute;
+    left:0px;
+    top:-270px;
+    border-top:$highlight_border;
+    border-left:$highlight_border;
+    border-right:$shadow_border;
+    border-bottom:$shadow_border; 
 }
+.asl-status-container{
+    position:relative;
+    &:hover{
+        cursor: asset-url('Cursor_15.cur'), auto;
+    }
+    .slideout {
+
+        bottom: 0;
+        left: 0;
+
+        transition: transform 0.3s ease-in-out;
+        transform: translateY(100%);
+        z-index: 1000;
+      }
+      
+      .slideout.shown {
+        transform: translateY(0);
+      }
+      
+      .hidden {
+        display: none;
+      }
+
+}
+.status-list ul,.status-list li{
+list-style:none;
+padding:0px;
+margin:0px;
+}
+.asl-status-icon{
+    margin-right:6px;
+}
+
+.status-list li{
+    padding: 5px 8px;
+   display:flex;
+   cursor: asset-url('Cursor_15.cur'), auto;
+   &:hover{
+    background-color:blue;
+    a{color:white;}
+   }
+}
+
+
+
+
+
+/* END STATUS */

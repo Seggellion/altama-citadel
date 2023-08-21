@@ -240,4 +240,9 @@ updateCharCount() {
   this.aslCharsTarget.value = textareaValue.length;
 }
 
+
+
+
+
+
 }

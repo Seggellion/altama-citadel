@@ -119,6 +119,8 @@ Rails.application.routes.draw do
   get 'rfas_online', to: 'rfas#online'
   get 'start_shell', to: 'tasks#start_shell'
   get 'start_codex', to: 'tasks#start_codex'
+  post 'vim_command', to: 'vim#vim_command'
+
   get 'start_bot_manager', to: 'tasks#start_bot_manager'
   get 'start_asl', to: 'tasks#start_asl'
   get 'codex_timeline', to: 'codex#timeline'
@@ -208,7 +210,7 @@ Rails.application.routes.draw do
   post 'verify', to: 'users#verify', as: :verify
   post 'hangardump', to: 'hangardumps#create', as: :hangardump
   post 'activate', to: 'users#activate', as: :activate
-  post 'vim_command', to: 'vim#vim_command'
+  get 'user_status', to: 'users#user_status', as: :user_status
   #End User
 
 # ASL portion

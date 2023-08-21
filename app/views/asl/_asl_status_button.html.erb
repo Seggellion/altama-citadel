@@ -1,0 +1,50 @@
+<div  id="asl-slideout"  data-userstatus-target="slideout" class="hidden slideout status-list">
+    <ul>
+    
+    <li>
+        <div class="asl-status-icon">
+            <%= image_tag("asl_status_online.png") %>
+        </div>
+        <div class="asl-status-text">
+            <%=link_to "Online", user_status_path('online') %>
+        </div>
+    </li>
+    <li>
+        <div class="asl-status-icon">
+            <%= image_tag("asl_status_away.png") %>
+        </div>
+        <div class="asl-status-text">
+            <%=link_to "Away", user_status_path('away') %>
+        </div>
+    </li>
+    <li>
+        <%=link_to "Not Available", user_status_path('not-available') %>
+    </li>
+    <li>
+        <%=link_to "Fuelling", user_status_path('fuelling') %>
+    </li>
+    <li>
+        <%=link_to "Occupied", user_status_path('occupied') %>
+    </li>
+    <li>
+        <%=link_to "Do not Disturb", user_status_path('dnd') %>
+    </li>
+    <li>
+        <%=link_to "Invisible", user_status_path('invisible') %>
+    </li>
+    <li>
+        <div class="asl-status-icon">
+            <%= image_tag("asl_status_offline.png") %>
+        </div>
+        <div class="asl-status-text">
+            <%=link_to "Offline", user_status_path('offline') %>
+        </div>
+    </li>
+
+
+
+    </ul>
+</div>
+
+<%= user_status_image(@current_user) %>
+

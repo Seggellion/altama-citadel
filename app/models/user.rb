@@ -84,6 +84,7 @@ def isAdmin?
   end
 end
 
+
 def desktop
   
   self.update(last_login: DateTime.now)
@@ -346,6 +347,11 @@ def filtered_by_receiver(receiver)
 messages = (my_messages + receiver_messages).sort_by(&:created_at)
   
   messages
+end
+
+def status_image_path
+  status = online_status || "offline"
+  "asl_status_#{status.downcase.gsub(' ', '_')}.png"
 end
 
   def total_reviews
