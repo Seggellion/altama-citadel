@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_21_200127) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_22_033316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -499,6 +499,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_200127) do
     t.float "best_lap"
     t.float "total_time"
     t.integer "usership_id"
+    t.string "channel"
     t.index ["star_bitizen_race_id"], name: "index_star_bitizen_race_users_on_star_bitizen_race_id"
     t.index ["user_id"], name: "index_star_bitizen_race_users_on_user_id"
   end
@@ -512,6 +513,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_200127) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "enabled", default: false
     t.index ["user_id"], name: "index_star_bitizen_races_on_user_id"
   end
 
