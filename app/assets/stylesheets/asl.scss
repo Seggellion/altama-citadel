@@ -50,10 +50,16 @@
         }
         a{
             padding:5px 2px;
-            display:block;
+            display:flex;
             color:blue;
             text-decoration:none;
             text-align:left;
+            align-items: center;
+            img{
+                margin-right:5px;
+                height: fit-content;
+                width: 20px;
+            }
         }
     }
 }

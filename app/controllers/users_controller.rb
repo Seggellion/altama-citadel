@@ -25,6 +25,7 @@ class UsersController < ApplicationController
     status = params[:format]    
     current_user.update(online_status: status)
     # After saving the updated status
+    #byebug
     ActionCable.server.broadcast('status_updates', { user_id: current_user.id, status: current_user.online_status, username: current_user.username })
 
     redirect_to root_path

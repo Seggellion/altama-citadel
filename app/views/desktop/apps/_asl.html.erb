@@ -14,21 +14,16 @@
             <hr>
         </div>
                 <% friendships.each do |friendship| %>
-                    <%= link_to state_asl_message_path(sender: friendship.friend.username), method: :post do %>
-                        <div data-friend-id="<%= friendship.friend.id %>">
+                    <div class="asl-friend-row" data-friend-id="<%= friendship.friend.id %>">
+                    <%= link_to state_asl_message_path(sender: friendship.friend.username), method: :post do %>                        
                             <% if @current_user.has_unread_messages_from?(friendship.friend) %>
                                 <%= show_svg('asl-message') %>
                                 
                             <% else %>
-                            <%= user_image(friendship.friend) %>
-                                
-                            <% end %>
-                            
-                        </div>
-                 
-                        
-                        <% end %>
-                    
+                            <%= user_image(friendship.friend) %>                                
+                            <% end %>                                                                                 
+                    <% end %>                    
+                    </div>
                 <% end %>
             
         <% end %>
@@ -41,13 +36,12 @@
     <div data-controller="messages">
         <div data-messages-target="list">
 
-        <% current_user.friend_requests.each do |message| %>            
+        <% current_user.friend_requests.each do |message| %>                     
             <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
             <%= show_svg('asl-outline') %><%= message.sender_name %>
             <% end %>                 
         <% end %>
         
-
         <% current_user.system_messages.each do |message| %>            
             <%= link_to state_asl_message_path(sender: message.sender), method: :post do %>
             <%= show_svg('asl-outline') %><%= message.sender_name %>
@@ -82,6 +76,15 @@
         <script>
 
 document.querySelector(`name`).innerHTML = '<%= current_user.asl_number %>';
+
+
+  var assetPaths = {
+    'online': '<%= asset_path("asl_status_online.png") %>',
+    'offline': '<%= asset_path("asl_status_offline.png") %>',
+    'away': '<%= asset_path("asl_status_away.png") %>'
+  };
+
+
         </script>
 <style>
 #asl content{
@@ -100,4 +103,14 @@ margin:0px;
     flex-direction: column;
     justify-content: space-between;
 }
+
+.asl-friend-row{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left:5px;
+}
+
 </style>

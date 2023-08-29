@@ -341,18 +341,17 @@ end
     self.messages.where(subject:"Friend Request")
   end
 
-def filtered_by_receiver(receiver)
-  my_messages = self.messages.where(receiver_id: receiver)
-  receiver_messages = Message.where(user_id: receiver, receiver_id: self.id)
-messages = (my_messages + receiver_messages).sort_by(&:created_at)
-  
-  messages
-end
+  def filtered_by_receiver(receiver)
+    my_messages = self.messages.where(receiver_id: receiver)
+    receiver_messages = Message.where(user_id: receiver, receiver_id: self.id)
+    messages = (my_messages + receiver_messages).sort_by(&:created_at)
+    messages
+  end
 
-def status_image_path
-  status = online_status || "offline"
-  "asl_status_#{status.downcase.gsub(' ', '_')}.png"
-end
+  def status_image_path
+    status = online_status || "offline"
+    "asl_status_#{status.downcase.gsub(' ', '_')}.png"
+  end
 
   def total_reviews
     Review.where(reviewee_id: self.id).count

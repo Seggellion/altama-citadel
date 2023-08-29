@@ -13,7 +13,9 @@ consumer.subscriptions.create("StatusUpdatesChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
+    console.log('recieved?');
     const userElement = document.querySelector(`[data-user-id='${data.user_id}']`);
+    
     if (userElement) {
       userElement.innerHTML = `<img src="/assets/${data.status}.png" alt="${data.status}"> ${data.username}`;
     }

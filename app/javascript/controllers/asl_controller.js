@@ -9,7 +9,7 @@ export default class extends Controller {
   connect() {
     console.log("ASL Controller connected");
     this.setupMessagesChannel();
-    
+
     if (this.hasAslNumberTarget && this.hasDisplayNameTarget && this.hasTwitchNameTarget) {
         this.populateFields();
     }
@@ -166,6 +166,13 @@ setupMessagesChannel() {
       disconnected: () => this._disconnected(),
       received: data => this._received(data)
   });
+}
+
+disconnect() {
+  // Cleanup code
+  if (this.subscription) {
+    this.subscription.unsubscribe()
+  }
 }
 
 scrollToBottom() {

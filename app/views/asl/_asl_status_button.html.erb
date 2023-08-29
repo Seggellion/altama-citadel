@@ -18,16 +18,31 @@
         </div>
     </li>
     <li>
-        <%=link_to "Not Available", user_status_path('not-available') %>
+        <div class="asl-status-icon">
+            <%= image_tag("asl_status_not-available.png") %>
+        </div>
+        <div class="asl-status-text">
+            <%=link_to "Not Available", user_status_path('not-available') %>
+        </div>
     </li>
     <li>
-        <%=link_to "Fuelling", user_status_path('fuelling') %>
+        <div class="asl-status-icon">
+            <%= image_tag("asl_status_fuelling.png") %>
+        </div>
+        <div class="asl-status-text">
+            <%=link_to "Fuelling", user_status_path('fuelling') %>
+        </div>
     </li>
     <li>
         <%=link_to "Occupied", user_status_path('occupied') %>
     </li>
     <li>
-        <%=link_to "Do not Disturb", user_status_path('dnd') %>
+        <div class="asl-status-icon">
+            <%= image_tag("asl_status_dnd.png") %>
+        </div>
+        <div class="asl-status-text">
+            <%=link_to "Do not Disturb", user_status_path('dnd') %>
+        </div>
     </li>
     <li>
         <%=link_to "Invisible", user_status_path('invisible') %>

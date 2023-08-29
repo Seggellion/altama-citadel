@@ -2,6 +2,7 @@
 class StatusUpdatesChannel < ApplicationCable::Channel
     def subscribed
       stream_from "status_updates"
+      puts "Subscribed to StatusUpdatesChannel"
       Rails.logger.info "Client subscribed to StatusUpdatesChannel"
 
     end
