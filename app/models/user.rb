@@ -343,7 +343,7 @@ end
 def filtered_by_receiver(receiver)
   my_messages = self.messages.where(receiver_id: receiver)
   receiver_messages = Message.where(user_id: receiver, receiver_id: self.id)
-messages = (my_messages + receiver_messages).sort_by(&:created_at)
+  messages = (my_messages + receiver_messages).sort_by(&:created_at)
   
   messages
 end

@@ -35,16 +35,24 @@ def state_asl_message_next
 
 
   def state_asl_message_prev
-    current_message = current_user.my_messages.find_by_id(params[:current_message])
-    sender =''
-    if current_message
-      sender = current_message.sender.id
-    end
-    previous_message = current_message.prev_created
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
     unless  task
       task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "Guildstone")
     end
+
+
+    receiver_id = task.state.split('|')[0].split('-').last
+    #receiver = User.find_by(id: @receiver_id)
+    receiver = User.find_by(username: receiver_id)
+
+    current_message = Message.find_by_id(params[:current_message])
+    sender =''
+   # if current_message
+     # sender = current_message.sender.id
+    #end
+    #byebug
+    previous_message = current_message.prev_created(receiver.id)
+#byebug
     @window_states =  []
     state_name = "message-#{sender}"
     curr_message = "|#{current_message.id}"
@@ -65,6 +73,11 @@ def state_asl_message_next
 
   def state_asl_message
     sender = params[:sender]
+    #
+    #receiver = User.find_by(id: receiver_id)
+   # receiver ||= User.find_by(username: receiver_id
+
+   # @last_message = current_user.filtered_by_receiver(receiver.id).last
     # TODO: changed task_id to sender_id - will have to add in a way to check for tasks later
     @messages = current_user.my_messages.where(sender_id: sender).order(:id).last
     task = @all_tasks.find_by(task_manager_id: @task_manager.id, name: "ASL")
@@ -84,9 +97,18 @@ def state_asl_message_next
       @window_states = @window_states + Array[state_name]
     end
     states_string = @window_states.join(',')
-    
+
     task.update(state:states_string)
+
+    @receiver_id = task.state.split('|')[0].split('-').last
+    @receiver = User.find_by(id: @receiver_id)
+    @receiver ||= User.find_by(username: @receiver_id)
+
+    @last_message = current_user.filtered_by_receiver(@receiver.id).last
+
+   
     redirect_to root_path
+    byebug
   end
 
   def state_asl_message_new
@@ -103,7 +125,6 @@ def state_asl_message_next
     task.update(state: state_name)
 
     redirect_to root_url
-
   end
 
   def asl_read_message

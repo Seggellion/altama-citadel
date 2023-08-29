@@ -5,7 +5,7 @@ export default class extends Controller {
   static values = { uhOhSoundPath: String }
   static targets = ["row","aslNumber", "displayName", "twitchName", "existingGroupRadio", "aslChars",
    "newGroupRadio", "friendGroupSelect", "newFriendGroupInput", "request_container", "messageContent", "messageHistory",
-   "messageView"];
+   "messageView", "button1View", "button2View"];
 
   connect() {
     console.log("ASL Controller connected");
@@ -240,16 +240,21 @@ toggleHistory(event) {
 toggleMessage(event) {
   event.preventDefault();
   const messageDiv = this.messageViewTarget;
-  const newMessageDiv = this.newMessageTarget;
+  const button1Div = this.button1ViewTarget;
+  const button2Div = this.button2ViewTarget;
 
   if (messageDiv.style.display === "none") {
     messageDiv.style.display = "block";
+    button1Div.style.display = "block";
+    button2Div.style.display = "block";
     document.querySelector(".message-field").classList.remove("maximized")
     document.querySelector(".message-field").classList.add("hide")
   } else {
     document.querySelector(".message-field").classList.add("maximized")
     document.querySelector(".message-field").classList.remove("hide")
     messageDiv.style.display = "none";
+    button1Div.style.display = "none";
+    button2Div.style.display = "none";
   }
 }
 

@@ -27,19 +27,6 @@
             </ul>
 
         </div>
-
-
-        <div class="message-view" data-asl-target="messageView" style="display:none;">
-
-
-            <ul>
-            <% if @current_user.filtered_by_receiver(receiver.id) %>
-                <% last_message = @current_user.filtered_by_receiver(receiver.id).last %>    
-                <li><%= last_message.sender.username %>: <%= last_message.content %></li>
-            <% end %>
-            </ul>
-
-        </div>
     <% end %>
 
         <div class="message-info-pane">
@@ -66,27 +53,46 @@
                     <%= image_tag('asl_message_background_icon.png') %>
                     </a>
                 </div>
-                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleMessage">Not In Use</a></div>
-                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleHistory">History</a></div>
+                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleMessage">Message View</a></div>
+                <div class="column"><a  class="button-class" href="#" data-action="click->asl#toggleHistory">History View</a></div>
 
             </div>
         </div>
+
+
         <div class="message-field maximized">
-        <textarea data-asl-target="messageContent" data-action="input->asl#updateCharCount" id="message" name="content"></textarea>
+            <textarea data-asl-target="messageContent" data-action="input->asl#updateCharCount" id="message" name="content"></textarea>
+        </div>
+
+
+        <div class="message-view" data-asl-target="messageView" style="display:none;">
+
+
+
+            <% if @current_user.filtered_by_receiver(receiver.id) %>
+                <% last_message = @current_user.filtered_by_receiver(receiver.id).last %>    
+                <%= last_message.sender_name %>: <%= last_message.content %>
+
+            <% end %>
+
 
         </div>
+
+
 
     <div class="message-buttons">
     <div class="column">
     <a  class="button-class" href="#">Cancel</a>
     <a  class="button-class" href="#">User Details</a>
-    <%= link_to "Prev Message", asl_read_message_path %>
+    <%= link_to prev_message_path(current_message: @current_user.filtered_by_receiver(receiver.id).last), method: :post do %>
+        <div  class="button-class message-view" data-asl-target="button1View" href="#" style="display:none;">Prev</div>
+    <% end%>
     </div>
 
 
 
     <div class="column">
-
+    <a  class="button-class message-view" data-asl-target="button2View" href="#" style="display:none;">Next</a>
     <a data-action="click->asl#sendMessage" class="button-class" href="#">Send</a>
 
     <%= image_tag('asl_message_graphic.png') %>
