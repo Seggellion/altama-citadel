@@ -79,7 +79,7 @@ Rails.application.routes.draw do
   end
 
   post 'staff_code', to: 'conquest#staff_code',  as: :staff_code, :constraints => { :subdomain => "ctd" }
-
+  get 'ship_components', to: 'ship_components#index'
   get 'conquest_event', to: 'conquest#show', :constraints => { :subdomain => "ctd" }
   get 'clear_conquest_records', to: 'event_records#clear_control_points'
   get 'stop_conquest', to: 'control_points#stop_conquest', :constraints => { :subdomain => "ctd" }

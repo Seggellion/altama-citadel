@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_28_052918) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_12_021707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -442,6 +442,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_052918) do
     t.integer "size", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "component_description"
+    t.integer "component_price"
   end
 
   create_table "ships", force: :cascade do |t|
@@ -616,7 +618,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_052918) do
     t.datetime "updated_at", null: false
     t.datetime "session_date"
     t.integer "owner_id"
-    t.string "session_users"
+    t.string "session_users", default: "f"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -716,11 +718,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_052918) do
 
   create_table "usership_components", force: :cascade do |t|
     t.integer "powered", default: 1
-    t.integer "damaged", default: 0
     t.bigint "usership_id", null: false
     t.bigint "ship_components_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "health", default: 100
     t.index ["ship_components_id"], name: "index_usership_components_on_ship_components_id"
     t.index ["usership_id"], name: "index_usership_components_on_usership_id"
   end
