@@ -25,6 +25,9 @@ module AltamaCitadel
         resource '/shipments/json_request',
                  headers: :any,
                  methods: [:post]
+        resource '/ship_components',
+                  headers: :any,
+                  methods: [:get, :post]
       end
     end
 
