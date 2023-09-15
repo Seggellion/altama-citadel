@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_12_021707) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_14_012538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -750,6 +750,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_021707) do
     t.string "fid"
     t.string "model"
     t.integer "boost"
+    t.integer "health", default: 100
+    t.integer "topspeed"
+    t.integer "dexterity"
   end
 
   create_table "votes", force: :cascade do |t|
