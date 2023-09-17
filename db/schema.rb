@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_14_012538) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_16_032306) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_012538) do
     t.boolean "active"
     t.boolean "out_of_date", default: false
     t.integer "inventory", default: 0
+    t.boolean "fuel_product", default: false
   end
 
   create_table "commodity_stubs", force: :cascade do |t|
@@ -618,7 +619,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_012538) do
     t.datetime "updated_at", null: false
     t.datetime "session_date"
     t.integer "owner_id"
-    t.string "session_users", default: "f"
+    t.string "session_users"
   end
 
   create_table "transactions", force: :cascade do |t|

@@ -2,13 +2,13 @@
     <div class="field"><label><%= commodity.symbol %> amt:</label>
      <%= form.number_field "#{commodity.symbol}", step:0.01, data:{ action: 'change->commodity#total_amount'},  class: 'quantity', value: existing_total, disabled: @rfa.isSolved? %></div>
     <div class="field"><label><%= commodity.symbol %> mkt price:</label>
-     <%= form.number_field "#{commodity.symbol}-market-price", readonly:true, value: commodity.price, data:{ 'commodity-target' => 'mkt_price',   'commodity' => commodity.symbol  } %>
+     <%= form.number_field "#{commodity.symbol}-market-price", readonly:true, value: commodity.sell, data:{ 'commodity-target' => 'mkt_price',   'commodity' => commodity.symbol  } %>
     </div>
     <div class="field"><label>
     <%= commodity.symbol %> total price:</label> 
     <%= form.number_field "#{commodity.symbol}-total", readonly:true, value: "#{@rfa.line_item_price(commodity) }", class:'totals', data:{ 'commodity-target' => 'total_field'} %></div>
     <% unless @rfa.get_product(commodity).nil? %>
-        <%= form.hidden_field "#{commodity.symbol}-selling-price", readonly:true, value: "#{@rfa.get_product(commodity).selling_price }", data:{ 'commodity-target' => 'selling_price'  } %>
+        <%= form.hidden_field "#{commodity.symbol}-selling-price", readonly:true, value: "#{@rfa.get_product(commodity).sell }", data:{ 'commodity-target' => 'selling_price'  } %>
    <% else %>
         <%= form.hidden_field "#{commodity.symbol}-selling-price", readonly:true, value: 0, data:{ 'commodity-target' => 'selling_price'  } %>
     <% end %>

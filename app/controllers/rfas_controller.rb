@@ -5,14 +5,16 @@ class RfasController < ApplicationController
 
   # GET /rfas or /rfas.json
   def index
-    @rfas = Rfa.where(status_id:1)
-    @rfas += Rfa.where(status_id:0)
+    @rfas = Rfa.where(status_id:0)
+    @rfas += Rfa.where(status_id:1)
     @rfas += Rfa.where(status_id:2)
+    @rfas += Rfa.where(status_id:3)
+    @rfas += Rfa.where(status_id:4)
     @rfa_hold = Rfa.where(status_id:3)
-    @rfa_solved = Rfa.where(status_id:4)
+    @rfa_solved = Rfa.where(status_id:5)
     @rfa_unassigned = Rfa.where(status_id:0)
-    @rfa_mine = Rfa.where(user_assigned_id: current_user.id)
-
+    @rfa_mine = Rfa.where(user_assigned_id: current_user.id).order(created_at: :desc)
+    
     @current_task = Task.find_by(name: "RFA Manager")
   end
 
@@ -55,10 +57,11 @@ end
 
   # GET /rfas/1/edit
   def edit
-    
+    @fuel_commodities = Commodity.where(fuel_product:true)
     @all_commodities = Commodity.all
     @all_locations = Location.all
     @all_products = RfaProduct.all
+    @altama_users = User.where.not(org_title: [nil, ""]).order(last_login: :desc, username: :asc)
     @hash =  [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   end
 
@@ -68,7 +71,7 @@ end
     @rfa = Rfa.new(rfa_params)
     @usership = Usership.new
     @userships = Usership.where(user_id: current_user.id)
-    @location = Location.find_by_id(@rfa.location_id)
+    @location = Location.find_by_name(@rfa.location)
     @ships = Ship.all
 
     respond_to do |format|
@@ -79,13 +82,13 @@ end
           title "ΛLTΛMΛ Citadel - New request for assistance - Click here to view"
           description "@here Please view this RFA within Citadel"
           
-          location = Location.find_by_id(rfa.location_id)
+          
           author name: rfa.user.username
           color "00FFFF"
           
           url "https://ctd.altama.energy/rfas/#{rfa.id}/edit"
           add_field name: "Location",
-                    value: location.name
+                    value: @location.name
           add_field name: "Ship",
                     value: rfa.full_ship_name
           footer text: "<#dispatch>"
@@ -124,62 +127,50 @@ client_id = ENV['DISCORD_CLIENT_ID']
 
 channel_id = 959365343237799936
 
+  #pineapple commented to be offline
 
+#     bot_cmd = Discordrb::Commands::CommandBot.new token: token, prefix: '!'
+#     bot_cmd.command(:update) do |event, *args|
 
-  #  token = ENV['GOOGLE_APPLICATION_CREDENTIALS'] 
-    bot_cmd = Discordrb::Commands::CommandBot.new token: token, prefix: '!'
-    bot_cmd.command(:update) do |event, *args|
+      
+
       # This simply sends the bot's invite URL, without any specific permissions,
       # to the channel.
       # username = event.message.content.partition(':').last
       # uid = username[3..-1]
   
-      data = event.message.content.split(',')
-      uid = data[1]
-      status = data[2].to_s
+#      data = event.message.content.split(',')
+#      uid = data[1]
+#      status = data[2].to_s
       #uid = uid.chomp('>')
-      puts uid
+
       #user = await client.get_user_info(uid)
     #  user = bot_cmd.user(uid)
-      message = %W{#{user.username}}
-      bot_user = bot.user(user.uid)
+#      message = %W{#{user.username}}
+#      bot_user = bot.user(user.uid)
 
-# Send a DM to the user
-if bot_user
-  bot_user.send_message('Hello, this is a direct message!')
-end
+      # Send a DM to the user
+#      if bot_user
+#        bot_user.send_message('Hello, this is a direct message!')
+#      end
       #user.pm('Hey ' + user.username + ' It looks like your status is now set to: ' + status )
       #await client.send_message(me, "Hello!")
   
       #event.bot.invite_url
-    end
+#    end
   
 
-    # From ChatGPT
-# Create a bot instance
-# bot = Discordrb::Bot.new(token: token, client_id: client_id)
 
-# Get the channel you want to send the message to
-# channel = bot.channel(channel_id)
+    
+#  bot_cmd.run :async
 
-# Send a message to the channel
-# channel.send_message('Hello, world!')
-
-  #bot.users.fetch('Seggellion').then(dm => {
-  #    dm.send('Hello World')
-  #})
-  
-  # This method call has to be put at the end of your script, it is what makes the bot actually connect to Discord. If you
-  # leave it out (try it!) the script will simply stop and the bot will not appear online.
-  bot_cmd.run :async
-
-
+#    #end of pineapple
 
     ### discord bot end
 
 
    # bot =  Nokogiri::HTML(URI.open(bot_url).read)
-
+   
     if params[:rfa][:HYD].to_f > 0
       commodity = Commodity.find_by(symbol:"HYD")
       amount =  params[:rfa][:HYD].to_f
@@ -283,7 +274,7 @@ end
     # Only allow a list of trusted parameters through.
     def rfa_params
       params.require(:rfa).permit(:title, :description, :rsi_username, :status_id, 
-      :location_id, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
+      :location, :ship_id, :priority_id, :total_fuel, :total_price, :total_cost, 
       :aec_rewards, :user_assigned_id, :user_id, :usership_id, :servicefee,
       userships_attributes: [:ship_id, :user_id])      
     end

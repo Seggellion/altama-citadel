@@ -39,7 +39,7 @@
 
   <div class="field">Ship: <%#= form.select :ship_id_id, ["Mustang","85x","Hornet"] %></div>
 <div class="rfa-action-buttons">
-<% Commodity.all.each do | commodity|  %>
+<% @fuel_commodities.all.each do | commodity|  %>
   <%= form_with(model: @rfa.get_product(commodity)) do |product| %>
     <%= product.hidden_field :selling_price, :value => 0 %>
     <%= product.hidden_field :commodity_id, :value => commodity.id %>

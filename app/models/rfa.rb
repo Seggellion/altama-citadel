@@ -56,9 +56,9 @@ def line_item_price(commodity)
   end
 end
 
-def location
-  Location.find_by_id(self.location_id)
-end
+#def location
+  #Location.find_by_id(self.location_id)
+#end
 
 def location_name
     location_name = self.location
@@ -184,10 +184,14 @@ def isSolved?
 end
 
 def full_ship_name
-  if self.usership_id
-    ship = Usership.find_by_id(self.usership_id).ship
-    manufacturer = Manufacturer.find_by_id(ship.manufacturer_id)
-    p ship.model  + ", " + manufacturer.name
+  if Usership.find_by_id(self.usership_id)
+    
+    ship_model = Usership.find_by_id(self.usership_id).model    
+    if ship_model
+      ship = Ship.find_by_model(ship_model)
+      manufacturer = Manufacturer.find_by_id(ship.manufacturer_id)
+      p ship.model  + ", " + manufacturer.name
+    end
   else
     "No ship data"
   end
@@ -228,7 +232,7 @@ end
     end
 
     def self.solved_tickets
-        self.where(status_id:4).count
+        self.where(status_id:5).count
     end
 
 end
