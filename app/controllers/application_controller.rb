@@ -30,7 +30,8 @@ class ApplicationController < ActionController::Base
   def handle_error(e)
     @log_data = fetch_log_data if Rails.env.production?
     #render 'error', status: :internal_server_error
-    render 'bsod', status: :internal_server_error
+    #disabled bsod
+    # render 'bsod', status: :internal_server_error
     #redirect_to bsod_path 
     #code to send email and redirect to error page
   end
