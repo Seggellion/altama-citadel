@@ -3,5 +3,5 @@ class OnlineResource < JSONAPI::Resource
     attributes :rsi_username
     model_name 'User'
 
-    filter :online_status, default: 'rfa_online'
+    filter :online_status, default: 'fuelling'
 end

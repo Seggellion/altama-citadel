@@ -5,7 +5,7 @@ class RfaapiController < JSONAPI::ResourceController
         
         api_params =  params[:data][:attributes].as_json
         random_password = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
-        users_online = User.where(online_status: "rfa_online")
+        users_online = User.where(online_status: "fuelling")
         ship_name = api_params['ship_name']
         ship = Ship.find_by("lower(model) = ?", ship_name.downcase)
         location_name = api_params['location']

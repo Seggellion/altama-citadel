@@ -49,6 +49,9 @@ class User < ApplicationRecord
   has_many :milk_runs
   has_many :friendships
   has_many :trade_runs, primary_key: 'username', foreign_key: 'username'
+  # Associations for the forum
+  has_many :forum_posts, dependent: :destroy
+  has_many :forum_comments, dependent: :destroy
   has_one :position, :through => :user_position
   has_one :user_position
   has_many :sent_transactions, class_name: 'Transaction', foreign_key: 'sender_id', dependent: :destroy

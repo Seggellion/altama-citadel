@@ -1,6 +1,6 @@
 <%= render '/desktop/window-frame', app1: 'Roadside Assistance', task: @current_task %>
 
-<section id="rfa_index" <% unless  current_user.online_status == "rfa_online"  %> class="offline" <% end %> >
+<section id="rfa_index" <% unless  current_user.online_status == "fuelling"  %> class="offline" <% end %> >
 
   <div class="topbar">
 
@@ -11,7 +11,7 @@
     <div id="sidebar" class="views-panel">
     <%= link_to  rfas_online_path do %>  
   <label class="switch">
-  <input type="checkbox" <% if current_user.online_status == "rfa_online" %>checked<% end %> >
+  <input type="checkbox" <% if current_user.online_status == "fuelling" %>checked<% end %> >
   <span class="slider"></span>
 </label>
 <% end %>

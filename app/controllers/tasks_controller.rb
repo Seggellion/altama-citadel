@@ -614,10 +614,10 @@ current_task = Task.find_by_id(params[:task])
 
   # DELETE /tasks/1 or /tasks/1.json
   def destroy
-    if @task.name == "RFA Manager" && current_user.online_status == "rfa_online"
+    if @task.name == "RFA Manager" && current_user.online_status == "fuelling"
       current_user.update(online_status: nil)
       eligible_rfas = Rfa.where("status_id < ?", 2)
-      if User.where(online_status:"rfa_online").empty?
+      if User.where(online_status:"fuelling").empty?
         eligible_rfas.update_all(users_online:false)
       end
     end

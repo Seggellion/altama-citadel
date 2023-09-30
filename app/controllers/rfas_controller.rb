@@ -25,22 +25,22 @@ def online
 
 #user.update()
 eligible_rfas = Rfa.where("status_id < ?", 2)
-if user.online_status == "rfa_online"
+if user.online_status == "fuelling"
   user.update(online_status: nil)
-  if User.where(online_status:"rfa_online").empty?
+  if User.where(online_status:"fuelling").empty?
     eligible_rfas.update_all(users_online:false)
   end
 else  
-  if User.where(online_status:"rfa_online").empty? 
+  if User.where(online_status:"fuelling").empty? 
     eligible_rfas.update_all(users_online:true)
   end
-  user.update(online_status: "rfa_online")
+  user.update(online_status: "fuelling")
 end
 
   respond_to do |format|
     if user.online_status
 
-      format.html { redirect_to rfas_path, notice: "User is online" }
+      format.html { redirect_to rfas_path, notice: "User is fuelling" }
       #format.json { render :show, status: :created, location: @rfa }
     else
       format.html { redirect_to rfas_path, notice: "User is offline" }
