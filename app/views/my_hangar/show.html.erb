@@ -5,6 +5,7 @@
 <div>
   <%= link_to "Edit this usership", edit_usership_path(@usership) %> |
   <%= link_to "Back to userships", userships_path %>
-
+<% if @usership.source == "imported" %>
   <%= button_to "Destroy this usership", usership_path(@usership), method: :delete %>
+  <% end %>
 </div>

@@ -14,7 +14,7 @@ def view
 end
 
 def clear_ships
-  @myships = Usership.where(user_id: current_user.id)
+  @myships = Usership.where(user_id: current_user.id, source: "imported")
   @myships.destroy_all
   respond_to do |format|
     format.html { redirect_to my_hangar_add_path, notice: "Records clear." }
