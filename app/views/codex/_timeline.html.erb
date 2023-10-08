@@ -25,13 +25,11 @@
 <% Event.totalYears.times do |i| %>
 <td>
 <div class="timeline-header">
-
 <%= i + 2010 %>
 </div>
 <div class="timeline-events">
 
 <% if Event.timeline_events(i).count > 0 %>
-
     <% Event.timeline_events(i).each do |event| %>
         <%= render '/codex/timeline_card', event:event %>
     <% end %>

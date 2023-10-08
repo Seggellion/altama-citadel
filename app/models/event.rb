@@ -49,31 +49,31 @@ class Event < ApplicationRecord
    
         end
 
-def toggle_open
-    if self.open.nil? || self.open == false
-        self.update!(open:true)
-    else
-        self.update!(open:false)
-    end
-end
+        def toggle_open
+            if self.open.nil? || self.open == false
+                self.update!(open:true)
+            else
+                self.update!(open:false)
+            end
+        end
 
-def self.totalYears
-    date_beginning = DateTime.new(2010,3,01)
-    if Event.first.present?
-    date_end = Event.all.order(start_date: :asc).last.start_date 
-    else
-    date_end = Date.today
-    end
-    
-    total_date = (date_end.year - date_beginning.year) + 1
-end
+        def self.totalYears
+            date_beginning = DateTime.new(2010,3,01)
+            if Event.first.present?
+            date_end = (Event.all.order(start_date: :asc).last.start_date)
+            else
+            date_end = Date.today + 930.years
+            end
+            
+            total_date = (date_end.year - date_beginning.year) + 1
+        end
 
-def started?
-    event_start = self.start_date
-    todays_date = Time.now + 930.years
-    
-    return true if todays_date > event_start
-end
+        def started?
+            event_start = self.start_date
+            todays_date = Time.now + 930.years
+            
+            return true if todays_date > event_start
+        end
 
         def filteredFleet(user)
             

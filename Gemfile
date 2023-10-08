@@ -19,6 +19,7 @@ gem 'rack-cors'
 gem 'pg_search'
 
 
+
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.3"
 
@@ -63,6 +64,7 @@ gem "bootsnap", ">= 1.4.4", require: false
  gem "image_processing", "~> 1.2"
 
 gem 'devise', git: 'https://github.com/heartcombo/devise', branch: 'main'
+gem 'devise-jwt'
 gem 'byebug'
 
 gem 'omniauth-discord'

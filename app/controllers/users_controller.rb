@@ -5,6 +5,16 @@ class UsersController < ApplicationController
     #    @users = User.all
     #end
 
+  def decode_jwt(token)
+    decoded_token = JWT.decode(token, Devise.jwt_secret_key, true, { algorithm: 'HS256' })
+    user_id = decoded_token[0]['user_id']
+  
+    User.find(user_id)
+  rescue
+    nil
+  end
+    
+
   def index
     @department = Department.find(params[:department_id])
     @users = @department.users # Fetch users as needed

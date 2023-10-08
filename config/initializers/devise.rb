@@ -99,7 +99,13 @@ Devise.setup do |config|
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
   config.skip_session_storage = [:http_auth]
-
+  # config.jwt_secret_key = ENV['DEVISE_JWT_SECRET_KEY'] || Rails.application.credentials.secret_key_base
+  config.jwt do |jwt|
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
+    jwt.dispatch_requests = [['POST', %r{^/api/sign_in$}]]
+    jwt.revocation_requests = [['DELETE', %r{^/api/sign_out$}]]
+    jwt.expiration_time = 1.day.to_i # Customize the expiration time
+  end
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
   # requests for sign in and sign up, you need to get a new CSRF token
