@@ -55,8 +55,9 @@
 
   <div>
     <%= form.submit 'Update' %>
-
+    <% if usership.source == "imported" %>
     <%= link_to "Remove ship", usership_path(usership), class: 'btn red', 'data-turbo-method': :delete  %>
+    <% end %>
   </div>
 <% end %>
 
