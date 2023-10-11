@@ -28,7 +28,7 @@ module Api
         # Apply filter to only show userships with a source of "starbitizen" or "promotion"
         def self.records(options = {})
           context = options[:context]
-          Usership.where(source: ["starbitizen", "promotion"])
+          Usership.not(user_id: nil).where(source: ["starbitizen", "promotion"])
         end
       end
 
