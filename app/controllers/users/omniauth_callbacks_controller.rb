@@ -8,8 +8,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       case subdomain
       when 'ctd'        
         current_user = User.find_by_username(@user.username)
-        puts "accessing CTD"
-        TaskManager.create(user_id: current_user.id)
+        
+        TaskManager.find_or_create_by(user_id: current_user.id)
         bootup_path(subdomain: 'ctd')
       when 'sos'
         roadside_assistance_path(subdomain: 'sos')
