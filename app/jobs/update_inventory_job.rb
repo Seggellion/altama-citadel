@@ -14,8 +14,7 @@ class UpdateInventoryJob < ApplicationJob
           end
         rescue ActiveRecord::RecordInvalid => e
           Rails.logger.error("Validation failed for Commodity ID: #{commodity.id}, Name: #{commodity.name}, Location: #{commodity.location}. Error: #{e.message}")
-        end
-        end
+        end        
       end
     end
   end
