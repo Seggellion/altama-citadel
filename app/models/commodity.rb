@@ -3,12 +3,19 @@ class Commodity < ApplicationRecord
   validates :name, uniqueness: { scope: :location }
 
   # validates :updated_at, uniqueness: true
-  pg_search_scope :search_by_name_and_location,
-                  against: [:name, :location],
-                  using: {
-                    tsearch: { prefix: true },
-                    trigram: { threshold: 0.9 }
-                  }
+# Exact match for name using tsearch.
+pg_search_scope :search_by_exact_name,
+                against: :name,
+                using: {
+                  tsearch: { prefix: true, any_word: true }
+                }
+
+# Partial match for location using trigram.
+pg_search_scope :search_by_location,
+                against: :location,
+                using: {
+                  trigram: { threshold: 0.9 }
+                }
                   #has_many :milk_runs
                   has_many :milk_runs, class_name: 'MilkRun', foreign_key: 'buy_commodity_id'
     
