@@ -19,17 +19,16 @@ class AcuExchangeController < ApplicationController
     
     from_user_id = 1    
     
-    to_user = User.where("lower(username) LIKE lower(?)", "%#{player_name.downcase}%").first_or_initialize
+    to_user = User.where("lower(username) LIKE lower(?) OR lower(twitch_username) LIKE lower(?)", "%#{player_name.downcase}%", "%#{player_name.downcase}%").first_or_initialize
     if to_user.new_record?
       to_user.username = player_name
       to_user.password = SecureRandom.hex(10) 
       to_user.provider = 'Twitch' # replace with actual values
       to_user.save!      
     end
+        
+    to_user_id = to_user&.id
 
-    
-    to_user_id = User.where('lower(username) = lower(?)', player_name).first.id
-    
     return unless @secretguid == received_guid
     
     transaction = Transaction.create(amount: star_bits, sender_id: from_user_id, receiver_id: to_user_id)
