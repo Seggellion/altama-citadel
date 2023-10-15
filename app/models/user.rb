@@ -6,7 +6,11 @@ class User < ApplicationRecord
   
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable,
-  :omniauthable, omniauth_providers: %i[discord]
+  :omniauthable, :jwt_authenticatable,
+  omniauth_providers: %i[discord],
+  jwt_revocation_strategy: JwtDenylist
+
+
   has_many :userships
   has_many :trade_sessions, foreign_key: 'owner_id'
   #has_many :ships, :through => :userships

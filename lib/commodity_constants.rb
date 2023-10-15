@@ -39,7 +39,7 @@ module CommodityConstants
       "Hadanite" => 0,
       "Dolivine" => 0,
       "Aphorite" => 0,
-      "Helium" => 40,
+      "Helium" => 90,
       "Agricium (Ore)" => 0,
       "Aluminum (Ore)" => 0,
       "Copper (Ore)" => 0,
