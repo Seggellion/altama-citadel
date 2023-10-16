@@ -145,11 +145,11 @@ end
     commodity_name = @json_request["commodity"]
     to_location = @json_request["to_location"]
     sell_search_query = "#{commodity_name} #{to_location}"
-    #Commodity.where(active: true).search_by_name_and_location(sell_search_query).where('buy > ?', 0).first
+    # Commodity.where(active: true).search_by_name_and_location(sell_search_query).where('buy > ?', 0).first
 
     Commodity.where(active: true)
-    .search_by_exact_name(sell_search_query[:name])
-    .search_by_location(sell_search_query[:location])
+    .search_by_exact_name(commodity_name)
+    .search_by_location(to_location)
     .where('buy > ?', 0).first
 
   end
