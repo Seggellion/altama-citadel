@@ -66,6 +66,7 @@ class StarBitizenController < ApplicationController
     end
     puts records_exist
     puts buy_commodity
+    puts buy_commodity.inventory
     puts twitch_channel
     puts  total_units    
     puts to_user
