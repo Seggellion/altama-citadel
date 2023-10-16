@@ -19,6 +19,11 @@ class StarBitizenController < ApplicationController
     @sell_commodity = find_sell_commodity
     records_exist = @sell_commodity.present?
     @current_run = find_current_run
+    puts "sell trade"
+    puts @sell_commodity
+    puts records_exist
+    puts @current_run
+    puts "sell trade end block"
     response = handle_sell_trade(records_exist, @current_run, @sell_commodity)
     render json: response
   end
