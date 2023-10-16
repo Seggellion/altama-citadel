@@ -29,6 +29,7 @@ class StarBitizenController < ApplicationController
     response = {capital:  '30000 ERROR'}
     
     if records_exist && buy_commodity.inventory > 0
+      puts 'not failing'
         actual_removed = [buy_commodity.maxInventory, total_units].min
         actual_removed = [buy_commodity.inventory, actual_removed].min
 
@@ -79,6 +80,10 @@ end
   def handle_sell_trade(records_exist, current_run, sell_commodity)
     response = {total_sold: '30000 ERROR'}
     
+    puts records_exist
+    puts sell_commodity
+    puts current_run
+
     if records_exist && current_run
       total_units = current_run.scu
       buy_commodity = current_run.commodity
