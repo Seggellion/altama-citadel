@@ -67,10 +67,7 @@ class StarBitizenController < ApplicationController
     puts records_exist
     puts buy_commodity
     puts twitch_channel
-    puts  total_units
-    puts to_user
-    puts starbit twitch_channel
-    puts total_units
+    puts  total_units    
     puts to_user
     puts starbits
     puts "outputting failure"
