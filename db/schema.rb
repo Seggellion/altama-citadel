@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_061153) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_29_194622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -543,6 +543,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_061153) do
     t.integer "usership_id"
     t.string "channel"
     t.index ["star_bitizen_race_id"], name: "index_star_bitizen_race_users_on_star_bitizen_race_id"
+    t.index ["user_id", "star_bitizen_race_id"], name: "index_star_bitizen_race_users_on_user_id_and_race_id", unique: true
     t.index ["user_id"], name: "index_star_bitizen_race_users_on_user_id"
   end
 
@@ -660,7 +661,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_061153) do
     t.datetime "updated_at", null: false
     t.datetime "session_date"
     t.integer "owner_id"
-    t.string "session_users"
+    t.string "session_users", default: "f"
   end
 
   create_table "transactions", force: :cascade do |t|
