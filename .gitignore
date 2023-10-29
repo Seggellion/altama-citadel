@@ -44,3 +44,4 @@ dump.rdb
 latest.dump
 *.key
 *.old
+*.dump*
