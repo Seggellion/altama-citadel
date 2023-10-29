@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_29_195807) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_29_215012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -718,6 +718,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_29_195807) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "specialty", default: "none"
     t.index ["user_id"], name: "index_user_skills_on_user_id"
   end
 
