@@ -24,6 +24,8 @@ fame
 <% giveaway.giveaway_users.each do |user| %>
   <tr>
   <td>
+  <p><%= user.created_at.strftime("%A %d, %B") %></p>
+  </td>
 
   </td>
   </tr>
