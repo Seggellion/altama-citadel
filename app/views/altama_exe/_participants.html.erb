@@ -26,18 +26,20 @@ fame
   <td>
   <p><%= user.created_at.strftime("%A %d, %B") %></p>
   </td>
+  <% if user.user %>
   <td>
-  
+  <p><%= user.user.username %></p>
   </td>
   <td>
-  
+  <p><%= user.user.aec %></p>
   </td>
   <td>
-  
+  <p><%= user.user.karma %></p>
   </td>
   <td>
   <p><%= user.user.fame %></p>
   </td>
+  <$ end %>
   </tr>
 <% end %>
 </table>
