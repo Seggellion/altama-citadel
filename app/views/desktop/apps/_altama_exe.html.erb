@@ -3,11 +3,12 @@
     padding:20px;
 }
 .bot-container{
-    padding-top:40px;
-    height: 90%;
+    padding-top:10px;
+    height: 97%;
 }
 .bot-controls{
     display:flex;
+    justify-content: space-between;
 }
 .contact-list{
   height:100%;
@@ -22,7 +23,65 @@
     border: 1px solid black;
     padding: 10px;
 }
+window content{
+  height: 82%;
+  overflow: scroll;
+}
+.bot-info{
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  align-items:center;
+}
+windowTitle{
+  font-size: 2rem;
+  padding-left: 10px;
+}
 </style>
-<div data-controller="desktop" id="altama_exe" class="window">
-  
-</div>
+<windowTitle>BotManager2.0</windowTitle>
+  <div class="bot-container" data-controller="bot" >
+    <div class="contact-list">        
+      <% if @bots.empty? %>
+        <h1>No bots exist. Please create a new bot</h1>
+        <%= render 'altama_exe/bot_form' %>
+      <% else %>
+        <% @bots.each do |bot| %>
+          <div class="bot-body">
+          <div class="bot-info">
+            <span>BotName: <%= bot.bot_name %></span>
+            <span>Channel: <%= bot.channel %></span>
+            </div>
+            <div class="bot-controls">
+            <%= button_to 'Toggle Online Status', toggle_online_bot_path(bot), method: :patch %>
+              <% if bot.bot_online %>
+                <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="green" /></svg>
+              <% else %>
+                <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="red" /></svg>
+              <% end %>
+              <button data-action="bot#toggleGiveaways">Show Giveaways</button>
+            </div>
+
+      
+
+            <div data-bot-target="giveaways" class="hidden">
+              <h2>Giveaways</h2>
+              <% if bot.giveaways.empty? %>
+                <p>No giveaways yet. Create a new one:</p>                
+                <%= render 'altama_exe/giveaway_form', bot: bot %>
+              <% else %>
+                <% bot.giveaways.order(created_at: :desc).each do |giveaway| %>
+                  <p><%= giveaway.title %></p>
+                  <p><%= giveaway.description %></p>
+                  <button data-action="bot#toggleParticipants">Show Participants</button>
+                  <div data-bot-target="participants" class="participants hidden">
+                    <%= render 'altama_exe/participants', giveaway: giveaway %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+

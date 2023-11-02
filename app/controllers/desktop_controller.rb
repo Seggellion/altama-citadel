@@ -53,7 +53,7 @@ end
   @milk_runs = MilkRun.all
   
   @milk_run =  MilkRun.new
-  @bots = Bot.all
+  @bots = Bot.all.order(created_at: :asc)
   @discord_users =  DiscordUser.all.order(role: :desc)
   @rsi_users = RsiUser.all.order(title: :asc, username: :asc)
   @ships = Ship.all.order(model: :asc)

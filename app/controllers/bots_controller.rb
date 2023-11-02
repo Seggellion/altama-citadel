@@ -1,6 +1,6 @@
 class BotsController < ApplicationController
     def index
-      @bots = Bot.all
+      @bots = Bot.all.order(created_at: :asc)
     end
   
     def new
