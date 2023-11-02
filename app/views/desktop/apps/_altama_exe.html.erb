@@ -63,6 +63,22 @@ windowTitle{
 
       
 
+            <div data-bot-target="giveaways" class="hidden">
+              <h2>Giveaways</h2>
+              <% if bot.giveaways.empty? %>
+                <p>No giveaways yet. Create a new one:</p>                
+                <%= render 'altama_exe/giveaway_form', bot: bot %>
+              <% else %>
+                <% bot.giveaways.order(created_at: :desc).each do |giveaway| %>
+                  <p><%= giveaway.title %></p>
+                  <p><%= giveaway.description %></p>
+                  <button data-action="bot#toggleParticipants">Show Participants</button>
+                  <div data-bot-target="participants" class="participants hidden">
+                   
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
           </div>
         <% end %>
       <% end %>
