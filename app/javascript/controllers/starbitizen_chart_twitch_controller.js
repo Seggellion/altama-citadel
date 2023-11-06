@@ -11,7 +11,8 @@ export default class extends Controller {
     this.fontColor = this.element.dataset.font_color;
     this.accentColor = this.element.dataset.accent_color;
 
-    this.initializeChart()
+    this.initializeChart();
+    this.initializeCommodityChart();
     //this.tradeSessionId = this.element.dataset.tradeSessionId;
 
     
@@ -19,6 +20,7 @@ export default class extends Controller {
       .then(response => response.json())
       .then(data => {
         this.updateChart(data)
+        this.updateCommodityChart(data)
       })
     
     this.subscribeToChannel()
@@ -46,6 +48,33 @@ export default class extends Controller {
     // Redraw the chart
     this.chart.update();
   }
+
+  updateCommodityChart(data) {
+    // Update the labels to use commodity names
+    
+    this.commodityChart.data.labels = data.commodities.map(commodity => commodity.name);
+  
+    // Update the datasets
+
+    this.commodityChart.data.datasets[0].data = data.commodities.map(commodity => commodity.total_profit);
+  
+    // Run data
+    if (this.commodityChart.data.datasets[1]) {
+      this.commodityChart.data.datasets[1].data = data.commodities.map(commodity => commodity.runs_count);
+    } else {
+      this.commodityChart.data.datasets.push({
+        type: 'line',
+        label: '# Runs',
+        data: data.commodities.map(commodity => commodity.runs_count),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      });
+    }
+  
+    // Update chart with new data
+    this.commodityChart.update();
+  }
   
 
   setFontColor(alpha) {
@@ -65,7 +94,7 @@ export default class extends Controller {
   }
 
   initializeChart() {
-    this.chart = new Chart(this.canvasTarget, {
+    this.chart = new Chart(document.getElementById('profitsChart'), {
       type: 'bar',
       data: {
         labels: [],
@@ -144,17 +173,64 @@ export default class extends Controller {
     });
   }
   
+  initializeCommodityChart() {
+    this.commodityChart = new Chart(document.getElementById('commodityChart'), {
+      type: 'bar',
+      data: {
+        labels: [], // Initial empty labels
+        datasets: [{
+          label: 'Profit',
+          data: [], // Initial empty data array
+          backgroundColor: 'rgba(54, 162, 235, 0.2)', // Customise as needed
+          borderColor: 'rgba(54, 162, 235, 1)', // Customise as needed
+          borderWidth: 1,
+          yAxisID: 'y',
+        }, {
+          type: 'line',
+          label: '# Runs',
+          data: [], // Initial empty data array
+          backgroundColor: 'rgba(75, 192, 192, 0.2)', // Customise as needed
+          borderColor: 'rgba(75, 192, 192, 1)', // Customise as needed
+          borderWidth: 1,
+          yAxisID: 'y1',
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Profit'
+            }
+          },
+          y1: {
+            beginAtZero: true,
+            position: 'right',
+            title: {
+              display: true,
+              text: '# Runs'
+            },
+            grid: {
+              drawOnChartArea: false
+            },
+          }
+        }
+      }
+    });
+  }
+  
   
   
 
   received(data) {
     console.log('Received data:', data);
     
-    // Update the labels and data of the chart
+    // Update the labels and data of the first chart
     this.chart.data.labels = Object.keys(data.profits);
     this.chart.data.datasets[0].data = Object.values(data.profits);
     
-    // Run data
+    // Run data for the first chart
     if (this.chart.data.datasets[1]) {
       this.chart.data.datasets[1].data = Object.values(data.runs);
     } else {
@@ -167,10 +243,34 @@ export default class extends Controller {
         borderWidth: 1
       });
     }
+  
+    // Assuming data.commodities is structured correctly for the commodityChart:
+    // Update the labels to use commodity names
+    this.commodityChart.data.labels = data.commodities.map(commodity => commodity.name);
+  
+    // Update the datasets for the commodity chart
+    // Profit data for the commodity chart
+    this.commodityChart.data.datasets[0].data = data.commodities.map(commodity => commodity.total_profit);
+  
+    // Run data for the commodity chart
+    if (this.commodityChart.data.datasets[1]) {
+      this.commodityChart.data.datasets[1].data = data.commodities.map(commodity => commodity.runs_count);
+    } else {
+      this.commodityChart.data.datasets.push({
+        type: 'line',
+        label: '# Runs',
+        data: data.commodities.map(commodity => commodity.runs_count),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      });
+    }
     
-    // Redraw the chart
+    // Redraw both charts
+    this.commodityChart.update();
     this.chart.update();
   }
+  
   
 
   subscribeToChannel() {

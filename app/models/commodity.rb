@@ -18,7 +18,8 @@ pg_search_scope :search_by_location,
                 }
                   #has_many :milk_runs
                   has_many :milk_runs, class_name: 'MilkRun', foreign_key: 'buy_commodity_id'
-    
+                  has_many :star_bitizen_runs
+
     has_many :commodity_stubs, dependent: :delete_all
 
           def self.buy_by_location(location)

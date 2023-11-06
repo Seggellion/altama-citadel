@@ -25,15 +25,73 @@ class StreamchartController < ApplicationController
       runs = StarBitizenRun.all.joins(:user).group('users.username').count
       render json: { profits: profits, runs: runs }
     end
+
+    def star_bitizen_race_data
+      # Group and count StarBitizenRaceUser records by user
+      race_users_by_user = StarBitizenRaceUser.includes(:user)
+                                              .group('users.username')
+                                              .count
+
+      # Prepare data for chart - user races
+      user_races_data = race_users_by_user.map do |username, count|
+        {
+          username: username,
+          race_count: count
+        }
+      end
+
+      # Group and count StarBitizenRaceUser records by ship
+      race_users_by_ship = StarBitizenRaceUser.group(:ship).count
+
+      # Prepare data for chart - ship races
+      ship_races_data = race_users_by_ship.map do |ship, count|
+        {
+          ship: ship,
+          race_count: count
+        }
+      end
+
+      render json: {
+        user_races: user_races_data,
+        ship_races: ship_races_data
+      }
+    end
     
     def star_bitizen_twitch_data
       user = User.find_by(twitch_id: params[:twitch_id])
-      runs = StarBitizenRun.where(twitch_channel: user.twitch_id)
-      grouped_runs = runs.joins(:user).group('users.username').count
-      profits = runs.joins(:user).group('users.username').sum(:profit) 
       
-      render json: { profits: profits, runs: grouped_runs }
+      # Fetch all runs for the Twitch channel
+      runs = StarBitizenRun.where(twitch_channel: user.twitch_id)
+    
+      # Group runs by username for the first chart (if needed)
+      grouped_runs = runs.joins(:user).group('users.username').count
+      profits = runs.joins(:user).group('users.username').sum(:profit)
+    
+      
+  # Ensure that you're joining the commodities table when you want to group by commodity name
+  commodity_runs = runs.joins(:commodity).group('commodities.name')
+  commodity_grouped_runs = commodity_runs.count
+  commodity_profits = commodity_runs.sum(:profit)
+
+  # Prepare the commodities data for the chart
+  commodities_details = commodity_grouped_runs.map do |commodity_name, count|
+    {
+      name: commodity_name,
+      runs_count: count,
+      total_profit: commodity_profits[commodity_name] || 0
+    }
+  end
+    
+      # Render the JSON response with data for both charts
+      render json: {
+        # Data for the first chart
+        profits: profits,
+        runs: grouped_runs,
+        # Data for the second chart
+        commodities: commodities_details
+      }
     end
+    
     
 
   

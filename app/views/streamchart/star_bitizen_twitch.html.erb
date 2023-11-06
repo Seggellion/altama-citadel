@@ -1,8 +1,23 @@
 
 <div class="streamchart-container" data-controller="starbitizen-chart-twitch" data-font_color="<%= @user.font_color %>" data-accent_color="<%= @user.accent_color %>" data-twitch_id=<%= @user.twitch_id  %> >
 <h1><%= @user.twitch_username %> </h1>
-  <canvas data-starbitizen-chart-twitch-target="canvas"></canvas>
+  <canvas data-starbitizen-chart-twitch-target="canvas"  id="profitsChart"></canvas>
 </div>
+
+
+
+<div class="streamchart-container" data-controller="starbitizen-commodity-twitch" data-font_color="<%= @user.font_color %>" data-accent_color="<%= @user.accent_color %>" data-twitch_id=<%= @user.twitch_id  %> >
+<h1>Commodities</h1>
+  <canvas data-starbitizen-commodity-twitch-target="canvas" id="commodityChart"></canvas>
+</div>
+<h1>StarBitizenRacing</h1>
+<div data-controller="starbitizen-race-charts">
+  <canvas data-starbitizen-race-charts-target="userRacesCanvas" id="userRacesChart" width="400" height="400"></canvas>
+  <canvas data-starbitizen-race-charts-target="shipRacesCanvas" id="shipRacesChart" width="400" height="400"></canvas>
+</div>
+
+
+
 
 
 <style>
