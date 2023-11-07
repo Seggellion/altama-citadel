@@ -38,6 +38,9 @@ class StarBitizenController < ApplicationController
         actual_removed = [buy_commodity.maxInventory, total_units].min
         actual_removed = [buy_commodity.inventory, actual_removed].min
 
+        unless buy_commodity
+          return { capital: 'commodity_not_found' }.to_json
+        end
         # Now calculate the capital
         capital = buy_commodity.sell.to_i * actual_removed
         
