@@ -24,8 +24,8 @@ default: &default
 development:
   <<: *default
   database: altama_citadel_development_new
-#  username: linux_user
-#  password: linux_user
+  username: citadel  # Replace with your PostgreSQL username
+  password: citadel
 #  port: 5432
 #  host: localhost
 
@@ -63,8 +63,8 @@ development:
 test:
   <<: *default
   database: altama_citadel_test
-  # username: postgres
-  # password: R2KTr5d4
+  username: citadel
+  password: citadel
   # host: localhost
   # port: 5432
   # reconnect: true

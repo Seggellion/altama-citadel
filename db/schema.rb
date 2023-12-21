@@ -661,7 +661,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_29_215012) do
     t.datetime "updated_at", null: false
     t.datetime "session_date"
     t.integer "owner_id"
-    t.string "session_users", default: "f"
+    t.string "session_users"
   end
 
   create_table "transactions", force: :cascade do |t|
