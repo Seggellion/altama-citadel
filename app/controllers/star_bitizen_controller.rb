@@ -8,7 +8,8 @@ class StarBitizenController < ApplicationController
     def buy_trade
     setup_buy_trade_variables
     
-      processor = BuyTradeProcessor.new(@buy_commodity, @sell_commodity, @twitch_channel, @total_units, @to_user, @starbits)      
+      processor = BuyTradeProcessor.new(@buy_commodity, @sell_commodity, @twitch_channel, @total_units, @to_user, @starbits)   
+         
       render json: processor.process
     rescue => e
       
@@ -43,12 +44,13 @@ class StarBitizenController < ApplicationController
         @buy_commodity = Commodity.where(name: @commodity_name, location: from_location).where('sell > ?', 0).first
         @total_units = @json_request["total_units"].to_i
         @to_user = fetch_or_create_user(player_name)
-        
+
       end
       
       def fetch_or_create_user(player_name)
         user = User.where("username ILIKE ?", player_name).first_or_initialize do |new_user|
           new_user.username = player_name
+          new_user.twitch_username = player_name
           new_user.password = SecureRandom.hex(10) # Generate a random password
           new_user.provider = 'StarBitizen'       # Set the provider or other attributes as needed
         end

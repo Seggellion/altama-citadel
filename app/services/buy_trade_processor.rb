@@ -36,6 +36,7 @@ class BuyTradeProcessor
     end
   
     def calculate_actual_removed
+      
       [ @buy_commodity.maxInventory, @total_units].min.tap do |units|
         [ @buy_commodity.inventory, units].min
       end

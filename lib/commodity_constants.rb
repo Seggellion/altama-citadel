@@ -4,7 +4,7 @@ module CommodityConstants
       "Altruciatoxin" => 5,
       "Aluminum" => 300,
       "Astatine" => 20,
-      "Beryl" => 300,
+      "Beryl" => 100,
       "Chlorine" => 30,
       "Corundum" => 40,
       "Diamond" => 300,
@@ -44,7 +44,7 @@ module CommodityConstants
       "Agricium (Ore)" => 0,
       "Aluminum (Ore)" => 0,
       "Copper (Ore)" => 0,
-      "Hephaestanite" => 0,
+      "Hephaestanite" => 200,
       "Hephaestanite (Raw)" => 0,
       "Borase" => 0,
       "Borase (Ore)" => 0,
@@ -66,7 +66,7 @@ module CommodityConstants
       "Inert Materials" => 60,
       "Sunset Berries" => 0,
       "Bexalite" => 0,
-      "Copper" => 30,
+      "Copper" => 100,
     }.freeze
   
     MAX_INVENTORY_MAPPING = {
@@ -74,7 +74,7 @@ module CommodityConstants
       "Altruciatoxin" => 20,
       "Aluminum" => 2000,
       "Astatine" => 700,
-      "Beryl" => 1400,
+      "Beryl" => 12000,
       "Chlorine" => 2000,
       "Corundum" => 2500,
       "Diamond" => 2500,
@@ -114,7 +114,7 @@ module CommodityConstants
       "Agricium (Ore)" => 80,
       "Aluminum (Ore)" => 100,
       "Copper (Ore)" => 120,
-      "Hephaestanite" => 90,
+      "Hephaestanite" => 6000,
       "Hephaestanite (Raw)" => 90,
       "Borase" => 80,
       "Borase (Ore)" => 80,
@@ -136,7 +136,6 @@ module CommodityConstants
       "Inert Materials" => 60,
       "Sunset Berries" => 70,
       "Bexalite" => 100,
-      "Copper" => 120,
+      "Copper" => 9216,
     }.freeze
   end
-  
