@@ -51,6 +51,13 @@ Rails.application.configure do
 config.action_dispatch.tld_length = 0
 
 
+config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins 'http://10.0.0.66:8080', 'http://starbitizen.com', 'https://starbitizen.com'
+    resource '*', headers: :any, methods: [:get, :post, :put, :delete, :options]
+  end
+end
+
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
 

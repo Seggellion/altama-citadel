@@ -113,6 +113,16 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
+
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins 'http://10.0.0.66:8080', 'http://starbitizen.com', 'https://starbitizen.com'
+      resource '*', headers: :any, methods: [:get, :post, :put, :delete, :options]
+    end
+  end
+  
+  
+
   # Inserts middleware to perform automatic shard swapping. The `shard_selector` hash
   # can be used to pass options to the `ShardSelector` middleware. The `lock` option is
   # used to determine whether shard swapping should be prohibited for the request.
