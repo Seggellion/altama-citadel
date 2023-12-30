@@ -12,8 +12,8 @@ class StarBitizenController < ApplicationController
          
       render json: processor.process
     rescue => e
-      
-      log_error("buy_trade", e)
+      return { capital: 'commodity_not_found' }.to_json
+      #log_error("buy_trade", e)
     end
   
     def sell_trade
@@ -22,7 +22,8 @@ class StarBitizenController < ApplicationController
       processor = SellTradeProcessor.new(@sell_commodity, @current_run)
       render json: processor.process
     rescue => e
-      log_error("sell_trade", e)
+      # log_error("sell_trade", e)
+      return { capital: '30000 ERROR' }.to_json
     end
   
     private
