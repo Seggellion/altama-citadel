@@ -1,0 +1,21 @@
+<% comment do %>
+<turbo-stream target="username_verification_result" action="replace">
+  <template>
+    <% if @username_exists %>
+      <span>Username verified!</span>
+    <% else %>
+      <span>Username not found.</span>
+    <% end %>
+  </template>
+</turbo-stream>
+<% end %>
+
+<!-- app/views/codex/_verify_username.turbo_stream.erb -->
+<%= turbo_stream.append "username_verification_result" do %>
+  <% if @username_exists %>
+    <span>Username verified!</span>
+  <% else %>
+    <span>Username not found.</span>
+  <% end %>
+<% end %>
+

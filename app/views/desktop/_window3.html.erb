@@ -41,9 +41,14 @@
 <% end %>
 <content>
 
-<% if task.respond_to?(:name) && task.name.present? %>
+<% if task.respond_to?(:name) && task.name.present? && task.task_manager.present?  %>
 
 <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", task: task %>
+
+<% elsif task.respond_to?(:name) && task.name.present? && !task.task_manager.present?  %>
+
+<%= render "/codex/invite_form" %>
+
 <%  else %>
 
 <% task_name = task %>

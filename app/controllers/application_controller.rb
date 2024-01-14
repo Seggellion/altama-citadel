@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
    rescue_from StandardError, with: :handle_error if Rails.env.production?
+   layout :resolve_layout
 
+
+   
 
  # before_action :set_user_session
 
@@ -71,7 +74,9 @@ class ApplicationController < ActionController::Base
     end
 
     private
-
+    def resolve_layout
+      turbo_frame_request? ? false : 'application'
+    end
     def set_user_session
       if current_user
         

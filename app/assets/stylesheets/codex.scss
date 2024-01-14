@@ -669,3 +669,38 @@ padding:10px;
     }
   }
 }
+
+#invite-container{
+  width:100vw;
+  height:100vh;
+  margin:0px;
+  padding:0px;
+  overflow:hidden;
+  background-image:  image-url('signup_background.png');
+  background-size:cover;
+  background-position:center;
+}
+
+#invite-container window content{
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 10rem;
+}
+
+#invite-container window input{
+margin-bottom:1rem;
+}
+
+#invite-container window menu{
+  display:none;
+}
+
+#invite-container .invite-frame{
+  padding:10px;
+  h1{
+    font-size:3rem;
+    margin:0px;
+    color:white;
+  }
+}

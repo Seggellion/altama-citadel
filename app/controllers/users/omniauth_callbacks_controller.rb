@@ -26,9 +26,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.from_omniauth(request.env["omniauth.auth"], request.env["omniauth.params"])
 
     if @user.persisted?
-      sign_in_and_redirect @user, event: :authentication 
-      # generate_jwt(@user)
+    #  sign_in_and_redirect @user, event: :authentication 
+
       session[:username] = @user.username
+
+      sign_in @user, event: :authentication
+      
+      event_id = session.delete(:event_id_for_signup)
+
+      
+      redirect_to event_id ? invite_path(id: event_id) : bootup_path(subdomain: 'ctd')
+
       set_flash_message(:notice, :success, kind: "Discord") if is_navigational_format?
     else
       session["devise.discord_data"] = request.env["omniauth.auth"].except(:extra)

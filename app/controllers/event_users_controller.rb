@@ -60,55 +60,24 @@ class EventUsersController < ApplicationController
   
     # POST /event_users or /event_users.json
     def create
-        params[:event_user][:user_id] = current_user.id
-    usership = Usership.find_by_id(event_user_params[:usership_id])
-
-    
-    current_event = Event.find_by_id(event_user_params[:event_id])
-
-    event_series = EventSeries.find_by_id(current_event.event_series_id)
-    
-    if current_event.event_series_id && event_series.must_join_all
-      @all_events = Event.where(event_series_id: current_event.event_series_id)
-        @all_events.each do |event|
-          
-          EventUser.create(event_series_id: current_event.event_series_id, 
-          event_id: event.id, user_id: current_user.id, ship_fid: usership.fid) 
-          EventShip.create(event_user_id: EventUser.last.id,
-          usership_id: usership.id,
-          event_id: event.id,
-          ship_fid: usership.fid,
-          ship_id: usership.ship_id,
-          ship_name: usership.ship_name )
-
-          current_user.give_karma(200)
-          current_user.give_fame(200)
-
+      params[:event_user][:user_id] = current_user.id
+      usership = Usership.find_by_id(event_user_params[:usership_id])
+      current_event = Event.find_by_id(event_user_params[:event_id])
+      event_series = EventSeries.find_by_id(current_event.event_series_id)
+      
+      if current_event.event_series_id && event_series&.must_join_all
+        Event.where(event_series_id: current_event.event_series_id).each do |event|
+          event_user = create_event_user(usership, event)
+          create_event_ship(event_user, usership, event)
+          update_user_stats
         end
-        redirect_to root_path
-      return
       else
-        
-        
-        respond_to do |format|
-
-              current_user.give_karma(200)
-              current_user.give_fame(200)
-              EventShip.create(event_user_id: EventUser.last.id,
-               usership_id: usership.id,
-               event_id: event_user_params[:event_id],
-               ship_id: usership.ship_id,
-               ship_fid: usership.fid,
-               ship_name: usership.ship_name )
-            format.html { redirect_to root_path, notice: "Event user was successfully created." }
-
-        end
-
-
-    end
-
-
-
+        event_user = create_event_user(usership, current_event)
+        create_event_ship(event_user, usership, current_event)
+        update_user_stats
+      end
+    
+      redirect_to root_path, notice: "Event user was successfully created."
     end
   
     # PATCH/PUT /event_users/1 or /event_users/1.json
@@ -143,5 +112,34 @@ class EventUsersController < ApplicationController
       def event_user_params
         params.require(:event_user).permit(:event_id, :user_id, :usership_id)
       end
+
+
+      def create_event_user(usership, event)
+        EventUser.create!(
+          event_series_id: event.event_series_id, 
+          usership_id: usership.id, 
+          event_id: event.id, 
+          user_id: current_user.id, 
+          ship_fid: usership.fid
+        )
+      end
+      
+      def create_event_ship(event_user, usership, event)
+        EventShip.create!(
+          event_user_id: event_user.id,
+          usership_id: usership.id,
+          event_id: event.id,
+          ship_fid: usership.fid,
+          ship_id: usership.ship_id,
+          ship_name: usership.ship_name
+        )
+      end
+      
+      def update_user_stats
+        current_user.give_karma(200)
+        current_user.give_fame(200)
+      end
+
+
   end
   

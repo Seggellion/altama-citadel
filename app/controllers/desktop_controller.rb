@@ -1,7 +1,7 @@
 class DesktopController < ApplicationController
 # before_action :authenticate_user!
 before_action :require_login
-before_action :task_manager,  except: [:bsod]
+before_action :task_manager,  except: [:bsod, :bootup]
 
 
 def index  
@@ -135,6 +135,12 @@ def discord_user_list
 end
 
 def bootup
+
+        if @current_user
+  TaskManager.find_or_create_by(user_id: @current_user.id)
+        else
+redirect_to bsod_path
+        end
 
 end
 

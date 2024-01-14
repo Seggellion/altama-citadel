@@ -1,0 +1,10 @@
+<!-- app/views/your_controller/auto_redirect_to_discord.html.erb -->
+<form id="discord_oauth" action="<%= user_discord_omniauth_authorize_path %>" method="post" style="display: none;">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('discord_oauth').submit();
+  });
+</script>

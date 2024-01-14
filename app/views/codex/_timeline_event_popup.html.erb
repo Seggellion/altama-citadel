@@ -82,8 +82,10 @@
     </div>
 <% end %>
 
-    <% if event.owner_id == current_user.id && !event.started? %>
+<% if event.owner_id == current_user.id %>
+    <%# if event.owner_id == current_user.id && !event.started? %>
     <div class='event-management-buttons'>
+    <%= link_to 'INVITE', invite_path(id: event.id), class:'btn leave-event-button' %>
     <%= button_to "DEL", event_path(event), method: :delete %>
     <button data-action="click->timeline#toggle_edit">EDIT</button>
     

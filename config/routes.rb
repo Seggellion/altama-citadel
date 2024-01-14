@@ -142,6 +142,12 @@ Rails.application.routes.draw do
   get 'codex_back_article', to: 'codex#back_article'
   get 'codex_find_article', to: 'codex#find_article'
   get 'codex_dossier', to: 'codex#create_dossier'
+  get 'verify_username', to: 'codex#verify_username'
+  get '/invite/:id', to: 'codex#invite', as: 'invite'
+  post '/event_join', to: 'codex#event_join', as: 'event_join'
+
+
+
   get 'close_find_window', to: 'codex#close_find_window'
   get 'close_codex_window', to: 'codex#close_codex_window'
   get 'join_event', to: 'event_users#join'

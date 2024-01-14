@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_29_215012) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_14_175334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -195,6 +195,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_29_215012) do
     t.integer "usership_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "event_id"], name: "index_event_users_on_user_id_and_event_id", unique: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -797,6 +798,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_29_215012) do
     t.integer "health", default: 100
     t.integer "topspeed"
     t.integer "dexterity"
+    t.bigint "ship_id"
+    t.index ["ship_id"], name: "index_userships_on_ship_id"
   end
 
   create_table "votes", force: :cascade do |t|
@@ -829,4 +832,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_29_215012) do
   add_foreign_key "user_skills", "users"
   add_foreign_key "usership_components", "ship_components", column: "ship_components_id"
   add_foreign_key "usership_components", "userships"
+  add_foreign_key "userships", "ships"
 end
