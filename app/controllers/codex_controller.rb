@@ -61,7 +61,7 @@ def event_join
   
   params[:event_user][:user_id] = current_user.id
   update_rsi_username_if_blank
-  ship_id = event_user_params[:ship_id]
+  ship_id = params[:ship_id]
   ship_name = params[:event_user][:ship_name]
   usership = find_or_create_usership_for_current_user(ship_id, ship_name)
 
@@ -434,6 +434,7 @@ end
     end
 
     def find_or_create_usership_for_current_user(ship_id, ship_name)
+     
       ship = Ship.find(ship_id)
       return nil if ship.nil?
     

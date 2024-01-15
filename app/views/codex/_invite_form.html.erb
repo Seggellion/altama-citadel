@@ -1,30 +1,34 @@
-    <%= form_with model: @event_user, url: event_join_path, method: :post, data: { controller: "username" } do |form| %>
+    <%= form_with model: @event_user, url: event_join_path, method: :post, data: { controller: "username", action: "submit->username#validateForm" } do |form| %>
 
     <p>Discord User: <%= current_user.username %></p>
     
-    <% comment do %>
-    <turbo-frame id="username_verification_result">
-      <%= form.label :rsi_username %>
-      <%= form.text_field :rsi_username, data: { action: "blur->username#verify" } %>
-      <span id="username_verification_result"></span>
-    </turbo-frame>
-    <% end %>
 
 
     <%= turbo_frame_tag "username_verification_result" do %>
         <%= form.label :rsi_username %>
-        <%= form.text_field :rsi_username, data: { action: "blur->username#verify" } %>
+        <%= form.text_field :rsi_username, required: true, data: { username_target: "rsiUsername", action: "blur->username#verify input->username#updateSubmitButtonState" } %>
+
         <span id="username_verification_result"></span>
       <% end %>
   
     <%= form.label :ship_name %>
-    <%= form.text_field :ship_name %>
-  
+
+    <%= form.text_field :ship_name, required: true, data: { username_target: "shipName", action: "input->username#updateSubmitButtonState" } %>
+
     <%= form.label :ship_model %>
-    
-    <%= form.select :ship_id, options_for_select(@eligible_ships.collect { |ship| [ship.model, ship.id] }), include_blank: 'Select Ship' %>
-    <%= form.hidden_field :event_id, value: @event.id %>
-    <%= form.submit "Join Event", data: { username_target: "submit" }, disabled: true %>
+
+    <select name="ship_id" required="required" data-username-target="shipSelect" data-action="change->username#updateSubmitButtonState">
+    <option value="">Select Ship</option>
+    <% @eligible_ships.each do |ship| %>
+      <option value="<%= ship.id %>"><%= ship.model %></option>
+    <% end %>
+  </select>
   
+
+
+    <%= form.hidden_field :event_id, value: @event.id %>
+    <%= form.submit "Join Event", data: { username_target: "submit" } %>
+
+
   <% end %>
   
