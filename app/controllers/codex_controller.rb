@@ -1,6 +1,6 @@
 class CodexController < ApplicationController
   # before_action :require_login, except: [:find_article]  
-  #before_action :task_manager
+  before_action :task_manager, except: [:invite, :invite_task, :event_join, :verify_username] 
   #before_action :authenticate_user!, only: [:invite]
 
 
@@ -142,6 +142,7 @@ end
 
     def article
       @window_states =  []
+      
       unless @all_tasks.find_by(name: "Codex" ).present?
         @window_states = @window_states + Array[state_name]
       end
