@@ -253,6 +253,7 @@ post 'star_bitizen/sell_trade', to: 'star_bitizen#sell_trade'
 post 'star_bitizen/profit', to: 'star_bitizen#profit_check'
 
 #end Star Bitizen
+post 'ship_components/assign_components', to: 'ship_components#assign_components'
 
 
 end

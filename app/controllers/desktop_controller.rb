@@ -61,6 +61,7 @@ end
   @ship = Ship.new
   @selected_ship = Ship.find_by_id(params[:ship_id])
   @manufacturers = Manufacturer.all
+  @components = ShipComponent.all
   @manufacturer = Manufacturer.new
   @article = Article.new
   @commodity = Commodity.new

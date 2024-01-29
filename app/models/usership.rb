@@ -5,6 +5,7 @@ class Usership < ApplicationRecord
     has_one_attached :attachment
     include ActiveModel::Serializers::JSON
     after_update_commit {broadcast_replace_to 'usership_details', partial: '/my_hangar/usership_details', locals: { usership_details: self }}
+    has_many :usership_components, dependent: :destroy
 
     def fid_processor(id1, id2)
         

@@ -12,7 +12,6 @@
 
 ActiveRecord::Schema[7.0].define(version: 2024_01_14_175334) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -824,9 +823,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_14_175334) do
   add_foreign_key "forum_posts", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
-  add_foreign_key "star_bitizen_race_users", "star_bitizen_races"
   add_foreign_key "star_bitizen_race_users", "users"
-  add_foreign_key "star_bitizen_races", "users"
   add_foreign_key "transactions", "users", column: "receiver_id"
   add_foreign_key "transactions", "users", column: "sender_id"
   add_foreign_key "user_skills", "users"

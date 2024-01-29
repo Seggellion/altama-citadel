@@ -27,7 +27,7 @@ class UsershipsController < ApplicationController
   def create    
     @usership = Usership.new(usership_params)    
     @usership.update(user_id:current_user.id, ship_name: usership_params[:model])
-byebug
+
     respond_to do |format|
      # if @usership.save
         #flash[:notice] = "Post has been saved successfully."

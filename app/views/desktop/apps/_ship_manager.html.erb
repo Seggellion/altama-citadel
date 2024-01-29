@@ -7,7 +7,8 @@
         <span>Info</span>
         <span data-action="click->ship-manager#ship_manager" class="active">Ship Manager</span>
         <span data-action="click->ship-manager#manufacturers">Manufacturers</span>
-        <span>Components</span>
+        <span data-action="click->ship-manager#components">Components</span>
+
     </div>
     <div  data-ship-manager-target="ship_manager"  class="content-body ship-manager">
 
@@ -54,9 +55,9 @@
             <%= render '/desktop/window-frame', app1: 'Add Manufacturer' %>
             <%= render '/manufacturers/form', manufacturer: @manufacturer %>
         </div>
-    <div class="label" style="margin-top:77px;">
-        Available manufacturers:
-    </div>
+        <div class="label" style="margin-top:77px;">
+            Available manufacturers:
+        </div>
         <div class="single-pane manufacturers">
             <% @manufacturers.each do | manufacturer | %>
                 <div class="user-list">
@@ -72,5 +73,46 @@
             <button>Remove</button>
         </div>
     </div>
+
+
+    <div style="display:none" data-ship-manager-target="component"  class="content-body manufacturer">
+        <div style="display:none" data-ship-manager-target="manufacturer_new_popup" class="popup window">
+            <%= render '/desktop/window-frame', app1: 'Add Manufacturer' %>
+            <%= render '/manufacturers/form', manufacturer: @manufacturer %>
+        </div>
+        <div class="label" style="margin-top:77px;">
+            Available components:
+        </div>
+        <div class="single-pane manufacturers">
+            <% @components.each do | component | %>
+                <div class="user-list">
+                <i class=""></i>
+                <span class="user-type">{ <%= component.component_name  %> }</span>
+                <span class="username"><%= component.component_type %></span>
+                </div>
+            <% end %>
+        </div>
+
+<div class="form custom-promotion">
+<hr>
+    <!-- app/views/special_assignments/new.html.erb -->
+    <%= form_with url: ship_components_assign_components_path, method: :post do %>
+      <%= label_tag :ship_component_id, "Select Ship Component" %>
+      <%= select_tag :ship_component_id, options_from_collection_for_select(@components, "id", "component_name") %>
+      <%= submit_tag "Assign Selected Component" %>
+    <% end %>
+
+    <hr>
+    
+</div>
+
+        <div class="control-buttons" >
+            <button data-action="click->ship-manager#create_manufacturer">Create</button>
+            <button>Modify</button>
+            <button>Remove</button>
+        </div>
+    </div>
+
+
 </div>
 </div>
