@@ -8,6 +8,7 @@
         <span class="user-type"><%= user.user_type %></span>
         <span class="org-title"><%= user.org_title %></span>
         <span class="discord-role"><%= user.discord_role %></span>
+        <span class="aec"><%= user.aec %></span>
         <span class="user-created"><% if defined?(user.created_at) %> <%= user.created_at.utc  %> <% end%></span>
         <span class="last-login" style="padding-left:10px;"><% if defined?(user.last_login) %> <%= user.last_login  %> <% end%></span>
     </div>

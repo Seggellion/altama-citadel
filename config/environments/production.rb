@@ -116,7 +116,7 @@ Rails.application.configure do
 
   config.middleware.insert_before 0, Rack::Cors do
     allow do
-      origins 'http://10.0.0.66:8080', 'http://starbitizen.com', 'https://starbitizen.com'
+      origins 'http://10.0.0.66:8080', 'http://starbitizen.com', 'https://starbitizen.com', 'https://orbitarium-715777349ef5.herokuapp.com/'
       resource '*', headers: :any, methods: [:get, :post, :put, :delete, :options]
     end
   end

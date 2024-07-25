@@ -24,6 +24,9 @@
                 DiscordRole
                 </td>
                 <td>
+                AEC
+                </td>
+                <td>
                 Created At
                 </td>
                 <td>
@@ -41,6 +44,7 @@
                 <td><span class="user-type"><%= user.user_type %></span></td>
                 <td><span class="org-title"><%= user.org_title %></span></td>
                 <td><span class="discord-role"><%= user.discord_role %></span></td>
+                <span class="aec"><%= user.aec %></span>
                 <td><span class="user-created"><% if defined?(user.created_at) %> <%= user.created_at.utc  %> <% end%></span></td>
                 <td><span class="last-login" style="padding-left:10px;"><% if defined?(user.last_login) %> <%= user.last_login  %> <% end%></span></td>
             </tr>

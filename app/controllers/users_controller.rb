@@ -104,6 +104,19 @@ def twitch_verify
 
   user_info = JSON.parse(response.body)['data'].first
   
+  twitch_username = user_info['login']
+  twitch_id = user_info['id']
+
+  # twitch_user = User.find_by(provider: "Twitch", twitch_id: twitch_id)
+
+  twitch_user = User.where("provider = ? AND twitch_id = ?", "Twitch", twitch_id)
+                    .or(User.where("provider = ? AND username ILIKE ?", "Twitch", "%#{twitch_username}%"))
+                    .first
+
+  if twitch_user
+    merge_users(twitch_user, current_user)
+  end
+
   current_user.update(
     twitch_username: user_info['login'],
     twitch_id: user_info['id']
@@ -197,5 +210,28 @@ end
 def user_params
   params.require(:user).permit(:font_name, :font_color,:accent_color, :background_color, :font_size)
 end
+
+
+private
+
+
+def merge_users(twitch_user, discord_user)
+  ActiveRecord::Base.transaction do
+    models_to_update = [
+      Usership, TradeSession, Ship, CommodityStub, TaskManager, Rfa, Message, 
+      SentMessage, ReceivedMessage, StarBitizenRace, StarBitizenRaceUser, UserSkill,
+      MilkRun, Friendship, TradeRun, ForumPost, ForumComment, Position, 
+      UserPosition, Transaction, SentTransaction, ReceivedTransaction
+    ]
+
+    models_to_update.each do |model|
+      foreign_key = model.reflections.values.find { |r| r.foreign_key }.foreign_key
+      model.where(foreign_key => twitch_user.id).update_all(foreign_key => discord_user.id)
+    end
+
+    discord_user.update(aec: discord_user.aec + twitch_user.aec)
+
+    twitch_user.destroy
+  end
 
 end
