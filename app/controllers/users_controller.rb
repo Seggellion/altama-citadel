@@ -215,23 +215,23 @@ end
 private
 
 
-def merge_users(twitch_user, discord_user)
-  ActiveRecord::Base.transaction do
-    models_to_update = [
-      Usership, TradeSession, Ship, CommodityStub, TaskManager, Rfa, Message, 
-      SentMessage, ReceivedMessage, StarBitizenRace, StarBitizenRaceUser, UserSkill,
-      MilkRun, Friendship, TradeRun, ForumPost, ForumComment, Position, 
-      UserPosition, Transaction, SentTransaction, ReceivedTransaction
-    ]
+  def merge_users(twitch_user, discord_user)
+    ActiveRecord::Base.transaction do
+      models_to_update = [
+        Usership, TradeSession, Ship, CommodityStub, TaskManager, Rfa, Message, 
+        SentMessage, ReceivedMessage, StarBitizenRace, StarBitizenRaceUser, UserSkill,
+        MilkRun, Friendship, TradeRun, ForumPost, ForumComment, Position, 
+        UserPosition, Transaction, SentTransaction, ReceivedTransaction
+      ]
 
-    models_to_update.each do |model|
-      foreign_key = model.reflections.values.find { |r| r.foreign_key }.foreign_key
-      model.where(foreign_key => twitch_user.id).update_all(foreign_key => discord_user.id)
+      models_to_update.each do |model|
+        foreign_key = model.reflections.values.find { |r| r.foreign_key }.foreign_key
+        model.where(foreign_key => twitch_user.id).update_all(foreign_key => discord_user.id)
+      end
+
+      discord_user.update(aec: discord_user.aec + twitch_user.aec)
+
+      twitch_user.destroy
     end
-
-    discord_user.update(aec: discord_user.aec + twitch_user.aec)
-
-    twitch_user.destroy
   end
-
 end
