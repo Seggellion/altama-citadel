@@ -26,7 +26,7 @@ No money
 <h4>OrgTitle:<%= current_user.org_title %> </h4>
 <h4>User_Level: <%= current_user.user_type_text %> </h4>
 <% if current_user.twitch_username %>
-<h4>Twitch Channel: <%= current_user.twitch_username %></h4>
+<h4>Twitch username: <%= current_user.twitch_username %></h4>
 <% comment do %>
 <%= link_to star_bitizen_chart_twitch_path(current_user.twitch_username) do %>
     <% end %>
