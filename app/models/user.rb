@@ -265,41 +265,72 @@ end
 
   def primary_ship
     primary_ship = Usership.find_by(user_id: self.id, primary:1)
-   if primary_ship
-    return primary_ship.ship.model
-  else
-    return false
+    if primary_ship
+      return primary_ship.ship.model
+    else
+      return false
+    end
   end
 
+  def self.from_omniauth(auth, params)
+    discord_uid = auth.uid
+    discord_global_name = auth.extra.raw_info["global_name"]
+    discord_username = auth.extra.raw_info["username"]
+    discord_profile_image = auth.info.image
+  
+    # Find user by Discord UID
+    discord_user = where(provider: "discord", uid: discord_uid).first
+  
+    # Attempt to find a matching StarBitizen user by partial username
+    starbitizen_user = where(provider: "StarBitizen")
+                       .where("username ILIKE ?", "#{discord_username.split(/[0-9]+/).first}%")
+                       .first
+  
+    if starbitizen_user
+      # Merge Discord data into StarBitizen user
+      starbitizen_user.update(
+        provider: auth.provider,
+        uid: discord_uid,
+        profile_image: discord_profile_image.presence || starbitizen_user.profile_image,
+        username: discord_global_name.presence || starbitizen_user.username,
+        fame: starbitizen_user.fame + (discord_user&.fame || 0), # Add fame from Discord user
+        karma: starbitizen_user.karma + (discord_user&.karma || 0), # Add karma from Discord user
+        last_login: Time.current
+      )
+  
+      # Transfer related records to StarBitizen user
+      transfer_related_records(discord_user&.id, starbitizen_user.id) if discord_user
+  
+      # Delete Discord user after merging
+      discord_user.destroy if discord_user
+  
+      return starbitizen_user
+    end
+  
+    # If no matching StarBitizen user, use or create the Discord user
+    if discord_user
+      # Update Discord user attributes
+      discord_user.update(
+        username: discord_global_name.presence || discord_user.username,
+        profile_image: discord_profile_image.presence || discord_user.profile_image,
+        last_login: Time.current
+      )
+      discord_user
+    else
+      # Create a new Discord user
+      create(
+        provider: auth.provider,
+        uid: discord_uid,
+        username: discord_global_name || discord_username,
+        profile_image: discord_profile_image,
+        password: Devise.friendly_token[0, 20],
+        user_type: params["plus"] == "true" ? 100 : 101,
+        fame: 0,
+        karma: 0
+      )
+    end
   end
-
-    def self.from_omniauth(auth, params)      
-      user = where(provider: auth.provider, uid: auth.uid).first
-      # If user not found by UID
-      unless user      
-        user = where("username ILIKE ?", auth.info.name).first    
-        # If user found by email
-        if user
-          user.update(
-            uid: auth.uid,
-            provider: auth.provider
-          )
-        else
-          # Create new user
-          user = create(
-            provider: auth.provider,
-            uid: auth.uid,
-            username: auth.info.name,
-            profile_image: auth.info.image,
-            password: Devise.friendly_token[0, 20],
-            user_type: params["plus"] == "true" ? 100 : 101
-          )
-        end
-      end
-    
-      user
-
-  end
+   
 
   def self.new_with_session(params, session)
 
@@ -369,4 +400,10 @@ end
     return true if self.rsi_verify == true
     end
     
+    private 
+    def self.transfer_related_records(old_user_id, new_user_id)
+      # Example: Update foreign keys in related records
+      Usership.where(user_id: old_user_id).update_all(user_id: new_user_id)
+    end
+
 end
