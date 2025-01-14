@@ -80,8 +80,8 @@ def event_join
     create_event_ship(event_user, usership, current_event)
     update_user_stats
   end
-
-  redirect_to invite_path, notice: "Event user was successfully created."
+  TaskManager.find_or_create_by(user_id: @current_user.id)
+  redirect_to desktop_path, notice: "Event Joined"
 end
 
 
@@ -447,7 +447,7 @@ end
 
     def update_rsi_username_if_blank
       if current_user.rsi_username.blank?
-        current_user.update(rsi_username: params[:rsi_username])
+        current_user.update(rsi_username: params[:event_user][:rsi_username])
       end
     end
 
