@@ -277,10 +277,8 @@ end
     discord_global_name = auth.extra.raw_info["global_name"]
     discord_username = auth.extra.raw_info["username"]
     discord_profile_image = auth.info.image
-  
     # Find user by Discord UID
     discord_user = where(provider: "discord", uid: discord_uid).first
-  
     # Attempt to find a matching StarBitizen user by partial username
     starbitizen_user = where(provider: "StarBitizen")
                        .where("username ILIKE ?", "#{discord_username.split(/[0-9]+/).first}%")
