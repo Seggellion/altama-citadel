@@ -130,7 +130,6 @@ class EventUsersController < ApplicationController
           usership_id: usership.id,
           event_id: event.id,
           ship_fid: usership.fid,
-          ship_id: usership.ship_id,
           ship_name: usership.ship_name
         )
       end

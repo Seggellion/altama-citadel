@@ -28,12 +28,9 @@ class CodexController < ApplicationController
 
     @event_user = EventUser.new
 
-  #  unless user_signed_in?
-    #  session[:event_id_for_signup] = params[:id] # Store event ID in the session
-   #   redirect_to user_discord_omniauth_authorize_path # Redirect to Discord OAuth
-  #    return
-  #  end
+
     @event = Event.find(session[:event_id_for_signup] || params[:id])
+
     @eligible_ships = Ship.all.select { |ship| ship.code == @event.keyword_required }
     # You can initialize more variables here if needed
   else

@@ -2,14 +2,18 @@
 <div id="invite-container">
 
 <div class="invite-frame">
+
+<% unless @event.started? %>
 <h1>Join Event: <%= @event.title %></h1>
 
 
 <%= render "/desktop/window3", task: @task %>
-
-
-
-  </div>
+  <% else %>
+  <window style="display:flex; align-items:center; justify-content:center;">
+Event already started!
+</window>
+  <% end %>
+    </div>
   </div>
 
   <style>

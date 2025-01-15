@@ -62,11 +62,12 @@
             <span>No ships assigned to fleet</span>
             <% else %>
             <% if event.filteredFleet(current_user) &&  event.filteredFleet(current_user).count > 0 %>
-
+  <% if !event.started? %>
             <%= form_with(model: EventUser) do |f| %> 
                 <%= f.select :usership_id, options_for_select(event.filteredFleet(current_user).collect{ |u| [u.fid, u.id] }  ), :include_blank => 'Select Ship'%>
                 <%= f.hidden_field :event_id, :value => event.id %>
                 <%= f.submit 'Join' %>
+            <% end %>
             <% end %>
 
                 <% else %>

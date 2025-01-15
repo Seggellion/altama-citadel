@@ -70,7 +70,7 @@ class Event < ApplicationRecord
 
         def started?
             event_start = self.start_date
-            todays_date = Time.now + 930.years
+            todays_date = Time.now
             
             return true if todays_date > event_start
         end
