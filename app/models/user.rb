@@ -10,7 +10,7 @@ class User < ApplicationRecord
   omniauth_providers: %i[discord],
   jwt_revocation_strategy: JwtDenylist
 
-
+  has_many :event_users, dependent: :destroy
   has_many :userships
   has_many :trade_sessions, foreign_key: 'owner_id'
   #has_many :ships, :through => :userships
@@ -273,54 +273,58 @@ end
   end
 
   def self.from_omniauth(auth, params)
-    discord_uid = auth.uid
-    discord_global_name = auth.extra.raw_info["global_name"]
-    discord_username = auth.extra.raw_info["username"]
-    discord_profile_image = auth.info.image
-    # Find user by Discord UID
-    discord_user = where(provider: "discord", uid: discord_uid).first
-    # Attempt to find a matching StarBitizen user by partial username
-    starbitizen_user = where(provider: "StarBitizen")
-                       .where("username ILIKE ?", "#{discord_username.split(/[0-9]+/).first}%")
+    uid = auth.uid
+    provider = auth.provider
+    global_name = auth.extra.raw_info["global_name"]
+    username = auth.extra.raw_info["username"]
+    profile_image = auth.info.image
+  
+    # Find user by UID and provider
+    user = where(provider: provider, uid: uid).first
+  
+    # Attempt to find a matching user by partial username for other providers
+    matching_user = where.not(provider: provider)
+                       .where("username ILIKE ?", "#{username.split(/[0-9]+/).first}%")
                        .first
   
-    if starbitizen_user
-      # Merge Discord data into StarBitizen user
-      starbitizen_user.update(
-        provider: auth.provider,
-        uid: discord_uid,
-        profile_image: discord_profile_image.presence || starbitizen_user.profile_image,
-        username: discord_global_name.presence || starbitizen_user.username,
-        fame: starbitizen_user.fame + (discord_user&.fame || 0), # Add fame from Discord user
-        karma: starbitizen_user.karma + (discord_user&.karma || 0), # Add karma from Discord user
+    if matching_user
+      # Merge current provider's data into the matched user
+      matching_user.update(
+        provider: provider, # Update to the current provider
+        uid: uid,
+        profile_image: profile_image.presence || matching_user.profile_image,
+        username: global_name.presence || matching_user.username,
+        aec: matching_user.aec + (user&.aec || 0),
+        fame: matching_user.fame + (user&.fame || 0), # Add fame from the previous user
+        karma: matching_user.karma + (user&.karma || 0), # Add karma from the previous user
         last_login: Time.current
       )
   
-      # Transfer related records to StarBitizen user
-      transfer_related_records(discord_user&.id, starbitizen_user.id) if discord_user
+      # Transfer related records to the matched user
+      transfer_related_records(user&.id, matching_user.id) if user
   
-      # Delete Discord user after merging
-      discord_user.destroy if discord_user
+      # Delete the previous user after merging
+      user.destroy if user
   
-      return starbitizen_user
+      return matching_user
     end
   
-    # If no matching StarBitizen user, use or create the Discord user
-    if discord_user
-      # Update Discord user attributes
-      discord_user.update(
-        username: discord_global_name.presence || discord_user.username,
-        profile_image: discord_profile_image.presence || discord_user.profile_image,
+    # If no matching user, use or create a user for the current provider
+    if user
+      # Update existing user attributes
+      user.update(
+        username: global_name.presence || user.username,
+        profile_image: profile_image.presence || user.profile_image,
         last_login: Time.current
       )
-      discord_user
+      user
     else
-      # Create a new Discord user
+      # Create a new user
       create(
-        provider: auth.provider,
-        uid: discord_uid,
-        username: discord_global_name || discord_username,
-        profile_image: discord_profile_image,
+        provider: provider,
+        uid: uid,
+        username: global_name || username,
+        profile_image: profile_image,
         password: Devise.friendly_token[0, 20],
         user_type: params["plus"] == "true" ? 100 : 101,
         fame: 0,
