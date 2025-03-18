@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_25_031227) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_18_142328) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_25_031227) do
     t.string "disabled_functions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "announcement_interval"
+    t.string "announcement"
   end
 
   create_table "categories", force: :cascade do |t|
