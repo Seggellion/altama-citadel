@@ -41,6 +41,34 @@ windowTitle{
   font-size: 2rem;
   padding-left: 10px;
 }
+
+.giveaway-form, .giveaway-edit-form {
+  margin-top: 1rem;
+  padding: 1rem;
+
+  label {
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  .actions {
+    margin-top: 1rem;
+  }
+
+  input, textarea, select {
+    width: 100%;
+
+    border: 1px solid #666;
+    padding: 0.5rem;
+    border-radius: 3px;
+  }
+}
+
+#altama_exe{
+width:800px;
+height:600px;
+}
+
 </style>
 <windowTitle>BotManager2.0</windowTitle>
   <div class="bot-container" data-controller="bot" >
@@ -70,19 +98,34 @@ windowTitle{
             <div data-bot-target="giveaways" class="hidden">
               <h2>Giveaways</h2>
               <% if bot.giveaways.empty? %>
-                <p>No giveaways yet. Create a new one:</p>                
+                <p>No giveaways yet. Create a new one:</p>
                 <%= render 'altama_exe/giveaway_form', bot: bot %>
               <% else %>
+                <%= render 'altama_exe/giveaway_form', bot: bot %>
                 <% bot.giveaways.order(created_at: :desc).each do |giveaway| %>
-                  <p><%= giveaway.title %></p>
-                  <p><%= giveaway.description %></p>
-                  <button data-action="bot#toggleParticipants">Show Participants</button>
-                  <div data-bot-target="participants" class="participants hidden">
-                    <%= render 'altama_exe/participants', giveaway: giveaway %>
+                  <div class="giveaway-entry">
+                    <h3><%= giveaway.title %></h3>
+                    <p><%= giveaway.description %></p>
+                    <p>Mode: <%= giveaway.mode %></p>
+                    <p>Cost: <%= giveaway.cost %> AEC</p>
+                    <p>Command: !<%= giveaway.command_name %></p>
+
+                    <details>
+                      <summary>Edit Giveaway</summary>
+                      <%= render 'altama_exe/giveaway_edit_form', bot: bot, giveaway: giveaway %>
+                    </details>
+
+                    <button data-action="bot#toggleParticipants">Show Participants</button>
+                    <div data-bot-target="participants" class="participants hidden">
+                      <%= render 'altama_exe/participants', giveaway: giveaway %>
+                    </div>
                   </div>
                 <% end %>
               <% end %>
             </div>
+
+
+
           </div>
         <% end %>
       <% end %>

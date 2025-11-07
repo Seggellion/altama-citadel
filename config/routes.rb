@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
   resources :milk_runs
   resources :bots do
-    resources :giveaways, only: [:new, :create, :show]
+  resources :giveaways, only: %i[new show create edit update destroy]
     patch 'toggle_online', on: :member
   end
   resources :trade_sessions

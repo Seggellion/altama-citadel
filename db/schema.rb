@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_25_031227) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_06_223928) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -259,6 +260,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_25_031227) do
     t.integer "giveaway_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tickets", default: 1
     t.index ["user_id", "giveaway_id"], name: "index_giveaway_users_on_user_id_and_giveaway_id", unique: true
   end
 
@@ -271,6 +273,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_25_031227) do
     t.datetime "draw_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "mode", default: "single"
+    t.integer "cost", default: 0
+    t.string "command_name"
   end
 
   create_table "guildstones", force: :cascade do |t|
@@ -551,15 +556,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_25_031227) do
     t.index ["user_id"], name: "index_star_bitizen_race_users_on_user_id"
   end
 
-  create_table "star_bitizen_races", id: :serial, force: :cascade do |t|
+  create_table "star_bitizen_races", force: :cascade do |t|
     t.string "race_name"
     t.string "channel_name"
     t.integer "prize_pool", default: 0
     t.integer "laps", default: 1
     t.date "race_date"
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "enabled", default: false
     t.integer "max_laps"
     t.integer "fee"
@@ -827,8 +832,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_25_031227) do
   add_foreign_key "forum_posts", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "star_bitizen_race_users", "star_bitizen_races"
   add_foreign_key "star_bitizen_race_users", "users"
-  add_foreign_key "star_bitizen_races", "users", name: "fk_user"
+  add_foreign_key "star_bitizen_races", "users"
   add_foreign_key "transactions", "users", column: "receiver_id"
   add_foreign_key "transactions", "users", column: "sender_id"
   add_foreign_key "user_skills", "users"

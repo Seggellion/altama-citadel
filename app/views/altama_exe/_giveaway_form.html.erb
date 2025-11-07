@@ -1,16 +1,28 @@
 <%= form_with(model: [bot, Giveaway.new], local: true) do |form| %>
-    <div class="field">
-      <%= form.label :title %>
-      <%= form.text_field :title %>
-    </div>
-  
-    <div class="field">
-      <%= form.label :description %>
-      <%= form.text_area :description %>
-    </div>
-  
+  <div class="giveaway-form">
+    <label>Title</label>
+    <%= form.text_field :title, required: true %>
+
+    <label>Description</label>
+    <%= form.text_area :description, rows: 3, required: true %>
+
+    <label>Mode</label>
+    <%= form.select :mode, [
+      ['Single Entry (one ticket per user)', 'single'],
+      ['Multiple Entries (cost per ticket)', 'multiple'],
+      ['Extra Life Mode (bonus tickets for donors)', 'multiple-extra-life']
+    ], {}, { class: 'form-select' } %>
+
+    <label>Cost (AEC)</label>
+    <%= form.number_field :cost, min: 0, step: 1 %>
+
+    <label>Command Name (e.g. !join, !2spooky)</label>
+    <%= form.text_field :command_name, placeholder: 'join' %>
+
+    <%= form.hidden_field :channel, value: bot.channel %>
+
     <div class="actions">
-      <%= form.submit %>
+      <%= form.submit 'Create Giveaway', class: 'btn btn-primary' %>
     </div>
-  <% end %>
-  
+  </div>
+<% end %>

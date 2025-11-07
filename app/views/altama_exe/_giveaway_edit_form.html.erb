@@ -1,0 +1,27 @@
+<%= form_with(model: [bot, giveaway], local: true) do |form| %>
+  <div class="giveaway-edit-form">
+    <label>Title</label>
+    <%= form.text_field :title %>
+
+    <label>Description</label>
+    <%= form.text_area :description, rows: 3 %>
+
+    <label>Mode</label>
+    <%= form.select :mode, [
+      ['Single Entry', 'single'],
+      ['Multiple Entries', 'multiple'],
+      ['Extra Life Mode', 'multiple-extra-life']
+    ], selected: giveaway.mode %>
+
+    <label>Cost (AEC)</label>
+    <%= form.number_field :cost, value: giveaway.cost, min: 0, step: 1 %>
+
+    <label>Command Name</label>
+    <%= form.text_field :command_name, value: giveaway.command_name %>
+
+    <div class="actions">
+      <%= form.submit 'Update Giveaway', class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>
+      <%= button_to 'Delete', bot_giveaway_path(bot, giveaway), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
