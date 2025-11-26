@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_11_06_223928) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_26_234759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -82,6 +82,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_11_06_223928) do
     t.string "disabled_functions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "announcement_interval"
+    t.string "announcement"
+    t.string "twitch_channel_id"
+    t.text "twitch_access_token"
+    t.text "twitch_refresh_token"
+    t.integer "twitch_expires_in"
+    t.datetime "twitch_token_updated_at"
   end
 
   create_table "categories", force: :cascade do |t|
