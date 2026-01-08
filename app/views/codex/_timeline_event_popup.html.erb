@@ -67,7 +67,7 @@
             <td class="fw-bold">ALT-<%= eventuser.ship_fid || '' %></td>
             <td>
                 <% if eventuser.user.rsi_username %>
-                    <%= link_to join_crew_path(eventuser.user.username), 
+                    <%= link_to join_crew_path(eventuser.user.rsi_username), 
                     style: "color:white; text-decoration:underline;",
                         title: "Join #{eventuser.user.rsi_username}'s Crew" do %>
                             <%= eventuser.user.rsi_username %>

@@ -41,7 +41,7 @@ def join_crew
       session[:captain] = params[:username]
     if user_signed_in?
     
-    @host = User.where('lower(username) = ?', params[:username].downcase).first!
+    @host = User.where('lower(rsi_username) = ?', params[:username].downcase).first!
 @host_ships = @host.hosted_event_ships.includes(:event, usership: :ship)
 @event = @host.latest_hosted_event
  
