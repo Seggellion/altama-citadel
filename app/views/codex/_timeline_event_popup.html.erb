@@ -48,7 +48,7 @@
      total_attendees = captain_count + crew_count
   %>
 
-  Attendee1s <span class="attendee-counter"><%= total_attendees %> / <%= event.maximum_attendees %></span>
+  Attendees <span class="attendee-counter"><%= total_attendees %> / <%= event.maximum_attendees %></span>
   
   <table class="table table-sm mt-2">
     <% unless event.event_users.empty? %>

@@ -38,7 +38,7 @@ class CodexController < ApplicationController
 def join_crew
     # 1. Find the Host User
     
-      session[:event_id_for_signup] = params[:id]
+      session[:captain] = params[:username]
     if user_signed_in?
     
     @host = User.where('lower(username) = ?', params[:username].downcase).first!

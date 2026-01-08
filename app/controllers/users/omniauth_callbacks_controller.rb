@@ -31,11 +31,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       session[:username] = @user.username
 
       sign_in @user, event: :authentication
-      
+      captain_username = session.delete(:captain)
       event_id = session.delete(:event_id_for_signup)
 
       
-      redirect_to event_id ? invite_path(id: event_id) : bootup_path(subdomain: 'ctd')
+if captain_username
+        # If they came from a /join_crew link, send them back there
+        redirect_to join_crew_path(captain_username)
+      elsif event_id
+        # If they came from an event invite, send them there
+        redirect_to invite_path(id: event_id)
+      else
+        # Default fallback
+        redirect_to bootup_path(subdomain: 'ctd')
+      end
 
       set_flash_message(:notice, :success, kind: "Discord") if is_navigational_format?
     else
