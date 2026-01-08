@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
   before_action :task_manager
+before_action :authorize_manager!
 
   # GET /events or /events.json
   def index
@@ -91,6 +92,14 @@ end
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
+    end
+
+def authorize_manager!
+      # Check if user exists and if their type is restricted
+      if current_user.nil? || current_user.user_type < 1
+        # Redirect to a safe page (e.g., root) with an error message
+        redirect_to root_path, alert: "You are not authorized to perform this action."
+      end
     end
 
     # Only allow a list of trusted parameters through.

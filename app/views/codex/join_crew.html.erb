@@ -1,0 +1,23 @@
+
+<div id="invite-container" class="crew">
+
+<div class="invite-frame">
+<% unless @hosted_event_ships %>
+<h1>Crew aboard <%= @host.username %>'s fleet</h1>
+
+
+<%= render "/desktop/window3", task: @task %>
+  <% else %>
+  <window style="display:flex; align-items:center; justify-content:center;">
+User has no ship events
+</window>
+  <% end %>
+    </div>
+  </div>
+
+  <style>
+  turbo-frame, form{
+    display:flex;
+    flex-direction:column;
+  }
+  </style>

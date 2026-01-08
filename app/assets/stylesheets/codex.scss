@@ -681,11 +681,21 @@ padding:10px;
   background-position:center;
 }
 
+#invite-container.crew{
+  background-image:  image-url('crew_background.png');
+}
+
+#invite-container window{
+
+  overflow:hidden;
+}
 #invite-container window content{
   background-color: transparent;
   display: flex;
   flex-direction: column;
   padding: 1rem 10rem;
+  height:100%;
+  overflow:scroll;
 }
 
 #invite-container window input{

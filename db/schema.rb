@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_11_26_234759) do
+ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -173,6 +173,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_11_26_234759) do
     t.boolean "must_join_all"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "event_ship_crews", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "event_ship_id", null: false
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_ship_id"], name: "index_event_ship_crews_on_event_ship_id"
+    t.index ["user_id", "event_ship_id"], name: "index_event_ship_crews_on_user_id_and_event_ship_id", unique: true
+    t.index ["user_id"], name: "index_event_ship_crews_on_user_id"
   end
 
   create_table "event_ships", force: :cascade do |t|
@@ -833,6 +844,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_11_26_234759) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "event_ship_crews", "event_ships"
+  add_foreign_key "event_ship_crews", "users"
   add_foreign_key "forum_comments", "forum_posts"
   add_foreign_key "forum_comments", "users"
   add_foreign_key "forum_posts", "forum_categories"

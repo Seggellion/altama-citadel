@@ -1,6 +1,6 @@
 class CodexController < ApplicationController
   # before_action :require_login, except: [:find_article]  
-  before_action :task_manager, except: [:invite, :invite_task, :event_join, :verify_username] 
+  before_action :task_manager, except: [:join_crew, :invite, :invite_task, :event_join, :verify_username] 
   #before_action :authenticate_user!, only: [:invite]
 
 
@@ -22,13 +22,8 @@ class CodexController < ApplicationController
   def invite
     session[:event_id_for_signup] = params[:id]
     if user_signed_in?
-
     @task = invite_task
-    
-
     @event_user = EventUser.new
-
-
     @event = Event.find(session[:event_id_for_signup] || params[:id])
 
     @eligible_ships = Ship.all.select { |ship| ship.code == @event.keyword_required }
@@ -38,21 +33,43 @@ class CodexController < ApplicationController
   end
   end
 
-# In your controller or helper method
-def invite_task
-  Task.new(
-    name: "Event Invite",
-    author: "N/A",
-    icon: "default_icon.png",
-    task_manager_id: nil, # or some default value
-    state: "temporary",
-    view: "default_view",
-    memo_type: "N/A",
-    memo_text: "This is a temporary task."
-    # You don't need to set id, created_at, or updated_at as they are handled automatically
-  )
-end
 
+  
+def join_crew
+    # 1. Find the Host User
+    
+      session[:event_id_for_signup] = params[:id]
+    if user_signed_in?
+    
+    @host = User.where('lower(username) = ?', params[:username].downcase).first!
+@host_ships = @host.hosted_event_ships.includes(:event, usership: :ship)
+@event = @host.latest_hosted_event
+ 
+      
+    @task = join_crew_task
+
+    # 2. Find upcoming/active events to scope our search
+    # (Assuming you want to hide ships from old events. Adjust logic as needed.)
+    upcoming_event_ids = Event.where("start_date >= ?", Date.today).pluck(:id)
+
+    # 3. Find EventShips where:
+    #    a) The Usership belongs to the Host
+    #    b) The Event is upcoming
+    @host_ships = EventShip.joins(:usership)
+                           .where(userships: { user_id: @host.id })
+                           .where(event_id: upcoming_event_ids)
+                           .includes(:event, :event_ship_crews, usership: :ship)
+    else
+    render 'auto_redirect_to_discord' and return
+
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "Captain #{params[:username]} not found."
+  end
+
+def thank_you
+    # You can set variables here if you want to display them (e.g., @user = current_user)
+  end
 
 def event_join
   
@@ -325,6 +342,35 @@ end
 
 
     private
+
+
+def join_crew_task
+  Task.new(
+    name: "Join Crew",
+    author: "N/A",
+    icon: "default_icon.png",
+    task_manager_id: nil, # or some default value
+    state: "temporary",
+    view: "default_view",
+    memo_type: "N/A",
+    memo_text: "This is a temporary task."
+  )
+end
+
+    def invite_task
+  Task.new(
+    name: "Event Invite",
+    author: "N/A",
+    icon: "default_icon.png",
+    task_manager_id: nil, # or some default value
+    state: "temporary",
+    view: "default_view",
+    memo_type: "N/A",
+    memo_text: "This is a temporary task."
+    # You don't need to set id, created_at, or updated_at as they are handled automatically
+  )
+end
+
 
     def commodities
       JSON.parse(URI.open(API_BASE).read)['data']['commodities']

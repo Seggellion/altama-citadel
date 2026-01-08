@@ -29,6 +29,11 @@ class User < ApplicationRecord
 
   # Associations for UserSkill
   has_many :user_skills
+has_many :hosted_event_ships, through: :userships, source: :event_ships
+has_many :event_ship_crews, dependent: :destroy
+  has_many :crewed_ships, through: :event_ship_crews, source: :event_ship
+has_many :hosted_events, -> { distinct }, through: :hosted_event_ships, source: :event
+has_many :event_ships, through: :event_ship_crews
 
   # You can add more font names to this array as per your requirements
   ALLOWED_FONTS = [
@@ -132,6 +137,9 @@ end
     end
   end
 
+def latest_hosted_event
+    hosted_events.order(start_date: :desc).first
+  end
 
     def get_userships
 

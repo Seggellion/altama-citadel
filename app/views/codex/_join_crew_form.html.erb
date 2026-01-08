@@ -1,0 +1,223 @@
+<div class="crew-lobby-sidebar">
+  <% if @host_ships.empty? %>
+    <div class="alert alert-info small p-1 text-center bg-transparent border-info">
+      No active ships found.
+    </div>
+  <% else %>
+
+<% @host_ships.group_by(&:event).sort_by { |event, _ships| event.start_date }.each do |event, ships| %>
+
+      <div class="event-card">
+        
+        <div class="event-header d-flex justify-content-between align-items-end">
+          <h4>Event title: <%= event.title %> - <%= event.start_date.strftime("%b %d") %></h4>
+        </div>
+        
+<div class="d-flex flex-column"> 
+          <% ships.each do |event_ship| %>
+            
+            <%# --- DEFINITION: Check if current user owns the ship --- %>
+            <% is_host = (event_ship.usership.user == current_user) %>
+
+            <div class="ship-card">
+              <div class="ship-card-body">
+                Vehicle:
+                <div class="d-flex justify-content-between align-items-start">
+                   <div>
+                     <div class="ship-title"><%= event_ship.usership.ship.model %> - <%= event_ship.usership.fid %></div>
+                     <div class="ship-subtitle">"<%= event_ship.usership.ship_name || 'Unchristened' %>"</div>
+                   </div>
+                </div>
+                
+                <%# --- CREW LIST (With Management Controls) --- %>
+                <div class="crew-list-container">
+                  <% if event_ship.event_ship_crews.any? %>
+                    <% event_ship.event_ship_crews.each do |crew| %>
+                      
+                      <%# Added d-flex to position the delete button %>
+                      <div class="crew-pill d-flex justify-content-between align-items-center">
+                        <div>
+                          <strong><%= crew.role[0..2] %></strong> <span><%= crew.user.rsi_username %></span>
+                        </div>
+
+                        <%# --- MANAGEMENT ACTION: Delete Crew --- %>
+                        <% if is_host %>
+
+                            <%= link_to event_ship_crew_path(crew), 
+                                data: { turbo_method: :delete, turbo_confirm: "Kick #{crew.user.rsi_username} from ship?" },
+                                class: "crew-delete-btn text-danger ms-2 text-decoration-none",
+                                title: "Remove Crew Member" do %>
+                            <span>&#10005;</span>
+                            <% end %>
+
+                        <% end %>
+
+                      </div>
+                    <% end %>
+                  <% else %>
+                      <span style="font-size: 0.7rem; color: #999;">Empty</span>
+                  <% end %>
+                </div>
+
+                <%# --- FOOTER ACTIONS --- %>
+                <% if is_host %>
+                  
+                  <%# 1. Host Management View %>
+                  <div class="d-grid mt-2">
+                    <div class="badge bg-primary bg-opacity-10 text-primary border border-primary fw-normal p-2">
+                      <i class="bi bi-shield-check"></i> Managing Ship
+                    </div>
+                  </div>
+
+<% elsif event_ship.event_ship_crews.where(user: current_user).exists? %>
+                  
+                  <%# 2. Already Aboard View (With Leave Option) %>
+                  
+                  <%# Fetch the specific membership record for the link %>
+                  <% my_membership = event_ship.event_ship_crews.find_by(user: current_user) %>
+
+                  <div class="d-grid">
+                    <div style="background-color:green; color:white; margin-right:20px; padding:5px;" class="badge bg-success bg-opacity-75 text-white fw-normal">
+                       Aboard 
+                    </div>
+
+                    <%= link_to "Leave Ship", event_ship_crew_path(my_membership), 
+                        data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to leave this ship?" },
+                        class: "button-class"
+                         %>
+                  </div>
+                <% else %>
+                  
+                  <%# 3. Public Join Form %>
+                  <%= render partial: 'codex/shared/crew_form', locals: { event_ship: event_ship } %>
+
+                <% end %>
+
+              </div>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+
+    <% end %>
+  <% end %>
+</div>
+
+<style>
+/* Container adjustment */
+.crew-lobby-sidebar {
+  font-size: 0.85rem;
+  width: 100%;
+  margin-bottom:50px;
+}
+
+/* 1. Transparent Event Header */
+.crew-lobby-sidebar .event-card {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle divider */
+  border-radius: 0;
+  margin-bottom: 1rem;
+}
+
+.crew-lobby-sidebar .event-header {
+  background: transparent !important; /* Force transparency */
+  color: inherit; /* Inherit text color from parent */
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  margin-bottom: 0.5rem;
+}
+
+.crew-lobby-sidebar .event-header h4 {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* 2. Transparent & Compact Ship Card */
+.crew-lobby-sidebar .ship-card {
+  background: rgba(255, 255, 255, 0.05); /* 95% transparent, just a hint of box */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 3px solid #0d6efd; /* Keep accent for scanability */
+  border-radius: 4px;
+  margin-bottom: 0.5rem; /* Tight spacing between ships */
+}
+
+.crew-lobby-sidebar .ship-card-body {
+  padding: 0.5rem;
+}
+
+.crew-lobby-sidebar .ship-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0d6efd;
+  line-height: 1.1;
+}
+
+.crew-lobby-sidebar .ship-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-bottom: 0.25rem;
+  font-style: italic;
+}
+
+/* 3. Horizontal Crew "Pills" (Saves Vertical Space) */
+.crew-lobby-sidebar .crew-list-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to fill width then wrap */
+  gap: 4px; /* Tiny gap between names */
+  margin-bottom: 0.5rem;
+}
+
+.d-grid{
+display:flex;
+    justify-content: end;
+margin-top:20px;
+}
+
+#codex .d-grid .btn{
+margin-bottom:0px;}
+
+.crew-pill {
+  font-size: 0.7rem;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1px 6px;
+  border-radius: 10px;
+  white-space: nowrap; /* Prevents name breaking */
+  display: inline-flex;
+  align-items: center;
+}
+
+.crew-pill strong {
+  margin-right: 4px;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  opacity: 0.8;
+}
+
+/* Form Tweak */
+.crew-lobby-sidebar form {
+  margin-top: 0.25rem;
+}
+
+
+.crew-delete-btn {
+  font-size: 1.1rem;      /* Ensure icon is large enough to click */
+  line-height: 1;         /* Prevent vertical misalignment */
+  opacity: 0.6;           /* Subtle by default */
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.crew-delete-btn:hover {
+  opacity: 1;             /* Fully visible on hover */
+  transform: scale(1.1);  /* Slight grow effect */
+  color: #dc3545;         /* Bootstrap 'danger' red (reinforcement) */
+}
+
+
+</style>

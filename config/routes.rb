@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :non_confidences
   resources :rule_proposals
   resources :categories
+resources :event_ship_crews, only: [:create, :destroy]
+post 'verify_username', to: 'event_ship_crews#verify_username'
 
   resources :trade_runs do
     patch :update_traderun_location, on: :member
@@ -144,9 +146,11 @@ Rails.application.routes.draw do
   get 'codex_dossier', to: 'codex#create_dossier'
   get 'verify_username', to: 'codex#verify_username'
   get '/invite/:id', to: 'codex#invite', as: 'invite'
+  get 'join_crew/:username', to: 'codex#join_crew', as: :join_crew
+
   post '/event_join', to: 'codex#event_join', as: 'event_join'
 
-
+get 'mission_confirmed', to: 'codex#thank_you', as: :mission_confirmed
 
   get 'close_find_window', to: 'codex#close_find_window'
   get 'close_codex_window', to: 'codex#close_codex_window'

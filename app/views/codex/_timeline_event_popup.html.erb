@@ -39,19 +39,68 @@
 
     </div>
 
-    <div class="event-attendees">
-        Attendees <span class="attendee-counter"><%= event.event_users.length %> / <%= event.maximum_attendees %></span>
-        <table>
-        <% unless EventUser.where(event_id:event.id).empty? %>
-        <tr><td>SHIP-ID</td><td>Captain</td></tr>
+
+<div class="event-attendees">
+  <% 
+     # 1. Calculate Total Attendees: Captains (EventUsers) + Crew Members
+     captain_count = event.event_users.count
+     crew_count = event.event_ships.joins(:event_ship_crews).count
+     total_attendees = captain_count + crew_count
+  %>
+
+  Attendee1s <span class="attendee-counter"><%= total_attendees %> / <%= event.maximum_attendees %></span>
+  
+  <table class="table table-sm mt-2">
+    <% unless event.event_users.empty? %>
+      <thead>
+        <tr>
+          <th>SHIP-ID / ROLE</th>
+          <th>MEMBER</th>
+        </tr>
+      </thead>
+    <% end %>
+
+    <tbody>
+      <% event.event_users.each do |eventuser| %> 
+        
+        <tr class="table-active">
+            <td class="fw-bold">ALT-<%= eventuser.ship_fid || '' %></td>
+            <td>
+                <% if eventuser.user.rsi_username %>
+                    <%= link_to join_crew_path(eventuser.user.username), 
+                    style: "color:white; text-decoration:underline;",
+                        title: "Join #{eventuser.user.rsi_username}'s Crew" do %>
+                            <%= eventuser.user.rsi_username %>
+                    <% end %>
+                <% end %> </td>
+        </tr>
+
+        <% 
+           # We look for EventShips belonging to this specific EventUser for this specific Event
+           # This utilizes the relationships we built earlier
+           my_ships = EventShip.joins(:usership)
+                               .where(event_id: event.id, userships: { user_id: eventuser.user_id })
+                               .includes(:event_ship_crews) # Eager load for performance
+        %>
+
+        <% my_ships.each do |ship| %>
+          <% ship.event_ship_crews.each do |crew| %>
+            <tr>
+              <td class="text-muted" style="padding-left: 20px;">
+                <small>↳ <%= crew.role %></small>
+              </td>
+              <td class="text-muted"style="padding-left: 30px;">
+                <%= crew.user.rsi_username %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
-        <% EventUser.where(event_id:event.id).each do |eventuser| %> 
-                
-            <tr><td>ALT-<%= eventuser.ship_fid || '' %></td><% if eventuser.user.rsi_username %><td><%= eventuser.user.rsi_username %></td><% end %></tr>
-        <% end %>
-        </table>
-    </div>
-    
+
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
 
     </div>
 

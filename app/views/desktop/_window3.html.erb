@@ -45,11 +45,17 @@
 
 <%= render "/desktop/apps/#{task.name.downcase.parameterize.underscore}", task: task %>
 
-<% elsif task.respond_to?(:name) && task.name.present? && !task.task_manager.present?  %>
+<% elsif task.respond_to?(:name) && task.name.present? && !task.task_manager.present? %>
 
-<%= render "/codex/invite_form" %>
+    <% if task.name == "Join Crew" %>
 
-<%  else %>
+        <%= render "/codex/join_crew_form" %>
+
+    <% else %>
+        <%= render "/codex/invite_form" %>
+    <% end %>
+
+<% else %>
 
 <% task_name = task %>
 <% task_state = task %>
