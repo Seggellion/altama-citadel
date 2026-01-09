@@ -1,6 +1,6 @@
 class CodexController < ApplicationController
   # before_action :require_login, except: [:find_article]  
-  before_action :task_manager, except: [:join_crew, :invite, :invite_task, :event_join, :verify_username] 
+  before_action :task_manager, except: [:join_crew, :join_crew_task, :invite, :invite_task, :event_join, :verify_username] 
   #before_action :authenticate_user!, only: [:invite]
 
 
