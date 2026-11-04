@@ -14,4 +14,7 @@ This repo owns the schema:
 Tests (isolated database only):
 
     RAILS_ENV=test DATABASE_URL=postgres://citadel:citadel@localhost:5432/altama_giveaway_test bin/rails test \
-      test/models/giveaway_validation_test.rb test/models/extra_life_schema_test.rb test/integration/giveaway_authorization_test.rb
+      test/models/giveaway_validation_test.rb test/models/extra_life_schema_test.rb test/integration/giveaway_authorization_test.rb \
+      test/integration/extra_life_operator_test.rb test/integration/extra_life_panel_render_test.rb
+
+Operator and release runbooks: `altama_sys/docs/extra-life-tiltify/operator-runbook.md`, `release-runbook.md`.
