@@ -1,0 +1,22 @@
+<div style="padding:1rem; background:#fff; color:#000;">
+  <p><%= link_to "← Back to event", bot_extra_life_event_path(@bot, @event) %></p>
+  <h1>Assign donation <%= @donation.external_id.first(8) %></h1>
+  <p>Donor name on Tiltify: <strong><%= @donation.donor_name %></strong> · completed <%= @donation.completed_at&.in_time_zone(@event.time_zone)&.strftime("%Y-%m-%d %H:%M %Z") %> · current match <%= @donation.manual? ? "MANUAL" : @donation.match_outcome %></p>
+  <% if @lookup_error %>
+    <p style="color:#b00">Twitch could not be reached (<%= @lookup_error %>). Nothing was changed; try again.</p>
+  <% elsif @not_found %>
+    <p style="color:#b00">"<%= @login %>" is not a Twitch account (or not a valid login). Nothing was changed.</p>
+  <% elsif @account %>
+    <p>Twitch account: <strong><%= @account.login %></strong> (display name <%= @account.display_name %>), Twitch id <strong><%= @account.id %></strong>.</p>
+    <% if @account.id == @event.broadcaster_twitch_id %><p style="color:#b00">This is the broadcaster, who is excluded.</p><% end %>
+    <%= form_with url: assign_bot_extra_life_event_donation_path(@bot, @event, @donation), method: :post, local: true do |f| %>
+      <%= f.hidden_field :twitch_user_id, value: @account.id %>
+      Reason (required): <%= f.text_field :reason, required: true, size: 40 %>
+      <%= f.submit "Confirm: give this donation's donor ticket to #{@account.login}" %>
+    <% end %>
+    <p><small>Applies to this event's giveaways that have not been drawn. Drawn prizes never change.</small></p>
+  <% end %>
+  <%= form_with url: assign_bot_extra_life_event_donation_path(@bot, @event, @donation), method: :get, local: true do |f| %>
+    Look up another login: <%= f.text_field :login, value: @login %> <%= f.submit "Look up" %>
+  <% end %>
+</div>

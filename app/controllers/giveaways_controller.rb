@@ -48,6 +48,6 @@ def create
   end
 
   def giveaway_params
-    params.require(:giveaway).permit(:title, :description, :mode, :cost, :command_name, :channel)
+    params.require(:giveaway).permit(:title, :description, :mode, :cost, :command_name, :channel, :extra_life_event_id)
   end
 end

@@ -10,8 +10,12 @@
     <%= form.select :mode, [
       ['Single Entry (one ticket per user)', 'single'],
       ['Multiple Entries (cost per ticket)', 'multiple'],
-      ['Extra Life Mode (bonus tickets for donors)', 'multiple-extra-life']
+      ['Extra Life Mode (bonus tickets for donors)', 'multiple-extra-life'],
+      ['Extra Life + Tiltify event (1 free chat ticket + 1 donor ticket)', 'extra-life-tiltify']
     ], {}, { class: 'form-select' } %>
+
+    <label>Extra Life event (required for the Tiltify mode)</label>
+    <%= form.select :extra_life_event_id, bot.extra_life_events.order(id: :desc).map { |e| [e.name, e.id] }, { include_blank: '— none —' } %>
 
     <label>Cost (AEC)</label>
     <%= form.number_field :cost, min: 0, step: 1 %>

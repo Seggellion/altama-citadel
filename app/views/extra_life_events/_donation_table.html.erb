@@ -1,0 +1,33 @@
+<table border="1" cellpadding="3" style="font-size:90%">
+  <tr><th>Donation</th><th>Completed</th><th>Amount</th><th>Donor name</th><th>Status</th><th>Match</th><th>Twitch account</th><th>Actions</th></tr>
+  <% donations.each do |d| %>
+    <tr>
+      <td title="<%= d.external_id %>"><%= d.external_id.first(8) %></td>
+      <td><%= d.completed_at&.in_time_zone(tz)&.strftime("%m-%d %H:%M:%S") %></td>
+      <td><%= d.amount_value %> <%= d.amount_currency %></td>
+      <td><%= d.donor_name %></td>
+      <td><%= d.provider_status %><% if d.status_source == "operator_confirmed" %> (confirmed by <%= d.status_confirmed_by&.username %>)<% end %></td>
+      <td><%= d.manual? ? "MANUAL" : d.match_outcome %><% if d.last_verification_error %> <code><%= d.last_verification_error %></code><% end %></td>
+      <td>
+        <% if d.resolved_account %><%= d.resolved_account.login %> (<%= d.resolved_twitch_user_id %>)<% end %>
+        <% if d.manual? %><br><small>by <%= d.manual_assigned_by&.username %>: <%= d.manual_reason %></small><% end %>
+      </td>
+      <td>
+        <%= form_with url: assign_bot_extra_life_event_donation_path(@bot, @event, d), method: :get, local: true do |f| %>
+          <%= f.text_field :login, placeholder: "twitch login", size: 12 %> <%= f.submit d.manual? ? "Reassign" : "Assign" %>
+        <% end %>
+        <% if d.manual? %>
+          <%= form_with url: clear_assignment_bot_extra_life_event_donation_path(@bot, @event, d), method: :post, local: true do |f| %>
+            <%= f.text_field :reason, placeholder: "reason", size: 10, required: true %> <%= f.submit "Clear assignment" %>
+          <% end %>
+        <% end %>
+        <% if d.provider_status == "missing" %>
+          <%= form_with url: confirm_status_bot_extra_life_event_donation_path(@bot, @event, d), method: :post, local: true do |f| %>
+            Checked Tiltify dashboard: <%= f.select :status, [["refunded", "refunded"], ["still completed", "completed"]] %>
+            <%= f.text_field :note, placeholder: "note (optional)", size: 10 %> <%= f.submit "Confirm status" %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -1,3 +1,13 @@
+<% if giveaway.event_mode? %>
+  <% attempt = giveaway.live_draw_attempt %>
+  <h3>Tickets (Extra Life event: <%= link_to giveaway.extra_life_event.name, bot_extra_life_event_path(giveaway.bot_id, giveaway.extra_life_event) %>)</h3>
+  <% if attempt&.status == "finalized" %>
+    <p>Drawn: <%= attempt.result == "winner" ? attempt.winner_account&.login : "no eligible entries" %> (final snapshot below)</p>
+    <%= render "extra_life_events/pool_table", rows: (attempt.pool || []), snapshot: true %>
+  <% else %>
+    <%= render "extra_life_events/pool_table", rows: giveaway.event_pool, snapshot: false %>
+  <% end %>
+<% else %>
 <h3>Participants- <%= giveaway.giveaway_users.count %></h3>
 <% if giveaway.winner %>
 Winner: <%= giveaway.winner %> 
@@ -43,3 +53,4 @@ fame
   </tr>
 <% end %>
 </table>
+<% end %>
