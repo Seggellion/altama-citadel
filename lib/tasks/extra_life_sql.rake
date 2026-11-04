@@ -3,6 +3,9 @@
 namespace :db do
   desc "Apply db/sql/extra_life_giveaways_v*.sql (CREATE OR REPLACE, idempotent)"
   task extra_life_sql: :load_config do
+    # A schema that predates the Extra Life migration (e.g. an older schema.rb) has nothing to attach to.
+    next unless ActiveRecord::Base.connection.table_exists?(:giveaway_awards)
+
     Dir[Rails.root.join("db/sql/extra_life_giveaways_v*.sql")].sort.each do |file|
       ActiveRecord::Base.connection.execute(File.read(file))
     end
