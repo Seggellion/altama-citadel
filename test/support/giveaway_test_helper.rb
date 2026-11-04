@@ -46,3 +46,37 @@ class GiveawayIntegrationTestCase < ActionDispatch::IntegrationTest
   include GiveawayTestData
   teardown { GiveawayTestLogin.user = nil }
 end
+
+module ExtraLifeTestData
+  CAMPAIGN = "11111111-2222-3333-4444-555555555555".freeze
+
+  def make_event(bot, name: "EL #{SecureRandom.hex(3)}", **attrs)
+    ExtraLifeEvent.create!({
+      bot: bot, name: name, broadcaster_twitch_id: "1000", broadcaster_login: "seggellion",
+      tiltify_campaign_id: CAMPAIGN, stream_start_at: Time.utc(2026, 11, 7, 16), enabled: true,
+      last_complete_sync_at: Time.utc(2030, 1, 1)
+    }.merge(attrs))
+  end
+
+  def make_account(id, login = "user#{id}")
+    TwitchAccount.find_or_create_by!(twitch_user_id: id.to_s) { |a| a.login = login }
+  end
+
+  def make_event_giveaway(bot, event, command)
+    bot.giveaways.create!(title: "t #{command}", description: "d", mode: Giveaway::EVENT_MODE, command_name: command,
+                          channel: bot.channel, extra_life_event: event)
+  end
+
+  def make_donation(account_id: nil, completed_at: Time.utc(2026, 11, 7, 17), status: "completed", campaign: CAMPAIGN, outcome: nil, ext: SecureRandom.uuid)
+    ExternalDonation.create!(
+      external_id: ext, campaign_id: campaign, completed_at: completed_at, provider_status: status,
+      first_seen_at: Time.current, last_seen_at: Time.current,
+      match_outcome: outcome || (account_id ? "MATCHED" : "NO_LOGIN_CANDIDATE"),
+      auto_twitch_user_id: account_id&.to_s, resolved_twitch_user_id: account_id&.to_s, amount_value: 5, amount_currency: "USD"
+    )
+  end
+
+  def pool(giveaway)
+    giveaway.event_pool.to_h { |r| [r["twitch_user_id"], [r["chat_tickets"], r["donor_tickets"], r["weight"], r["excluded_reason"]]] }
+  end
+end

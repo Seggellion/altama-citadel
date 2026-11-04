@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
+ActiveRecord::Schema[7.0].define(version: 2026_11_04_010000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -152,6 +152,35 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
     t.string "role"
   end
 
+  create_table "donation_audit_events", force: :cascade do |t|
+    t.bigint "external_donation_id", null: false
+    t.string "event_type", null: false
+    t.bigint "actor_user_id"
+    t.jsonb "details", default: {}, null: false
+    t.string "reason"
+    t.datetime "created_at", null: false
+    t.index ["external_donation_id"], name: "index_donation_audit_events_on_external_donation_id"
+  end
+
+  create_table "donation_sync_runs", force: :cascade do |t|
+    t.bigint "extra_life_event_id", null: false
+    t.string "campaign_id"
+    t.string "kind", null: false
+    t.string "status", default: "running", null: false
+    t.boolean "complete", default: false, null: false
+    t.datetime "fetch_started_at", null: false
+    t.datetime "finished_at"
+    t.integer "pages", default: 0, null: false
+    t.integer "donations_seen", default: 0, null: false
+    t.string "error_code"
+    t.string "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["extra_life_event_id", "created_at"], name: "index_donation_sync_runs_on_extra_life_event_id_and_created_at"
+    t.check_constraint "NOT complete OR status::text = 'succeeded'::text", name: "sync_runs_complete_only_on_success"
+    t.check_constraint "status::text = ANY (ARRAY['running'::character varying, 'succeeded'::character varying, 'failed'::character varying]::text[])", name: "sync_runs_status"
+  end
+
   create_table "event_records", force: :cascade do |t|
     t.integer "event_type"
     t.integer "event_id"
@@ -233,6 +262,74 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
     t.boolean "open"
   end
 
+  create_table "external_donations", force: :cascade do |t|
+    t.string "provider", default: "tiltify", null: false
+    t.string "external_id", null: false
+    t.string "campaign_id", null: false
+    t.datetime "completed_at"
+    t.decimal "amount_value", precision: 12, scale: 2
+    t.string "amount_currency"
+    t.string "donor_name"
+    t.string "provider_status", null: false
+    t.string "status_source", default: "provider_list", null: false
+    t.bigint "status_confirmed_by_user_id"
+    t.datetime "status_confirmed_at"
+    t.string "status_note"
+    t.datetime "first_seen_at", null: false
+    t.datetime "last_seen_at", null: false
+    t.datetime "missing_since"
+    t.string "match_outcome", default: "UNPROCESSED", null: false
+    t.string "auto_twitch_user_id"
+    t.string "manual_twitch_user_id"
+    t.string "resolved_twitch_user_id"
+    t.bigint "manual_assigned_by_user_id"
+    t.datetime "manual_assigned_at"
+    t.string "manual_reason"
+    t.integer "verification_attempts", default: 0, null: false
+    t.datetime "next_verification_at"
+    t.string "last_verification_error"
+    t.integer "revision", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id", "completed_at"], name: "index_external_donations_on_campaign_id_and_completed_at"
+    t.index ["match_outcome"], name: "index_external_donations_on_match_outcome"
+    t.index ["provider", "external_id"], name: "index_external_donations_on_provider_and_external_id", unique: true
+    t.index ["resolved_twitch_user_id"], name: "index_external_donations_on_resolved_twitch_user_id"
+    t.check_constraint "NOT resolved_twitch_user_id::text IS DISTINCT FROM COALESCE(manual_twitch_user_id, auto_twitch_user_id)::text", name: "donations_resolved_identity"
+    t.check_constraint "manual_twitch_user_id IS NULL OR manual_assigned_by_user_id IS NOT NULL AND manual_assigned_at IS NOT NULL", name: "donations_manual_audited"
+    t.check_constraint "provider_status::text = ANY (ARRAY['completed'::character varying, 'pending'::character varying, 'missing'::character varying, 'refunded'::character varying]::text[])", name: "donations_status"
+    t.check_constraint "status_source::text = 'provider_list'::text OR status_confirmed_by_user_id IS NOT NULL AND status_confirmed_at IS NOT NULL", name: "donations_status_confirmation_audited"
+    t.check_constraint "status_source::text = ANY (ARRAY['provider_list'::character varying, 'operator_confirmed'::character varying]::text[])", name: "donations_status_source"
+  end
+
+  create_table "extra_life_event_operators", force: :cascade do |t|
+    t.bigint "extra_life_event_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "granted_by_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["extra_life_event_id", "user_id"], name: "index_el_operators_unique", unique: true
+  end
+
+  create_table "extra_life_events", force: :cascade do |t|
+    t.bigint "bot_id", null: false
+    t.string "name", null: false
+    t.string "broadcaster_twitch_id", null: false
+    t.string "broadcaster_login", null: false
+    t.string "tiltify_campaign_url"
+    t.string "tiltify_campaign_id"
+    t.datetime "stream_start_at", null: false
+    t.string "time_zone", default: "America/Vancouver", null: false
+    t.boolean "enabled", default: false, null: false
+    t.datetime "sync_requested_at"
+    t.datetime "last_complete_sync_at"
+    t.string "last_sync_status"
+    t.string "last_sync_error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_extra_life_events_on_bot_id"
+  end
+
   create_table "forum_categories", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -273,6 +370,65 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
     t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
+  create_table "giveaway_awards", force: :cascade do |t|
+    t.bigint "giveaway_id", null: false
+    t.bigint "extra_life_event_id", null: false
+    t.string "twitch_user_id", null: false
+    t.bigint "draw_attempt_id", null: false
+    t.datetime "awarded_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["draw_attempt_id"], name: "index_giveaway_awards_on_draw_attempt_id", unique: true
+    t.index ["extra_life_event_id", "twitch_user_id"], name: "index_awards_one_per_account_per_event", unique: true
+    t.index ["giveaway_id"], name: "index_giveaway_awards_on_giveaway_id", unique: true
+  end
+
+  create_table "giveaway_draw_attempts", force: :cascade do |t|
+    t.bigint "giveaway_id", null: false
+    t.bigint "extra_life_event_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "cutoff_at", null: false
+    t.string "requested_by_twitch_id"
+    t.string "blocking_reason"
+    t.jsonb "blocking_detail"
+    t.bigint "verification_sync_run_id"
+    t.jsonb "pool"
+    t.jsonb "exclusions"
+    t.jsonb "unresolved"
+    t.integer "total_weight"
+    t.string "result"
+    t.string "winner_twitch_user_id"
+    t.datetime "finalized_at"
+    t.datetime "cancelled_at"
+    t.bigint "cancelled_by_user_id"
+    t.string "cancel_reason"
+    t.string "announcement_state", default: "none", null: false
+    t.integer "announcement_attempts", default: 0, null: false
+    t.datetime "announced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["giveaway_id"], name: "index_draw_attempts_one_live_per_giveaway", unique: true, where: "((status)::text = ANY ((ARRAY['pending'::character varying, 'finalized'::character varying])::text[]))"
+    t.check_constraint "announcement_state::text = ANY (ARRAY['none'::character varying, 'pending'::character varying, 'sent'::character varying]::text[])", name: "draw_attempts_announcement"
+    t.check_constraint "status::text <> 'finalized'::text OR finalized_at IS NOT NULL AND pool IS NOT NULL AND (result::text = ANY (ARRAY['winner'::character varying, 'no_eligible_entries'::character varying]::text[])) AND (result::text = 'winner'::text) = (winner_twitch_user_id IS NOT NULL)", name: "draw_attempts_finalized_complete"
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'finalized'::character varying, 'cancelled'::character varying]::text[])", name: "draw_attempts_status"
+  end
+
+  create_table "giveaway_ticket_sources", force: :cascade do |t|
+    t.bigint "giveaway_id", null: false
+    t.string "twitch_user_id", null: false
+    t.string "source", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "granted_at", null: false
+    t.datetime "revoked_at"
+    t.string "revoke_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["giveaway_id", "twitch_user_id", "source"], name: "index_ticket_sources_unique", unique: true
+    t.index ["twitch_user_id"], name: "index_giveaway_ticket_sources_on_twitch_user_id"
+    t.check_constraint "active OR revoked_at IS NOT NULL", name: "ticket_sources_revocation"
+    t.check_constraint "source::text = ANY (ARRAY['chat'::character varying, 'donor'::character varying]::text[])", name: "ticket_sources_source"
+  end
+
   create_table "giveaway_users", force: :cascade do |t|
     t.integer "user_id"
     t.integer "giveaway_id"
@@ -294,6 +450,13 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
     t.string "mode", default: "single"
     t.integer "cost", default: 0
     t.string "command_name"
+    t.bigint "extra_life_event_id"
+    t.string "entry_state"
+    t.string "winner_twitch_id"
+    t.index ["extra_life_event_id"], name: "index_giveaways_on_extra_life_event_id"
+    t.index ["id", "extra_life_event_id"], name: "index_giveaways_on_id_and_event", unique: true
+    t.check_constraint "extra_life_event_id IS NULL AND entry_state IS NULL OR mode::text = 'extra-life-tiltify'::text AND extra_life_event_id IS NOT NULL AND (entry_state::text = ANY (ARRAY['open'::character varying, 'frozen'::character varying, 'finalized'::character varying]::text[]))", name: "giveaways_event_mode_consistency"
+    t.check_constraint "mode::text IS DISTINCT FROM 'extra-life-tiltify'::text OR extra_life_event_id IS NOT NULL", name: "giveaways_event_mode_requires_event"
   end
 
   create_table "guildstones", force: :cascade do |t|
@@ -701,6 +864,19 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
     t.index ["sender_id"], name: "index_transactions_on_sender_id"
   end
 
+  create_table "twitch_accounts", force: :cascade do |t|
+    t.string "twitch_user_id", null: false
+    t.string "login", null: false
+    t.string "display_name"
+    t.bigint "user_id"
+    t.string "link_conflict"
+    t.datetime "last_resolved_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "lower((login)::text)", name: "index_twitch_accounts_on_lower_login"
+    t.index ["twitch_user_id"], name: "index_twitch_accounts_on_twitch_user_id", unique: true
+  end
+
   create_table "user_badges", force: :cascade do |t|
     t.integer "user_id"
     t.integer "badge_id"
@@ -844,19 +1020,43 @@ ActiveRecord::Schema[7.0].define(version: 2026_01_07_225144) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "donation_audit_events", "external_donations"
+  add_foreign_key "donation_audit_events", "users", column: "actor_user_id"
+  add_foreign_key "donation_sync_runs", "extra_life_events"
   add_foreign_key "event_ship_crews", "event_ships"
   add_foreign_key "event_ship_crews", "users"
+  add_foreign_key "external_donations", "twitch_accounts", column: "auto_twitch_user_id", primary_key: "twitch_user_id"
+  add_foreign_key "external_donations", "twitch_accounts", column: "manual_twitch_user_id", primary_key: "twitch_user_id"
+  add_foreign_key "external_donations", "twitch_accounts", column: "resolved_twitch_user_id", primary_key: "twitch_user_id"
+  add_foreign_key "external_donations", "users", column: "manual_assigned_by_user_id"
+  add_foreign_key "external_donations", "users", column: "status_confirmed_by_user_id"
+  add_foreign_key "extra_life_event_operators", "extra_life_events"
+  add_foreign_key "extra_life_event_operators", "users"
+  add_foreign_key "extra_life_events", "bots"
   add_foreign_key "forum_comments", "forum_posts"
   add_foreign_key "forum_comments", "users"
   add_foreign_key "forum_posts", "forum_categories"
   add_foreign_key "forum_posts", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "giveaway_awards", "extra_life_events"
+  add_foreign_key "giveaway_awards", "giveaway_draw_attempts", column: "draw_attempt_id"
+  add_foreign_key "giveaway_awards", "giveaways", name: "fk_giveaway_awards_giveaway_event"
+  add_foreign_key "giveaway_awards", "twitch_accounts", column: "twitch_user_id", primary_key: "twitch_user_id"
+  add_foreign_key "giveaway_draw_attempts", "donation_sync_runs", column: "verification_sync_run_id"
+  add_foreign_key "giveaway_draw_attempts", "extra_life_events"
+  add_foreign_key "giveaway_draw_attempts", "giveaways"
+  add_foreign_key "giveaway_draw_attempts", "twitch_accounts", column: "winner_twitch_user_id", primary_key: "twitch_user_id"
+  add_foreign_key "giveaway_draw_attempts", "users", column: "cancelled_by_user_id"
+  add_foreign_key "giveaway_ticket_sources", "giveaways"
+  add_foreign_key "giveaway_ticket_sources", "twitch_accounts", column: "twitch_user_id", primary_key: "twitch_user_id"
+  add_foreign_key "giveaways", "extra_life_events"
   add_foreign_key "star_bitizen_race_users", "star_bitizen_races"
   add_foreign_key "star_bitizen_race_users", "users"
   add_foreign_key "star_bitizen_races", "users"
   add_foreign_key "transactions", "users", column: "receiver_id"
   add_foreign_key "transactions", "users", column: "sender_id"
+  add_foreign_key "twitch_accounts", "users"
   add_foreign_key "user_skills", "users"
   add_foreign_key "usership_components", "ship_components", column: "ship_components_id"
   add_foreign_key "usership_components", "userships"
