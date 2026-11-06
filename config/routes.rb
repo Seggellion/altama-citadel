@@ -17,6 +17,21 @@ post 'verify_username', to: 'event_ship_crews#verify_username'
   resources :bots do
   resources :giveaways, only: %i[new show create edit update destroy]
     patch 'toggle_online', on: :member
+    resources :extra_life_events, only: %i[show create update] do
+      post :request_sync, on: :member
+      resources :operators, only: %i[create destroy], controller: "extra_life_event_operators"
+      resources :donations, only: [], controller: "extra_life_donations" do
+        member do
+          get :assign
+          post :assign, action: :confirm_assign
+          post :clear_assignment
+          post :confirm_status
+        end
+      end
+      resources :draw_attempts, only: [], controller: "extra_life_draw_attempts" do
+        post :cancel, on: :member
+      end
+    end
   end
   resources :trade_sessions
   

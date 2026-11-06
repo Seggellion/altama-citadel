@@ -96,6 +96,20 @@ height:600px;
       
 
             <div data-bot-target="giveaways" class="hidden">
+              <% events = bot.extra_life_events.order(id: :desc).select { |e| e.operator?(current_user) } %>
+              <% if events.any? || current_user&.isAdmin? %>
+                <h2>Extra Life events</h2>
+                <ul>
+                  <% events.each do |e| %>
+                    <li><%= link_to e.name, bot_extra_life_event_path(bot, e), data: { turbo: false } %> — <%= e.enabled ? "enabled" : "disabled" %>, last sync <%= e.last_sync_status || "never" %></li>
+                  <% end %>
+                </ul>
+                <% if current_user&.isAdmin? %>
+                  <details><summary>New Extra Life event</summary>
+                    <%= render 'extra_life_events/form', bot: bot, event: ExtraLifeEvent.new %>
+                  </details>
+                <% end %>
+              <% end %>
               <h2>Giveaways</h2>
               <% if bot.giveaways.empty? %>
                 <p>No giveaways yet. Create a new one:</p>

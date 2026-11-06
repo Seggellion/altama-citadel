@@ -1,0 +1,18 @@
+<% if rows.empty? %>
+  <p><em>No tickets yet.</em></p>
+<% else %>
+  <% total = rows.sum { |r| r["weight"].to_i } %>
+  <table border="1" cellpadding="3">
+    <tr><th>Twitch login</th><th>Twitch id</th><th>Chat</th><th>Donor</th><th>Tickets</th><th>Odds</th><% unless snapshot %><th>Excluded</th><% end %></tr>
+    <% rows.each do |r| %>
+      <tr>
+        <td><%= r["login"] %></td><td><%= r["twitch_user_id"] %></td>
+        <td><%= r["chat"] || r["chat_tickets"] %></td><td><%= r["donor"] || r["donor_tickets"] %></td>
+        <td><%= r["weight"] %></td>
+        <td><%= total.positive? ? format("%.2f%%", r["weight"].to_f * 100 / total) : "-" %></td>
+        <% unless snapshot %><td><%= { "broadcaster" => "broadcaster", "event_winner" => "already won this event" }[r["excluded_reason"]] %></td><% end %>
+      </tr>
+    <% end %>
+    <tr><td colspan="4"><strong>Total</strong></td><td><strong><%= total %></strong></td><td></td><% unless snapshot %><td></td><% end %></tr>
+  </table>
+<% end %>

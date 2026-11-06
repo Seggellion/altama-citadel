@@ -1,0 +1,88 @@
+<% tz = @event.time_zone %>
+<div class="extra-life-admin" style="padding:1rem; max-width:1100px; background:#fff; color:#000;">
+  <p><%= link_to "← Back to desktop", root_path %></p>
+  <% if flash[:notice] %><p style="color:green"><%= flash[:notice] %></p><% end %>
+  <% if flash[:alert] %><p style="color:#b00"><%= flash[:alert] %></p><% end %>
+
+  <h1>Extra Life event: <%= @event.name %></h1>
+  <p>
+    Channel <strong><%= @bot.channel %></strong> · broadcaster <strong><%= @event.broadcaster_login %></strong> (Twitch id <%= @event.broadcaster_twitch_id %>, always excluded) ·
+    stream start <strong><%= @event.stream_start_local&.strftime("%Y-%m-%d %H:%M %Z") %></strong> (<%= tz %>) ·
+    Tiltify campaign <code><%= @event.tiltify_campaign_id || "not resolved yet" %></code> ·
+    <strong><%= @event.enabled ? "ENABLED" : "DISABLED (no entries, sync or draws)" %></strong>
+  </p>
+
+  <h2>Sync health</h2>
+  <p>
+    Last complete sync: <strong><%= @event.last_complete_sync_at&.in_time_zone(tz)&.strftime("%H:%M:%S %Z") || "never" %></strong> ·
+    last status: <strong><%= @event.last_sync_status || "none" %></strong>
+    <% if @event.last_sync_error %> · error <code><%= @event.last_sync_error %></code><% end %>
+    <% if @event.sync_requested_at %> · sync requested <%= @event.sync_requested_at.in_time_zone(tz).strftime("%H:%M:%S") %><% end %>
+  </p>
+  <%= button_to "Sync now", request_sync_bot_extra_life_event_path(@bot, @event), method: :post %>
+  <table border="1" cellpadding="3">
+    <tr><th>Run</th><th>Kind</th><th>Started</th><th>Status</th><th>Complete</th><th>Pages</th><th>Seen</th><th>Error</th></tr>
+    <% @runs.each do |r| %>
+      <tr><td><%= r.id %></td><td><%= r.kind %></td><td><%= r.fetch_started_at.in_time_zone(tz).strftime("%H:%M:%S") %></td>
+          <td><%= r.status %></td><td><%= r.complete %></td><td><%= r.pages %></td><td><%= r.donations_seen %></td><td><%= r.error_code %></td></tr>
+    <% end %>
+  </table>
+
+  <h2>Giveaways in this event</h2>
+  <p>Each eligible Twitch account gets one free chat ticket (its giveaway's command) and one donor ticket (any qualifying donation), two at most. An account can win one prize in this event.</p>
+  <% @giveaways.each do |g| %>
+    <% attempt = g.live_draw_attempt %>
+    <div style="border:1px solid #888; padding:.5rem; margin:.5rem 0;">
+      <h3><%= g.title %> — !<%= g.command_name %> — <%= g.entry_state %></h3>
+      <% if attempt&.status == "finalized" %>
+        <p><strong>Drawn <%= attempt.finalized_at.in_time_zone(tz).strftime("%Y-%m-%d %H:%M %Z") %></strong>, cutoff <%= attempt.cutoff_at.in_time_zone(tz).strftime("%H:%M:%S %Z") %>:
+          <%= attempt.result == "winner" ? "winner #{attempt.winner_account&.login} (#{attempt.winner_twitch_user_id})" : "no eligible entries" %>,
+          total weight <%= attempt.total_weight %>, announcement <%= attempt.announcement_state %>.
+          Unresolved donations at cutoff: <%= (attempt.unresolved || {}).map { |k, v| "#{k} #{v}" }.join(", ").presence || "none" %>.</p>
+        <%= render "extra_life_events/pool_table", rows: (attempt.pool || []), snapshot: true %>
+        <% if (attempt.exclusions || []).any? %><p>Excluded: <%= attempt.exclusions.map { |e| "#{e['login']} (#{e['reason']})" }.join(", ") %></p><% end %>
+      <% else %>
+        <% if attempt&.status == "pending" %>
+          <p style="color:#b60"><strong>Draw pending</strong> since <%= attempt.cutoff_at.in_time_zone(tz).strftime("%H:%M:%S %Z") %> (entries frozen).
+            <% if attempt.blocking_reason %>Blocked: <code><%= attempt.blocking_reason %></code>. Fix the cause, then run <code>!drawing <%= g.command_name %></code> again. There is no override.<% end %></p>
+          <%= form_with url: cancel_bot_extra_life_event_draw_attempt_path(@bot, @event, attempt), method: :post, local: true do |f| %>
+            Cancel this pending draw (reopens chat entry; the next draw gets a new cutoff). Reason: <%= f.text_field :reason, required: true %> <%= f.submit "Cancel pending draw" %>
+          <% end %>
+        <% end %>
+        <p>Live preview (same rules as <code>!odds</code> and the draw; changes as entries and donations arrive):</p>
+        <%= render "extra_life_events/pool_table", rows: g.event_pool, snapshot: false %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <h2>Donations needing review (<%= @review.size %>)</h2>
+  <p>Unmatched donations do not block draws; assigning one later only affects prizes not yet drawn. Missing donations (gone from Tiltify's list) must be confirmed against the Tiltify dashboard before a draw that depends on them.</p>
+  <%= render "extra_life_events/donation_table", donations: @review, tz: tz %>
+
+  <h2>All donations (<%= @donations.size %>)</h2>
+  <%= render "extra_life_events/donation_table", donations: @donations, tz: tz %>
+
+  <h2>Draw history</h2>
+  <table border="1" cellpadding="3">
+    <tr><th>Attempt</th><th>Giveaway</th><th>Status</th><th>Cutoff</th><th>Result</th><th>Blocking</th><th>Cancelled</th></tr>
+    <% @attempts.each do |a| %>
+      <tr><td><%= a.id %></td><td>!<%= a.giveaway.command_name %></td><td><%= a.status %></td><td><%= a.cutoff_at.in_time_zone(tz).strftime("%H:%M:%S") %></td>
+          <td><%= a.result %> <%= a.winner_account&.login %></td><td><%= a.blocking_reason %></td><td><%= a.cancel_reason %></td></tr>
+    <% end %>
+  </table>
+
+  <% if current_user&.isAdmin? %>
+    <h2>Settings (admins)</h2>
+    <%= render "extra_life_events/form", bot: @bot, event: @event %>
+    <h3>Operators</h3>
+    <p>Admins can always operate. Operators can review donations, assign accounts, confirm status and cancel pending draws for this event only.</p>
+    <ul>
+      <% @event.operators.includes(:user).each do |op| %>
+        <li><%= op.user.username %> <%= button_to "Remove", bot_extra_life_event_operator_path(@bot, @event, op), method: :delete, form: { style: "display:inline" } %></li>
+      <% end %>
+    </ul>
+    <%= form_with url: bot_extra_life_event_operators_path(@bot, @event), method: :post, local: true do |f| %>
+      Site username: <%= f.text_field :username %> <%= f.submit "Add operator" %>
+    <% end %>
+  <% end %>
+</div>

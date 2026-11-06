@@ -1,4 +1,7 @@
 class GiveawaysController < ApplicationController
+  include GiveawayAdminAuthorization
+
+  before_action :require_giveaway_admin
   before_action :set_bot
   before_action :set_giveaway, only: %i[edit update destroy]
 
@@ -9,13 +12,9 @@ def create
       # Add status: :see_other to make Turbo happy on success
       redirect_to root_path, notice: "Giveaway created successfully.", status: :see_other
     else
-      # Re-render the form with a 422 status code so Turbo can display the errors.
-      # (Note: This assumes your form is on a 'new.html.erb' template. If this form 
-      # lives on a dashboard or modal, you may need to render that specific view instead.)
-      render :new, status: :unprocessable_entity
-      
-      # OR, if you strictly want to redirect and wipe their input, you still need the 303:
-      # redirect_to root_path, alert: "Failed to create giveaway.", status: :see_other
+      # There is no giveaways/new template (the form lives in the ALTAMA.EXE desktop window), so the old
+      # `render :new` raised and production swallowed the error. Report the validation errors instead.
+      redirect_to root_path, alert: "Giveaway not created: #{@giveaway.errors.full_messages.to_sentence}", status: :see_other
     end
   end
 
@@ -26,13 +25,16 @@ def create
     if @giveaway.update(giveaway_params)
       redirect_to root_path, notice: "Giveaway updated successfully.", status: :see_other
     else
-      redirect_to root_path, alert: "Failed to update giveaway."
+      redirect_to root_path, alert: "Giveaway not updated: #{@giveaway.errors.full_messages.to_sentence}", status: :see_other
     end
   end
 
   def destroy
-    @giveaway.destroy
-    redirect_to desktop_path, notice: "Giveaway deleted."
+    if @giveaway.destroy
+      redirect_to desktop_path, notice: "Giveaway deleted.", status: :see_other
+    else
+      redirect_to desktop_path, alert: "Giveaway not deleted: #{@giveaway.errors.full_messages.to_sentence}", status: :see_other
+    end
   end
 
   private
@@ -46,6 +48,6 @@ def create
   end
 
   def giveaway_params
-    params.require(:giveaway).permit(:title, :description, :mode, :cost, :command_name, :channel)
+    params.require(:giveaway).permit(:title, :description, :mode, :cost, :command_name, :channel, :extra_life_event_id)
   end
 end

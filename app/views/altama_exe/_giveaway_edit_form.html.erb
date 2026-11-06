@@ -7,11 +7,15 @@
     <%= form.text_area :description, rows: 3 %>
 
     <label>Mode</label>
+    <% if giveaway.event_mode? %>
+      <p>Extra Life + Tiltify event: <%= giveaway.extra_life_event&.name %> (mode cannot be changed)</p>
+    <% else %>
     <%= form.select :mode, [
       ['Single Entry', 'single'],
       ['Multiple Entries', 'multiple'],
       ['Extra Life Mode', 'multiple-extra-life']
     ], selected: giveaway.mode %>
+    <% end %>
 
     <label>Cost (AEC)</label>
     <%= form.number_field :cost, value: giveaway.cost, min: 0, step: 1 %>

@@ -1,4 +1,7 @@
 class BotsController < ApplicationController
+    include GiveawayAdminAuthorization
+
+    before_action :require_giveaway_admin
     def index
       @bots = Bot.all.order(created_at: :asc)
     end

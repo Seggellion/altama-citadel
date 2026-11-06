@@ -1,0 +1,13 @@
+<%= form_with model: event, url: (event.persisted? ? bot_extra_life_event_path(bot, event) : bot_extra_life_events_path(bot)), local: true do |f| %>
+  <div class="extra-life-event-form">
+    <label>Event name</label> <%= f.text_field :name, required: true %><br>
+    <label>Broadcaster Twitch login (resolved to its Twitch id on save)</label> <%= f.text_field :broadcaster_login, value: event.broadcaster_login || bot.channel, required: true %><br>
+    <label>Tiltify campaign URL (https://tiltify.com/@user/campaign)</label> <%= f.text_field :tiltify_campaign_url, size: 50 %><br>
+    <label>Tiltify campaign id (optional; the bot fills it from the URL)</label> <%= f.text_field :tiltify_campaign_id, size: 40 %><br>
+    <label>Stream start (local time in the zone below)</label>
+    <%= f.datetime_local_field :stream_start_local, value: event.stream_start_local&.strftime("%Y-%m-%dT%H:%M"), required: event.new_record? %><br>
+    <label>Time zone (IANA)</label> <%= f.text_field :time_zone, value: event.time_zone || "America/Vancouver" %><br>
+    <label><%= f.check_box :enabled %> Enabled (chat entry, donation sync and draws)</label><br>
+    <%= f.submit event.persisted? ? "Save event" : "Create event" %>
+  </div>
+<% end %>
