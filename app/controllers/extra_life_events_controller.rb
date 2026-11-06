@@ -19,29 +19,33 @@ class ExtraLifeEventsController < ApplicationController
   def create
     @event = @bot.extra_life_events.new(bot: @bot)
     if assign_attributes_and_save(@event)
-      redirect_to event_path_for, notice: "Extra Life event created. Attach giveaways with mode 'Extra Life + Tiltify event'.", status: :see_other
+      redirect_to event_path_for(tab: "overview"), notice: "Extra Life event created (disabled). Next: wait for the Tiltify campaign to resolve, add prizes, then enable it.", status: :see_other
     else
-      redirect_to root_path, alert: "Event not created: #{@event.errors.full_messages.to_sentence}", status: :see_other
+      redirect_to desktop_path(bexe_tab: "extra_life"), alert: "Event not created: #{@event.errors.full_messages.to_sentence}", status: :see_other
     end
   end
 
   def update
     if assign_attributes_and_save(@event)
-      redirect_to event_path_for, notice: "Event updated.", status: :see_other
+      redirect_to event_path_for(tab: return_tab), notice: "Event updated.", status: :see_other
     else
-      redirect_to event_path_for, alert: "Event not updated: #{@event.errors.full_messages.to_sentence}", status: :see_other
+      redirect_to event_path_for(tab: return_tab), alert: "Event not updated: #{@event.errors.full_messages.to_sentence}", status: :see_other
     end
   end
 
   def request_sync
     @event.update_columns(sync_requested_at: Time.current, updated_at: Time.current)
-    redirect_to event_path_for, notice: "Sync requested; the bot picks it up within about 10 seconds.", status: :see_other
+    redirect_to event_path_for(tab: "overview"), notice: "Sync requested; the bot picks it up within about 10 seconds.", status: :see_other
   end
 
   private
 
   def set_bot
     @bot = Bot.find(params[:bot_id])
+  end
+
+  def return_tab
+    %w[overview settings].include?(params[:tab]) ? params[:tab] : "settings"
   end
 
   def event_params

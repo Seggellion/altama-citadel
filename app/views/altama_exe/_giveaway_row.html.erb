@@ -1,0 +1,10 @@
+<% label, css = giveaway_status(giveaway) %>
+<tr class="w95-row" data-w95-target="row" data-id="g<%= giveaway.id %>" data-action="click->w95#selectRow" tabindex="0">
+  <td title="<%= giveaway.title %>"><%= giveaway.title %></td>
+  <td><%= giveaway_mode_label(giveaway.mode) %></td>
+  <td><code>!<%= giveaway.command_name %></code></td>
+  <td><span class="w95-badge <%= css %>"><%= label %></span></td>
+  <td><%= giveaway.winner.presence || '—' %></td>
+  <td class="num"><%= giveaway_entry_count(giveaway) %></td>
+  <td><%= giveaway.created_at&.in_time_zone('America/Vancouver')&.strftime('%Y-%m-%d') %></td>
+</tr>

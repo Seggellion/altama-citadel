@@ -2,7 +2,7 @@
   <p><em>No tickets yet.</em></p>
 <% else %>
   <% total = rows.sum { |r| r["weight"].to_i } %>
-  <table border="1" cellpadding="3">
+  <table class="w95-table">
     <tr><th>Twitch login</th><th>Twitch id</th><th>Chat</th><th>Donor</th><th>Tickets</th><th>Odds</th><% unless snapshot %><th>Excluded</th><% end %></tr>
     <% rows.each do |r| %>
       <tr>

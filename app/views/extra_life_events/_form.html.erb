@@ -1,13 +1,54 @@
-<%= form_with model: event, url: (event.persisted? ? bot_extra_life_event_path(bot, event) : bot_extra_life_events_path(bot)), local: true do |f| %>
+<%# Event setup. Enabling is only offered once the bot has resolved the Tiltify campaign id (the model enforces it too). %>
+<% zones = (["America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Toronto", "America/Halifax",
+             "America/Los_Angeles", "America/Denver", "America/Chicago", "America/New_York", "UTC"] | [event.time_zone].compact) %>
+<%= form_with model: event, url: (event.persisted? ? bot_extra_life_event_path(bot, event) : bot_extra_life_events_path(bot)), local: true, data: { turbo: false } do |f| %>
   <div class="extra-life-event-form">
-    <label>Event name</label> <%= f.text_field :name, required: true %><br>
-    <label>Broadcaster Twitch login (resolved to its Twitch id on save)</label> <%= f.text_field :broadcaster_login, value: event.broadcaster_login || bot.channel, required: true %><br>
-    <label>Tiltify campaign URL (https://tiltify.com/@user/campaign)</label> <%= f.text_field :tiltify_campaign_url, size: 50 %><br>
-    <label>Tiltify campaign id (optional; the bot fills it from the URL)</label> <%= f.text_field :tiltify_campaign_id, size: 40 %><br>
-    <label>Stream start (local time in the zone below)</label>
-    <%= f.datetime_local_field :stream_start_local, value: event.stream_start_local&.strftime("%Y-%m-%dT%H:%M"), required: event.new_record? %><br>
-    <label>Time zone (IANA)</label> <%= f.text_field :time_zone, value: event.time_zone || "America/Vancouver" %><br>
-    <label><%= f.check_box :enabled %> Enabled (chat entry, donation sync and draws)</label><br>
-    <%= f.submit event.persisted? ? "Save event" : "Create event" %>
+    <div class="w95-field">
+      <%= f.label :name, 'Event name' %>
+      <%= f.text_field :name, required: true, placeholder: 'Extra Life 2026' %>
+    </div>
+    <div class="w95-field">
+      <%= f.label :broadcaster_login, 'Broadcaster (Twitch login)' %>
+      <%= f.text_field :broadcaster_login, value: event.broadcaster_login || bot.channel, required: true %>
+      <span class="w95-hint">Checked with Twitch on save. The broadcaster can never win.</span>
+    </div>
+    <div class="w95-field">
+      <%= f.label :tiltify_campaign_url, 'Tiltify campaign URL' %>
+      <%= f.text_field :tiltify_campaign_url, placeholder: 'https://tiltify.com/@yourname/your-campaign' %>
+      <span class="w95-hint">Must start with https://tiltify.com/. The bot resolves it to the campaign id within about a minute.</span>
+    </div>
+    <% if event.persisted? %>
+      <div class="w95-field">
+        <%= f.label :tiltify_campaign_id, 'Tiltify campaign id' %>
+        <%= f.text_field :tiltify_campaign_id, placeholder: 'filled in by the bot' %>
+        <span class="w95-hint">Optional: paste the campaign UUID yourself if you have it.</span>
+      </div>
+    <% end %>
+    <div class="w95-field">
+      <%= f.label :stream_start_local, 'Stream start' %>
+      <%= f.datetime_local_field :stream_start_local, value: event.stream_start_local&.strftime("%Y-%m-%dT%H:%M"), required: event.new_record? %>
+      <span class="w95-hint">Local time in the zone below. Only donations completed at or after this count.</span>
+    </div>
+    <div class="w95-field">
+      <%= f.label :time_zone, 'Time zone' %>
+      <%= f.select :time_zone, zones, selected: event.time_zone.presence || "America/Vancouver" %>
+    </div>
+    <% if event.persisted? %>
+      <div class="w95-field">
+        <span></span>
+        <label>
+          <%= f.check_box :enabled, disabled: event.tiltify_campaign_id.blank? && !event.enabled %>
+          Enabled (chat entry, donation sync and draws)
+        </label>
+        <% if event.tiltify_campaign_id.blank? && !event.enabled %>
+          <span class="w95-hint">Available once the Tiltify campaign is resolved.</span>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="w95-hint" style="margin-left:0">The event starts disabled. Open it after creating to check the campaign, add prizes and enable it.</p>
+    <% end %>
+    <div class="w95-actions">
+      <%= f.submit event.persisted? ? "Save settings" : "Create event", class: 'w95-btn-default' %>
+    </div>
   </div>
 <% end %>

@@ -1,0 +1,6 @@
+<% if flash[:alert].present? %>
+  <div class="w95-message alert" role="alert"><span class="w95-icon">!</span><div><%= flash[:alert] %></div></div>
+<% end %>
+<% if flash[:notice].present? %>
+  <div class="w95-message notice" role="status"><span class="w95-icon">i</span><div><%= flash[:notice] %></div></div>
+<% end %>

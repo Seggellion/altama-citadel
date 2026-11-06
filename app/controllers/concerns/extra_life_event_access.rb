@@ -31,7 +31,7 @@ module ExtraLifeEventAccess
     end
   end
 
-  def event_path_for(event = @event)
-    bot_extra_life_event_path(event.bot_id, event)
+  def event_path_for(event = @event, tab: nil)
+    bot_extra_life_event_path(event.bot_id, event, tab: tab)
   end
 end

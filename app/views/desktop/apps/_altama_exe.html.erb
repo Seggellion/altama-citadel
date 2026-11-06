@@ -1,148 +1,172 @@
-<style>
-.bot-container{
-    padding:20px;
-}
-.bot-container{
-    padding-top:10px;
-    height: 97%;
-}
-.participants table td p{
-  margin:0px;
-  padding:0px;
-}
-.bot-controls{
-    display:flex;
-    justify-content: space-between;
-}
-.contact-list{
-  height:100%;
-}
-.bot-body{
-  height: 100%;
-  overflow: scroll;
-}
-.participants{
-    overflow: scroll;
-    height: 170px;
-    border: 1px solid black;
-    padding: 10px;
-}
-window content{
-  height: 82%;
-  overflow: scroll;
-}
-.bot-info{
-  display:flex;
-  flex-direction:row;
-  justify-content:space-between;
-  align-items:center;
-}
-windowTitle{
-  font-size: 2rem;
-  padding-left: 10px;
-}
+<div class="w95 bexe">
+  <% bots = @bots || Bot.none %>
+  <% if bots.empty? %>
+    <fieldset class="w95-group">
+      <legend>No bots exist</legend>
+      <p>Create a bot to manage giveaways.</p>
+      <%= render 'altama_exe/bot_form' %>
+    </fieldset>
+  <% end %>
 
-.giveaway-form, .giveaway-edit-form {
-  margin-top: 1rem;
-  padding: 1rem;
+  <% bots.each do |bot| %>
+    <% giveaways = bot.giveaways.includes(:extra_life_event).order(created_at: :desc).to_a %>
+    <% open_giveaways, closed_giveaways = giveaways.partition { |g| !giveaway_closed?(g) } %>
+    <% events = bot.extra_life_events.order(id: :desc).select { |e| e.operator?(current_user) } %>
+    <% show_events = events.any? || current_user&.isAdmin? %>
+    <div class="bexe-bot"
+         data-controller="w95"
+         data-w95-storage-key-value="bexe-<%= bot.id %>"
+         data-w95-tab-value="<%= params[:bexe_tab] %>"
+         data-w95-selected-value="<%= params[:bexe_giveaway] %>">
 
-  label {
-    display: block;
-    margin-top: 0.5rem;
-  }
+      <% if params[:bexe_tab].present? %><%= render 'altama_exe/flash' %><% end %>
 
-  .actions {
-    margin-top: 1rem;
-  }
+      <div class="w95-toolbar">
+        <span><span class="w95-led <%= bot.bot_online ? 'on' : 'off' %>"></span><strong><%= bot.bot_name %></strong> on #<%= bot.channel %></span>
+        <span class="w95-spacer"></span>
+        <%= button_to (bot.bot_online ? 'Set offline' : 'Set online'), toggle_online_bot_path(bot), method: :patch, class: 'w95-btn-small' %>
+      </div>
 
-  input, textarea, select {
-    width: 100%;
+      <div class="w95-tabs" role="tablist">
+        <button type="button" class="w95-tab active" role="tab" data-w95-target="tab" data-tab="giveaways" data-action="w95#selectTab">
+          Giveaways <span class="w95-badge open"><%= open_giveaways.size %> open</span>
+        </button>
+        <% if show_events %>
+          <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="extra_life" data-action="w95#selectTab">
+            Extra Life events <span class="w95-badge event"><%= events.size %></span>
+          </button>
+        <% end %>
+      </div>
 
-    border: 1px solid #666;
-    padding: 0.5rem;
-    border-radius: 3px;
-  }
-}
+      <%# ---------------- Giveaways ---------------- %>
+      <div class="w95-tabpanel" role="tabpanel" data-w95-target="panel" data-tab="giveaways">
+        <div class="w95-toolbar">
+          <button type="button" class="w95-btn-default" data-action="w95#showNew" data-id="new">New giveaway…</button>
+          <span class="w95-spacer"></span>
+          <small>Click a giveaway to see its details, entries and settings.</small>
+        </div>
 
-#altama_exe{
-width:800px;
-height:600px;
-}
-
-</style>
-<windowTitle>BotManager2.0</windowTitle>
-  <div class="bot-container" data-controller="bot" >
-    <div class="contact-list">        
-      <% if @bots.empty? %>
-        <h1>No bots exist. Please create a new bot</h1>
-        <%= render 'altama_exe/bot_form' %>
-      <% else %>
-        <% @bots.each do |bot| %>
-          <div class="bot-body">
-          <div class="bot-info">
-            <span>BotName: <%= bot.bot_name %></span>
-            <span>Channel: <%= bot.channel %></span>
-            </div>
-            <div class="bot-controls">
-            <%= button_to 'Toggle Online Status', toggle_online_bot_path(bot), method: :patch %>
-              <% if bot.bot_online %>
-                <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="green" /></svg>
-              <% else %>
-                <svg height="20" width="20"><circle cx="10" cy="10" r="8" fill="red" /></svg>
+        <div class="w95-listview bexe-list">
+          <table>
+            <thead>
+              <tr><th>Title</th><th>Mode</th><th>Command</th><th>Status</th><th>Winner</th><th class="num">Entries</th><th>Created</th></tr>
+            </thead>
+            <tbody>
+              <% if open_giveaways.empty? %>
+                <tr><td colspan="7" class="w95-empty">No open giveaways.</td></tr>
               <% end %>
-              <button data-action="bot#toggleGiveaways">Show Giveaways</button>
-            </div>
-
-      
-
-            <div data-bot-target="giveaways" class="hidden">
-              <% events = bot.extra_life_events.order(id: :desc).select { |e| e.operator?(current_user) } %>
-              <% if events.any? || current_user&.isAdmin? %>
-                <h2>Extra Life events</h2>
-                <ul>
-                  <% events.each do |e| %>
-                    <li><%= link_to e.name, bot_extra_life_event_path(bot, e), data: { turbo: false } %> — <%= e.enabled ? "enabled" : "disabled" %>, last sync <%= e.last_sync_status || "never" %></li>
-                  <% end %>
-                </ul>
-                <% if current_user&.isAdmin? %>
-                  <details><summary>New Extra Life event</summary>
-                    <%= render 'extra_life_events/form', bot: bot, event: ExtraLifeEvent.new %>
-                  </details>
+              <% open_giveaways.each do |g| %>
+                <%= render 'altama_exe/giveaway_row', giveaway: g %>
+              <% end %>
+            </tbody>
+            <% if closed_giveaways.any? %>
+              <tbody>
+                <tr class="w95-group-row" data-action="click->w95#toggleGroup" data-group="closed">
+                  <td colspan="7"><span data-w95-target="groupLabel" data-group="closed">▸</span> Drawn / closed (<%= closed_giveaways.size %>)</td>
+                </tr>
+              </tbody>
+              <tbody data-w95-target="group" data-group="closed" hidden>
+                <% closed_giveaways.each do |g| %>
+                  <%= render 'altama_exe/giveaway_row', giveaway: g %>
                 <% end %>
-              <% end %>
-              <h2>Giveaways</h2>
-              <% if bot.giveaways.empty? %>
-                <p>No giveaways yet. Create a new one:</p>
-                <%= render 'altama_exe/giveaway_form', bot: bot %>
-              <% else %>
-                <%= render 'altama_exe/giveaway_form', bot: bot %>
-                <% bot.giveaways.order(created_at: :desc).each do |giveaway| %>
-                  <div class="giveaway-entry">
-                    <h3><%= giveaway.title %></h3>
-                    <p><%= giveaway.description %></p>
-                    <p>Mode: <%= giveaway.mode %></p>
-                    <p>Cost: <%= giveaway.cost %> AEC</p>
-                    <p>Command: !<%= giveaway.command_name %></p>
+              </tbody>
+            <% end %>
+          </table>
+        </div>
 
-                    <details>
-                      <summary>Edit Giveaway</summary>
-                      <%= render 'altama_exe/giveaway_edit_form', bot: bot, giveaway: giveaway %>
-                    </details>
+        <div class="w95-detail" data-w95-target="detail" data-id="none">
+          <p class="w95-empty">Select a giveaway above, or press <strong>New giveaway…</strong></p>
+        </div>
 
-                    <button data-action="bot#toggleParticipants">Show Participants</button>
-                    <div data-bot-target="participants" class="participants hidden">
-                      <%= render 'altama_exe/participants', giveaway: giveaway %>
-                    </div>
-                  </div>
-                <% end %>
+        <div class="w95-detail" data-w95-target="detail" data-id="new" hidden>
+          <h3>New giveaway</h3>
+          <%= render 'altama_exe/giveaway_form', bot: bot %>
+        </div>
+
+        <% giveaways.each do |g| %>
+          <div class="w95-detail" data-w95-target="detail" data-id="g<%= g.id %>" hidden>
+            <% label, css = giveaway_status(g) %>
+            <div class="w95-toolbar">
+              <h3 style="margin:0"><%= g.title %></h3>
+              <span class="w95-badge <%= css %>"><%= label %></span>
+              <span class="w95-spacer"></span>
+              <% if g.event_mode? && g.extra_life_event %>
+                <%= link_to 'Open event window', bot_extra_life_event_path(bot, g.extra_life_event, tab: 'prizes'), class: 'w95-btn', data: { turbo: false } %>
               <% end %>
             </div>
-
-
-
+            <p><%= g.description %></p>
+            <div class="w95-columns">
+              <fieldset class="w95-group">
+                <legend>Properties</legend>
+                <table class="w95-table">
+                  <tr><td>Mode</td><td><%= giveaway_mode_label(g.mode) %><% if g.extra_life_event %> — <%= g.extra_life_event.name %><% end %></td></tr>
+                  <tr><td>Chat command</td><td><code>!<%= g.command_name %></code></td></tr>
+                  <tr><td>Cost</td><td><%= g.cost.to_i %> AEC</td></tr>
+                  <tr><td>Winner</td><td><%= g.winner.presence || '—' %></td></tr>
+                  <tr><td>Entries</td><td><%= giveaway_entry_count(g) %></td></tr>
+                  <tr><td>Created</td><td><%= g.created_at&.in_time_zone('America/Vancouver')&.strftime('%Y-%m-%d %H:%M %Z') %></td></tr>
+                </table>
+                <% if g.event_mode? && !giveaway_closed?(g) %>
+                  <p><small>The broadcaster draws this prize in chat with <code>!drawing <%= g.command_name %></code>. Entries close at that moment.</small></p>
+                <% end %>
+              </fieldset>
+              <fieldset class="w95-group">
+                <legend>Edit</legend>
+                <%= render 'altama_exe/giveaway_edit_form', bot: bot, giveaway: g %>
+              </fieldset>
+            </div>
+            <fieldset class="w95-group">
+              <legend>Entries</legend>
+              <div class="w95-scroll" style="max-height:220px">
+                <%= render 'altama_exe/participants', giveaway: g %>
+              </div>
+            </fieldset>
           </div>
         <% end %>
-      <% end %>
-    </div>
-  </div>
+      </div>
 
+      <%# ---------------- Extra Life events ---------------- %>
+      <% if show_events %>
+        <div class="w95-tabpanel" role="tabpanel" data-w95-target="panel" data-tab="extra_life" hidden>
+          <p>Each Extra Life event links one Tiltify campaign to this channel. Open an event to set it up, add prizes, watch donations and odds, and handle draws.</p>
+          <div class="w95-listview bexe-events">
+            <table>
+              <thead>
+                <tr><th>Event</th><th>Status</th><th>Tiltify campaign</th><th>Stream start</th><th>Last sync</th><th class="num">Prizes</th><th></th></tr>
+              </thead>
+              <tbody>
+                <% if events.empty? %>
+                  <tr><td colspan="7" class="w95-empty">No Extra Life events yet<%= current_user&.isAdmin? ? ' — create one below.' : '.' %></td></tr>
+                <% end %>
+                <% events.each do |e| %>
+                  <tr>
+                    <td><%= link_to e.name, bot_extra_life_event_path(bot, e), data: { turbo: false } %></td>
+                    <td><span class="w95-badge <%= e.enabled ? 'open' : 'drawn' %>"><%= e.enabled ? 'Enabled' : 'Disabled' %></span></td>
+                    <td><%= e.tiltify_campaign_id.present? ? 'Resolved' : (e.tiltify_campaign_url.present? ? 'Resolving…' : 'Not set') %></td>
+                    <td><%= event_time(e, e.stream_start_at, '%b %-d %-I:%M %p %Z') %></td>
+                    <td><%= e.last_complete_sync_at ? "#{time_ago_in_words(e.last_complete_sync_at)} ago" : (e.last_sync_status || 'never') %></td>
+                    <td class="num"><%= e.giveaways.size %></td>
+                    <td><%= link_to 'Open…', bot_extra_life_event_path(bot, e), class: 'w95-btn w95-btn-small', data: { turbo: false } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+
+          <% if current_user&.isAdmin? %>
+            <fieldset class="w95-group">
+              <legend>New Extra Life event</legend>
+              <%= render 'extra_life_events/form', bot: bot, event: ExtraLifeEvent.new %>
+            </fieldset>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="w95-status">
+        <span><%= open_giveaways.size %> open giveaway<%= 's' unless open_giveaways.size == 1 %></span>
+        <span><%= closed_giveaways.size %> drawn / closed</span>
+        <% if show_events %><span><%= events.count(&:enabled) %> Extra Life event<%= 's' unless events.count(&:enabled) == 1 %> enabled</span><% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

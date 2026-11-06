@@ -48,9 +48,9 @@ class ExtraLifeOperatorTest < GiveawayIntegrationTestCase
     login_as(@operator)
     get event_path
     assert_response :success
-    assert_match "Donations needing review (1)", response.body
+    assert_match "Needs review (1)", response.body
     assert_match "Dana D", response.body
-    refute_match "Settings (admins)", response.body
+    refute_match "Save settings", response.body # operators see settings read-only
   end
 
   test "outsiders, anonymous users and cross-event ids are denied (T33)" do

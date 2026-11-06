@@ -42,7 +42,7 @@ class ExtraLifeDonationsController < ApplicationController
                                  reason: reason, details: { from: before, to: account.id, auto: @donation.auto_twitch_user_id })
       @event.refresh_donor_sources!
     end
-    redirect_to event_path_for, notice: "Donation assigned to #{account.login} (#{account.id}). Undrawn giveaways updated; drawn ones are unchanged.", status: :see_other
+    redirect_to event_path_for(tab: "donations"), notice: "Donation assigned to #{account.login} (#{account.id}). Undrawn giveaways updated; drawn ones are unchanged.", status: :see_other
   end
 
   def clear_assignment
@@ -60,7 +60,7 @@ class ExtraLifeDonationsController < ApplicationController
                                  reason: reason, details: { from: before, to: @donation.auto_twitch_user_id })
       @event.refresh_donor_sources!
     end
-    redirect_to event_path_for, notice: "Manual assignment removed.", status: :see_other
+    redirect_to event_path_for(tab: "donations"), notice: "Manual assignment removed.", status: :see_other
   end
 
   # Owner decision 2026-11-04: an operator may confirm a missing donation as refunded or still completed after checking
@@ -79,7 +79,7 @@ class ExtraLifeDonationsController < ApplicationController
                                  reason: params[:note].to_s.strip.presence, details: { from: "missing", to: status })
       @event.refresh_donor_sources!
     end
-    redirect_to event_path_for, notice: "Donation confirmed as #{status} in Tiltify.", status: :see_other
+    redirect_to event_path_for(tab: "donations"), notice: "Donation confirmed as #{status} in Tiltify.", status: :see_other
   end
 
   private
@@ -89,6 +89,6 @@ class ExtraLifeDonationsController < ApplicationController
   end
 
   def back_with(message)
-    redirect_to event_path_for, alert: message, status: :see_other
+    redirect_to event_path_for(tab: "donations"), alert: message, status: :see_other
   end
 end
