@@ -1,31 +1,43 @@
-<%= form_with(model: [bot, giveaway], local: true) do |form| %>
+<%= form_with(model: [bot, giveaway], local: true, data: { turbo: false }) do |form| %>
+  <% if local_assigns[:return_to] %><%= hidden_field_tag :return_to, return_to %><% end %>
   <div class="giveaway-edit-form">
-    <label>Title</label>
-    <%= form.text_field :title %>
-
-    <label>Description</label>
-    <%= form.text_area :description, rows: 3 %>
-
-    <label>Mode</label>
-    <% if giveaway.event_mode? %>
-      <p>Extra Life + Tiltify event: <%= giveaway.extra_life_event&.name %> (mode cannot be changed)</p>
-    <% else %>
-    <%= form.select :mode, [
-      ['Single Entry', 'single'],
-      ['Multiple Entries', 'multiple'],
-      ['Extra Life Mode', 'multiple-extra-life']
-    ], selected: giveaway.mode %>
+    <div class="w95-field">
+      <%= form.label :title, 'Title' %>
+      <%= form.text_field :title %>
+    </div>
+    <div class="w95-field">
+      <%= form.label :description, 'Description' %>
+      <%= form.text_area :description, rows: 2 %>
+    </div>
+    <div class="w95-field">
+      <%= form.label :mode, 'Mode' %>
+      <% if giveaway.event_mode? %>
+        <span>Extra Life + Tiltify event: <%= giveaway.extra_life_event&.name %> (mode cannot be changed)</span>
+      <% else %>
+        <%= form.select :mode, [
+          ['Single Entry', 'single'],
+          ['Multiple Entries', 'multiple'],
+          ['Extra Life Mode', 'multiple-extra-life']
+        ], selected: giveaway.mode %>
+      <% end %>
+    </div>
+    <% unless giveaway.event_mode? %>
+      <div class="w95-field">
+        <%= form.label :cost, 'Cost (AEC)' %>
+        <%= form.number_field :cost, value: giveaway.cost, min: 0, step: 1 %>
+      </div>
     <% end %>
-
-    <label>Cost (AEC)</label>
-    <%= form.number_field :cost, value: giveaway.cost, min: 0, step: 1 %>
-
-    <label>Command Name</label>
-    <%= form.text_field :command_name, value: giveaway.command_name %>
-
-    <div class="actions">
-      <%= form.submit 'Update Giveaway', class: 'btn btn-success' %>
+    <div class="w95-field">
+      <%= form.label :command_name, 'Chat command' %>
+      <%= form.text_field :command_name, value: giveaway.command_name %>
+    </div>
+    <div class="w95-actions">
+      <%= form.submit 'Save changes', class: 'w95-btn-default' %>
     </div>
   </div>
 <% end %>
-      <%= button_to 'Delete', bot_giveaway_path(bot, giveaway), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+<div class="w95-actions">
+  <%= button_to 'Delete giveaway…', bot_giveaway_path(bot, giveaway, return_to: local_assigns[:return_to]), method: :delete,
+                form: { data: { turbo_confirm: "Delete \"#{giveaway.title}\"? This cannot be undone." } },
+                class: 'w95-btn-danger w95-btn-small' %>
+</div>

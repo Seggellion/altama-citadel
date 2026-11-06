@@ -1,88 +1,206 @@
 <% tz = @event.time_zone %>
-<div class="extra-life-admin" style="padding:1rem; max-width:1100px; background:#fff; color:#000;">
-  <p><%= link_to "← Back to desktop", root_path %></p>
-  <% if flash[:notice] %><p style="color:green"><%= flash[:notice] %></p><% end %>
-  <% if flash[:alert] %><p style="color:#b00"><%= flash[:alert] %></p><% end %>
+<% admin = current_user&.isAdmin? %>
+<% pending_attempts = @attempts.select { |a| a.status == "pending" } %>
+<%= render layout: 'extra_life_events/window', locals: { title: "Extra Life — #{@event.name}", close_path: desktop_path(bexe_tab: 'extra_life') } do %>
+<div data-controller="w95" data-w95-tab-value="<%= params[:tab] %>" data-w95-storage-key-value="el-event-<%= @event.id %>">
 
-  <h1>Extra Life event: <%= @event.name %></h1>
-  <p>
-    Channel <strong><%= @bot.channel %></strong> · broadcaster <strong><%= @event.broadcaster_login %></strong> (Twitch id <%= @event.broadcaster_twitch_id %>, always excluded) ·
-    stream start <strong><%= @event.stream_start_local&.strftime("%Y-%m-%d %H:%M %Z") %></strong> (<%= tz %>) ·
-    Tiltify campaign <code><%= @event.tiltify_campaign_id || "not resolved yet" %></code> ·
-    <strong><%= @event.enabled ? "ENABLED" : "DISABLED (no entries, sync or draws)" %></strong>
-  </p>
-
-  <h2>Sync health</h2>
-  <p>
-    Last complete sync: <strong><%= @event.last_complete_sync_at&.in_time_zone(tz)&.strftime("%H:%M:%S %Z") || "never" %></strong> ·
-    last status: <strong><%= @event.last_sync_status || "none" %></strong>
-    <% if @event.last_sync_error %> · error <code><%= @event.last_sync_error %></code><% end %>
-    <% if @event.sync_requested_at %> · sync requested <%= @event.sync_requested_at.in_time_zone(tz).strftime("%H:%M:%S") %><% end %>
-  </p>
-  <%= button_to "Sync now", request_sync_bot_extra_life_event_path(@bot, @event), method: :post %>
-  <table border="1" cellpadding="3">
-    <tr><th>Run</th><th>Kind</th><th>Started</th><th>Status</th><th>Complete</th><th>Pages</th><th>Seen</th><th>Error</th></tr>
-    <% @runs.each do |r| %>
-      <tr><td><%= r.id %></td><td><%= r.kind %></td><td><%= r.fetch_started_at.in_time_zone(tz).strftime("%H:%M:%S") %></td>
-          <td><%= r.status %></td><td><%= r.complete %></td><td><%= r.pages %></td><td><%= r.donations_seen %></td><td><%= r.error_code %></td></tr>
+  <div class="w95-toolbar">
+    <span class="w95-badge <%= @event.enabled ? 'open' : 'drawn' %>"><%= @event.enabled ? 'ENABLED' : 'DISABLED' %></span>
+    <span>#<%= @bot.channel %> · stream start <strong><%= event_time(@event, @event.stream_start_at) || 'not set' %></strong></span>
+    <span class="w95-spacer"></span>
+    <%= button_to 'Sync now', request_sync_bot_extra_life_event_path(@bot, @event), method: :post, class: 'w95-btn-small', form: { data: { turbo: false } } %>
+    <% if admin %>
+      <%= button_to (@event.enabled ? 'Disable event' : 'Enable event'), bot_extra_life_event_path(@bot, @event), method: :patch,
+                    params: { 'extra_life_event[enabled]' => (@event.enabled ? '0' : '1'), tab: 'overview' },
+                    disabled: !@event.enabled && @event.tiltify_campaign_id.blank?,
+                    class: "w95-btn-small #{'w95-btn-danger' if @event.enabled}",
+                    form: { data: { turbo: false, turbo_confirm: (@event.enabled ? 'Disable the event? Chat entry, donation sync and draws stop.' : nil) } } %>
     <% end %>
-  </table>
+  </div>
 
-  <h2>Giveaways in this event</h2>
-  <p>Each eligible Twitch account gets one free chat ticket (its giveaway's command) and one donor ticket (any qualifying donation), two at most. An account can win one prize in this event.</p>
-  <% @giveaways.each do |g| %>
-    <% attempt = g.live_draw_attempt %>
-    <div style="border:1px solid #888; padding:.5rem; margin:.5rem 0;">
-      <h3><%= g.title %> — !<%= g.command_name %> — <%= g.entry_state %></h3>
-      <% if attempt&.status == "finalized" %>
-        <p><strong>Drawn <%= attempt.finalized_at.in_time_zone(tz).strftime("%Y-%m-%d %H:%M %Z") %></strong>, cutoff <%= attempt.cutoff_at.in_time_zone(tz).strftime("%H:%M:%S %Z") %>:
-          <%= attempt.result == "winner" ? "winner #{attempt.winner_account&.login} (#{attempt.winner_twitch_user_id})" : "no eligible entries" %>,
-          total weight <%= attempt.total_weight %>, announcement <%= attempt.announcement_state %>.
-          Unresolved donations at cutoff: <%= (attempt.unresolved || {}).map { |k, v| "#{k} #{v}" }.join(", ").presence || "none" %>.</p>
-        <%= render "extra_life_events/pool_table", rows: (attempt.pool || []), snapshot: true %>
-        <% if (attempt.exclusions || []).any? %><p>Excluded: <%= attempt.exclusions.map { |e| "#{e['login']} (#{e['reason']})" }.join(", ") %></p><% end %>
-      <% else %>
-        <% if attempt&.status == "pending" %>
-          <p style="color:#b60"><strong>Draw pending</strong> since <%= attempt.cutoff_at.in_time_zone(tz).strftime("%H:%M:%S %Z") %> (entries frozen).
-            <% if attempt.blocking_reason %>Blocked: <code><%= attempt.blocking_reason %></code>. Fix the cause, then run <code>!drawing <%= g.command_name %></code> again. There is no override.<% end %></p>
-          <%= form_with url: cancel_bot_extra_life_event_draw_attempt_path(@bot, @event, attempt), method: :post, local: true do |f| %>
-            Cancel this pending draw (reopens chat entry; the next draw gets a new cutoff). Reason: <%= f.text_field :reason, required: true %> <%= f.submit "Cancel pending draw" %>
+  <div class="w95-tabs" role="tablist">
+    <button type="button" class="w95-tab active" role="tab" data-w95-target="tab" data-tab="overview" data-action="w95#selectTab">Overview</button>
+    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="prizes" data-action="w95#selectTab">Prizes <span class="w95-badge"><%= @giveaways.size %></span></button>
+    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="donations" data-action="w95#selectTab">Donations <span class="w95-badge <%= 'bad' if @review.any? %>"><%= @review.size %> to review</span></button>
+    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="history" data-action="w95#selectTab">Draw history</button>
+    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="settings" data-action="w95#selectTab">Settings<%= admin ? '' : ' (view)' %></button>
+  </div>
+
+  <%# ---------------- Overview ---------------- %>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="overview">
+    <% if pending_attempts.any? %>
+      <div class="w95-message alert"><span class="w95-icon">!</span><div>
+        <%= pending_attempts.size %> draw<%= 's' if pending_attempts.size > 1 %> on hold:
+        <%= pending_attempts.map { |a| "!#{a.giveaway.command_name} (#{a.blocking_reason || 'in progress'})" }.join(', ') %>. See the Prizes tab.
+      </div></div>
+    <% end %>
+    <div class="w95-columns">
+      <fieldset class="w95-group">
+        <legend>Ready for stream?</legend>
+        <ul class="w95-checklist">
+          <% extra_life_readiness(@event, @giveaways).each do |state, label, detail| %>
+            <% css, mark = readiness_mark(state) %>
+            <li><span class="<%= css %>"><%= mark %></span><span><strong><%= label %></strong><br><small><%= detail %></small></span></li>
           <% end %>
-        <% end %>
-        <p>Live preview (same rules as <code>!odds</code> and the draw; changes as entries and donations arrive):</p>
-        <%= render "extra_life_events/pool_table", rows: g.event_pool, snapshot: false %>
+        </ul>
+      </fieldset>
+      <fieldset class="w95-group">
+        <legend>Donation sync</legend>
+        <table class="w95-table">
+          <tr><td>Last complete sync</td><td><strong><%= event_time(@event, @event.last_complete_sync_at, '%-I:%M:%S %p %Z') || 'never' %></strong></td></tr>
+          <tr><td>Last status</td><td><%= @event.last_sync_status || 'none' %></td></tr>
+          <% if @event.last_sync_error %><tr><td>Last error</td><td><code><%= @event.last_sync_error %></code></td></tr><% end %>
+          <% if @event.sync_requested_at %><tr><td>Sync requested</td><td><%= event_time(@event, @event.sync_requested_at, '%-I:%M:%S %p') %></td></tr><% end %>
+          <tr><td>Donations recorded</td><td><%= @donations.size %></td></tr>
+        </table>
+        <p><small>While enabled, the bot re-scans the whole campaign every minute. Each draw runs its own full scan first.</small></p>
+      </fieldset>
+    </div>
+    <fieldset class="w95-group">
+      <legend>Recent sync runs</legend>
+      <div class="w95-scroll">
+        <table class="w95-table">
+          <tr><th>Run</th><th>Kind</th><th>Started</th><th>Status</th><th>Complete</th><th class="num">Pages</th><th class="num">Seen</th><th>Error</th></tr>
+          <% if @runs.empty? %><tr><td colspan="8" class="w95-empty">No sync runs yet. The bot syncs once the event is enabled.</td></tr><% end %>
+          <% @runs.each do |r| %>
+            <tr><td><%= r.id %></td><td><%= r.kind %></td><td><%= event_time(@event, r.fetch_started_at, '%-I:%M:%S %p') %></td>
+                <td><%= r.status %></td><td><%= r.complete ? 'yes' : 'no' %></td><td class="num"><%= r.pages %></td><td class="num"><%= r.donations_seen %></td><td><%= r.error_code %></td></tr>
+          <% end %>
+        </table>
+      </div>
+    </fieldset>
+  </div>
+
+  <%# ---------------- Prizes ---------------- %>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="prizes" hidden>
+    <p><small>Each eligible Twitch account gets one free chat ticket (typing the prize's command) and one donor ticket (any qualifying donation): two at most. An account can win one prize in this event. The broadcaster draws a prize in chat with <code>!drawing &lt;command&gt;</code>; entries close at that moment.</small></p>
+    <% if admin %>
+      <fieldset class="w95-group">
+        <legend>Add a prize</legend>
+        <%= render 'altama_exe/giveaway_form', bot: @bot, event: @event %>
+      </fieldset>
+    <% end %>
+    <% if @giveaways.empty? %><p class="w95-empty">No prizes in this event yet.</p><% end %>
+    <div class="w95-cards">
+      <% @giveaways.each do |g| %>
+        <% attempt = g.live_draw_attempt %>
+        <% label, css = giveaway_status(g) %>
+        <div class="w95-card" id="prize-<%= g.id %>">
+          <div class="w95-toolbar">
+            <h3 style="margin:0"><%= g.title %></h3>
+            <code>!<%= g.command_name %></code>
+            <span class="w95-badge <%= css %>"><%= label %></span>
+          </div>
+          <% if g.description.present? %><p><%= g.description %></p><% end %>
+
+          <% if attempt&.status == "finalized" %>
+            <p><strong>Drawn <%= event_time(@event, attempt.finalized_at) %></strong> (cutoff <%= event_time(@event, attempt.cutoff_at, '%-I:%M:%S %p') %>):
+              <%= attempt.result == "winner" ? "winner #{attempt.winner_account&.login} (#{attempt.winner_twitch_user_id})" : "no eligible entries" %>,
+              total tickets <%= attempt.total_weight %>, announcement <%= attempt.announcement_state %>.
+              Unresolved donations at cutoff: <%= (attempt.unresolved || {}).map { |k, v| "#{k} #{v}" }.join(", ").presence || "none" %>.</p>
+            <div class="w95-scroll" style="max-height:240px"><%= render "extra_life_events/pool_table", rows: (attempt.pool || []), snapshot: true %></div>
+            <% if (attempt.exclusions || []).any? %><p>Excluded: <%= attempt.exclusions.map { |e| "#{e['login']} (#{e['reason']})" }.join(", ") %></p><% end %>
+          <% else %>
+            <% if attempt&.status == "pending" %>
+              <div class="w95-message alert"><span class="w95-icon">!</span><div>
+                <strong>Draw on hold</strong> since <%= event_time(@event, attempt.cutoff_at, '%-I:%M:%S %p %Z') %>. Entries are frozen.
+                <% if attempt.blocking_reason %>Reason: <code><%= attempt.blocking_reason %></code>. Fix the cause, then type <code>!drawing <%= g.command_name %></code> again. There is no override.<% end %>
+              </div></div>
+              <%= form_with url: cancel_bot_extra_life_event_draw_attempt_path(@bot, @event, attempt), method: :post, local: true, data: { turbo: false } do |f| %>
+                <div class="w95-toolbar">
+                  <span>Cancel this held draw (reopens chat entry; the next draw gets a new cutoff). Reason:</span>
+                  <%= f.text_field :reason, required: true, size: 30 %>
+                  <%= f.submit "Cancel held draw", class: 'w95-btn-danger' %>
+                </div>
+              <% end %>
+            <% end %>
+            <p><small>Live tickets and odds (same rules as <code>!odds</code> and the draw):</small></p>
+            <div class="w95-scroll" style="max-height:240px"><%= render "extra_life_events/pool_table", rows: g.event_pool, snapshot: false %></div>
+          <% end %>
+
+          <% if admin && attempt.nil? %>
+            <details style="margin-top:6px">
+              <summary>Edit prize</summary>
+              <%= render 'altama_exe/giveaway_edit_form', bot: @bot, giveaway: g, return_to: 'event' %>
+            </details>
+          <% end %>
+        </div>
       <% end %>
     </div>
-  <% end %>
+  </div>
 
-  <h2>Donations needing review (<%= @review.size %>)</h2>
-  <p>Unmatched donations do not block draws; assigning one later only affects prizes not yet drawn. Missing donations (gone from Tiltify's list) must be confirmed against the Tiltify dashboard before a draw that depends on them.</p>
-  <%= render "extra_life_events/donation_table", donations: @review, tz: tz %>
-
-  <h2>All donations (<%= @donations.size %>)</h2>
-  <%= render "extra_life_events/donation_table", donations: @donations, tz: tz %>
-
-  <h2>Draw history</h2>
-  <table border="1" cellpadding="3">
-    <tr><th>Attempt</th><th>Giveaway</th><th>Status</th><th>Cutoff</th><th>Result</th><th>Blocking</th><th>Cancelled</th></tr>
-    <% @attempts.each do |a| %>
-      <tr><td><%= a.id %></td><td>!<%= a.giveaway.command_name %></td><td><%= a.status %></td><td><%= a.cutoff_at.in_time_zone(tz).strftime("%H:%M:%S") %></td>
-          <td><%= a.result %> <%= a.winner_account&.login %></td><td><%= a.blocking_reason %></td><td><%= a.cancel_reason %></td></tr>
-    <% end %>
-  </table>
-
-  <% if current_user&.isAdmin? %>
-    <h2>Settings (admins)</h2>
-    <%= render "extra_life_events/form", bot: @bot, event: @event %>
-    <h3>Operators</h3>
-    <p>Admins can always operate. Operators can review donations, assign accounts, confirm status and cancel pending draws for this event only.</p>
-    <ul>
-      <% @event.operators.includes(:user).each do |op| %>
-        <li><%= op.user.username %> <%= button_to "Remove", bot_extra_life_event_operator_path(@bot, @event, op), method: :delete, form: { style: "display:inline" } %></li>
+  <%# ---------------- Donations ---------------- %>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="donations" hidden>
+    <fieldset class="w95-group">
+      <legend>Needs review (<%= @review.size %>)</legend>
+      <p><small>Unmatched donations do not block draws; assigning one later only affects prizes not yet drawn. A <strong>missing</strong> donation (gone from Tiltify's list, often a refund) must be checked in the Tiltify dashboard and confirmed before a draw that depends on it.</small></p>
+      <% if @review.empty? %>
+        <p class="w95-empty">Nothing to review.</p>
+      <% else %>
+        <div class="w95-scroll"><%= render "extra_life_events/donation_table", donations: @review, tz: tz %></div>
       <% end %>
-    </ul>
-    <%= form_with url: bot_extra_life_event_operators_path(@bot, @event), method: :post, local: true do |f| %>
-      Site username: <%= f.text_field :username %> <%= f.submit "Add operator" %>
+    </fieldset>
+    <fieldset class="w95-group">
+      <legend>All donations (<%= @donations.size %>)</legend>
+      <% if @donations.empty? %>
+        <p class="w95-empty">No donations recorded yet.</p>
+      <% else %>
+        <div class="w95-scroll" style="max-height:420px"><%= render "extra_life_events/donation_table", donations: @donations, tz: tz %></div>
+      <% end %>
+    </fieldset>
+  </div>
+
+  <%# ---------------- Draw history ---------------- %>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="history" hidden>
+    <div class="w95-scroll">
+      <table class="w95-table">
+        <tr><th>Attempt</th><th>Prize</th><th>Status</th><th>Cutoff</th><th>Result</th><th>Blocking</th><th>Cancelled</th></tr>
+        <% if @attempts.empty? %><tr><td colspan="7" class="w95-empty">No draws yet.</td></tr><% end %>
+        <% @attempts.each do |a| %>
+          <tr><td><%= a.id %></td><td>!<%= a.giveaway.command_name %></td><td><%= a.status %></td><td><%= event_time(@event, a.cutoff_at, '%b %-d %-I:%M:%S %p') %></td>
+              <td><%= a.result %> <%= a.winner_account&.login %></td><td><%= a.blocking_reason %></td><td><%= a.cancel_reason %></td></tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+
+  <%# ---------------- Settings ---------------- %>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="settings" hidden>
+    <% if admin %>
+      <fieldset class="w95-group">
+        <legend>Event settings</legend>
+        <%= render "extra_life_events/form", bot: @bot, event: @event %>
+      </fieldset>
+    <% else %>
+      <table class="w95-table">
+        <tr><td>Broadcaster</td><td><%= @event.broadcaster_login %> (<%= @event.broadcaster_twitch_id %>)</td></tr>
+        <tr><td>Tiltify campaign</td><td><%= @event.tiltify_campaign_url %> <code><%= @event.tiltify_campaign_id %></code></td></tr>
+        <tr><td>Stream start</td><td><%= event_time(@event, @event.stream_start_at) %> (<%= tz %>)</td></tr>
+      </table>
     <% end %>
-  <% end %>
+    <fieldset class="w95-group">
+      <legend>Operators</legend>
+      <p><small>Admins can always operate. Operators can review donations, assign accounts, confirm status, sync and cancel held draws for this event only. Twitch moderator status grants nothing here.</small></p>
+      <table class="w95-table">
+        <% ops = @event.operators.includes(:user).to_a %>
+        <% if ops.empty? %><tr><td class="w95-empty">No operators besides admins.</td></tr><% end %>
+        <% ops.each do |op| %>
+          <tr><td><%= op.user.username %></td>
+              <td style="text-align:right"><% if admin %><%= button_to "Remove", bot_extra_life_event_operator_path(@bot, @event, op), method: :delete, class: 'w95-btn-small', form: { data: { turbo: false } } %><% end %></td></tr>
+        <% end %>
+      </table>
+      <% if admin %>
+        <%= form_with url: bot_extra_life_event_operators_path(@bot, @event), method: :post, local: true, data: { turbo: false } do |f| %>
+          <div class="w95-toolbar"><span>Site username:</span> <%= f.text_field :username, required: true %> <%= f.submit "Add operator", class: 'w95-btn-small' %></div>
+        <% end %>
+      <% end %>
+    </fieldset>
+  </div>
+
+  <div class="w95-status">
+    <span>Broadcaster: <%= @event.broadcaster_login %></span>
+    <span>Campaign: <%= @event.tiltify_campaign_id.present? ? @event.tiltify_campaign_id.first(8) + '…' : 'not resolved' %></span>
+    <span>Time zone: <%= tz %></span>
+  </div>
 </div>
+<% end %>

@@ -1,32 +1,52 @@
-<%= form_with(model: [bot, Giveaway.new], local: true) do |form| %>
+<%# New giveaway. When `event` is given (Extra Life event window), the mode and event are fixed and cost is 0. %>
+<% event = local_assigns[:event] %>
+<%= form_with(model: [bot, Giveaway.new], local: true, data: { turbo: false }) do |form| %>
   <div class="giveaway-form">
-    <label>Title</label>
-    <%= form.text_field :title, required: true %>
+    <div class="w95-field">
+      <%= form.label :title, 'Title' %>
+      <%= form.text_field :title, required: true, placeholder: 'Prize name' %>
+    </div>
+    <div class="w95-field">
+      <%= form.label :description, 'Description' %>
+      <%= form.text_area :description, rows: 2, required: true %>
+    </div>
 
-    <label>Description</label>
-    <%= form.text_area :description, rows: 3, required: true %>
+    <% if event %>
+      <%= form.hidden_field :mode, value: Giveaway::EVENT_MODE %>
+      <%= form.hidden_field :extra_life_event_id, value: event.id %>
+      <%= form.hidden_field :cost, value: 0 %>
+      <%= hidden_field_tag :return_to, 'event' %>
+    <% else %>
+      <div class="w95-field">
+        <%= form.label :mode, 'Mode' %>
+        <%= form.select :mode, [
+          ['Single Entry (one ticket per user)', 'single'],
+          ['Multiple Entries (cost per ticket)', 'multiple'],
+          ['Extra Life Mode (legacy bonus tickets for donors)', 'multiple-extra-life'],
+          ['Extra Life + Tiltify event (1 free chat ticket + 1 donor ticket)', Giveaway::EVENT_MODE]
+        ], {}, { data: { mode_select: true, action: 'change->w95#modeChanged' } } %>
+      </div>
+      <div class="w95-field" data-w95-target="eventField" hidden>
+        <%= form.label :extra_life_event_id, 'Extra Life event' %>
+        <%= form.select :extra_life_event_id, bot.extra_life_events.order(id: :desc).map { |e| [e.name, e.id] }, { include_blank: '— choose an event —' } %>
+        <span class="w95-hint">Tip: create prizes from the event window instead; it fills this in for you.</span>
+      </div>
+      <div class="w95-field" data-w95-target="costField">
+        <%= form.label :cost, 'Cost (AEC)' %>
+        <%= form.number_field :cost, min: 0, step: 1, value: 0 %>
+      </div>
+    <% end %>
 
-    <label>Mode</label>
-    <%= form.select :mode, [
-      ['Single Entry (one ticket per user)', 'single'],
-      ['Multiple Entries (cost per ticket)', 'multiple'],
-      ['Extra Life Mode (bonus tickets for donors)', 'multiple-extra-life'],
-      ['Extra Life + Tiltify event (1 free chat ticket + 1 donor ticket)', 'extra-life-tiltify']
-    ], {}, { class: 'form-select' } %>
-
-    <label>Extra Life event (required for the Tiltify mode)</label>
-    <%= form.select :extra_life_event_id, bot.extra_life_events.order(id: :desc).map { |e| [e.name, e.id] }, { include_blank: '— none —' } %>
-
-    <label>Cost (AEC)</label>
-    <%= form.number_field :cost, min: 0, step: 1 %>
-
-    <label>Command Name (e.g. !join, !2spooky)</label>
-    <%= form.text_field :command_name, placeholder: 'join' %>
+    <div class="w95-field">
+      <%= form.label :command_name, 'Chat command' %>
+      <%= form.text_field :command_name, placeholder: (event ? 'lance' : 'join'), required: event.present?, pattern: '!?[A-Za-z0-9_\-]{1,25}' %>
+      <span class="w95-hint">Viewers type <code>!command</code> to enter. Letters, digits, _ or -; must not clash with an open giveaway.</span>
+    </div>
 
     <%= form.hidden_field :channel, value: bot.channel %>
 
-    <div class="actions">
-      <%= form.submit 'Create Giveaway', class: 'btn btn-primary' %>
+    <div class="w95-actions">
+      <%= form.submit (event ? 'Add prize' : 'Create giveaway'), class: 'w95-btn-default' %>
     </div>
   </div>
 <% end %>

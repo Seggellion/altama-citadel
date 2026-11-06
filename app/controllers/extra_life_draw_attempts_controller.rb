@@ -10,7 +10,7 @@ class ExtraLifeDrawAttemptsController < ApplicationController
     reason = params[:reason].to_s.strip
     attempt = @event.draw_attempts.find(params[:id])
     if reason.blank?
-      return redirect_to(event_path_for, alert: "A reason is required to cancel a draw.", status: :see_other)
+      return redirect_to(event_path_for(tab: "prizes"), alert: "A reason is required to cancel a draw.", status: :see_other)
     end
 
     cancelled = false
@@ -25,9 +25,9 @@ class ExtraLifeDrawAttemptsController < ApplicationController
       cancelled = true
     end
     if cancelled
-      redirect_to event_path_for, notice: "Draw cancelled. Chat entries for !#{attempt.giveaway.command_name} are open again; the next !drawing sets a new cutoff.", status: :see_other
+      redirect_to event_path_for(tab: "prizes"), notice: "Draw cancelled. Chat entries for !#{attempt.giveaway.command_name} are open again; the next !drawing sets a new cutoff.", status: :see_other
     else
-      redirect_to event_path_for, alert: "Only a pending (not finalized) draw can be cancelled.", status: :see_other
+      redirect_to event_path_for(tab: "prizes"), alert: "Only a pending (not finalized) draw can be cancelled.", status: :see_other
     end
   end
 end

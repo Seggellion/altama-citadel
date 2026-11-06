@@ -1,0 +1,18 @@
+<%# Full-page Windows 95 window frame for the Extra Life pages. Locals: title, close_path; yields the body. %>
+<div class="w95-desktop">
+  <div class="w95 w95-window">
+    <div class="w95-titlebar">
+      <span><%= title %></span>
+      <%= link_to '×', close_path, class: 'w95-close', title: 'Close', data: { turbo: false } %>
+    </div>
+    <div class="w95-menubar">
+      <%= link_to 'Desktop', desktop_path(bexe_tab: 'extra_life'), data: { turbo: false } %>
+      <% if @event&.persisted? %><%= link_to 'Event', bot_extra_life_event_path(@bot, @event), data: { turbo: false } %><% end %>
+      <%= link_to 'Refresh', request.fullpath, data: { turbo: false } %>
+    </div>
+    <div class="w95-body">
+      <%= render 'altama_exe/flash' %>
+      <%= yield %>
+    </div>
+  </div>
+</div>
