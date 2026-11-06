@@ -177,4 +177,24 @@ class BotManagerWindowTest < GiveawayIntegrationTestCase
     assert_redirected_to root_path
     refute event.reload.enabled
   end
+
+  test "the selected tab is drawn active on the server and only its panel is shown" do
+    event = make_event(@bot)
+    login_as(@admin)
+    get bot_extra_life_event_path(@bot, event, tab: "donations")
+    doc = Nokogiri::HTML(response.body)
+    active = doc.css(".w95-tab.active")
+    assert_equal ["donations"], active.map { |t| t["data-tab"] }
+    assert_equal "true", active.first["aria-selected"]
+    visible = doc.css(".w95-tabpanel").reject { |p| p.key?("hidden") }.map { |p| p["data-tab"] }
+    assert_equal ["donations"], visible
+
+    get bot_extra_life_event_path(@bot, event, tab: "bogus")
+    assert_equal ["overview"], Nokogiri::HTML(response.body).css(".w95-tab.active").map { |t| t["data-tab"] }
+
+    html = render_panel(params: { bexe_tab: "extra_life" })
+    panel = Nokogiri::HTML.fragment(html)
+    assert_equal ["extra_life"], panel.css(".w95-tab.active").map { |t| t["data-tab"] }
+    assert panel.at_css(".w95-tabpanel[data-tab='giveaways'][hidden]")
+  end
 end

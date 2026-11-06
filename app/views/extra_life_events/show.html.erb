@@ -1,6 +1,7 @@
 <% tz = @event.time_zone %>
 <% admin = current_user&.isAdmin? %>
 <% pending_attempts = @attempts.select { |a| a.status == "pending" } %>
+<% active_tab = %w[overview prizes donations history settings].include?(params[:tab]) ? params[:tab] : "overview" %>
 <%= render layout: 'extra_life_events/window', locals: { title: "Extra Life — #{@event.name}", close_path: desktop_path(bexe_tab: 'extra_life') } do %>
 <div data-controller="w95" data-w95-tab-value="<%= params[:tab] %>" data-w95-storage-key-value="el-event-<%= @event.id %>">
 
@@ -19,15 +20,15 @@
   </div>
 
   <div class="w95-tabs" role="tablist">
-    <button type="button" class="w95-tab active" role="tab" data-w95-target="tab" data-tab="overview" data-action="w95#selectTab">Overview</button>
-    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="prizes" data-action="w95#selectTab">Prizes <span class="w95-badge"><%= @giveaways.size %></span></button>
-    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="donations" data-action="w95#selectTab">Donations <span class="w95-badge <%= 'bad' if @review.any? %>"><%= @review.size %> to review</span></button>
-    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="history" data-action="w95#selectTab">Draw history</button>
-    <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="settings" data-action="w95#selectTab">Settings<%= admin ? '' : ' (view)' %></button>
+    <button type="button" class="w95-tab<%= ' active' if active_tab == "overview" %>" role="tab" aria-selected="<%= active_tab == "overview" %>" data-w95-target="tab" data-tab="overview" data-action="w95#selectTab">Overview</button>
+    <button type="button" class="w95-tab<%= ' active' if active_tab == "prizes" %>" role="tab" aria-selected="<%= active_tab == "prizes" %>" data-w95-target="tab" data-tab="prizes" data-action="w95#selectTab">Prizes <span class="w95-badge"><%= @giveaways.size %></span></button>
+    <button type="button" class="w95-tab<%= ' active' if active_tab == "donations" %>" role="tab" aria-selected="<%= active_tab == "donations" %>" data-w95-target="tab" data-tab="donations" data-action="w95#selectTab">Donations <span class="w95-badge <%= 'bad' if @review.any? %>"><%= @review.size %> to review</span></button>
+    <button type="button" class="w95-tab<%= ' active' if active_tab == "history" %>" role="tab" aria-selected="<%= active_tab == "history" %>" data-w95-target="tab" data-tab="history" data-action="w95#selectTab">Draw history</button>
+    <button type="button" class="w95-tab<%= ' active' if active_tab == "settings" %>" role="tab" aria-selected="<%= active_tab == "settings" %>" data-w95-target="tab" data-tab="settings" data-action="w95#selectTab">Settings<%= admin ? '' : ' (view)' %></button>
   </div>
 
   <%# ---------------- Overview ---------------- %>
-  <div class="w95-tabpanel" data-w95-target="panel" data-tab="overview">
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="overview"<%= " hidden" unless active_tab == "overview" %>>
     <% if pending_attempts.any? %>
       <div class="w95-message alert"><span class="w95-icon">!</span><div>
         <%= pending_attempts.size %> draw<%= 's' if pending_attempts.size > 1 %> on hold:
@@ -72,7 +73,7 @@
   </div>
 
   <%# ---------------- Prizes ---------------- %>
-  <div class="w95-tabpanel" data-w95-target="panel" data-tab="prizes" hidden>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="prizes"<%= " hidden" unless active_tab == "prizes" %>>
     <p><small>Each eligible Twitch account gets one free chat ticket (typing the prize's command) and one donor ticket (any qualifying donation): two at most. An account can win one prize in this event. The broadcaster draws a prize in chat with <code>!drawing &lt;command&gt;</code>; entries close at that moment.</small></p>
     <% if admin %>
       <fieldset class="w95-group">
@@ -130,7 +131,7 @@
   </div>
 
   <%# ---------------- Donations ---------------- %>
-  <div class="w95-tabpanel" data-w95-target="panel" data-tab="donations" hidden>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="donations"<%= " hidden" unless active_tab == "donations" %>>
     <fieldset class="w95-group">
       <legend>Needs review (<%= @review.size %>)</legend>
       <p><small>Unmatched donations do not block draws; assigning one later only affects prizes not yet drawn. A <strong>missing</strong> donation (gone from Tiltify's list, often a refund) must be checked in the Tiltify dashboard and confirmed before a draw that depends on it.</small></p>
@@ -151,7 +152,7 @@
   </div>
 
   <%# ---------------- Draw history ---------------- %>
-  <div class="w95-tabpanel" data-w95-target="panel" data-tab="history" hidden>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="history"<%= " hidden" unless active_tab == "history" %>>
     <div class="w95-scroll">
       <table class="w95-table">
         <tr><th>Attempt</th><th>Prize</th><th>Status</th><th>Cutoff</th><th>Result</th><th>Blocking</th><th>Cancelled</th></tr>
@@ -165,7 +166,7 @@
   </div>
 
   <%# ---------------- Settings ---------------- %>
-  <div class="w95-tabpanel" data-w95-target="panel" data-tab="settings" hidden>
+  <div class="w95-tabpanel" data-w95-target="panel" data-tab="settings"<%= " hidden" unless active_tab == "settings" %>>
     <% if admin %>
       <fieldset class="w95-group">
         <legend>Event settings</legend>

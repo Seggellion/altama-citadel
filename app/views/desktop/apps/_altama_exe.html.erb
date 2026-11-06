@@ -13,6 +13,7 @@
     <% open_giveaways, closed_giveaways = giveaways.partition { |g| !giveaway_closed?(g) } %>
     <% events = bot.extra_life_events.order(id: :desc).select { |e| e.operator?(current_user) } %>
     <% show_events = events.any? || current_user&.isAdmin? %>
+    <% active_tab = (params[:bexe_tab] == "extra_life" && show_events) ? "extra_life" : "giveaways" %>
     <div class="bexe-bot"
          data-controller="w95"
          data-w95-storage-key-value="bexe-<%= bot.id %>"
@@ -28,18 +29,18 @@
       </div>
 
       <div class="w95-tabs" role="tablist">
-        <button type="button" class="w95-tab active" role="tab" data-w95-target="tab" data-tab="giveaways" data-action="w95#selectTab">
+        <button type="button" class="w95-tab<%= ' active' if active_tab == 'giveaways' %>" role="tab" aria-selected="<%= active_tab == 'giveaways' %>" data-w95-target="tab" data-tab="giveaways" data-action="w95#selectTab">
           Giveaways <span class="w95-badge open"><%= open_giveaways.size %> open</span>
         </button>
         <% if show_events %>
-          <button type="button" class="w95-tab" role="tab" data-w95-target="tab" data-tab="extra_life" data-action="w95#selectTab">
+          <button type="button" class="w95-tab<%= ' active' if active_tab == 'extra_life' %>" role="tab" aria-selected="<%= active_tab == 'extra_life' %>" data-w95-target="tab" data-tab="extra_life" data-action="w95#selectTab">
             Extra Life events <span class="w95-badge event"><%= events.size %></span>
           </button>
         <% end %>
       </div>
 
       <%# ---------------- Giveaways ---------------- %>
-      <div class="w95-tabpanel" role="tabpanel" data-w95-target="panel" data-tab="giveaways">
+      <div class="w95-tabpanel" role="tabpanel" data-w95-target="panel" data-tab="giveaways"<%= ' hidden' unless active_tab == 'giveaways' %>>
         <div class="w95-toolbar">
           <button type="button" class="w95-btn-default" data-action="w95#showNew" data-id="new">New giveaway…</button>
           <span class="w95-spacer"></span>
@@ -127,7 +128,7 @@
 
       <%# ---------------- Extra Life events ---------------- %>
       <% if show_events %>
-        <div class="w95-tabpanel" role="tabpanel" data-w95-target="panel" data-tab="extra_life" hidden>
+        <div class="w95-tabpanel" role="tabpanel" data-w95-target="panel" data-tab="extra_life"<%= ' hidden' unless active_tab == 'extra_life' %>>
           <p>Each Extra Life event links one Tiltify campaign to this channel. Open an event to set it up, add prizes, watch donations and odds, and handle draws.</p>
           <div class="w95-listview bexe-events">
             <table>
