@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_11_07_040000) do
+ActiveRecord::Schema[7.0].define(version: 2026_11_07_150000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -327,7 +327,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_11_07_040000) do
     t.string "last_sync_error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "donor_tickets_per_dollar"
     t.index ["bot_id"], name: "index_extra_life_events_on_bot_id"
+    t.check_constraint "donor_tickets_per_dollar IS NULL OR donor_tickets_per_dollar >= 0 AND donor_tickets_per_dollar <= 1000", name: "extra_life_events_donor_tickets_per_dollar_range"
   end
 
   create_table "forum_categories", force: :cascade do |t|
