@@ -1,0 +1,110 @@
+<%# OBS Browser Source. Suggested source size 420 x 170 on a 1920 x 1080 canvas. Transparent background. %>
+<% wallet = @payload[:wallet]; accident = @payload[:accident] %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Altama stream overlay</title>
+  <style>
+    html, body { margin: 0; padding: 0; background: transparent; overflow: hidden; }
+    body { font-family: Tahoma, 'MS Sans Serif', Verdana, 'Segoe UI', sans-serif; color: #000; padding: 4px;
+           -webkit-font-smoothing: antialiased; user-select: none; cursor: none; }
+    .ov { width: 404px; display: grid; gap: 6px; }
+    .win { background: rgba(192, 192, 192, 0.9);
+           box-shadow: inset -1px -1px 0 #000, inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, inset 2px 2px 0 #dfdfdf;
+           padding: 3px; transition: opacity .4s; }
+    .bar { background: linear-gradient(90deg, #000080, #1084d0); color: #fff; font-weight: bold; font-size: 13px;
+           padding: 2px 6px; display: flex; justify-content: space-between; letter-spacing: .3px; }
+    .bar .dots { opacity: .8; }
+    .val { padding: 4px 8px 5px; font-size: 26px; font-weight: bold; line-height: 1.2; white-space: nowrap;
+           overflow: hidden; text-overflow: ellipsis; }
+    .val.muted { font-size: 18px; font-weight: normal; color: #303030; padding: 8px 8px 9px; }
+    .gain { color: #006400; } .loss { color: #8b0000; } .even { color: #000; }
+    .unit { font-size: 16px; font-weight: normal; margin-left: 4px; color: #202020; }
+    .stale .win { opacity: .55; }
+    .stale-note { display: none; font-size: 11px; color: #fff; background: rgba(0,0,0,.55); padding: 1px 6px; justify-self: start; }
+    .stale .stale-note { display: block; }
+  </style>
+</head>
+<body>
+  <div class="ov" id="ov">
+    <section class="win" aria-label="Net aUEC since Start">
+      <div class="bar"><span>NET aUEC SINCE START</span><span class="dots" aria-hidden="true">_ □ ×</span></div>
+      <div class="val" id="wallet" aria-live="polite"></div>
+    </section>
+    <section class="win" aria-label="Fuelling accident counter">
+      <div class="bar"><span id="caption"></span><span class="dots" aria-hidden="true">_ □ ×</span></div>
+      <div class="val" id="accident" aria-live="polite"></div>
+    </section>
+    <div class="stale-note" id="stale">reconnecting…</div>
+  </div>
+  <script>
+    (function () {
+      var URL_JSON = <%= raw stream_overlay_path(token: params[:token], format: :json).to_json %>;
+      var POLL_MS = 3000, STALE_MS = 30000, TIMEOUT_MS = 5000, RELOAD_MS = 6 * 3600 * 1000;
+      var lastGood = Date.now();
+      var root = document.getElementById("ov");
+
+      function fmt(n) { return Math.abs(n).toLocaleString("en-US"); }
+
+      function setVal(el, text, cls, unit) {
+        el.className = "val " + (cls || "");
+        el.textContent = text;
+        if (unit) { var u = document.createElement("span"); u.className = "unit"; u.textContent = unit; el.appendChild(u); }
+      }
+
+      function valid(p) {
+        if (!p || p.v !== 1 || !p.wallet || !p.accident) return false;
+        var w = p.wallet, a = p.accident;
+        if (["active", "not_started", "ended"].indexOf(w.state) < 0) return false;
+        if (w.state === "active" && !Number.isSafeInteger(w.net_auec)) return false;
+        if (["recorded", "none"].indexOf(a.state) < 0 || typeof a.caption !== "string") return false;
+        if (a.state === "recorded" && !(Number.isSafeInteger(a.days) && a.days >= 0)) return false;
+        return true;
+      }
+
+      function render(p) {
+        var w = p.wallet, a = p.accident, el = document.getElementById("wallet");
+        if (w.state === "active") {
+          var n = w.net_auec;
+          setVal(el, n > 0 ? "+" + fmt(n) : n < 0 ? "−" + fmt(n) : "0", n > 0 ? "gain" : n < 0 ? "loss" : "even", "aUEC");
+        } else {
+          setVal(el, w.state === "ended" ? "No active session" : "Session not started", "muted");
+        }
+        document.getElementById("caption").textContent = a.caption.toUpperCase();
+        var ael = document.getElementById("accident");
+        if (a.state === "recorded") setVal(ael, String(a.days), "even", a.days === 1 ? "day" : "days");
+        else setVal(ael, "No accident on record", "muted");
+      }
+
+      function markStale() { root.classList.toggle("stale", Date.now() - lastGood > STALE_MS); }
+
+      function poll() {
+        var ctrl = window.AbortController ? new AbortController() : null;
+        var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, TIMEOUT_MS);
+        fetch(URL_JSON, { cache: "no-store", credentials: "omit", signal: ctrl && ctrl.signal })
+          .then(function (r) {
+            var type = r.headers.get("Content-Type") || "";
+            if (!r.ok || type.indexOf("application/json") < 0) throw new Error("bad response");
+            return r.json();
+          })
+          .then(function (p) {
+            if (!valid(p)) throw new Error("bad payload");
+            render(p);
+            lastGood = Date.now();
+          })
+          .catch(function () { /* keep the last good values */ })
+          .then(function () { clearTimeout(timer); markStale(); setTimeout(poll, POLL_MS); });
+      }
+
+      render(<%= raw @payload.to_json %>);
+      setTimeout(poll, POLL_MS);
+      setInterval(markStale, 5000);
+      // Safety net for an OBS source left open for days: pick up new page code after deploys.
+      setTimeout(function () { location.reload(); }, RELOAD_MS);
+    })();
+  </script>
+</body>
+</html>

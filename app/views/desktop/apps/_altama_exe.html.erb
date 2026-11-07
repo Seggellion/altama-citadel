@@ -13,7 +13,12 @@
     <% open_giveaways, closed_giveaways = giveaways.partition { |g| !giveaway_closed?(g) } %>
     <% events = bot.extra_life_events.order(id: :desc).select { |e| e.operator?(current_user) } %>
     <% show_events = events.any? || current_user&.isAdmin? %>
-    <% active_tab = (params[:bexe_tab] == "extra_life" && show_events) ? "extra_life" : "giveaways" %>
+    <%# Hidden until the stream overlay migration has run, so deploying code before migrating can't break this window. %>
+    <% show_stream = current_user&.isAdmin? && StreamWalletSession.table_exists? %>
+    <% active_tab = if params[:bexe_tab] == "extra_life" && show_events then "extra_life"
+                    elsif params[:bexe_tab] == "stream" && show_stream then "stream"
+                    else "giveaways"
+                    end %>
     <div class="bexe-bot"
          data-controller="w95"
          data-w95-storage-key-value="bexe-<%= bot.id %>"
@@ -35,6 +40,11 @@
         <% if show_events %>
           <button type="button" class="w95-tab<%= ' active' if active_tab == 'extra_life' %>" role="tab" aria-selected="<%= active_tab == 'extra_life' %>" data-w95-target="tab" data-tab="extra_life" data-action="w95#selectTab">
             Extra Life events <span class="w95-badge event"><%= events.size %></span>
+          </button>
+        <% end %>
+        <% if show_stream %>
+          <button type="button" class="w95-tab<%= ' active' if active_tab == 'stream' %>" role="tab" aria-selected="<%= active_tab == 'stream' %>" data-w95-target="tab" data-tab="stream" data-action="w95#selectTab">
+            Stream
           </button>
         <% end %>
       </div>
@@ -160,6 +170,13 @@
               <%= render 'extra_life_events/form', bot: bot, event: ExtraLifeEvent.new %>
             </fieldset>
           <% end %>
+        </div>
+      <% end %>
+
+      <%# ---------------- Stream (wallet + accident + OBS overlay) ---------------- %>
+      <% if show_stream %>
+        <div class="w95-tabpanel" role="tabpanel" data-w95-target="panel" data-tab="stream"<%= ' hidden' unless active_tab == 'stream' %>>
+          <%= render 'altama_exe/stream_panel', bot: bot %>
         </div>
       <% end %>
 

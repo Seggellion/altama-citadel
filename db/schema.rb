@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_11_04_010000) do
+ActiveRecord::Schema[7.0].define(version: 2026_11_07_040000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -368,6 +368,21 @@ ActiveRecord::Schema[7.0].define(version: 2026_11_04_010000) do
     t.index ["friend_id"], name: "index_friendships_on_friend_id"
     t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
     t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
+  create_table "fuelling_accidents", force: :cascade do |t|
+    t.bigint "bot_id", null: false
+    t.datetime "occurred_at", null: false
+    t.date "occurred_on", null: false
+    t.string "time_zone", default: "America/Vancouver", null: false
+    t.string "source", default: "now", null: false
+    t.bigint "recorded_by_id"
+    t.datetime "voided_at"
+    t.bigint "voided_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id", "occurred_at"], name: "index_fuelling_accidents_on_bot_id_and_occurred_at"
+    t.check_constraint "source::text = ANY (ARRAY['now'::character varying, 'historic'::character varying]::text[])", name: "fuelling_accidents_source"
   end
 
   create_table "giveaway_awards", force: :cascade do |t|
@@ -766,6 +781,50 @@ ActiveRecord::Schema[7.0].define(version: 2026_11_04_010000) do
     t.integer "twitch_channel"
   end
 
+  create_table "stream_overlays", force: :cascade do |t|
+    t.bigint "bot_id", null: false
+    t.string "token_digest"
+    t.datetime "token_rotated_at"
+    t.boolean "enabled", default: true, null: false
+    t.string "accident_caption", default: "Days since last fuelling accident", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_stream_overlays_on_bot_id", unique: true
+    t.index ["token_digest"], name: "index_stream_overlays_on_token_digest", unique: true
+  end
+
+  create_table "stream_wallet_entries", force: :cascade do |t|
+    t.bigint "stream_wallet_session_id", null: false
+    t.string "kind", null: false
+    t.bigint "balance_auec", null: false
+    t.bigint "entered_by_id"
+    t.string "idempotency_key", null: false
+    t.datetime "created_at", null: false
+    t.index ["stream_wallet_session_id", "idempotency_key"], name: "index_stream_wallet_entries_idempotency", unique: true
+    t.check_constraint "balance_auec >= 0 AND balance_auec <= '999999999999'::bigint", name: "stream_wallet_entries_balance_range"
+    t.check_constraint "kind::text = ANY (ARRAY['start'::character varying, 'update'::character varying]::text[])", name: "stream_wallet_entries_kind"
+  end
+
+  create_table "stream_wallet_sessions", force: :cascade do |t|
+    t.bigint "bot_id", null: false
+    t.string "status", default: "active", null: false
+    t.bigint "starting_balance_auec", null: false
+    t.bigint "current_balance_auec", null: false
+    t.datetime "started_at", null: false
+    t.datetime "balance_updated_at", null: false
+    t.datetime "ended_at"
+    t.bigint "started_by_id"
+    t.bigint "ended_by_id"
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bot_id"], name: "index_stream_wallet_sessions_on_bot_id"
+    t.index ["bot_id"], name: "index_stream_wallet_sessions_one_active", unique: true, where: "((status)::text = 'active'::text)"
+    t.check_constraint "(status::text = 'ended'::text) = (ended_at IS NOT NULL)", name: "stream_wallet_sessions_ended_at"
+    t.check_constraint "starting_balance_auec >= 0 AND starting_balance_auec <= '999999999999'::bigint AND current_balance_auec >= 0 AND current_balance_auec <= '999999999999'::bigint", name: "stream_wallet_sessions_balance_range"
+    t.check_constraint "status::text = ANY (ARRAY['active'::character varying, 'ended'::character varying]::text[])", name: "stream_wallet_sessions_status"
+  end
+
   create_table "task_managers", force: :cascade do |t|
     t.integer "user_id"
     t.string "task_id"
@@ -1039,6 +1098,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_11_04_010000) do
   add_foreign_key "forum_posts", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "fuelling_accidents", "bots"
+  add_foreign_key "fuelling_accidents", "users", column: "recorded_by_id"
+  add_foreign_key "fuelling_accidents", "users", column: "voided_by_id"
   add_foreign_key "giveaway_awards", "extra_life_events"
   add_foreign_key "giveaway_awards", "giveaway_draw_attempts", column: "draw_attempt_id"
   add_foreign_key "giveaway_awards", "giveaways", name: "fk_giveaway_awards_giveaway_event"
@@ -1054,6 +1116,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_11_04_010000) do
   add_foreign_key "star_bitizen_race_users", "star_bitizen_races"
   add_foreign_key "star_bitizen_race_users", "users"
   add_foreign_key "star_bitizen_races", "users"
+  add_foreign_key "stream_overlays", "bots"
+  add_foreign_key "stream_wallet_entries", "stream_wallet_sessions"
+  add_foreign_key "stream_wallet_entries", "users", column: "entered_by_id"
+  add_foreign_key "stream_wallet_sessions", "bots"
+  add_foreign_key "stream_wallet_sessions", "users", column: "ended_by_id"
+  add_foreign_key "stream_wallet_sessions", "users", column: "started_by_id"
   add_foreign_key "transactions", "users", column: "receiver_id"
   add_foreign_key "transactions", "users", column: "sender_id"
   add_foreign_key "twitch_accounts", "users"

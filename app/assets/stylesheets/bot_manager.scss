@@ -238,3 +238,15 @@ body#extra_life_events, body#extra_life_donations {
   .w95.w95-window .w95-body { padding: 4px; }
   .w95 .w95-tabpanel { padding: 8px; }
 }
+
+// Stream tab (wallet session, fuelling accident, OBS overlay link).
+.w95 .stream-panel {
+  .stream-figures { width: 100%; margin: 6px 0; th { text-align: left; font-weight: normal; } }
+  .stream-net.gain { color: #006400; }
+  .stream-net.loss { color: #8b0000; }
+  .stream-days { font-size: 17px; margin: 4px 0; }
+  .stream-history { width: 100%; margin-top: 8px; tr.voided td { color: #606060; } }
+  .w95-field { grid-template-columns: 150px 1fr; }
+}
+.w95 .stream-note { margin-top: 8px; }
+.w95 .stream-url { display: flex; gap: 6px; margin-top: 6px; input { flex: 1; font-family: Consolas, 'Courier New', monospace; font-size: 13px; } }

@@ -1,0 +1,132 @@
+<%# Stream tab: wallet session (net aUEC since Start), fuelling accident counter, and the OBS overlay link. %>
+<% session = bot.stream_wallet_sessions.active.first %>
+<% last_ended = session ? nil : bot.stream_wallet_sessions.ended.order(ended_at: :desc).first %>
+<% current_accident = FuellingAccident.current_for(bot.channel) %>
+<% accidents = bot.fuelling_accidents.order(occurred_at: :desc, id: :desc).limit(5).to_a %>
+<% overlay = bot.stream_overlay %>
+<% overlay_url = flash[:stream_overlay_url] %>
+
+<div class="w95-columns stream-panel">
+  <fieldset class="w95-group">
+    <legend>Wallet session</legend>
+    <% if session %>
+      <p><span class="w95-badge open">ACTIVE</span> since <%= stream_time(session.started_at) %></p>
+      <table class="w95-table stream-figures">
+        <tr><th>Starting balance</th><td class="num"><%= stream_auec(session.starting_balance_auec) %></td></tr>
+        <tr><th>Current balance</th><td class="num"><%= stream_auec(session.current_balance_auec) %></td></tr>
+        <tr><th>Net since Start</th><td class="num stream-net <%= stream_net_class(session.net_auec) %>"><strong><%= stream_signed_auec(session.net_auec) %></strong></td></tr>
+        <tr><th>Last updated</th><td class="num"><%= stream_time(session.balance_updated_at) %></td></tr>
+      </table>
+      <%= form_with url: update_balance_bot_stream_path(bot), method: :post, class: "stream-form" do %>
+        <%= hidden_field_tag :session_id, session.id, id: nil %>
+        <%= hidden_field_tag :lock_version, session.lock_version, id: nil %>
+        <%= hidden_field_tag :idempotency_key, SecureRandom.uuid, id: nil %>
+        <div class="w95-field">
+          <label for="stream_balance_<%= bot.id %>">Current wallet (aUEC)</label>
+          <input type="text" inputmode="numeric" autocomplete="off" required name="balance" id="stream_balance_<%= bot.id %>" placeholder="e.g. 1,175,000">
+        </div>
+        <div class="w95-actions"><button type="submit" class="w95-btn-default">Update balance</button></div>
+      <% end %>
+      <div class="w95-actions">
+        <%= button_to 'End session…', end_session_bot_stream_path(bot), method: :post, class: 'w95-btn-small w95-btn-danger',
+                      params: { session_id: session.id, lock_version: session.lock_version },
+                      form: { data: { turbo_confirm: "End this wallet session at #{stream_signed_auec(session.net_auec)}? The overlay stops showing it." } } %>
+      </div>
+    <% else %>
+      <p><span class="w95-badge drawn">NOT STARTED</span></p>
+      <% if last_ended %>
+        <p><small>Last session ended <%= stream_time(last_ended.ended_at) %> at <strong><%= stream_signed_auec(last_ended.net_auec) %></strong>.</small></p>
+      <% end %>
+      <%= form_with url: start_session_bot_stream_path(bot), method: :post, class: "stream-form",
+                    data: { turbo_confirm: "Start a wallet session with this balance as the fixed starting point?" } do %>
+        <%= hidden_field_tag :idempotency_key, SecureRandom.uuid, id: nil %>
+        <div class="w95-field">
+          <label for="stream_start_balance_<%= bot.id %>">Wallet now (aUEC)</label>
+          <input type="text" inputmode="numeric" autocomplete="off" required name="balance" id="stream_start_balance_<%= bot.id %>" placeholder="e.g. 1,000,000">
+        </div>
+        <div class="w95-actions"><button type="submit" class="w95-btn-default">Start</button></div>
+      <% end %>
+    <% end %>
+    <p class="w95-hint stream-note">Net wallet change since Start: purchases, transfers and ship buys count too. Whole aUEC only.</p>
+  </fieldset>
+
+  <fieldset class="w95-group">
+    <legend>Fuelling accident</legend>
+    <% if current_accident %>
+      <p class="stream-days"><strong><%= stream_days_text(current_accident.days) %></strong> since the last fuelling accident</p>
+      <p><small>Last accident: <%= current_accident.accident.occurred_on.strftime('%a %b %-d, %Y') %> (Vancouver)</small></p>
+    <% else %>
+      <p class="stream-days"><strong>No accident on record</strong></p>
+      <p><small>Record one now, or enter the date of the last real one below.</small></p>
+    <% end %>
+    <div class="w95-actions">
+      <%= button_to 'Record accident now', record_accident_bot_stream_path(bot), method: :post, class: 'w95-btn-default',
+                    form: { data: { turbo_confirm: "Record a fuelling accident now? The counter goes back to 0 days." } } %>
+    </div>
+    <%= form_with url: record_historic_accident_bot_stream_path(bot), method: :post, class: "stream-form",
+                  data: { turbo_confirm: "Record an accident on this date?" } do %>
+      <div class="w95-field">
+        <label for="stream_accident_date_<%= bot.id %>">Past accident date</label>
+        <input type="date" required name="occurred_on" id="stream_accident_date_<%= bot.id %>" max="<%= FuellingAccident.local_today.iso8601 %>">
+      </div>
+      <div class="w95-actions"><button type="submit">Set past date</button></div>
+    <% end %>
+    <% if accidents.any? %>
+      <table class="w95-table stream-history">
+        <thead><tr><th>Date</th><th>How</th><th></th></tr></thead>
+        <tbody>
+          <% accidents.each do |a| %>
+            <tr class="<%= 'voided' if a.voided_at %>">
+              <td><%= a.voided_at ? content_tag(:s, a.occurred_on.strftime('%b %-d, %Y')) : a.occurred_on.strftime('%b %-d, %Y') %></td>
+              <td><%= a.voided_at ? 'undone' : (a.source == 'now' ? 'recorded live' : 'past date') %></td>
+              <td>
+                <% if current_accident && current_accident.accident.id == a.id %>
+                  <%= button_to 'Undo', void_accident_bot_stream_path(bot), method: :post, class: 'w95-btn-small', params: { accident_id: a.id },
+                                form: { data: { turbo_confirm: "Undo the accident on #{a.occurred_on.strftime('%b %-d')}? The counter falls back to the one before." } } %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </fieldset>
+</div>
+
+<fieldset class="w95-group">
+  <legend>OBS overlay</legend>
+  <% if overlay_url %>
+    <div class="w95-message notice" role="status"><span class="w95-icon">i</span>
+      <div>
+        <strong>Copy this link into an OBS Browser Source now.</strong> It is shown only once.
+        <div class="stream-url">
+          <input type="text" readonly value="<%= overlay_url %>" id="stream_overlay_url_<%= bot.id %>" onclick="this.select()">
+          <button type="button" class="w95-btn-small" onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById('stream_overlay_url_<%= bot.id %>').value); this.textContent='Copied'">Copy</button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if overlay&.token? %>
+    <p>An OBS link exists (made <%= stream_time(overlay.token_rotated_at) %>). <%= overlay.enabled ? '' : 'The overlay is switched off.' %>
+      Lost it, or it leaked? Make a new one; the old link stops working.</p>
+  <% else %>
+    <p>No OBS link yet. Make one, then add it to OBS as a Browser Source, 420 × 170.</p>
+  <% end %>
+  <div class="w95-actions">
+    <%= button_to (overlay&.token? ? 'Make new link…' : 'Make OBS link'), rotate_overlay_bot_stream_path(bot), method: :post, class: 'w95-btn-small',
+                  form: { data: { turbo_confirm: (overlay&.token? ? 'Make a new OBS link? The current link stops working right away.' : nil) } } %>
+  </div>
+  <% if overlay %>
+    <%= form_with url: update_overlay_bot_stream_path(bot), method: :post, class: "stream-form" do %>
+      <div class="w95-field">
+        <label for="stream_caption_<%= bot.id %>">Accident caption</label>
+        <input type="text" name="accident_caption" maxlength="60" id="stream_caption_<%= bot.id %>" value="<%= overlay.accident_caption %>">
+      </div>
+      <div class="w95-field">
+        <label for="stream_enabled_<%= bot.id %>">Overlay on</label>
+        <span><input type="hidden" name="enabled" value="0"><input type="checkbox" name="enabled" value="1" id="stream_enabled_<%= bot.id %>"<%= ' checked' if overlay.enabled %>> Show on stream</span>
+      </div>
+      <div class="w95-actions"><button type="submit">Save</button></div>
+    <% end %>
+  <% end %>
+</fieldset>
