@@ -74,7 +74,7 @@
 
   <%# ---------------- Prizes ---------------- %>
   <div class="w95-tabpanel" data-w95-target="panel" data-tab="prizes"<%= " hidden" unless active_tab == "prizes" %>>
-    <p><small>Each eligible Twitch account gets one free chat ticket (typing the prize's command) and one donor ticket (any qualifying donation): two at most. An account can win one prize in this event. The broadcaster draws a prize in chat with <code>!drawing &lt;command&gt;</code>; entries close at that moment.</small></p>
+    <p><small>Each eligible Twitch account gets one free chat ticket (typing the prize's command) plus donor tickets: <strong><%= @event.donor_rule_text %></strong>. An account can win one prize in this event. The broadcaster draws a prize in chat with <code>!drawing &lt;command&gt;</code>; entries close at that moment.</small></p>
     <% if admin %>
       <fieldset class="w95-group">
         <legend>Add a prize</legend>
@@ -177,6 +177,7 @@
         <tr><td>Broadcaster</td><td><%= @event.broadcaster_login %> (<%= @event.broadcaster_twitch_id %>)</td></tr>
         <tr><td>Tiltify campaign</td><td><%= @event.tiltify_campaign_url %> <code><%= @event.tiltify_campaign_id %></code></td></tr>
         <tr><td>Stream start</td><td><%= event_time(@event, @event.stream_start_at) %> (<%= tz %>)</td></tr>
+        <tr><td>Donor tickets</td><td><%= @event.donor_rule_text %></td></tr>
       </table>
     <% end %>
     <fieldset class="w95-group">

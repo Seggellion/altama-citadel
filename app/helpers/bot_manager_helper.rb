@@ -47,6 +47,7 @@ module BotManagerHelper
               "#{event.broadcaster_login} (id #{event.broadcaster_twitch_id || '?'}) — never eligible to win"]
     items << [event.stream_start_at ? :ok : :no, "Stream start set",
               event.stream_start_at ? "Donations count from #{event_time(event, event.stream_start_at)}" : "Set it in Settings"]
+    items << [:ok, "Donor ticket rule", event.donor_rule_text]
     campaign_state = if event.tiltify_campaign_id.present? then :ok
                      elsif event.tiltify_campaign_url.present? then :wait
                      else :no

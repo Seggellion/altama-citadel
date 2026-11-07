@@ -14,6 +14,9 @@ class ExtraLifeEvent < ApplicationRecord
   validates :time_zone, inclusion: { in: ->(_) { TZInfo::Timezone.all_identifiers }, message: "is not a known IANA time zone" }
   validates :tiltify_campaign_id, format: { with: TILTIFY_CAMPAIGN_ID, message: "must be the campaign UUID" }, allow_blank: true
   validates :tiltify_campaign_url, format: { with: %r{\Ahttps://(www\.)?tiltify\.com/}, message: "must be a https://tiltify.com/ URL" }, allow_blank: true
+  # NULL/0: flat rule (one donor ticket per account). N > 0: floor(N x qualifying dollars) donor tickets, at least 1.
+  validates :donor_tickets_per_dollar, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1000 },
+                                       allow_nil: true
   validate :frozen_fields_unchanged_after_finalized_draw
   validate :enable_requires_campaign
 
@@ -29,6 +32,19 @@ class ExtraLifeEvent < ApplicationRecord
     return true if user.isAdmin?
 
     operators.exists?(user_id: user.id)
+  end
+
+  def amount_weighted?
+    donor_tickets_per_dollar.to_i.positive?
+  end
+
+  # Plain-language donor rule for operators and the prize pages.
+  def donor_rule_text
+    if amount_weighted?
+      "#{donor_tickets_per_dollar} donor tickets per $1 donated (all of a donor's qualifying donations added up, rounded down, at least 1)"
+    else
+      "1 donor ticket for any qualifying donation (larger or repeat donations add nothing)"
+    end
   end
 
   def stream_start_local

@@ -50,13 +50,14 @@ class ExtraLifeEventsController < ApplicationController
 
   def event_params
     params.require(:extra_life_event).permit(:name, :broadcaster_login, :tiltify_campaign_url, :tiltify_campaign_id,
-                                             :stream_start_local, :time_zone, :enabled)
+                                             :stream_start_local, :time_zone, :enabled, :donor_tickets_per_dollar)
   end
 
   def assign_attributes_and_save(event)
     p = event_params
     event.assign_attributes(p.slice(:name, :tiltify_campaign_url, :time_zone, :enabled))
     event.tiltify_campaign_id = p[:tiltify_campaign_id].to_s.strip.downcase.presence if p.key?(:tiltify_campaign_id)
+    event.donor_tickets_per_dollar = p[:donor_tickets_per_dollar].to_s.strip.presence if p.key?(:donor_tickets_per_dollar)
     if p[:stream_start_local].present?
       zone = ActiveSupport::TimeZone[event.time_zone.presence || "America/Vancouver"]
       parsed = zone&.parse(p[:stream_start_local])
