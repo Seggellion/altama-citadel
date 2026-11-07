@@ -17,6 +17,17 @@ post 'verify_username', to: 'event_ship_crews#verify_username'
   resources :bots do
   resources :giveaways, only: %i[new show create edit update destroy]
     patch 'toggle_online', on: :member
+    # Stream tab in ALTAMA.EXE (admin only): wallet session, fuelling accidents, OBS overlay link.
+    resource :stream, only: [], controller: "stream_admin" do
+      post :start_session
+      post :update_balance
+      post :end_session
+      post :record_accident
+      post :record_historic_accident
+      post :void_accident
+      post :rotate_overlay
+      post :update_overlay
+    end
     resources :extra_life_events, only: %i[show create update] do
       post :request_sync, on: :member
       resources :operators, only: %i[create destroy], controller: "extra_life_event_operators"
@@ -112,6 +123,8 @@ post 'verify_username', to: 'event_ship_crews#verify_username'
   get 'stop_conquest', to: 'control_points#stop_conquest', :constraints => { :subdomain => "ctd" }
   get 'capture_conquest', to: 'control_points#capture_conquest', :constraints => { :subdomain => "ctd" }
   get 'conquest_overlay', to: 'conquest#overlay'
+  # Public OBS Browser Source (read-only, token in the URL). /overlay/:token and /overlay/:token.json
+  get 'overlay/:token', to: 'stream_overlays#show', as: :stream_overlay, constraints: { token: /[A-Za-z0-9_-]+/ }
   get 'cargo_manifest', to: 'cargo_manifest#welcome', :constraints => { :subdomain => "ctd" }
   get 'website_manager', to: 'website_manager#welcome'
   get 'my_hangar', to: 'my_hangar#index'
