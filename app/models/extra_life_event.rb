@@ -14,7 +14,9 @@ class ExtraLifeEvent < ApplicationRecord
   validates :time_zone, inclusion: { in: ->(_) { TZInfo::Timezone.all_identifiers }, message: "is not a known IANA time zone" }
   validates :tiltify_campaign_id, format: { with: TILTIFY_CAMPAIGN_ID, message: "must be the campaign UUID" }, allow_blank: true
   validates :tiltify_campaign_url, format: { with: %r{\Ahttps://(www\.)?tiltify\.com/}, message: "must be a https://tiltify.com/ URL" }, allow_blank: true
+  # Owner decision 2026-11-07: Extra Life events give 10 donor tickets per $1 by default (existing rows backfilled).
   # NULL/0: flat rule (one donor ticket per account). N > 0: floor(N x qualifying dollars) donor tickets, at least 1.
+  attribute :donor_tickets_per_dollar, :integer, default: 10
   validates :donor_tickets_per_dollar, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1000 },
                                        allow_nil: true
   validate :frozen_fields_unchanged_after_finalized_draw

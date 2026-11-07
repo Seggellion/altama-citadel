@@ -31,8 +31,8 @@
     </div>
     <div class="w95-field">
       <%= f.label :donor_tickets_per_dollar, 'Donor tickets per $1' %>
-      <%= f.number_field :donor_tickets_per_dollar, min: 0, max: 1000, step: 1, placeholder: 'blank = 1 ticket per donor' %>
-      <span class="w95-hint">Blank or 0: every qualifying donor gets 1 donor ticket. A number (e.g. 10): donors get that many tickets per dollar, all their donations added up. A chat entry is always 1 ticket.</span>
+      <%= f.number_field :donor_tickets_per_dollar, min: 0, max: 1000, step: 1, placeholder: '10' %>
+      <span class="w95-hint">Default 10: donors get 10 tickets per dollar, all their donations added up (rounded down, at least 1). Set 0 or blank for 1 ticket per donor. A chat entry is always 1 ticket.</span>
     </div>
     <div class="w95-field">
       <%= f.label :time_zone, 'Time zone' %>

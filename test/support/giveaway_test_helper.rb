@@ -54,7 +54,8 @@ module ExtraLifeTestData
     ExtraLifeEvent.create!({
       bot: bot, name: name, broadcaster_twitch_id: "1000", broadcaster_login: "seggellion",
       tiltify_campaign_id: CAMPAIGN, stream_start_at: Time.utc(2026, 11, 7, 16), enabled: true,
-      last_complete_sync_at: Time.utc(2030, 1, 1)
+      last_complete_sync_at: Time.utc(2030, 1, 1),
+      donor_tickets_per_dollar: nil # most tests cover the flat rule; weighting tests set it explicitly
     }.merge(attrs))
   end
 
