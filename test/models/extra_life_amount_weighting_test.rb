@@ -93,4 +93,11 @@ class ExtraLifeAmountWeightingTest < GiveawayModelTestCase
     assert @event.valid?
     assert_match "10 donor tickets per $1", @event.donor_rule_text
   end
+
+  test "new events default to 10 donor tickets per dollar" do
+    assert_equal 10, ExtraLifeEvent.new.donor_tickets_per_dollar
+    e = ExtraLifeEvent.create!(bot: @bot, name: "EL default", broadcaster_twitch_id: "1000", broadcaster_login: "seggellion",
+                               stream_start_at: Time.utc(2026, 11, 7, 16))
+    assert_equal 10, e.reload.donor_tickets_per_dollar
+  end
 end
