@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 require_relative "../support/stream_overlay_test_helper"
 
 # Stream tab in ALTAMA.EXE: admin-only wallet session, accident and overlay-link actions.
@@ -152,5 +153,14 @@ class StreamAdminTest < GiveawayIntegrationTestCase
     assert_match "−55,000 aUEC", html
     assert_match "1 day</strong> since", html
     assert_match "An OBS link exists", html
+  end
+
+  test "before the migration has run, ALTAMA.EXE still renders without the Stream tab" do
+    login_as(@admin)
+    StreamWalletSession.stub(:table_exists?, false) do
+      html = render_panel
+      refute_match 'data-tab="stream"', html
+      assert_match "Giveaways", html
+    end
   end
 end

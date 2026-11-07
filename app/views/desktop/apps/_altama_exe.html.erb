@@ -13,7 +13,8 @@
     <% open_giveaways, closed_giveaways = giveaways.partition { |g| !giveaway_closed?(g) } %>
     <% events = bot.extra_life_events.order(id: :desc).select { |e| e.operator?(current_user) } %>
     <% show_events = events.any? || current_user&.isAdmin? %>
-    <% show_stream = current_user&.isAdmin? %>
+    <%# Hidden until the stream overlay migration has run, so deploying code before migrating can't break this window. %>
+    <% show_stream = current_user&.isAdmin? && StreamWalletSession.table_exists? %>
     <% active_tab = if params[:bexe_tab] == "extra_life" && show_events then "extra_life"
                     elsif params[:bexe_tab] == "stream" && show_stream then "stream"
                     else "giveaways"
